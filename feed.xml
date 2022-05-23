@@ -3,10 +3,80 @@
     <title>Finecloud</title>
     <link href="https://www.finecloud.ch/feed.xml" rel="self" />
     <link href="https://www.finecloud.ch" />
-    <updated>1970-01-01T01:00:00+01:00</updated>
+    <updated>2022-05-23T11:22:58+02:00</updated>
     <author>
         <name>Finecloud</name>
     </author>
     <id>https://www.finecloud.ch</id>
 
+    <entry>
+        <title>Mehrdimensionale Java Arrays</title>
+        <author>
+            <name>Finecloud</name>
+        </author>
+        <link href="https://www.finecloud.ch/mehrdimensionale-java-arrays.html"/>
+        <id>https://www.finecloud.ch/mehrdimensionale-java-arrays.html</id>
+            <category term="softwareentwicklung"/>
+            <category term="mehrdimensionales array"/>
+            <category term="java"/>
+            <category term="dev"/>
+            <category term="array"/>
+
+        <updated>2022-05-23T11:22:58+02:00</updated>
+            <summary>
+                <![CDATA[
+                    Eindimensionales Array Nebst den eindimensionalen Java Arrays gibt es auch mehrdimensionale Arrays. Hier ein Beispiel eines eindimensionalen Java Arrays: int[] zahlen = new&hellip;
+                ]]>
+            </summary>
+        <content type="html">
+            <![CDATA[
+                <h3>Eindimensionales Array</h3>
+<p>Nebst den eindimensionalen Java Arrays gibt es auch mehrdimensionale Arrays. Hier ein Beispiel eines eindimensionalen Java Arrays:</p>
+<p><code>int[] zahlen = new int[]{1, 2, 3, 4};</code></p>
+<h3>Mehrdimensionales Array</h3>
+<p>Ein mehrdimensionales Array könnte beispielsweise ein Schachfeld sein:</p>
+<p><code>Schachfigur[][] schachbrett = new Schachfigur[8][8];</code></p>
+<p>Mehrdimensionale Arrays sind nicht auf zwei Dimensonen limitiert, die Limite ist bei 255 Dimensionen, aber das wird wohl eher selten benötigt.</p>
+<h3>Zugriff auf ein mehrdimensionales Array </h3>
+<p>Auf den Wert eines mehrdimensionale Arrays kann man genau so einfach zugreifen wie auf den eines eindimensionalen, dazu muss man nur die Koordinaten angeben:</p>
+<p><code>schachbrett[2][1] = new Schachfigur(Figur.BAUER, Farbe.WEISS);</code></p>
+<p>Es ist zudem möglich auf eine ganze Zeile eines eindimensionalen Arrays zuzugreifen, so erhält man ein eindimensionales Array desselben Typs zurück:</p>
+<p><code>int[] grundreiheWeiss = schachbrett[1];</code><br><code>int[] grundreiheSchwarz = schachbrett[6];</code></p>
+<p>Die einfachste Hilfe um das zu veranschaulichen ist die Visualisierung eines solchen Arrays:</p>
+<p><code>int[][] a = new int[3][3];</code></p>
+<table style="border-collapse: collapse; width: 100%; height: 201.438px;" border="1">
+<tbody>
+<tr style="height: 50.3594px;">
+<td style="width: 16.5478%; height: 50.3594px;"> </td>
+<td class="align-center" style="width: 16.6904%; height: 50.3594px;"><strong>Column1</strong></td>
+<td class="align-center" style="width: 33.3809%; height: 50.3594px;"><strong>Column2</strong></td>
+<td class="align-center" style="width: 33.3809%; height: 50.3594px;"><strong>Column3</strong></td>
+</tr>
+<tr style="height: 50.3594px;">
+<td style="width: 16.5478%; height: 50.3594px;"><strong>Row1</strong></td>
+<td class="align-center" style="width: 16.6904%; height: 50.3594px;">a[0][0]</td>
+<td class="align-center" style="width: 33.3809%; height: 50.3594px;">a[0][1]</td>
+<td class="align-center" style="width: 33.3809%; height: 50.3594px;">a[0][3]</td>
+</tr>
+<tr style="height: 50.3594px;">
+<td style="width: 16.5478%; height: 50.3594px;"><strong>Row2</strong></td>
+<td class="align-center" style="width: 16.6904%; height: 50.3594px;">a[1][0]</td>
+<td class="align-center" style="width: 33.3809%; height: 50.3594px;">a[1][1]</td>
+<td class="align-center" style="width: 33.3809%; height: 50.3594px;">a[1][3]</td>
+</tr>
+<tr style="height: 50.3594px;">
+<td style="width: 16.5478%; height: 50.3594px;"><strong>Row3</strong></td>
+<td class="align-center" style="width: 16.6904%; height: 50.3594px;">a[2][0]</td>
+<td class="align-center" style="width: 33.3809%; height: 50.3594px;">a[2][1]</td>
+<td class="align-center" style="width: 33.3809%; height: 50.3594px;">a[2][3]</td>
+</tr>
+</tbody>
+</table>
+<h3>Nicht rechteckige, zweidimensionale Arrays</h3>
+<p>Solche Arrays müssen nicht rechteckig sein, es ist möglich ein ungleichmässig Dimensionales Array zu erstellen:</p>
+<p><code>int[][] dreieck = new int[3][];</code><br><code>dreieck[0] = new int[1];</code><br><code>dreieck[1] = new int[2];</code><br><code>dreieck[2] = new int[3];</code></p>
+<p> </p>
+            ]]>
+        </content>
+    </entry>
 </feed>

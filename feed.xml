@@ -26,7 +26,7 @@
         <updated>2022-05-24T08:54:14+02:00</updated>
             <summary>
                 <![CDATA[
-                    Vaultwarden ist eine alternative Implementation der Bitwarden Server API entwickelt in Rust, kompatibel mit allen Bitwarden clients. Vaultwarden eignet sich daher perfekt für&hellip;
+                    Vaultwarden ist eine alternative Implementation der Bitwarden Server API entwickelt in Rust, kompatibel mit allen Bitwarden clients. Vaultwarden eignet sich daher perfekt für self-hosted deployments, oder überall dort wo der offizielle Bitwarden Service nicht ideal geeignet ist. Dazu gibt es einmal das Vaultwarden Docker Image&hellip;
                 ]]>
             </summary>
         <content type="html">
@@ -106,7 +106,7 @@
         <updated>2022-05-23T18:07:59+02:00</updated>
             <summary>
                 <![CDATA[
-                    Nachfolgend eine Auswahl an Werkzeugen von Arrays. Die Auswahl ist nicht abschliessend. Mit der Methode sort können Arrays sortiert werden, und mit der&hellip;
+                    Nachfolgend eine Auswahl an Werkzeugen von Arrays. Die Auswahl ist nicht abschliessend. Mit der Methode sort können Arrays sortiert werden, und mit der Methode binarySeach kann in Arrays gesucht werden. Es gilt zu beachten, dass binarySearch nur auf bereits sortierten Arrays funktioniert. Auf einem unsortierten&hellip;
                 ]]>
             </summary>
         <content type="html">
@@ -160,7 +160,7 @@
         <updated>2022-05-23T18:02:25+02:00</updated>
             <summary>
                 <![CDATA[
-                    Eindimensionales Array Nebst den eindimensionalen Java Arrays gibt es auch mehrdimensionale Arrays. Hier ein Beispiel eines eindimensionalen Java Arrays: int[] zahlen = new&hellip;
+                    Eindimensionales Array Nebst den eindimensionalen Java Arrays gibt es auch mehrdimensionale Arrays. Hier ein Beispiel eines eindimensionalen Java Arrays: int[] zahlen = new int[]{1, 2, 3, 4}; Ein mehrdimensionales Array könnte beispielsweise ein Schachfeld sein: Schachfigur[][] schachbrett = new Schachfigur[8][8]; Mehrdimensionale Arrays sind nicht auf&hellip;
                 ]]>
             </summary>
         <content type="html">

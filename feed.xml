@@ -3,12 +3,72 @@
     <title>Finecloud</title>
     <link href="https://www.finecloud.ch/feed.xml" rel="self" />
     <link href="https://www.finecloud.ch" />
-    <updated>2022-05-24T08:54:14+02:00</updated>
+    <updated>2022-05-25T20:38:17+02:00</updated>
     <author>
         <name>Finecloud</name>
     </author>
     <id>https://www.finecloud.ch</id>
 
+    <entry>
+        <title>Java Varargs</title>
+        <author>
+            <name>Finecloud</name>
+        </author>
+        <link href="https://www.finecloud.ch/java-varargs.html"/>
+        <id>https://www.finecloud.ch/java-varargs.html</id>
+            <category term="varargs"/>
+            <category term="softwareentwicklung"/>
+            <category term="parameterlisten"/>
+            <category term="java"/>
+            <category term="dev"/>
+            <category term="array"/>
+
+        <updated>2022-05-25T20:38:17+02:00</updated>
+            <summary>
+                <![CDATA[
+                    Varargs, auch Parameter-Listen genannt können in Java Arrays verwendet werden, um eine dynamische Anzahl von Parametern entgegenzunehmen. public static int max(int… numbers){ int result = Integer.MIN_VALUE; for (int number : numbers){ if (number &gt; result){ result = number; } } return result; } Diese Methode&hellip;
+                ]]>
+            </summary>
+        <content type="html">
+            <![CDATA[
+                <p>Varargs, auch Parameter-Listen genannt können in Java Arrays verwendet werden, um eine dynamische Anzahl von Parametern entgegenzunehmen.</p>
+<p><code>public static int max(int… numbers){</code><br><code>    int result = Integer.MIN_VALUE;</code><br><code>    for (int number : numbers){</code><br><code>        if (number &gt; result){</code><br><code>            result = number;</code><br><code>        }</code><br><code>    }</code><br><code>    return result;</code><br><code>}</code></p>
+<p>Diese Methode kann verwendet werden, um mit einer beliebigen Anzahl von int-Zahlen aufgerufen zu werden, um dir grösste aller Zahlen unter den Parametern zu finden. Innerhalb der Methode sind alle Parameter aus der Vararg-Liste als Array zu sehen.</p>
+<p>Die Methode kann wie folgt aufgerufen werden:</p>
+<p><code>public static void main(String[] args) {</code><br><code>    System.out.println(max(5, 10, 0));</code><br><code>}</code></p>
+<p>Entsprechend wird die grösste Zahl ausgegeben: 10</p>
+            ]]>
+        </content>
+    </entry>
+    <entry>
+        <title>Die for-each Schleife</title>
+        <author>
+            <name>Finecloud</name>
+        </author>
+        <link href="https://www.finecloud.ch/die-for-each-schleife-2.html"/>
+        <id>https://www.finecloud.ch/die-for-each-schleife-2.html</id>
+            <category term="softwareentwicklung"/>
+            <category term="schleife"/>
+            <category term="java"/>
+            <category term="for-each"/>
+            <category term="dev"/>
+            <category term="array"/>
+
+        <updated>2022-05-25T20:14:33+02:00</updated>
+            <summary>
+                <![CDATA[
+                    Die for-each Schleife ist speziell für Arrays und Collections gedacht, denn diese Schleife enthält keine Zählvariable, enthält aber nacheinander alle Einträge des Arrays oder der Collection. Buch[] buecher = …; for (Buch buch : buecher){ System.out.println(buch.getTitel()); } Dabei wird in den Klammern der Schleife eine&hellip;
+                ]]>
+            </summary>
+        <content type="html">
+            <![CDATA[
+                <p>Die <em>for-each</em> Schleife ist speziell für Arrays und Collections gedacht, denn diese Schleife enthält keine Zählvariable, enthält aber nacheinander alle Einträge des Arrays oder der Collection.<br><br><code>Buch[] buecher = …;</code><br><code>for (Buch buch : buecher){</code><br><code>    System.out.println(buch.getTitel());</code><br><code>}</code></p>
+<p>Dabei wird in den Klammern der Schleife eine Variable vom Typ des Arrays und davor, mit einem Doppelpunkt getrennt, das Array welchem die Werte genommen werden.</p>
+<p>Der Hauptvorteil dieser Schleife ist, das sofort klar ist was ihre Aufgabe ist: durch alle Werte des Arrays zu iterieren. Damit vermeidet man auf potenzielle Fehler der for-Schleife wie zum Beispiel dass in der Abbruchbedingung i &lt;= array.length angegeben wird, was zu einer <em>IndexOutOfBoundsException</em> führt.</p>
+<p>Die Limitierung der <em>for-each</em> Schleife ist, dass keine neuen Objekte ins Array geschrieben oder durch andere ersetzt werden können. Da keine Zählvariable vorhanden ist, kann auch die Position im Array nicht beeinflusst werden.</p>
+            ]]>
+        </content>
+    </entry>
     <entry>
         <title>Vaultwarden Backup mit Rclone</title>
         <author>
@@ -23,7 +83,7 @@
             <category term="backup"/>
             <category term="ansible"/>
 
-        <updated>2022-05-24T08:54:14+02:00</updated>
+        <updated>2022-05-24T09:21:32+02:00</updated>
             <summary>
                 <![CDATA[
                     Vaultwarden ist eine alternative Implementation der Bitwarden Server API entwickelt in Rust, kompatibel mit allen Bitwarden clients. Vaultwarden eignet sich daher perfekt für self-hosted deployments, oder überall dort wo der offizielle Bitwarden Service nicht ideal geeignet ist. Dazu gibt es einmal das Vaultwarden Docker Image&hellip;

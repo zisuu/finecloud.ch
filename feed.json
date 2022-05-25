@@ -11,6 +11,46 @@
     },
     "items": [
         {
+            "id": "https://www.finecloud.ch/java-varargs.html",
+            "url": "https://www.finecloud.ch/java-varargs.html",
+            "title": "Java Varargs",
+            "summary": "Varargs, auch Parameter-Listen genannt können in Java Arrays verwendet werden, um eine dynamische Anzahl von Parametern entgegenzunehmen. public static int max(int… numbers){ int result = Integer.MIN_VALUE; for (int number : numbers){ if (number &gt; result){ result = number; } } return result; } Diese Methode&hellip;",
+            "content_html": "<p>Varargs, auch Parameter-Listen genannt können in Java Arrays verwendet werden, um eine dynamische Anzahl von Parametern entgegenzunehmen.</p>\n<p><code>public static int max(int… numbers){</code><br><code>    int result = Integer.MIN_VALUE;</code><br><code>    for (int number : numbers){</code><br><code>        if (number &gt; result){</code><br><code>            result = number;</code><br><code>        }</code><br><code>    }</code><br><code>    return result;</code><br><code>}</code></p>\n<p>Diese Methode kann verwendet werden, um mit einer beliebigen Anzahl von int-Zahlen aufgerufen zu werden, um dir grösste aller Zahlen unter den Parametern zu finden. Innerhalb der Methode sind alle Parameter aus der Vararg-Liste als Array zu sehen.</p>\n<p>Die Methode kann wie folgt aufgerufen werden:</p>\n<p><code>public static void main(String[] args) {</code><br><code>    System.out.println(max(5, 10, 0));</code><br><code>}</code></p>\n<p>Entsprechend wird die grösste Zahl ausgegeben: 10</p>",
+            "author": {
+                "name": "Finecloud"
+            },
+            "tags": [
+                   "varargs",
+                   "softwareentwicklung",
+                   "parameterlisten",
+                   "java",
+                   "dev",
+                   "array"
+            ],
+            "date_published": "2022-05-25T20:17:32+02:00",
+            "date_modified": "2022-05-25T20:38:17+02:00"
+        },
+        {
+            "id": "https://www.finecloud.ch/die-for-each-schleife-2.html",
+            "url": "https://www.finecloud.ch/die-for-each-schleife-2.html",
+            "title": "Die for-each Schleife",
+            "summary": "Die for-each Schleife ist speziell für Arrays und Collections gedacht, denn diese Schleife enthält keine Zählvariable, enthält aber nacheinander alle Einträge des Arrays oder der Collection. Buch[] buecher = …; for (Buch buch : buecher){ System.out.println(buch.getTitel()); } Dabei wird in den Klammern der Schleife eine&hellip;",
+            "content_html": "<p>Die <em>for-each</em> Schleife ist speziell für Arrays und Collections gedacht, denn diese Schleife enthält keine Zählvariable, enthält aber nacheinander alle Einträge des Arrays oder der Collection.<br><br><code>Buch[] buecher = …;</code><br><code>for (Buch buch : buecher){</code><br><code>    System.out.println(buch.getTitel());</code><br><code>}</code></p>\n<p>Dabei wird in den Klammern der Schleife eine Variable vom Typ des Arrays und davor, mit einem Doppelpunkt getrennt, das Array welchem die Werte genommen werden.</p>\n<p>Der Hauptvorteil dieser Schleife ist, das sofort klar ist was ihre Aufgabe ist: durch alle Werte des Arrays zu iterieren. Damit vermeidet man auf potenzielle Fehler der for-Schleife wie zum Beispiel dass in der Abbruchbedingung i &lt;= array.length angegeben wird, was zu einer <em>IndexOutOfBoundsException</em> führt.</p>\n<p>Die Limitierung der <em>for-each</em> Schleife ist, dass keine neuen Objekte ins Array geschrieben oder durch andere ersetzt werden können. Da keine Zählvariable vorhanden ist, kann auch die Position im Array nicht beeinflusst werden.</p>",
+            "author": {
+                "name": "Finecloud"
+            },
+            "tags": [
+                   "softwareentwicklung",
+                   "schleife",
+                   "java",
+                   "for-each",
+                   "dev",
+                   "array"
+            ],
+            "date_published": "2022-05-25T20:06:13+02:00",
+            "date_modified": "2022-05-25T20:14:33+02:00"
+        },
+        {
             "id": "https://www.finecloud.ch/vaultwarden-backup.html",
             "url": "https://www.finecloud.ch/vaultwarden-backup.html",
             "title": "Vaultwarden Backup mit Rclone",
@@ -28,7 +68,7 @@
                    "ansible"
             ],
             "date_published": "2022-05-24T07:23:03+02:00",
-            "date_modified": "2022-05-24T08:54:14+02:00"
+            "date_modified": "2022-05-24T09:21:32+02:00"
         },
         {
             "id": "https://www.finecloud.ch/utility-methoden-von-java-arrays.html",

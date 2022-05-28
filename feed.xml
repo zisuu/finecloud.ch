@@ -3,12 +3,40 @@
     <title>Finecloud</title>
     <link href="https://www.finecloud.ch/feed.xml" rel="self" />
     <link href="https://www.finecloud.ch" />
-    <updated>2022-05-26T14:44:15+02:00</updated>
+    <updated>2022-05-28T14:47:31+02:00</updated>
     <author>
         <name>Finecloud</name>
     </author>
     <id>https://www.finecloud.ch</id>
 
+    <entry>
+        <title>Java Genereische Methoden und beschränkte Typen</title>
+        <author>
+            <name>Finecloud</name>
+        </author>
+        <link href="https://www.finecloud.ch/java-genereische-methoden-und-beschraenkte-typen.html"/>
+        <id>https://www.finecloud.ch/java-genereische-methoden-und-beschraenkte-typen.html</id>
+            <category term="softwareentwicklung"/>
+            <category term="parameterlisten"/>
+            <category term="java"/>
+            <category term="dev"/>
+            <category term="collectionlist"/>
+            <category term="collection"/>
+
+        <updated>2022-05-28T14:47:31+02:00</updated>
+            <summary>
+                <![CDATA[
+                    Eine Methode kann einen typisierten Parameter erzwingen und einen typisierten Wert zurückgeben: public List&lt;Integer&gt; parseAlleInts(List&lt;String&gt; strings){ List&lt;Integer&gt; ergebnis = new ArrayList&lt;&gt;(); for (String s : strings){ ergebnis.add(Integer.parseInt(s)); } return ergebnis; } So ist es möglich eine Liste von Strings als Paramter in eine Liste von&hellip;
+                ]]>
+            </summary>
+        <content type="html">
+            <![CDATA[
+                <p>Eine Methode kann einen typisierten Parameter erzwingen und einen typisierten Wert zurückgeben:</p>
+<p><code>public List&lt;Integer&gt; parseAlleInts(List&lt;String&gt; strings){        </code><br><code>    List&lt;Integer&gt; ergebnis = new ArrayList&lt;&gt;();</code><br><code>    for (String s : strings){</code><br><code>        ergebnis.add(Integer.parseInt(s));</code><br><code>    }</code><br><code>    return ergebnis;</code><br><code>}</code></p>
+<p>So ist es möglich eine Liste von Strings als Paramter in eine Liste von Zahlen (Integern) umzuwandeln.</p>
+            ]]>
+        </content>
+    </entry>
     <entry>
         <title>Java Collection Iteratoren</title>
         <author>

@@ -11,6 +11,26 @@
     },
     "items": [
         {
+            "id": "https://www.finecloud.ch/java-genereische-methoden-und-beschraenkte-typen.html",
+            "url": "https://www.finecloud.ch/java-genereische-methoden-und-beschraenkte-typen.html",
+            "title": "Java Genereische Methoden und beschränkte Typen",
+            "summary": "Eine Methode kann einen typisierten Parameter erzwingen und einen typisierten Wert zurückgeben: public List&lt;Integer&gt; parseAlleInts(List&lt;String&gt; strings){ List&lt;Integer&gt; ergebnis = new ArrayList&lt;&gt;(); for (String s : strings){ ergebnis.add(Integer.parseInt(s)); } return ergebnis; } So ist es möglich eine Liste von Strings als Paramter in eine Liste von&hellip;",
+            "content_html": "<p>Eine Methode kann einen typisierten Parameter erzwingen und einen typisierten Wert zurückgeben:</p>\n<p><code>public List&lt;Integer&gt; parseAlleInts(List&lt;String&gt; strings){        </code><br><code>    List&lt;Integer&gt; ergebnis = new ArrayList&lt;&gt;();</code><br><code>    for (String s : strings){</code><br><code>        ergebnis.add(Integer.parseInt(s));</code><br><code>    }</code><br><code>    return ergebnis;</code><br><code>}</code></p>\n<p>So ist es möglich eine Liste von Strings als Paramter in eine Liste von Zahlen (Integern) umzuwandeln.</p>",
+            "author": {
+                "name": "Finecloud"
+            },
+            "tags": [
+                   "softwareentwicklung",
+                   "parameterlisten",
+                   "java",
+                   "dev",
+                   "collectionlist",
+                   "collection"
+            ],
+            "date_published": "2022-05-28T14:39:55+02:00",
+            "date_modified": "2022-05-28T14:47:31+02:00"
+        },
+        {
             "id": "https://www.finecloud.ch/java-collection-iteratoren.html",
             "url": "https://www.finecloud.ch/java-collection-iteratoren.html",
             "title": "Java Collection Iteratoren",

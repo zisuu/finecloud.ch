@@ -3,12 +3,64 @@
     <title>Finecloud</title>
     <link href="https://www.finecloud.ch/feed.xml" rel="self" />
     <link href="https://www.finecloud.ch" />
-    <updated>2022-05-28T14:47:31+02:00</updated>
+    <updated>2022-05-28T20:11:49+02:00</updated>
     <author>
         <name>Finecloud</name>
     </author>
     <id>https://www.finecloud.ch</id>
 
+    <entry>
+        <title>Java Maps</title>
+        <author>
+            <name>Finecloud</name>
+        </author>
+        <link href="https://www.finecloud.ch/java-die-pecs-regel.html"/>
+        <id>https://www.finecloud.ch/java-die-pecs-regel.html</id>
+            <category term="softwareentwicklung"/>
+            <category term="maps"/>
+            <category term="java"/>
+            <category term="dev"/>
+            <category term="collection"/>
+
+        <updated>2022-05-28T20:11:49+02:00</updated>
+            <summary>
+                <![CDATA[
+                    Maps werden auf Deutsch auch als asoziative Arrays bezeichnet. Ein Array ordnet ein Objekt einer Zahl zu, dem Index. Eine Map ordnet ein Objekt, den Wert, einem anderen Objekt zu, dem Schlüssel. Damit ist es möglich Zuordnungen von einem beliebigen Typ zu einem beliebigen anderen&hellip;
+                ]]>
+            </summary>
+        <content type="html">
+            <![CDATA[
+                <p>Maps werden auf Deutsch auch als <em>asoziative Arrays</em> bezeichnet. Ein Array ordnet ein Objekt einer Zahl zu, dem Index. Eine Map ordnet ein Objekt, den Wert, einem anderen Objekt zu, dem Schlüssel. Damit ist es möglich Zuordnungen von einem beliebigen Typ zu einem beliebigen anderen Typ vorzunehmen. Häufig werden Strings als Schlüssel verwendet, es kann aber jeder Objekttyp als Schlüssel dienen.</p>
+<p>Eine Map besteht aus zwei Typparameter, den ersten für den Schlüssel und den zweiten für den Wert. Die Map wordCount ist eine Zuordnung von einem String-Schlüssel zu einem Integer-Wert, es ist die am häufigsten verwendete Implementierung von Map:</p>
+<p><code>private Map&lt;String, Integer&gt; wordCounts = new HashMap&lt;&gt;();</code><br><code>  private void count(InputStream source){</code><br><code>    try(Scanner scan = new Scanner(source)){</code><br><code>        scan.useDelimiter("[^\\p{IsAlphabetic}]+");</code><br><code>        while (scan.hasNext()){</code><br><code>            String word = scan.next().toLowerCase();</code><br><code>            totalCount++;</code><br><code>            wordCounts.put(word, wordCounts.getOrDefault(word, 0) + 1);</code><br><code>        }</code><br><code>    }    </code><br><code>}</code></p>
+<p>Die put-Methode fügt ein Element hinzu (falls bereits ein Element zugeordnet ist, wird es Überschrieben), die get-Methode gibt den einem Schlüssel zugeordneten Wert zurück. GetOrDefault hat dieselbe Funktion, nur das zusätzlich ein Default-Wert übergeben werden kann, der zurückgegeben wird, falls der angegebene Schlüssel nicht in der Map enthalten ist.</p>
+<p>Hier ein weiteres Beispiel einer Geburtstagsliste:</p>
+<p><code>public class Geburtstagsliste {</code><br><code>    private Map&lt;String, LocalDate&gt; geburtstage = new TreeMap&lt;&gt;();</code><br><code>    </code><br><code>    public void fuegeGeburtstagHinzu(String name, LocalDate geburtstag){</code><br><code>        geburtstage.put(name, geburtstag);</code><br><code>    }</code><br><code>    </code><br><code>    public LocalDate findeGeburtstag(String name){</code><br><code>        return geburtstage.get(name);</code><br><code>    }</code><br><code>    </code><br><code>    public void schreibeGeburtstage(){</code><br><code>        for(Map.Entry&lt;String, LocalDate&gt; entry : geburtstage.entrySet()){</code><br><code>            System.out.println(entry.getKey() + ": " + entry.getValue());</code><br><code>        }</code><br><code>    }</code><br><code>}</code></p>
+<p>Ein weiteres Feature von Map ist, dass man über eine Map iterieren kann:</p>
+<table style="border-collapse: collapse; width: 100%;" border="1">
+<tbody>
+<tr>
+<td style="width: 49.9288%;"><strong>Methode</strong></td>
+<td style="width: 49.9288%;"><strong>Funktion</strong></td>
+</tr>
+<tr>
+<td style="width: 49.9288%;">entrySet</td>
+<td style="width: 49.9288%;">Liefert ein Set von Map.Entry-Objekten, die Key (Schlüssel) und Value (Wert) eines Eintrags enthalten</td>
+</tr>
+<tr>
+<td style="width: 49.9288%;">keySet</td>
+<td style="width: 49.9288%;">Liefert eine Collection aller Schlüssel</td>
+</tr>
+<tr>
+<td style="width: 49.9288%;">values</td>
+<td style="width: 49.9288%;">Liefert eine Collection aller Werte</td>
+</tr>
+</tbody>
+</table>
+<p> </p>
+            ]]>
+        </content>
+    </entry>
     <entry>
         <title>Java Genereische Methoden und beschränkte Typen</title>
         <author>
@@ -377,105 +429,6 @@
 <p>Weil Arrays zusammenhängende Speicherbereiche belegen kann man mit den Methoden <code>Arrays.copyOf</code> und <code>Arrays.fill</code> wesentlich effizienter kopieren und füllen, als mit einer Schleife im Java-Code:</p>
 <p><code>int[] zahlen = …;</code><br><code>int[] kopie = Arrays.copyOf(zahlen, zahlen.length);</code></p>
 <p>Parameter zwei und drei von fill geben den Bereich an, der vierte Parameter <br>den Füllwert: <br><code>Arrays.fill(zahlen, 0, 1000, 1);</code></p>
-            ]]>
-        </content>
-    </entry>
-    <entry>
-        <title>Mehrdimensionale Java Arrays</title>
-        <author>
-            <name>Finecloud</name>
-        </author>
-        <link href="https://www.finecloud.ch/mehrdimensionale-java-arrays.html"/>
-        <id>https://www.finecloud.ch/mehrdimensionale-java-arrays.html</id>
-            <category term="softwareentwicklung"/>
-            <category term="mehrdimensionales array"/>
-            <category term="java"/>
-            <category term="dev"/>
-            <category term="array"/>
-
-        <updated>2022-05-23T18:02:25+02:00</updated>
-            <summary>
-                <![CDATA[
-                    Eindimensionales Array Nebst den eindimensionalen Java Arrays gibt es auch mehrdimensionale Arrays. Hier ein Beispiel eines eindimensionalen Java Arrays: int[] zahlen = new int[]{1, 2, 3, 4}; Ein mehrdimensionales Array könnte beispielsweise ein Schachfeld sein: Schachfigur[][] schachbrett = new Schachfigur[8][8]; Mehrdimensionale Arrays sind nicht auf&hellip;
-                ]]>
-            </summary>
-        <content type="html">
-            <![CDATA[
-                <h3>Eindimensionales Array</h3>
-<p>Nebst den eindimensionalen Java Arrays gibt es auch mehrdimensionale Arrays. Hier ein Beispiel eines eindimensionalen Java Arrays:</p>
-<p><code>int[] zahlen = new int[]{1, 2, 3, 4};</code></p>
-<h3>Mehrdimensionales Array</h3>
-<p>Ein mehrdimensionales Array könnte beispielsweise ein Schachfeld sein:</p>
-<p><code>Schachfigur[][] schachbrett = new Schachfigur[8][8];</code></p>
-<p>Mehrdimensionale Arrays sind nicht auf zwei Dimensionen limitiert, die Limite ist bei 255 Dimensionen, aber das wird wohl eher selten benötigt.</p>
-<h3>Zugriff auf ein mehrdimensionales Array </h3>
-<p>Auf den Wert eines mehrdimensionale Arrays kann man genau so einfach zugreifen wie auf den eines eindimensionalen, dazu muss man nur die Koordinaten angeben:</p>
-<p><code>schachbrett[2][1] = new Schachfigur(Figur.BAUER, Farbe.WEISS);</code></p>
-<p>Es ist zudem möglich auf eine ganze Zeile eines eindimensionalen Arrays zuzugreifen, so erhält man ein eindimensionales Array desselben Typs zurück:</p>
-<p><code>int[] grundreiheWeiss = schachbrett[1];</code><br><code>int[] grundreiheSchwarz = schachbrett[6];</code></p>
-<p>Die einfachste Hilfe um das zu veranschaulichen ist die Visualisierung eines solchen Arrays:</p>
-<p><code>int[][] a = new int[3][3];</code></p>
-<table style="border-collapse: collapse; width: 100%; height: 201.438px;" border="1">
-<tbody>
-<tr style="height: 50.3594px;">
-<td style="width: 16.5478%; height: 50.3594px;"> </td>
-<td class="align-center" style="width: 16.6904%; height: 50.3594px;"><strong>Column1</strong></td>
-<td class="align-center" style="width: 33.3809%; height: 50.3594px;"><strong>Column2</strong></td>
-<td class="align-center" style="width: 33.3809%; height: 50.3594px;"><strong>Column3</strong></td>
-</tr>
-<tr style="height: 50.3594px;">
-<td style="width: 16.5478%; height: 50.3594px;"><strong>Row1</strong></td>
-<td class="align-center" style="width: 16.6904%; height: 50.3594px;">a[0][0]</td>
-<td class="align-center" style="width: 33.3809%; height: 50.3594px;">a[0][1]</td>
-<td class="align-center" style="width: 33.3809%; height: 50.3594px;">a[0][2]</td>
-</tr>
-<tr style="height: 50.3594px;">
-<td style="width: 16.5478%; height: 50.3594px;"><strong>Row2</strong></td>
-<td class="align-center" style="width: 16.6904%; height: 50.3594px;">a[1][0]</td>
-<td class="align-center" style="width: 33.3809%; height: 50.3594px;">a[1][1]</td>
-<td class="align-center" style="width: 33.3809%; height: 50.3594px;">a[1][2]</td>
-</tr>
-<tr style="height: 50.3594px;">
-<td style="width: 16.5478%; height: 50.3594px;"><strong>Row3</strong></td>
-<td class="align-center" style="width: 16.6904%; height: 50.3594px;">a[2][0]</td>
-<td class="align-center" style="width: 33.3809%; height: 50.3594px;">a[2][1]</td>
-<td class="align-center" style="width: 33.3809%; height: 50.3594px;">a[2][2]</td>
-</tr>
-</tbody>
-</table>
-<h3>Nicht rechteckige, zweidimensionale Arrays</h3>
-<p>Solche Arrays müssen nicht rechteckig sein, es ist möglich ein ungleichmässig Dimensionales Array zu erstellen:</p>
-<p><code>int[][] b = new int[3][];</code><br><code>b[0] = new int[1];</code><br><code>b[1] = new int[2];</code><br><code>b[2] = new int[3];</code></p>
-<p>Das würde dann wie folgt aussehen:</p>
-<table style="border-collapse: collapse; width: 100%; height: 201.438px;" border="1">
-<tbody>
-<tr style="height: 50.3594px;">
-<td style="width: 16.5478%; height: 50.3594px;"> </td>
-<td class="align-center" style="width: 16.6904%; height: 50.3594px;"><strong>Column1</strong></td>
-<td class="align-center" style="width: 33.3809%; height: 50.3594px;"><strong>Column2</strong></td>
-<td class="align-center" style="width: 33.3809%; height: 50.3594px;"><strong>Column3</strong></td>
-</tr>
-<tr style="height: 50.3594px;">
-<td style="width: 16.5478%; height: 50.3594px;"><strong>Row1</strong></td>
-<td class="align-center" style="width: 16.6904%; height: 50.3594px;">b[0][0]</td>
-<td class="align-center" style="width: 33.3809%; height: 50.3594px;"> </td>
-<td class="align-center" style="width: 33.3809%; height: 50.3594px;"> </td>
-</tr>
-<tr style="height: 50.3594px;">
-<td style="width: 16.5478%; height: 50.3594px;"><strong>Row2</strong></td>
-<td class="align-center" style="width: 16.6904%; height: 50.3594px;">b[1][0]</td>
-<td class="align-center" style="width: 33.3809%; height: 50.3594px;">b[1][1]</td>
-<td class="align-center" style="width: 33.3809%; height: 50.3594px;"> </td>
-</tr>
-<tr style="height: 50.3594px;">
-<td style="width: 16.5478%; height: 50.3594px;"><strong>Row3</strong></td>
-<td class="align-center" style="width: 16.6904%; height: 50.3594px;">b[2][0]</td>
-<td class="align-center" style="width: 33.3809%; height: 50.3594px;">b[2][1]</td>
-<td class="align-center" style="width: 33.3809%; height: 50.3594px;">b[2][2]</td>
-</tr>
-</tbody>
-</table>
-<p> </p>
             ]]>
         </content>
     </entry>

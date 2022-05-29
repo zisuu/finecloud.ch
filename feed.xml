@@ -3,7 +3,7 @@
     <title>Finecloud</title>
     <link href="https://www.finecloud.ch/feed.xml" rel="self" />
     <link href="https://www.finecloud.ch" />
-    <updated>2022-05-29T14:50:05+02:00</updated>
+    <updated>2022-05-29T15:04:11+02:00</updated>
     <author>
         <name>Finecloud</name>
     </author>
@@ -21,7 +21,7 @@
             <category term="java"/>
             <category term="dev"/>
 
-        <updated>2022-05-29T14:50:05+02:00</updated>
+        <updated>2022-05-29T15:04:11+02:00</updated>
             <summary>
                 <![CDATA[
                     Seit Java 8 können mit Lambda Expressions Funktionen komfortabler, kürzer und lesbarer ausgedrückt werden. Nachfolgend ein Beispiel von Java Code. Dieses Stück Code sucht aus Ihrer Musiksammlung die 100 längsten Songs heraus, die Sie mit mehr als vier Sternen bewertet haben und deren Interpret Ihnen&hellip;
@@ -53,6 +53,13 @@
 <p>Dabei gibt es aber keine Zwischenschritte, entweder man gibt den Ausdruck wie im letzten Beispiel an, oder man muss den Ausdruck mit geschweiften Klammern, Semikolon und return angeben. Natürlich ist die kürzeste Version anzustreben. Deshalb sollte immer auf die Blockschreibweise verzichtet werden, ausser man hat mehr als ein Wert-Ausdruck, beispielsweise bei einem if-Statement, hier müssen die äusseren Klammern und Returns geschrieben werden:</p>
 <p><code>(s1, s2) -&gt; {</code><br><code>    if (aufsteigend){</code><br><code>        return s1.getLaengeInSekunden() - s2.getLaengeInSekunden();</code><br><code>    } else {</code><br><code>        return s2.getLaengeInSekunden() - s1.getLaengeInSekunden();</code><br><code>    }</code><br><code>}</code></p>
 <p>Als letzte Spezialität in diesem Artikel gehe ich auf die Variable aufsteigend ein. Genau wie anonyme innere Klassen können Lambdas auf lokale Variabeln ihrer Umgebung zugreifen. Diese lokalen Variablen müssen nicht als final deklariert werden, müssen aber also solche behandelt werden. Das heisst, es reicht aus wenn ihnen im Lambda-Ausdruck oder danach kein neuer Wert mehr zugewiesen wird.</p>
+<h3>Methodenreferenz</h3>
+<p>Wenn ein Lambda-Ausdruck nur am einzigen übergebenen Parameter eine Methode aufruft und deren Rückgabewert weitergibt, dann kann statt des Lambda-Ausdrucks eine Methodenreferenz angeben werden. Die nachfolgenden Aufrufe haben die gleiche Wirkung:</p>
+<p><code>Comparator.comparing(song -&gt; song.getSterne());</code><br><code>Comparator.comparing(Song::getSterne);</code></p>
+<p>Methodenreferenzen erkennt man am doppelten Doppelpunkt. Davor steht die Klasse, dahinter die Methode. Wichtig ist, dass man bei der Methodenreferenz keine Klammern nach dem Methodenamen setzt. Das Beispiel von oben ist eine <em>ungebundene Referenz</em>: Sie bezeichnet nicht die getSterne-Methode eines bestimmten Objekts, sondern kann auf beliebige Objekte der Klasse Song angewendet werden. Ist vor dem doppelten Doppelpunkt keine Klasse, sondern eine Objektreferenz, dann ist die Methodenreferenz gebunden und meint immer die Methode dieses einen Objekts.</p>
+<p><code>Musicplayer player = new Musicplayer();</code><br><code>songs</code><br><code>        .filter(s -&gt; s. getSterne() == 5)</code><br><code>        .forEach(player::play);</code></p>
+<p>Die Referenz player::play meint immer die play-Methode des Musicplayer, den die Variable player referenziert. Mit Lambda-Ausdrücken, aber ohne Methodenreferenz, sähe das Beispiel dann so aus:</p>
+<p><code>Musicplayer player = new Musicplayer();</code><br><code>songs</code><br><code>        .filter(s -&gt; s. getSterne() == 5)</code><br><code>        .forEach(s -&gt; player.play(s));</code></p>
             ]]>
         </content>
     </entry>

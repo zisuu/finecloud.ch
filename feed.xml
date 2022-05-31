@@ -3,12 +3,133 @@
     <title>Finecloud</title>
     <link href="https://www.finecloud.ch/feed.xml" rel="self" />
     <link href="https://www.finecloud.ch" />
-    <updated>2022-05-30T16:46:59+02:00</updated>
+    <updated>2022-05-31T12:06:01+02:00</updated>
     <author>
         <name>Finecloud</name>
     </author>
     <id>https://www.finecloud.ch</id>
 
+    <entry>
+        <title>Parallele Streams</title>
+        <author>
+            <name>Finecloud</name>
+        </author>
+        <link href="https://www.finecloud.ch/parallele-streams.html"/>
+        <id>https://www.finecloud.ch/parallele-streams.html</id>
+            <category term="threads"/>
+            <category term="stream-api"/>
+            <category term="softwareentwicklung"/>
+            <category term="parallel"/>
+            <category term="lambda"/>
+            <category term="java"/>
+            <category term="dev"/>
+
+        <updated>2022-05-31T12:06:01+02:00</updated>
+            <summary>
+                <![CDATA[
+                    Streams können die Arbeit an Listen von Daten erheblich vereinfachen. Sie haben die Fähigkeit, die vor allem bei grossen Datenmengen extrem nützlich sein kann: Sie können in mehren Threads arbeiten. Das kann die Datenverarbeitung erheblich beschleunigen. Sie müssen dazu nicht selbst neue Threads starten, Streams&hellip;
+                ]]>
+            </summary>
+        <content type="html">
+            <![CDATA[
+                <p>Streams können die Arbeit an Listen von Daten erheblich vereinfachen. Sie haben die Fähigkeit, die vor allem bei grossen Datenmengen extrem nützlich sein kann: Sie können in mehren Threads arbeiten. Das kann die Datenverarbeitung erheblich beschleunigen.</p>
+<p>Sie müssen dazu nicht selbst neue Threads starten, Streams erledigen das für Sie. Manchmal können Sie einen Stream gleich als einen parallelen Stream erzeugen, zum Beispiel, indem Sie an einer Collection parallelStream anstelle von stream aufrufen. Es ist aber auch möglich einen Stream nachträglich in einen parallelen Stream umzuwandeln, indem die Methode parallel gerufen wird, oder wieder in einen sequenziellen Stream, also einen Stream, der in nur einem Thread verarbeitet wird, mit der Methode sequential. Beide Methoden sind intermediär, dadurch können Sie sogar in einer Pipeline einige Schritte parallel und andere sequenziell ausführen:</p>
+<p><code>studentenDatei</code><br><code>        .lines()</code><br><code>        .parallel()</code><br><code>        .map(line -&gt; parseStudent(line))</code><br><code>        .filter(student -&gt; student.getNotendurchschnitt() &gt;= 5.0)</code><br><code>        .sequential()</code><br><code>        .forEach(student -&gt; schreibeInDatei(student)); </code></p>
+<p>Im Beispiel wird eine Datei mit Studentendaten eingelesen, darin werden alle Studenten mit einem Notendurchschnitt von 5.0 oder höher in eine neue Datei geschrieben. Dazu werden zunächst die aus der Datei gelesenen Strings in Student-Objekte gemappt und nach Notendurchschnitt gefiltert. Diese Operationen können parallel ausgeführt werden, ohne dass es zu Fehlern kommt. In die Ausgabedatei muss aber ein Datensatz nach dem anderen geschrieben werden, es können nicht mehrere Threads gleichzeitig in dieselbe Datei schreiben. Dazu wird von dem terminalen <em>forEach</em> der Stream wieder sequenziell gemacht. So sind die Aufgaben, die in mehreren Threads verarbeitet werden können, parallel, aber die, bei denen es nicht geht, sequenziell.</p>
+            ]]>
+        </content>
+    </entry>
+    <entry>
+        <title>Die Stream-API</title>
+        <author>
+            <name>Finecloud</name>
+        </author>
+        <link href="https://www.finecloud.ch/die-stream-api.html"/>
+        <id>https://www.finecloud.ch/die-stream-api.html</id>
+            <category term="stream-api"/>
+            <category term="softwareentwicklung"/>
+            <category term="lambda"/>
+            <category term="java"/>
+            <category term="dev"/>
+
+        <updated>2022-05-31T11:55:10+02:00</updated>
+            <summary>
+                <![CDATA[
+                    Das konsequente Fluent Interface der Stream-API macht es möglich, mit einem Blick zu erkennen was durch einen Lambda-Ausdruck in jeder einzelnen Zeile geschieht. Mit diesem Beispiel werden alle Vielfachen von 3 zwischen 0 und 100 ausgegeben: IntStream.range(0, 100) .filter(i -&gt; i % 3 == 0)&hellip;
+                ]]>
+            </summary>
+        <content type="html">
+            <![CDATA[
+                <p>Das konsequente Fluent Interface der Stream-API macht es möglich, mit einem Blick zu erkennen was durch einen Lambda-Ausdruck in jeder einzelnen Zeile geschieht. Mit diesem Beispiel werden alle Vielfachen von 3 zwischen 0 und 100 ausgegeben:</p>
+<p><code>IntStream.range(0, 100)</code><br><code>        .filter(i -&gt; i % 3 == 0)</code><br><code>        .forEach(System.out::println);</code></p>
+<p>Richtig praktisch werden solche Lambda und Streams beim lesen von Dateiinhalten:</p>
+<p><code>BufferedReader danksagung = new BufferedReader(new FileReader("ebook.txt"))</code><br><code>danksagung.lines()</code><br><code>        .filter(line -&gt; line.toLowerCase().contains("Danksagung"))</code><br><code>        .findFirst()</code><br><code>        .ifPresent(System.out::println);</code></p>
+<p>Ab welcher Zeile startet im E-Book die Danksagung? Mit findFrist wird nur die erste Zeile gesucht, in der ein Ergebnis steht, anschliessend wird nicht mehr weiter gesucht, sondern das Ergebnis wird ausgegeben.</p>
+<p>Streams sind eine andere Art in Java mit Listen von Daten umzugehen, aber sie sind keinen Ersatz für Collections oder Arrays, eher eine Ergänzung. Streams fehlt nämlich eine Eigenschaft, welche den anderen Datenstrukturen haben: Permanenz. In einer Collection speichern Sie Daten, um bei Bedarf wieder darauf zuzugreifen und zwar so oft sie wollen. Ein Stream dient lediglich der Verarbeitung von Daten. Sie können den Inhalt einen Streams genau einmal auslesen, danach ist er weg und nicht mehr zurückzubekommen. Insofern gleicht ein Stream eher einem Iterator als einer Collection. Wenn Sie auf die Ausgabe der Pipeline nach Belieben wieder zugreifen möchten, dann müssen Sie sie wieder in einer Collection sammeln.</p>
+<h3>Intermediäre und terminale Methoden</h3>
+<p>Der Unterschied ist, das Intermediäre Methoden wieder ein Stream zurückgeben mit dem man weiterarbeiten kann, terminale Methoden geben einen anderen Ergebnistyp zurück. So entsteht eine Pipeline, die durch die terminale Methode gesteuert wird. Sie "zieht" Daten aus dem Stream und erst durch die terminale Methode werden überhaupt Daten aus dem Stream gelesen. Solange Sie nur intermediäre Methoden aufrufen, passiert im Stream noch nichts.</p>
+<p><em>findFrist</em> gibt keinen Stream mehr zurück, sondern ein Optional und if-Present ist eine Methode davon. <em>findFirst</em> ist eine terminale Methode, also eine die am Ende der Stream-Verarbeitung steht. <em>filter</em> dagegen ist eine intermediäre Methode und steht in der Mitte der "Pipeline".</p>
+<p>Schauen wir uns das mit dem Beispiel von oben an:</p>
+<ul>
+<li><span style="color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: inherit; font-weight: var(--font-weight-normal);">Die Methode BufferedReader.lines erzeugt einen Stream&lt;String&gt;. Es werden noch keine Daten gelesen.</span></li>
+<li><span style="color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: inherit; font-weight: var(--font-weight-normal);">Aus diesem Stream wird mit filter ein neuer Stream erzeugt, der die Filteranweisung verarbeitet. Es werden noch immer keine Daten gelesen.</span></li>
+<li><span style="color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: inherit; font-weight: var(--font-weight-normal);">Die terminale Methode findFirst wird gerufen. Nun beginnt die Verarbeitung.</span></li>
+<li><span style="color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: inherit; font-weight: var(--font-weight-normal);">findFirst liest das erste Element aus dem gefilterten Stream.</span></li>
+<li><span style="color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: inherit; font-weight: var(--font-weight-normal);">Der gefilterte Stream liest das erste Element des ungefilterten Streams und wertet sein Prädikat line.toLowerCase().contains("Danksagung") aus.</span></li>
+<li><span style="color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: inherit; font-weight: var(--font-weight-normal);">Die erste Zeile "Einleitung" wird vom Filter zurückgewiesen. Der gefilterte Stream liest die zweite Zeile des ungefilterten Streams und wendet erneut sein Prädikat an. Auch diese Zeile wird zurückgewiesen.</span></li>
+<li><span style="color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: inherit; font-weight: var(--font-weight-normal);">Erst Zeile Nummer X wird vom Filter akzeptiert. Jetzt gibt der gefilterte Stream seine erste Rückgabe: "Danksagung".</span></li>
+<li>findFirst empfängt die Rückgabe vom gefilterten Stream. Es benötigt keine weiteren Ergebnisse. Es wird nur der erste Treffer gesucht, deshalb wird kein weiteres Element aus dem gefilterten Stream gelesen.</li>
+<li><span style="color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: inherit; font-weight: var(--font-weight-normal);">findFirst schliesst den gefilterten Stream und gibt das gefundene Ergebnis (richtiger: ein Optional mit dem gefundenen Ergebnis) zurück.</span></li>
+<li><span style="color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: inherit; font-weight: var(--font-weight-normal);">Was ist wirklich passiert? Es wurden 13 Zeilen aus dem ungefilterten Stream gelesen, davon wurde eine Zeile in den gefilterten Stream weitergeschrieben. Mehr nicht.</span></li>
+</ul>
+<p>Damit wurde keine Zeile mehr gelesen, als notwendig. Streams sind nicht nur gut darin, Ihre Absichten in Code auszudrücken, sie sind dabei auch noch äusserst effizient.</p>
+<h3>Intermediäre Operatoren</h3>
+<h5><strong>Sortieren (sort)</strong></h5>
+<p>Einen Stream kann nach seiner natürlichen Ordnung sortiert werden, wenn seine Elemente Comparable implementieren, oder mit einem übergebenen Comparator. In allen Fällen bleibt der Inhalt der Datenquelle unverändert. Nachfolgend ein Beispiel, darin wird der heisseste Tag im Jahr gesucht, zuerst wird absteigend nach Temperatur sortiert und dann das erste Element selektiert:</p>
+<p><code>tagestemperaturen</code><br><code>        .sorted(Comparator</code><br><code>                .comparing(Tagestemperatur::getTemperatur)</code><br><code>                .reversed())</code><br><code>        .findFirst();</code></p>
+<h5>Limitieren (limit)</h5>
+<p>Meistens will man nur auf einem teil des Streams arbeiten, z.B. nur auf dem Anfang. Mit limit kann ein Stream auf eine beliebige Anzahl von Elementen beschränkt werden. Auch wenn der darunterliegende Stream mehr Elemente hätte, endet der limitierte Stream, wenn seine Anzahl erreicht ist. Im Beispiel werden die zehn besten Songs aus einer Sammlung sortiert, limitiert und ausgegeben:</p>
+<p><code>songs</code><br><code>        .sorted(Comparator.comparing(Song::getSterne).reversed())</code><br><code>        .limit(10)</code><br><code>        .forEach(song -&gt; System.out.println(song.getTitel()));</code></p>
+<h5>Überspringen (skip)</h5>
+<p>Will man nicht nach einem bestimmen Inhalt suchen, sondern diesen bestimmten Inhalt bewusst überspringen. Folgende Datei soll eingelesen werden:</p>
+<p><em>Höchsttemperaturen Basel</em><br><em>Datum;Temperatur</em><br><em>01.3.2021;1</em><br><em>02.3.2021;3</em><br><em>13.3.2021;8</em><br><em>…</em></p>
+<p>dabei interessieren uns aber nur die Temperaturen, die ersten zwei Zeilen interessieren uns nicht:</p>
+<p><code>daten.lines()</code><br><code>        .skip(2)</code><br><code>        .map(TemperaturMessung::parse)</code><br><code>        ...</code></p>
+<h5>Filtern (filter)</h5>
+<p>Man übergibt ihr ein Predicate und nur die Elemente, für die das Predicate true liefert, werden im Stream weitergereicht:</p>
+<p><code>kandidaten</code><br><code>        .filter(k -&gt; k.getHaarfarbe().equals("rot") </code><br><code>                &amp;&amp; k.getAugenfarbe().equals("grün"))</code><br><code>        .forEach(k -&gt; sprichAn(k));</code></p>
+<h5>Einmaligkeit (distinct)</h5>
+<p>Wenn in einem Stream Duplikate entfernt werden sollen, kann das mit distinct sichergestellt werden. Damit merkt sich der Strom alle Elemente, die bereits einmal vorkamen und gibt sie kein zweites Mal zurück. Bei Streams von Objekten wird Gleichheit mit equals bestimmt. Achtung: distinct ist eine Operation mit Zustand und kann für lange Streams sehr viel Speicher belegen.</p>
+<p><code>kontakte</code><br><code>        .distinct()</code><br><code>        .count();</code></p>
+<h5>Abbilden</h5>
+<p>Das sind alle Operationen, die aus den Eingabewerten etwas berechnen und als Ausgabestrom wieder ausgeben:</p>
+<p><code>personen</code><br><code>        .map(Person::getName)</code><br><code>        .forEach(System.out::println);</code></p>
+<p>Mit der map-Methode ist der Ausgabe-Stream wieder ein Stream von Objekten; wenn das Ergebnis der Function ein primitiver Typ ist, wird er dazu in den passenden Wrapper konvertiert. Wenn man deinen Stream von primitiven Typen als Ausgaben benötigt, stehen dafür die Methoden <em>mapToInt</em>, <em>mapToLong</em> und <em>mapToDouble</em> zur Verfügung.</p>
+<p>Etwas komplizierter ist die Methode flatMap und ihre primitiven Gegenstücke. Sie erwarten als Parameter eine Funktion, die aus jedem Eingabeelement einen Stream erzeugt. Die Ausgabe von flatMap ist ein Stream, in dem die Elemente aller Streams jeweils nacheinander zu einem Ausgabe Stream zusammengefasst sind. Als Beispiel: Das Stadtfest in Ihrer Stadt. Es war eine Anmeldung erforderlich und von jeder Anmeldung wird erwartet, dass die gesamte Familie mitkommt. Anmeldungen sind in einem Objekt vom typ Person gespeichert, das den Namen der Person enthält, seinen oder ihren Partner als weiteres Person-Objekt und die Kinder als Liste von Personen. Angemeldet sind:</p>
+<ul>
+<li>Hans Fischer mit Partner Frieda Fischer und den Kindern Fritz, Max und Lisa</li>
+<li>Ida mit Partner Martin</li>
+<li>Max Müller mit seinen Kindern Moritz und Peter</li>
+</ul>
+<p>Von der ersten Anmeldung ausgehend soll nun eine Liste aller erwarteten Gäste ausgegeben werden:</p>
+<p><code>anmeldungen</code><br><code>        .flatMap(p -&gt; Stream.concat(</code><br><code>                Stream.of(p, p.getPartner()), </code><br><code>                p.getKinder().stream()))</code><br><code>        .filter(p -&gt; p != null)</code><br><code>        .map(Person::getName)</code><br><code>        .forEach(System.out::println);</code></p>
+<p>Mit flatMap ist die Liste schnell erstellt, aber was genau passiert, ist auch mit Lambda-Ausdrücken nicht sofort ersichtlich:</p>
+<ul>
+<li>Mit Stream.of wird ein Stream erzeugt, der die person selbst und ihren Partner enthält. Dank Varargs können Stream.of einfach alle Elemente übergeben werden, die der so erzeugt Stream enthalten soll.</li>
+<li>Aus der Liste von Kindern wird ein weiterer Stream erzeugt. Da die Kinder in einer Collection gespeichert sind, kann da smit der stream-Methode erreicht werden.</li>
+<li>Diese beiden Stream werden mit Stream.concat zusammengesetzt. Die Methode gibt einen Stream zurück, der das Erste aller Elemente des ersten übergebenen Streams und danach allen Elemente des zweiten übergebenen Streams enthält.</li>
+<li>flatMap wird für jede Person aus <em>anmeldungen</em> gerufen, intern werden dadurch drei Stream erzeugt: [Hans Fischer, Frieda Fischer, Fritz, Max, Lisa][Ida, Martin][Max Müller, null, Moritz und Peter]. Da Max Müller keinen Partner (mehr) hat, resultiert aus p.getPartner() ein null-Wert; dieser wird von der späteren filter-Anweisung wieder entfernt werden.</li>
+<li>flatMap gibt aber nicht einen Stream pro Eingabe zurück (das käme bei map heraus), sondern nur einen langen Stream. Daher auch der Name flatMap: Anstatt einen Stream von Streams auszugeben, ist die Ausgabe flach. Der so erzeugte Stream enthält also: [Hans Fischer, Frieda Fischer, Fritz, Max, Lisa, Ida, Martin, Max Müller, null, Moritz und Peter]</li>
+</ul>
+<h5>Spicken (peek)</h5>
+<p>peek gibt genau denselben Stream aus, der auch eingegeben wurde, führt aber für jedes Element einen Consumer aus. Der Inhalt des Streams wird nicht verändert. Mit peek können Sie einem Stream bei der Arbeit zuschauen, was insbesondere bei Fehlersuche hilfreich ist:</p>
+<p><code>danksagung.lines()</code><br><code>        .peek(line -&gt; System.out.println("Ungefiltert " + line))</code><br><code>        .filter(line -&gt; line.toLowerCase().contains("Danksagung"))</code><br><code>        .peek(line -&gt; System.out.println("Gefiltert " + line))</code><br><code>        .findFirst()</code><br><code>        .ifPresent(System.out::println);</code></p>
+<p>peek kann auch verwendet werden, um beispielsweise bei Anmeldungen Bestätigungen zu versenden:</p>
+<p><code>anmeldungen</code><br><code>        .peek(p -&gt; bestaetigeAnmeldung(p))</code><br><code>        .flatMap(p -&gt; Stream.concat(Stream.of(</code><br><code>                p, p.getPartner()), </code><br><code>                p.getKinder().stream()))</code><br><code>        .filter(p -&gt; p!= null)</code><br><code>        .map(Person::getName)</code><br><code>        .forEach(System.out::println);</code></p>
+<p> </p>
+            ]]>
+        </content>
+    </entry>
     <entry>
         <title>Lambda Funktionale Interfaces</title>
         <author>
@@ -332,92 +453,6 @@
 <p>Damit ist mit Listen alles möglich, was man mit Arrays auch kann, einfach mit mehr Komfort. Die Liste wächst bei neuen Elementen automatisch an und wenn ein Element mit remove entfernt wird, wird die Lücke geschlossen, indem alle nachfolgenden Elemente nachrutschen:</p>
 <p><code>List&lt;Book&gt; booklist = new ArrayList&lt;&gt;();</code><br><code>//Der Booklist zwei Books hinzufügen</code><br><code>booklist.add(new Book(…));</code><br><code>booklist.add(new Book(…));</code><br><code>//Das zweite Buch durch ein anderes ersetzen</code><br><code>booklist.set(1, new Book(…));</code><br><code>//Alle Buecher anzeigen</code><br><code>for (Book book : booklist){</code><br><code>    System.out.println(book.getTitel());</code><code></code><br><code>}</code></p>
 <p>Für die meisten Fälle ist die ArrayList die performanteste aller List-Implementierungen.</p>
-            ]]>
-        </content>
-    </entry>
-    <entry>
-        <title>Java Collections</title>
-        <author>
-            <name>Finecloud</name>
-        </author>
-        <link href="https://www.finecloud.ch/java-collections.html"/>
-        <id>https://www.finecloud.ch/java-collections.html</id>
-            <category term="softwareentwicklung"/>
-            <category term="java"/>
-            <category term="dev"/>
-            <category term="collection"/>
-            <category term="array"/>
-
-        <updated>2022-05-26T13:27:11+02:00</updated>
-            <summary>
-                <![CDATA[
-                    Collections sind ganz alltägliche Java Objekte. Im Gegensatz zu Arrays sind Collections nicht durch native Methoden und einem zusammenhängenden Speicherbereich optimiert, sie haben auch keine eigene Syntax. Die Vorteile von Collections sind der Benutzerkomfort, da sie über eine umfangreichere und komfortablere API verfügen. Zudem können&hellip;
-                ]]>
-            </summary>
-        <content type="html">
-            <![CDATA[
-                <p>Collections sind ganz alltägliche Java Objekte. Im Gegensatz zu Arrays sind Collections nicht durch native Methoden und einem zusammenhängenden Speicherbereich optimiert, sie haben auch keine eigene Syntax. </p>
-<p>Die <strong>Vorteile von Collections</strong> sind der <strong>Benutzerkomfort</strong>, da sie über eine <strong>umfangreichere und komfortablere API</strong> verfügen. Zudem können verschiedene Implementierungen des Interface Collection, je nach Anwendungsfall verwendet werden. Der wohl grösste Vorteil, ist das Collections <strong>keine Grösse Vorgeben, Collections wachsen bei Bedarf.</strong></p>
-<blockquote>
-<p>Arrays eignen sich deshalb besondern für Performance getrimmte und Systemnahe Applikationen, während Collections eher für Anwendungen geeignet sind, bei denen es nicht auf jede Nanosekunde ankommt und der Vorteil des Komforts überwiegt.</p>
-</blockquote>
-<p>Standardmässig arbeiten Collections einfach mit dem Typ Object. Wenn man will, kann man einer Collection einen bestimmten Typ mitgeben:</p>
-<p><code> Collection&lt;Buch&gt; playlist = new ArrayList&lt;&gt;();</code></p>
-<p>Es gibt bei Collections keine Methoden für den Zugriff auf ein bestimmtes Element. Der allgemeine Ansatz, an den Inhalt einer Collection heranzukommen, ist der, sie in einer for-each-Schleife zu durchlaufen oder mit der Methode iterator ein Iterator-Objekt zu erzeugen. Nachfolgend sind die wichtigsten Methoden aufgelistet:</p>
-<table style="border-collapse: collapse; width: 100%; height: 287.828px;" border="1">
-<tbody>
-<tr style="height: 50.3594px;">
-<td style="width: 30.5463%; height: 50.3594px;"><strong>Methoden von <em>java.util.Collection</em></strong></td>
-<td style="width: 69.4537%; height: 50.3594px;"><strong>Beschreibung</strong></td>
-</tr>
-<tr style="height: 107.953px;">
-<td style="width: 30.5463%; height: 107.953px;">add / addAll</td>
-<td style="width: 69.4537%; height: 107.953px;">Fügen einer Collection ein Objekt, bzw. alle Objekte einer anderen Collection hinzu.</td>
-</tr>
-<tr style="height: 79.1562px;">
-<td style="width: 30.5463%; height: 79.1562px;">contains / containsAll</td>
-<td style="width: 69.4537%; height: 79.1562px;">Prüfen, ob ein oder mehrere Objekte in der Collection enthalten sind.</td>
-</tr>
-<tr style="height: 50.3594px;">
-<td style="width: 30.5463%; height: 50.3594px;">remove / removeAll</td>
-<td style="width: 69.4537%; height: 50.3594px;">Entfernt Objekte aus der Collection</td>
-</tr>
-</tbody>
-</table>
-<p>Was wenn ich nun aber doch ein Array will? Dann kann ich mit der toArray-Methode jede Collection in ein Array umwandeln. Die parameterlose toArray-Methode liefert aber immer ein Object[], auch wenn ein Typ für die Collection angeben wurde. Es ist nicht möglich ein solches Object[] Array einfach in den gewünschten Typ zu casten. Wenn ich aber aus einer Collection von Buecher ein Buch[] machen will, dann muss ich die toArray-Methode mit Parameter übergeben:</p>
-<p><code>Collection&lt;Double&gt; liste = new ArrayList&lt;&gt;();</code><br><code>Double[] alsDoubles = liste.toArray(new Double[liste.size()]);</code><br><code>Number[] alsNumber = liste.toArray(new Number[liste.size()]);</code><br><code>Object[] alsObject = liste.toArray(new Object[liste.size()]);</code><br><code>Object[] auchAlsObject = liste.toArray();</code></p>
-<p>Wichtig ist, dass die Grösse des Arrays passt. Wenn das Array zu klein ist, dann ist der Rückgabewert ein neues Array des gleichen Typs mit der Grösse der Collection.</p>
-            ]]>
-        </content>
-    </entry>
-    <entry>
-        <title>Java Varargs</title>
-        <author>
-            <name>Finecloud</name>
-        </author>
-        <link href="https://www.finecloud.ch/java-varargs.html"/>
-        <id>https://www.finecloud.ch/java-varargs.html</id>
-            <category term="varargs"/>
-            <category term="softwareentwicklung"/>
-            <category term="parameterlisten"/>
-            <category term="java"/>
-            <category term="dev"/>
-            <category term="array"/>
-
-        <updated>2022-05-25T20:38:17+02:00</updated>
-            <summary>
-                <![CDATA[
-                    Varargs, auch Parameter-Listen genannt können in Java Arrays verwendet werden, um eine dynamische Anzahl von Parametern entgegenzunehmen. public static int max(int… numbers){ int result = Integer.MIN_VALUE; for (int number : numbers){ if (number &gt; result){ result = number; } } return result; } Diese Methode&hellip;
-                ]]>
-            </summary>
-        <content type="html">
-            <![CDATA[
-                <p>Varargs, auch Parameter-Listen genannt können in Java Arrays verwendet werden, um eine dynamische Anzahl von Parametern entgegenzunehmen.</p>
-<p><code>public static int max(int… numbers){</code><br><code>    int result = Integer.MIN_VALUE;</code><br><code>    for (int number : numbers){</code><br><code>        if (number &gt; result){</code><br><code>            result = number;</code><br><code>        }</code><br><code>    }</code><br><code>    return result;</code><br><code>}</code></p>
-<p>Diese Methode kann verwendet werden, um mit einer beliebigen Anzahl von int-Zahlen aufgerufen zu werden, um dir grösste aller Zahlen unter den Parametern zu finden. Innerhalb der Methode sind alle Parameter aus der Vararg-Liste als Array zu sehen.</p>
-<p>Die Methode kann wie folgt aufgerufen werden:</p>
-<p><code>public static void main(String[] args) {</code><br><code>    System.out.println(max(5, 10, 0));</code><br><code>}</code></p>
-<p>Entsprechend wird die grösste Zahl ausgegeben: 10</p>
             ]]>
         </content>
     </entry>

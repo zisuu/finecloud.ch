@@ -3,7 +3,7 @@
     <title>Finecloud</title>
     <link href="https://www.finecloud.ch/feed.xml" rel="self" />
     <link href="https://www.finecloud.ch" />
-    <updated>2022-05-31T12:06:01+02:00</updated>
+    <updated>2022-06-01T14:35:56+02:00</updated>
     <author>
         <name>Finecloud</name>
     </author>
@@ -52,7 +52,7 @@
             <category term="java"/>
             <category term="dev"/>
 
-        <updated>2022-05-31T11:55:10+02:00</updated>
+        <updated>2022-06-01T14:35:56+02:00</updated>
             <summary>
                 <![CDATA[
                     Das konsequente Fluent Interface der Stream-API macht es möglich, mit einem Blick zu erkennen was durch einen Lambda-Ausdruck in jeder einzelnen Zeile geschieht. Mit diesem Beispiel werden alle Vielfachen von 3 zwischen 0 und 100 ausgegeben: IntStream.range(0, 100) .filter(i -&gt; i % 3 == 0)&hellip;
@@ -126,6 +126,53 @@
 <p><code>danksagung.lines()</code><br><code>        .peek(line -&gt; System.out.println("Ungefiltert " + line))</code><br><code>        .filter(line -&gt; line.toLowerCase().contains("Danksagung"))</code><br><code>        .peek(line -&gt; System.out.println("Gefiltert " + line))</code><br><code>        .findFirst()</code><br><code>        .ifPresent(System.out::println);</code></p>
 <p>peek kann auch verwendet werden, um beispielsweise bei Anmeldungen Bestätigungen zu versenden:</p>
 <p><code>anmeldungen</code><br><code>        .peek(p -&gt; bestaetigeAnmeldung(p))</code><br><code>        .flatMap(p -&gt; Stream.concat(Stream.of(</code><br><code>                p, p.getPartner()), </code><br><code>                p.getKinder().stream()))</code><br><code>        .filter(p -&gt; p!= null)</code><br><code>        .map(Person::getName)</code><br><code>        .forEach(System.out::println);</code></p>
+<h3>Terminale Operatoren</h3>
+<h5>Alle Elemente verarbeiten</h5>
+<p>Diese Methode führt für alle Elemente, die am Ende in einem Stream enthalten sind, diesele Operation aus. forEach ist als Beispiel zu nennen. Sie führt den übergebenen Consumer für jedes Element des Streams aus. </p>
+<h5>Finden</h5>
+<p>Wenn aus einem Stream nicht alle Elemente verarbeitet werden solle, sondern nur ein einzelnen benötigt wird, gibt es dafür findFirst oder findAny:</p>
+<p><code>Optional&lt;Student&gt; gut = studenten</code><br><code>        .filter(student -&gt; student.getNotendurchschnitt() == 5.0)</code><br><code>        .findAny();</code></p>
+<p>Der unterschied zwischen den beiden Methoden ist, dass findFirst garantiert das erste Element zurückgibt, findAny nur irgendein Element. Dieser Unterschied kommt bei paralleler Verarbeitung zum Tragen, wo das erste gefunden Element nicht notwendig das erste aus dem Stream ist. findFirst stellt in dieser Situation sicher, dass wirklich das erste Element des Stream ausgegeben wird.</p>
+<p>Beide Methoden geben ein Optional-Objekt zurück. Grob gesagt handelt es sich um einen Umschlag, der ein Objekt ungleich null enthalten oder auch leer sein kann. So wird auch, wenn kein Ergebnis gefunden wurde, ein Objekt zurückgegeben, nicht direkt ein null-Wert. Dadurch können Sie an dem zurückgegeben en Objekt immer weitere Methoden aufrufen und müssen nicht auf null prüfen, was. in der Aufrufkette der Fluent API nicht möglich wäre. Stattdessen können Sie diese Prüfung in die Aufrufkette integrieren:</p>
+<p><code>studenten</code><br><code>        .filter(student -&gt; student.getNotendurchschnitt() == 5.0)</code><br><code>        .findAny()</code><br><code>        .ifPresent(s -&gt; verarbeiteGutenStudenten(s));</code></p>
+<p>Das an ifPresent übergebene Lambda wird nur ausgeführt, wenn das von findAny zurückgegebene Optional ein Ergebnis enthält.</p>
+<h5>Prüfen</h5>
+<p>Nur um zu prüfen, ob der Stream Elemente enthält, die einem bestimmten Kriterium entsprechen, ohne diese Elemente zurückzugeben, gibt es drei boolesche Methoden. anyMatch, prüft, ob irgendein Element des Streams zum übergebenen Predicate passt, allMatch prüft, ob alle Elemente passen, und noneMatch schliesslich, ob keines der Elemente passt.</p>
+<p><code>if (studenten.anyMatch(student -&gt; </code><br><code>        student.getNotendurchschnitt() == 6.0)){</code><br><code>    …            </code><br><code>}</code></p>
+<h5>Reduzieren</h5>
+<p>Mit Streams können Sie auch einen einzelnen Wert berechnen lassen, der den Stream zusammenfasst. Der Inhalt wird auf diesen einen Wert reduziert, daher auch der Name der Methode für diese Operatoren: reduce.</p>
+<p><code>int gesamtlaenge = songs</code><br><code>        .mapToInt(Song::getLaengeInSekunden)</code><br><code>        .reduce(0, (x, y) -&gt; x+y);</code></p>
+<p>Die reduce-Methode funktioniert, indem nacheinander (oder sogar parallel) alle Elemente des Streams durch die übergebene Funktion mit einem Akkumulator verknüpft werden. Der Akkumulator wird mit dem übergebenen Neutralwert der Verknüpfung vorbelegt. Im Beispiel werden also, von einem Wert 0 ausgehend, die Länge aller Songs im Stream addiert, um die Gesamtlänge zu berechnen.</p>
+<p>Sie müssen keinen Neutralwert übergeben, dann erhält der Akkumulator anfangs das erste Element (sofern vorhanden)m due erste Verknüpfung geschieht mit dem zweiten Element, und das Ergebnis der reduce-Operation ist Optional. Im Beispiel soll der längste Songs gefunden werden:</p>
+<p><code>Optional&lt;Song&gt; laengsterSong = songs.reduce((x, y) -&gt;</code><br><code> x.getLaengeInSekunden() &gt; y.getLaengeInSekunden() ? x : y);</code></p>
+<p>Der ternäre Fragezeichen-Operator gibt immer den längeren der beiden Songs zurück, am Ende bleibt im Akkumulator der längste stehen.</p>
+<p>Einige häufigt reduce-Operatoren sind schon als eigene Methoden implementiert:</p>
+<table style="border-collapse: collapse; width: 100%;" border="1">
+<tbody>
+<tr>
+<td style="width: 49.9288%;"><strong>Methode</strong></td>
+<td style="width: 49.9288%;"><strong>Funktion</strong></td>
+</tr>
+<tr>
+<td style="width: 49.9288%;">count</td>
+<td style="width: 49.9288%;">zählt die Elemente im Stream</td>
+</tr>
+<tr>
+<td style="width: 49.9288%;">(nur primitive Streams) sum</td>
+<td style="width: 49.9288%;">summiert alle Zahlen im Stream</td>
+</tr>
+<tr>
+<td style="width: 49.9288%;">(nur primitive Streams) min / max</td>
+<td style="width: 49.9288%;">das kleinste, bzw. grösste Element</td>
+</tr>
+<tr>
+<td style="width: 49.9288%;">(nur primitive Streams) average</td>
+<td style="width: 49.9288%;">Durchschnitt aller Elemente</td>
+</tr>
+</tbody>
+</table>
+<p>Komplexere Methoden, die aus einem Stream wieder andere Typen gewinnen, um z.B. einen Stream wieder in eine Liste umzuwandeln, werden mit Collections umgesetzt.</p>
+<p> </p>
 <p> </p>
             ]]>
         </content>

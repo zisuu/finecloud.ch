@@ -3,12 +3,106 @@
     <title>Finecloud</title>
     <link href="https://www.finecloud.ch/feed.xml" rel="self" />
     <link href="https://www.finecloud.ch" />
-    <updated>2022-06-04T12:14:10+02:00</updated>
+    <updated>2022-06-04T18:35:45+02:00</updated>
     <author>
         <name>Finecloud</name>
     </author>
     <id>https://www.finecloud.ch</id>
 
+    <entry>
+        <title>Dateien und Verzeichnisse unter Java</title>
+        <author>
+            <name>Finecloud</name>
+        </author>
+        <link href="https://www.finecloud.ch/dateien-und-verzeichnisse-unter-java.html"/>
+        <id>https://www.finecloud.ch/dateien-und-verzeichnisse-unter-java.html</id>
+            <category term="verzeichnisse"/>
+            <category term="softwareentwicklung"/>
+            <category term="java.nio.files"/>
+            <category term="java.io.file"/>
+            <category term="java.io"/>
+            <category term="java"/>
+            <category term="dev"/>
+            <category term="dateien"/>
+
+        <updated>2022-06-04T18:35:45+02:00</updated>
+            <summary>
+                <![CDATA[
+                    Dateioperationen mit java.io werden in Java immer, direkt oder indirekt, durch ein Objekt des Typs java.io.File abgebildet. Dabei kann File aber nicht selbst aus Dateien lesen, oder in sie schreiben, dazu benötigt man einen Reader oder Writer (für Textdateien) resp. einen InputStream oder OutputStream (für&hellip;
+                ]]>
+            </summary>
+        <content type="html">
+            <![CDATA[
+                <p>Dateioperationen mit java.io werden in Java immer, direkt oder indirekt, durch ein Objekt des Typs java.io.File abgebildet. Dabei kann File aber nicht selbst aus Dateien lesen, oder in sie schreiben, dazu benötigt man einen Reader oder Writer (für Textdateien) resp. einen InputStream oder OutputStream (für Binärdateien).</p>
+<h3>Dateien und Pfade</h3>
+<p>Ein File wird immer aus einer Pfadangabe, entweder <em>absolut</em> oder <em>relativ</em> erzeugt. Absolut geht von einem Wurzelverzeichnis aus, zum Beispiel C:\ unter Windows, oder / unter Linux. Ein relativer Pfad bezieht sich dagegen auf das aktuelle Verzeichnis des Benutzers, normalerweise von dort aus woher das Programm aufgerufen wurde. Wenn die Datei unter dem angegebenen Pfad nicht existiert, wird auch keine entsprechende Datei unter dem definierten Pfad angelegt:</p>
+<p><code>File windowsDatei = new File("C:\\home\\user\\text.txt");</code><br><code>File linuxDatei = new File("/home/user/text.txt");</code></p>
+<p>Pfade werden also je nach OS unterschiedlich angegeben. Für Windows Pfade als Konstante sind effektiv zwei Doppel Backslashes zu verwenden! Solange die Pfadeingabe vom Benutzer selbst kommt, macht das keine Probleme. Wenn aber aus dem Programm heraus Dateipfade erzeugt werden müssen, dann müssen Sie auf diese Details acht geben. Das richtige Zeichen zum trennen von Verzeichnissen in einer Pfadangabe findet sich in der Konstanten File.separator. Damit lässt sich einen Pfad OS unabhängig erstellen: </p>
+<p><code>File datei = new File(File.separator + "home" </code><br><code>    + File.separator + "user"</code><br><code>    + File.separator + "text.txt");</code></p>
+<p>Unter Unix-basierten Systemen funktioniert dieser Code. Unter Windows bleibt das Problem mit dem Laufwerksbuchstaben. Dazu kann unabhängig vom OS, alle Wurzelverzeichnisse aufgelistet werden. Dazu kennt File die statische Methode listRoots. So lässt sich ein OS unabhängiger Code schreiben:</p>
+<p><code>public File waehleWurzel(){</code><br><code>    File[] wurzeln = File.listRoots();</code><br><code>    if (wurzeln.length == 1){</code><br><code>        return wurzeln[0];</code><br><code>    } else {</code><br><code>        System. out.println("Bitte wählen Sie eine Wurzel");</code><br><code>        for (int i = 0; i &lt; wurzeln.length; i++){</code><br><code>            System.out.println(i + ": " + wurzeln[i]);</code><br><code>        }</code><br><code>        int index = liesZahl();</code><br><code>        return wurzeln[index];</code><br><code>    }</code><br><code>}</code></p>
+<p>Doch das reicht immer noch nicht ganz, denn unter Windows kann es hier mehrere Einträge geben, je nachdem wieviele Laufwerke vorhanden sind (C:\, D:\ ...). In diesem Fall wird der Benutzer geben, ein Laufwerk auszuwählen. Anschliessend kann ein neues File-Objekt relativ zur ausgewählten Wurzel erzeugt werden, indem dies dem Konstruktor angegeben wird:</p>
+<p><code>File wurzel = waehleWurzel();</code><br><code>File datei = new File(wurzel, "home"</code><br><code> + File.separator + "user"</code><br><code> + File.separator + "text.txt");</code></p>
+<p>Ob eine Datei überhaupt existiert kann mit der Methode exists überprüft werden. Da ein File lediglich die objektorientierte Repräsentation eines Pfades ist, kann man Files erzeugen, ohne das diese Dateien bereits existieren. Falls keine Datei existiert kann eine neue Datei mit createNewFile oder mit mkdir ein Verzeichnis an der vom Pfad angegebenen Stelle angelegt werden. File liefert weitere Informationen über Dateien:</p>
+<table style="border-collapse: collapse; width: 100%; height: 525.297px;" border="1">
+<tbody>
+<tr style="height: 50.3594px;">
+<td style="width: 49.9288%; height: 50.3594px;"><strong>Methode</strong></td>
+<td style="width: 49.9288%; height: 50.3594px;"><strong>Funktion</strong></td>
+</tr>
+<tr style="height: 107.953px;">
+<td style="width: 49.9288%; height: 107.953px;">isFile()</td>
+<td style="width: 49.9288%; height: 107.953px;">Prüft, ob es sich bei der angegebenen File-Objekt um eine Datei handelt, (oder einen Ordner)</td>
+</tr>
+<tr style="height: 107.953px;">
+<td style="width: 49.9288%; height: 107.953px;">isDirectory()</td>
+<td style="width: 49.9288%; height: 107.953px;">Prüft, ob es sich bei der angegebenen File-Objekt um einen Ordner handelt, (oder eine Datei)</td>
+</tr>
+<tr style="height: 50.3594px;">
+<td style="width: 49.9288%; height: 50.3594px;">canRead()</td>
+<td style="width: 49.9288%; height: 50.3594px;">Prüft, ob der Benutzer Leserechte hat</td>
+</tr>
+<tr style="height: 79.1562px;">
+<td style="width: 49.9288%; height: 79.1562px;">canWrite()</td>
+<td style="width: 49.9288%; height: 79.1562px;">Prüft, ob der Benutzer Schreibrechte hat</td>
+</tr>
+<tr>
+<td style="width: 49.9288%;">canExectue()</td>
+<td style="width: 49.9288%;">Prüft, ob der Benutzer Ausführungsrechte hat</td>
+</tr>
+<tr style="height: 79.1562px;">
+<td style="width: 49.9288%; height: 79.1562px;">getName()</td>
+<td style="width: 49.9288%; height: 79.1562px;">Liefert den Namen der Datei, ohne vorangehende Pfadangabe</td>
+</tr>
+<tr style="height: 50.3594px;">
+<td style="width: 49.9288%; height: 50.3594px;">getParent()<br>getParentFile()</td>
+<td style="width: 49.9288%; height: 50.3594px;">Liefert das übergeordnete Verzeichnis, entweder als String mit getParent oder als Objekt mit getParentFile</td>
+</tr>
+<tr>
+<td style="width: 49.9288%;">lastModified()</td>
+<td style="width: 49.9288%;">Liefert das letzte Änderungsdatum der Datei als long</td>
+</tr>
+<tr>
+<td style="width: 49.9288%;">length()</td>
+<td style="width: 49.9288%;">Liefert die Grösse der Datei in Byte als long</td>
+</tr>
+<tr>
+<td style="width: 49.9288%;">delete</td>
+<td style="width: 49.9288%;">eine Datei löschen</td>
+</tr>
+<tr>
+<td style="width: 49.9288%;">renameTo</td>
+<td style="width: 49.9288%;">eine Datei umbenennen</td>
+</tr>
+</tbody>
+</table>
+<p>java.io.File stellt jedoch keine Methoden zur Verfügung für das Kopieren oder verschieben von Dateien. Dazu gibt es aber seit Java 7 eine Hilfsklasse aus Files.</p>
+<h3>Dateioperationen aus "Files"</h3>
+<p>Die Klasse Files ist eine Sammlung von Hilfsmethoden für alles, was mit Dateien zu tun hat. Diese Klasse ist aber nicht im java.io-Package enthalten, sondern nur im java.nio.files. Damit ist es die einzige Klasse aus der Non-Blocking-I/O-API, die man auch beim alltäglichen Umgang mit Dateien regelmässig benutzt.</p>
+<p>Da die Hilfsklasse zu der API java.nio.file.Path gehört und nicht zur java.io.File müssen bei jeder Operation die Parameter von File nach Path und die Rückgabewerte, falls Dateien zurückgegeben werden, wieder von Path nach File konvertiert werden. Dabei lassen sich nicht alle Path-Objekte nach File konvertieren, nur solche welche aus einer Operation auf einem File resultieren. Damit sind auch Kopier- und Verschiebeoperationen möglich. Die Verwendung dieser Methode macht mehr Sinn, als eine Eigenentwicklung in Java, da dies nicht nur praktischer ist, sondern auch effizienter die JDL Systemaufrufe verwenden kann.</p>
+            ]]>
+        </content>
+    </entry>
     <entry>
         <title>Stream.collect - Daten aus einem Stream sammeln</title>
         <author>
@@ -514,37 +608,6 @@
                 <p>Eine Methode kann einen typisierten Parameter erzwingen und einen typisierten Wert zurückgeben:</p>
 <p><code>public List&lt;Integer&gt; parseAlleInts(List&lt;String&gt; strings){        </code><br><code>    List&lt;Integer&gt; ergebnis = new ArrayList&lt;&gt;();</code><br><code>    for (String s : strings){</code><br><code>        ergebnis.add(Integer.parseInt(s));</code><br><code>    }</code><br><code>    return ergebnis;</code><br><code>}</code></p>
 <p>So ist es möglich eine Liste von Strings als Paramter in eine Liste von Zahlen (Integern) umzuwandeln.</p>
-            ]]>
-        </content>
-    </entry>
-    <entry>
-        <title>Java Collection Iteratoren</title>
-        <author>
-            <name>Finecloud</name>
-        </author>
-        <link href="https://www.finecloud.ch/java-collection-iteratoren.html"/>
-        <id>https://www.finecloud.ch/java-collection-iteratoren.html</id>
-            <category term="softwareentwicklung"/>
-            <category term="java"/>
-            <category term="dev"/>
-            <category term="collectioniterator"/>
-            <category term="collection"/>
-            <category term="array"/>
-
-        <updated>2022-05-26T14:18:44+02:00</updated>
-            <summary>
-                <![CDATA[
-                    Diese Collection Methode kann dazu verwendet werden, über alle Werte einer Collection zu iterieren: die Methode iterator, gibt ein Objekt vom Typ Iterator zurück. Mit der Methode hasNext wird geprüft, ob es noch ein weiteres Element in der Collection gibt, next gibt das nächste Element&hellip;
-                ]]>
-            </summary>
-        <content type="html">
-            <![CDATA[
-                <p>Diese Collection Methode kann dazu verwendet werden, über alle Werte einer Collection zu iterieren: die Methode <em>iterator</em>, gibt ein Objekt vom Typ <em>Iterator</em> zurück.</p>
-<p>Mit der Methode <em>hasNext</em> wird geprüft, ob es noch ein weiteres Element in der Collection gibt, <em>next</em> gibt das nächste Element zurück:</p>
-<p><code>List&lt;Book&gt; books = …;</code><br><code>Iterator&lt;Book&gt; it = books.iterator();</code><br><code>while (it.hasNext){</code><br><code>    Book book = it.next();</code><br><code>    …</code><br><code>}</code></p>
-<p>Seit Java 5 und der Einführung der for-each-Schleife ist es nur noch selten nötig, selbst mit dem Interator zu arbeiten. Ein wesentlicher Vorteil ist, dass es keine Sprachkonstrukte, sondern Objekte sind und können als solche in Feldern gespeichert und als Parameter an Methoden übergeben und aus Methoden zurückgegeben werden. Beispielsweise kann damit ein einzelnen Element ausgelesen werden und zu einem späteren Zeitpunkt an derselben Stelle fortgesetzt werden:</p>
-<p><code>public boolean spieleHoerbuch(Iterator&lt;Book&gt; books, int zeit) {</code><br><code>    int gesamtzeit = 0;</code><br><code>    while (gesamtzeit &lt; zeit) {</code><br><code>        if (books.hasNext()) {</code><br><code>            Book book = books.next();</code><br><code>            gesamtzeit += book.getLaenge();</code><br><code>            spieleBook(book);</code><br><code>        } else {</code><br><code>            return false;</code><br><code>        }</code><br><code>    }</code><br><code>    return books.hasNext();</code><br><code>}</code></p>
-<p>In diesem Beispiel werden solange Hörbücher abgespielt, bis eine Gesamtzeit erreicht ist, dann wird das aktuelle Hörbuch zu ende gespielt. Wenn Sie die Methode das nächste Mal aktivieren, dann übergeben Sie denselben Iterator und es geht mit dem nächsten Hörbuch weiter.</p>
             ]]>
         </content>
     </entry>

@@ -3,7 +3,7 @@
     <title>Finecloud</title>
     <link href="https://www.finecloud.ch/feed.xml" rel="self" />
     <link href="https://www.finecloud.ch" />
-    <updated>2022-06-04T18:35:45+02:00</updated>
+    <updated>2022-06-04T18:36:49+02:00</updated>
     <author>
         <name>Finecloud</name>
     </author>
@@ -25,7 +25,7 @@
             <category term="dev"/>
             <category term="dateien"/>
 
-        <updated>2022-06-04T18:35:45+02:00</updated>
+        <updated>2022-06-04T18:36:49+02:00</updated>
             <summary>
                 <![CDATA[
                     Dateioperationen mit java.io werden in Java immer, direkt oder indirekt, durch ein Objekt des Typs java.io.File abgebildet. Dabei kann File aber nicht selbst aus Dateien lesen, oder in sie schreiben, dazu benötigt man einen Reader oder Writer (für Textdateien) resp. einen InputStream oder OutputStream (für&hellip;
@@ -100,6 +100,7 @@
 <h3>Dateioperationen aus "Files"</h3>
 <p>Die Klasse Files ist eine Sammlung von Hilfsmethoden für alles, was mit Dateien zu tun hat. Diese Klasse ist aber nicht im java.io-Package enthalten, sondern nur im java.nio.files. Damit ist es die einzige Klasse aus der Non-Blocking-I/O-API, die man auch beim alltäglichen Umgang mit Dateien regelmässig benutzt.</p>
 <p>Da die Hilfsklasse zu der API java.nio.file.Path gehört und nicht zur java.io.File müssen bei jeder Operation die Parameter von File nach Path und die Rückgabewerte, falls Dateien zurückgegeben werden, wieder von Path nach File konvertiert werden. Dabei lassen sich nicht alle Path-Objekte nach File konvertieren, nur solche welche aus einer Operation auf einem File resultieren. Damit sind auch Kopier- und Verschiebeoperationen möglich. Die Verwendung dieser Methode macht mehr Sinn, als eine Eigenentwicklung in Java, da dies nicht nur praktischer ist, sondern auch effizienter die JDL Systemaufrufe verwenden kann.</p>
+<p><code>//File nach Path konvertieren</code><br><code>Path quellPath = quelle.toPath();</code><br><code>Path zielPath = ziel.toPath();</code><br><code>//ENTWEDER Datei kopieren</code><br><code>Path ergebnisPath = Files.copy(quellPath, zielPath);</code><br><code>//ODER Datei verschieben</code><br><code>Path ergebnisPath = Files.move(quellPath, zielPath);</code><br><code>//Ergebnis - eigentlich wieder das Ziel - nach File konvertieren</code><br><code>File ergebnis = ergebnisPath.toFile();</code></p>
             ]]>
         </content>
     </entry>

@@ -3,7 +3,7 @@
     <title>Finecloud</title>
     <link href="https://www.finecloud.ch/feed.xml" rel="self" />
     <link href="https://www.finecloud.ch" />
-    <updated>2022-06-04T18:36:49+02:00</updated>
+    <updated>2022-06-05T20:19:25+02:00</updated>
     <author>
         <name>Finecloud</name>
     </author>
@@ -25,7 +25,7 @@
             <category term="dev"/>
             <category term="dateien"/>
 
-        <updated>2022-06-04T18:36:49+02:00</updated>
+        <updated>2022-06-05T20:19:25+02:00</updated>
             <summary>
                 <![CDATA[
                     Dateioperationen mit java.io werden in Java immer, direkt oder indirekt, durch ein Objekt des Typs java.io.File abgebildet. Dabei kann File aber nicht selbst aus Dateien lesen, oder in sie schreiben, dazu benötigt man einen Reader oder Writer (für Textdateien) resp. einen InputStream oder OutputStream (für&hellip;
@@ -101,6 +101,13 @@
 <p>Die Klasse Files ist eine Sammlung von Hilfsmethoden für alles, was mit Dateien zu tun hat. Diese Klasse ist aber nicht im java.io-Package enthalten, sondern nur im java.nio.files. Damit ist es die einzige Klasse aus der Non-Blocking-I/O-API, die man auch beim alltäglichen Umgang mit Dateien regelmässig benutzt.</p>
 <p>Da die Hilfsklasse zu der API java.nio.file.Path gehört und nicht zur java.io.File müssen bei jeder Operation die Parameter von File nach Path und die Rückgabewerte, falls Dateien zurückgegeben werden, wieder von Path nach File konvertiert werden. Dabei lassen sich nicht alle Path-Objekte nach File konvertieren, nur solche welche aus einer Operation auf einem File resultieren. Damit sind auch Kopier- und Verschiebeoperationen möglich. Die Verwendung dieser Methode macht mehr Sinn, als eine Eigenentwicklung in Java, da dies nicht nur praktischer ist, sondern auch effizienter die JDL Systemaufrufe verwenden kann.</p>
 <p><code>//File nach Path konvertieren</code><br><code>Path quellPath = quelle.toPath();</code><br><code>Path zielPath = ziel.toPath();</code><br><code>//ENTWEDER Datei kopieren</code><br><code>Path ergebnisPath = Files.copy(quellPath, zielPath);</code><br><code>//ODER Datei verschieben</code><br><code>Path ergebnisPath = Files.move(quellPath, zielPath);</code><br><code>//Ergebnis - eigentlich wieder das Ziel - nach File konvertieren</code><br><code>File ergebnis = ergebnisPath.toFile();</code></p>
+<h3>Verzeichnisse</h3>
+<p>Um den Inhalt von Verzeichnissen zu ermitteln, gibt es die überladene Methode listFiles die zur Files Klasse gehört. Ohne Parameter gibt sie alle im Verzeichnis enthaltenen Dateien zurück. Wenn man nur an bestimmten Dateien interessiert ist, dann sollte man entweder einen FileFilter oder einen FilenameFilter an listFiles übergeben. Die beiden Filterklassen unterscheiden sich nur darin, dass FileFilter das File-Objekt der gefundenen Datei zur Prüfung erhält, FilenameFilter den Dateinamen als String und das aktuelle Verzeichnis. Beide Filter sind funktionale Interfaces und können deshalb auch als Lambdas angegeben werden.</p>
+<p><code>//Alle Dateien auflisten</code><br><code>File[] alleDateien = verzeichnis.listFiles();</code><br><code>//Alle Dateien mit der Endung .txt auflisten </code><br><code>File[] textDateien = verzeichnis.listFiles((parent, name) -&gt; </code><br><code> name.endsWith(".txt"));</code><br><code>//Alle Unterverzeichnisse auflisten</code><br><code>File[] unterverzeichnisse = verzeichnis.listFiles(file -&gt; </code><br><code> file.isDirectory());</code></p>
+<p>Auch zum Auflisten des Verzeichnisinhalts hat die Klasse Files Hilfsmethoden. list gibt dabei den Inhalt eines Verzeichnisses als einen Stream von Path-Objekten zurück. walk, listet nicht nur den Inhalt des übergebenen Verzeichnisses auf, sondern auch aller Unterverzeichnisse, ist also rekursiv.</p>
+<p><code>Files.walk(quelle.toPath()).forEach(System.out::println);</code></p>
+<p>Optional kann die Tiefe der rekursiven Auflistung limitiert werden bis zu einer bestimmten Tiefe. walk(quelle, 1) enthält nur den Inhalt des Verzeichnisses selbst, tut also dasselbe wie list. walk(quelle, 2) enthält den Inhalt der Verzeichnisses und seiner direkten Unterverzeichnisse usw.</p>
+<p>Weiter kann mit Files.find in einem Verzeichnis und dessen Unterverzeichnisse nach Dateien gesucht werden, die bestimmten Vorgaben entsprechen. Leider ist auch hier dass java.io und java.nio nicht aus einem Guss. So muss man also die Suchkriterien nicht als FileFilter angeben, sondern als BiPredicate, das als Parameter des Path-Objekt der Datei und ein Objekt vom Typ BasicFileAttributes erhält, in dem sich Informationen wie Dateigrösse und letzte Zugriffszeit finden. Das Beispiel zeigt, wie man Dateien, die grösser als 500MB sind, auflisten kann. Der grosse Nachteil von walk und find ist, dass wenn der Zugriff auf ein Verzeichnis nicht möglich ist, brechen sie mit einer Fehlermeldung ab. Es gibt keine Funktion, diesen Methoden beizubringen, bei unlesbaren Verzeichnissen einfach den Fehler zu ignorieren und weiter zu suchen. Deswegen wird häufig dennoch auf File.listFiles zurückgegriffen.</p>
             ]]>
         </content>
     </entry>

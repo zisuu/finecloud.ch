@@ -3,7 +3,7 @@
     <title>Finecloud</title>
     <link href="https://www.finecloud.ch/feed.xml" rel="self" />
     <link href="https://www.finecloud.ch" />
-    <updated>2022-06-06T22:45:58+02:00</updated>
+    <updated>2022-06-06T23:15:28+02:00</updated>
     <author>
         <name>Finecloud</name>
     </author>
@@ -68,7 +68,7 @@
             <category term="dateien"/>
             <category term="bufferedwriter"/>
 
-        <updated>2022-06-06T13:08:14+02:00</updated>
+        <updated>2022-06-06T23:12:59+02:00</updated>
             <summary>
                 <![CDATA[
                     Lese und Schreiboperationen an Dateien sind in Java streambasiert. Diese Streams haben aber nichts mit der Stream-API zu tun. Streambasierte I/O bedeutet, dass nicht alle Dateien im Speicher behalten werden müssen, damit man mit ihnen Arbeiten kann. Man muss also nicht den gesamten Dateiinhalt lesen,&hellip;
@@ -76,9 +76,17 @@
             </summary>
         <content type="html">
             <![CDATA[
-                <p>Lese und Schreiboperationen an Dateien sind in Java streambasiert. Diese Streams haben aber nichts mit der Stream-API zu tun. Streambasierte I/O bedeutet, dass nicht alle Dateien im Speicher behalten werden müssen, damit man mit ihnen Arbeiten kann. Man muss also nicht den gesamten Dateiinhalt lesen, bevor man ihn verarbeiten kann. Folglich muss man bei einer Netzwerkverbindung nicht darauf warte, dass alle Daten eingegangen sind, stattdessen kann man die Daten Stück für Stück aus einem <em>InputStream</em> lesen und verarbeiten. Im Idealfall kann das gerade eingelesene Datenstück bereits wieder aus dem Speicher entfernt werden, bevor das nächste Datenstück gelesen wird. Genau so können auch Datenstücke in einen OutputStream bereits geschrieben werden sobald diese zur Verfügung stehen und muss nicht zuerst gewartet werden, bis alle Daten bereit sind.</p>
+                <div class="post__toc">
+<h3>Table of Contents</h3>
+<ul>
+<li><a href="#mcetoc_1g4tdq62j5mq">Lesen und Schreiben von Textdaten</a></li>
+<li><a href="#mcetoc_1g4tdq62j5mr">Puffern und zeilenweise lesen</a></li>
+<li><a href="#mcetoc_1g4tdq62j5ms">Schreiben mit Writer</a></li>
+</ul>
+</div>
+<p>Lese und Schreiboperationen an Dateien sind in Java streambasiert. Diese Streams haben aber nichts mit der Stream-API zu tun. Streambasierte I/O bedeutet, dass nicht alle Dateien im Speicher behalten werden müssen, damit man mit ihnen Arbeiten kann. Man muss also nicht den gesamten Dateiinhalt lesen, bevor man ihn verarbeiten kann. Folglich muss man bei einer Netzwerkverbindung nicht darauf warte, dass alle Daten eingegangen sind, stattdessen kann man die Daten Stück für Stück aus einem <em>InputStream</em> lesen und verarbeiten. Im Idealfall kann das gerade eingelesene Datenstück bereits wieder aus dem Speicher entfernt werden, bevor das nächste Datenstück gelesen wird. Genau so können auch Datenstücke in einen OutputStream bereits geschrieben werden sobald diese zur Verfügung stehen und muss nicht zuerst gewartet werden, bis alle Daten bereit sind.</p>
 <p>Java macht einen Unterschied ob, mit Textdaten oder mit Binärdaten gearbeitet wird. Textdaten werden mit einem <em>Reader</em> gelesen und mit einem <em>Writer</em> geschrieben, für Binärdaten gibt es dafür <em>InputStream</em> und <em>OutputStream</em>.</p>
-<h3>Lesen und Schreiben von Textdaten</h3>
+<h3 id="mcetoc_1g4tdq62j5mq">Lesen und Schreiben von Textdaten</h3>
 <p>Folgender Code liest Daten zeilenweise ein:</p>
 <p><code>try (BufferedReader reader = new BufferedReader(new FileReader(dateiname))){</code><br><code>    …</code><br><code>}</code></p>
 <p>Das ist bereits eine spezialisierte Funktion, die nur BufferedReader bietet. Andere Reader, zum Beispiel der <em>FileReader</em>, wissen nichts von Zeilen, sie arbeiten nur mit Zeichen. Dazu bietet <em>Reader</em> eine parameterlose Methode read, die genau ein Zeichen liest. Das ist zwar die für den Entwickler einfachste Variante, sie ist aber auch äusserst ineffektiv. Der komplexere, aber bessere Weg, aus einem <em>Reader</em> zu lesen, ist ein char[] als Puffer zu benutzen:</p>
@@ -89,13 +97,13 @@
 <p><code>public void liesAusDatei(File quelle) throws IOException{</code><br><code>    Reader reader = null;</code><br><code>    try {</code><br><code>        reader =  new BufferedReader(new FileReader(quelle));</code><br><code>        //Daten lesen und verarbeiten</code><br><code>    } finally {</code><br><code>        if (reader != null){</code><br><code>            reader.close();</code><br><code>        }</code><br><code>    }</code><br><code>}</code></p>
 <p>Dieser Code ist etwas unhandlicher und hat zwei Unschönheiten. Die Reader-Variable muss ausserhalb des try-Blocks deklariert werden, da try und Finally keinen gemeinsamen Scope haben. Ausserdem muss im finally-Block geprüft werden, ob der Reader nicht null ist. Das kann passieren, wenn schon beim Erzeugen des Readers eine Exception auftritt, weil Beispielsweise die Datei nicht existiert. In diesem Fall gibt es keinen Reader, der geschlossen werden kann, und ohne die entsprechende Prüfung käme es zu einer weiteren NullPointerException.</p>
 <p>Ein weiteres Problem ist, dass auch reader.close eine IOException werfen kann. Im Beispiel werden innerhalb der Methode liesAusDatei keine Fehler behandelt, alle Fehler werden an den Aufrufer weitergereicht. Im schlimmsten Fall kann es so passieren, dass sowohl im try- als auch im finally-Block Fehler geworfen werden. Der Aufrufer erhält dann nur die Exception aus dem finally-Block, obwohl sie wahrscheinlich nur eine Konsequenz der Exception aus dem try-Block ist. <strong>Das untere Code-Beispiel ist also länger, komplexer und fehleranfälliger. Es gibt somit keinen Grund, diese Variante zu bevorzugen, wenn die Java-Version try-with-resources unterstützt.</strong></p>
-<h3>Puffern und zeilenweise lesen</h3>
+<h3 id="mcetoc_1g4tdq62j5mr">Puffern und zeilenweise lesen</h3>
 <p>Das Puffern der Daten in einem char[] kann man sich theoretisch sparen, wenn man einen BufferedReader einsetzt. Dessen Hauptaufgabe ist es, zu verhindern, dass Daten Byte für Byte von der Festplatte gelesen werden. Dazu liest er immer einen Puffer voll Daten ein, genau wie im oberen Beispiel. Nachfolgende read-Aufrufe werden dann aus dem Puffer bedient, solange dieser noch genügend Daten enthält, erst danach wird wieder auf die Festplatte zugegriffen.</p>
 <p>Als Nebeneffekt seines Puffers hat der BufferedReader aber eine weitere nützliche Fähigkeit: Er kann Textdateien zeilenweise lesen. BufferedReader bietet sowohl die Methode readLine, die die nächste Zeile der Datei liefert, als auf die Methode lines, die alle Zeilen der Datei in einem Stream liefert. Wenn der Inhalt der Datei zeilenorientiert ist, dann ist das viel praktischer, als Daten Zeichen für Zeichen oder Puffer für Puffer einzulesen und selbst nach den Umbrüchen zu suchen.</p>
 <p>Eine BufferedReader lässt sich aus jedem anderen Reader erzeugen, indem man diesen als parameter an den Konstruktor von BufferedReader übergibt:</p>
 <p><code>try (BufferedReader reader = new BufferedReader(new FileReader(quelle))) {</code><br><code>    String zeile;</code><br><code>    while ((zeile = reader.readLine()) != null){</code><br><code>        verarbeiteZeile(zeile);</code><br><code>    }</code><br><code>}</code></p>
 <p>Der zugrunde liegende FileReader wird in einem BufferReader verpackt, um die Fähigkeit zu puffern und zeilenweise zu lesen hinzuzufügen. Das ist eine Anwendung des Decorator-Entwurfsmusters, das für Ein- und Ausgabe in Java extensiv zum Einsatz kommt. Man muss in diesem Fall nur den BufferedReader schliessen, dessen close-Methode ruft automatisch die close-Methode des dekorierten Readers auf.</p>
-<h3>Schreiben mit Writer</h3>
+<h3 id="mcetoc_1g4tdq62j5ms">Schreiben mit Writer</h3>
 <p>Das Schreiben in eine Date funktioniert fast genau so wie das Lesen aus einer Datei. Man erzeugt ein FileWriter-Objekt, dekoriert es noch mit einem BufferedWriter, schreibt Daten hinein und schliesst den Writer wieder:</p>
 <p><code>try (BufferedWriter writer = new BufferedWriter(new FileWriter(ziel))) {</code><br><code>    for (String zeile : zeilen){</code><br><code>        writer.write(zeile);</code><br><code>        writer.newLine();</code><br><code>    }</code><br><code>}</code></p>
 <p>So schreibt man eine Datei Zeile für Zeile. Writer sind in vielerlei Hinsicht das Spiegelbild von Readern. Sie besitzen eine Methode, die einzelne char-Werte schreibt und eine Methode, die ein ganzes char[] schreibt - man kann einen Schreibpuffer erzeugen, indem man seinen Writer mit einem BufferedWriter dekoriert und auch den Writer in diesem Fall schliesst, wenn man damit fertig ist. Writer selbst kennen das Konzept der Zeile ebenfalls nicht. Wenn man zeilenweise schreiben möchte, dann ist der beste Weg, einen BufferedWriter und seine Methode newLine zu verwenden, um an Ende jeder Zeile einen Umbruch zu erzeugen.</p>
@@ -120,7 +128,7 @@
             <category term="dev"/>
             <category term="dateien"/>
 
-        <updated>2022-06-05T20:19:25+02:00</updated>
+        <updated>2022-06-06T23:13:08+02:00</updated>
             <summary>
                 <![CDATA[
                     Dateioperationen mit java.io werden in Java immer, direkt oder indirekt, durch ein Objekt des Typs java.io.File abgebildet. Dabei kann File aber nicht selbst aus Dateien lesen, oder in sie schreiben, dazu benötigt man einen Reader oder Writer (für Textdateien) resp. einen InputStream oder OutputStream (für&hellip;
@@ -128,8 +136,16 @@
             </summary>
         <content type="html">
             <![CDATA[
-                <p>Dateioperationen mit java.io werden in Java immer, direkt oder indirekt, durch ein Objekt des Typs java.io.File abgebildet. Dabei kann File aber nicht selbst aus Dateien lesen, oder in sie schreiben, dazu benötigt man einen Reader oder Writer (für Textdateien) resp. einen InputStream oder OutputStream (für Binärdateien).</p>
-<h3>Dateien und Pfade</h3>
+                <div class="post__toc">
+<h3>Table of Contents</h3>
+<ul>
+<li><a href="#mcetoc_1g4tdqg1s5n6">Dateien und Pfade</a></li>
+<li><a href="#mcetoc_1g4tdqg1s5n7">Dateioperationen aus "Files"</a></li>
+<li><a href="#mcetoc_1g4tdqg1s5n8">Verzeichnisse</a></li>
+</ul>
+</div>
+<p>Dateioperationen mit java.io werden in Java immer, direkt oder indirekt, durch ein Objekt des Typs java.io.File abgebildet. Dabei kann File aber nicht selbst aus Dateien lesen, oder in sie schreiben, dazu benötigt man einen Reader oder Writer (für Textdateien) resp. einen InputStream oder OutputStream (für Binärdateien).</p>
+<h3 id="mcetoc_1g4tdqg1s5n6">Dateien und Pfade</h3>
 <p>Ein File wird immer aus einer Pfadangabe, entweder <em>absolut</em> oder <em>relativ</em> erzeugt. Absolut geht von einem Wurzelverzeichnis aus, zum Beispiel C:\ unter Windows, oder / unter Linux. Ein relativer Pfad bezieht sich dagegen auf das aktuelle Verzeichnis des Benutzers, normalerweise von dort aus woher das Programm aufgerufen wurde. Wenn die Datei unter dem angegebenen Pfad nicht existiert, wird auch keine entsprechende Datei unter dem definierten Pfad angelegt:</p>
 <p><code>File windowsDatei = new File("C:\\home\\user\\text.txt");</code><br><code>File linuxDatei = new File("/home/user/text.txt");</code></p>
 <p>Pfade werden also je nach OS unterschiedlich angegeben. Für Windows Pfade als Konstante sind effektiv zwei Doppel Backslashes zu verwenden! Solange die Pfadeingabe vom Benutzer selbst kommt, macht das keine Probleme. Wenn aber aus dem Programm heraus Dateipfade erzeugt werden müssen, dann müssen Sie auf diese Details acht geben. Das richtige Zeichen zum trennen von Verzeichnissen in einer Pfadangabe findet sich in der Konstanten File.separator. Damit lässt sich einen Pfad OS unabhängig erstellen: </p>
@@ -192,11 +208,11 @@
 </tbody>
 </table>
 <p>java.io.File stellt jedoch keine Methoden zur Verfügung für das Kopieren oder verschieben von Dateien. Dazu gibt es aber seit Java 7 eine Hilfsklasse aus Files.</p>
-<h3>Dateioperationen aus "Files"</h3>
+<h3 id="mcetoc_1g4tdqg1s5n7">Dateioperationen aus "Files"</h3>
 <p>Die Klasse Files ist eine Sammlung von Hilfsmethoden für alles, was mit Dateien zu tun hat. Diese Klasse ist aber nicht im java.io-Package enthalten, sondern nur im java.nio.files. Damit ist es die einzige Klasse aus der Non-Blocking-I/O-API, die man auch beim alltäglichen Umgang mit Dateien regelmässig benutzt.</p>
 <p>Da die Hilfsklasse zu der API java.nio.file.Path gehört und nicht zur java.io.File müssen bei jeder Operation die Parameter von File nach Path und die Rückgabewerte, falls Dateien zurückgegeben werden, wieder von Path nach File konvertiert werden. Dabei lassen sich nicht alle Path-Objekte nach File konvertieren, nur solche welche aus einer Operation auf einem File resultieren. Damit sind auch Kopier- und Verschiebeoperationen möglich. Die Verwendung dieser Methode macht mehr Sinn, als eine Eigenentwicklung in Java, da dies nicht nur praktischer ist, sondern auch effizienter die JDL Systemaufrufe verwenden kann.</p>
 <p><code>//File nach Path konvertieren</code><br><code>Path quellPath = quelle.toPath();</code><br><code>Path zielPath = ziel.toPath();</code><br><code>//ENTWEDER Datei kopieren</code><br><code>Path ergebnisPath = Files.copy(quellPath, zielPath);</code><br><code>//ODER Datei verschieben</code><br><code>Path ergebnisPath = Files.move(quellPath, zielPath);</code><br><code>//Ergebnis - eigentlich wieder das Ziel - nach File konvertieren</code><br><code>File ergebnis = ergebnisPath.toFile();</code></p>
-<h3>Verzeichnisse</h3>
+<h3 id="mcetoc_1g4tdqg1s5n8">Verzeichnisse</h3>
 <p>Um den Inhalt von Verzeichnissen zu ermitteln, gibt es die überladene Methode listFiles die zur Files Klasse gehört. Ohne Parameter gibt sie alle im Verzeichnis enthaltenen Dateien zurück. Wenn man nur an bestimmten Dateien interessiert ist, dann sollte man entweder einen FileFilter oder einen FilenameFilter an listFiles übergeben. Die beiden Filterklassen unterscheiden sich nur darin, dass FileFilter das File-Objekt der gefundenen Datei zur Prüfung erhält, FilenameFilter den Dateinamen als String und das aktuelle Verzeichnis. Beide Filter sind funktionale Interfaces und können deshalb auch als Lambdas angegeben werden.</p>
 <p><code>//Alle Dateien auflisten</code><br><code>File[] alleDateien = verzeichnis.listFiles();</code><br><code>//Alle Dateien mit der Endung .txt auflisten </code><br><code>File[] textDateien = verzeichnis.listFiles((parent, name) -&gt; </code><br><code> name.endsWith(".txt"));</code><br><code>//Alle Unterverzeichnisse auflisten</code><br><code>File[] unterverzeichnisse = verzeichnis.listFiles(file -&gt; </code><br><code> file.isDirectory());</code></p>
 <p>Auch zum Auflisten des Verzeichnisinhalts hat die Klasse Files Hilfsmethoden. list gibt dabei den Inhalt eines Verzeichnisses als einen Stream von Path-Objekten zurück. walk, listet nicht nur den Inhalt des übergebenen Verzeichnisses auf, sondern auch aller Unterverzeichnisse, ist also rekursiv.</p>
@@ -356,7 +372,7 @@
             <category term="java"/>
             <category term="dev"/>
 
-        <updated>2022-06-01T14:35:56+02:00</updated>
+        <updated>2022-06-06T23:14:49+02:00</updated>
             <summary>
                 <![CDATA[
                     Das konsequente Fluent Interface der Stream-API macht es möglich, mit einem Blick zu erkennen was durch einen Lambda-Ausdruck in jeder einzelnen Zeile geschieht. Mit diesem Beispiel werden alle Vielfachen von 3 zwischen 0 und 100 ausgegeben: IntStream.range(0, 100) .filter(i -&gt; i % 3 == 0)&hellip;
@@ -364,13 +380,38 @@
             </summary>
         <content type="html">
             <![CDATA[
-                <p>Das konsequente Fluent Interface der Stream-API macht es möglich, mit einem Blick zu erkennen was durch einen Lambda-Ausdruck in jeder einzelnen Zeile geschieht. Mit diesem Beispiel werden alle Vielfachen von 3 zwischen 0 und 100 ausgegeben:</p>
+                <div class="post__toc">
+<h3>Table of Contents</h3>
+<ul>
+<li><a href="#mcetoc_1g4tdrc035oj">Intermediäre und terminale Methoden</a></li>
+<li><a href="#mcetoc_1g4tdrc035ok">Intermediäre Operatoren</a>
+<ul>
+<li><a href="#mcetoc_1g4tdrc035ol">Sortieren (sort)</a></li>
+<li><a href="#mcetoc_1g4tdrc035om">Limitieren (limit)</a></li>
+<li><a href="#mcetoc_1g4tdrc035on">Überspringen (skip)</a></li>
+<li><a href="#mcetoc_1g4tdrc035oo">Filtern (filter)</a></li>
+<li><a href="#mcetoc_1g4tdrc035op">Einmaligkeit (distinct)</a></li>
+<li><a href="#mcetoc_1g4tdrc035oq">Abbilden</a></li>
+<li><a href="#mcetoc_1g4tdrc035or">Spicken (peek)</a></li>
+</ul>
+</li>
+<li><a href="#mcetoc_1g4tdrc035os">Terminale Operatoren</a>
+<ul>
+<li><a href="#mcetoc_1g4tdrc035ot">Alle Elemente verarbeiten</a></li>
+<li><a href="#mcetoc_1g4tdrc035ou">Finden</a></li>
+<li><a href="#mcetoc_1g4tdrc035ov">Prüfen</a></li>
+<li><a href="#mcetoc_1g4tdrc035p0">Reduzieren</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<p>Das konsequente Fluent Interface der Stream-API macht es möglich, mit einem Blick zu erkennen was durch einen Lambda-Ausdruck in jeder einzelnen Zeile geschieht. Mit diesem Beispiel werden alle Vielfachen von 3 zwischen 0 und 100 ausgegeben:</p>
 <p><code>IntStream.range(0, 100)</code><br><code>        .filter(i -&gt; i % 3 == 0)</code><br><code>        .forEach(System.out::println);</code></p>
 <p>Richtig praktisch werden solche Lambda und Streams beim lesen von Dateiinhalten:</p>
 <p><code>BufferedReader danksagung = new BufferedReader(new FileReader("ebook.txt"))</code><br><code>danksagung.lines()</code><br><code>        .filter(line -&gt; line.toLowerCase().contains("Danksagung"))</code><br><code>        .findFirst()</code><br><code>        .ifPresent(System.out::println);</code></p>
 <p>Ab welcher Zeile startet im E-Book die Danksagung? Mit findFrist wird nur die erste Zeile gesucht, in der ein Ergebnis steht, anschliessend wird nicht mehr weiter gesucht, sondern das Ergebnis wird ausgegeben.</p>
 <p>Streams sind eine andere Art in Java mit Listen von Daten umzugehen, aber sie sind keinen Ersatz für Collections oder Arrays, eher eine Ergänzung. Streams fehlt nämlich eine Eigenschaft, welche den anderen Datenstrukturen haben: Permanenz. In einer Collection speichern Sie Daten, um bei Bedarf wieder darauf zuzugreifen und zwar so oft sie wollen. Ein Stream dient lediglich der Verarbeitung von Daten. Sie können den Inhalt einen Streams genau einmal auslesen, danach ist er weg und nicht mehr zurückzubekommen. Insofern gleicht ein Stream eher einem Iterator als einer Collection. Wenn Sie auf die Ausgabe der Pipeline nach Belieben wieder zugreifen möchten, dann müssen Sie sie wieder in einer Collection sammeln.</p>
-<h3>Intermediäre und terminale Methoden</h3>
+<h3 id="mcetoc_1g4tdrc035oj">Intermediäre und terminale Methoden</h3>
 <p>Der Unterschied ist, das Intermediäre Methoden wieder ein Stream zurückgeben mit dem man weiterarbeiten kann, terminale Methoden geben einen anderen Ergebnistyp zurück. So entsteht eine Pipeline, die durch die terminale Methode gesteuert wird. Sie "zieht" Daten aus dem Stream und erst durch die terminale Methode werden überhaupt Daten aus dem Stream gelesen. Solange Sie nur intermediäre Methoden aufrufen, passiert im Stream noch nichts.</p>
 <p><em>findFrist</em> gibt keinen Stream mehr zurück, sondern ein Optional und if-Present ist eine Methode davon. <em>findFirst</em> ist eine terminale Methode, also eine die am Ende der Stream-Verarbeitung steht. <em>filter</em> dagegen ist eine intermediäre Methode und steht in der Mitte der "Pipeline".</p>
 <p>Schauen wir uns das mit dem Beispiel von oben an:</p>
@@ -387,25 +428,25 @@
 <li><span style="color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: inherit; font-weight: var(--font-weight-normal);">Was ist wirklich passiert? Es wurden 13 Zeilen aus dem ungefilterten Stream gelesen, davon wurde eine Zeile in den gefilterten Stream weitergeschrieben. Mehr nicht.</span></li>
 </ul>
 <p>Damit wurde keine Zeile mehr gelesen, als notwendig. Streams sind nicht nur gut darin, Ihre Absichten in Code auszudrücken, sie sind dabei auch noch äusserst effizient.</p>
-<h3>Intermediäre Operatoren</h3>
-<h5><strong>Sortieren (sort)</strong></h5>
+<h3 id="mcetoc_1g4tdrc035ok">Intermediäre Operatoren</h3>
+<h4 id="mcetoc_1g4tdrc035ol"><strong>Sortieren (sort)</strong></h4>
 <p>Einen Stream kann nach seiner natürlichen Ordnung sortiert werden, wenn seine Elemente Comparable implementieren, oder mit einem übergebenen Comparator. In allen Fällen bleibt der Inhalt der Datenquelle unverändert. Nachfolgend ein Beispiel, darin wird der heisseste Tag im Jahr gesucht, zuerst wird absteigend nach Temperatur sortiert und dann das erste Element selektiert:</p>
 <p><code>tagestemperaturen</code><br><code>        .sorted(Comparator</code><br><code>                .comparing(Tagestemperatur::getTemperatur)</code><br><code>                .reversed())</code><br><code>        .findFirst();</code></p>
-<h5>Limitieren (limit)</h5>
+<h4 id="mcetoc_1g4tdrc035om">Limitieren (limit)</h4>
 <p>Meistens will man nur auf einem teil des Streams arbeiten, z.B. nur auf dem Anfang. Mit limit kann ein Stream auf eine beliebige Anzahl von Elementen beschränkt werden. Auch wenn der darunterliegende Stream mehr Elemente hätte, endet der limitierte Stream, wenn seine Anzahl erreicht ist. Im Beispiel werden die zehn besten Songs aus einer Sammlung sortiert, limitiert und ausgegeben:</p>
 <p><code>songs</code><br><code>        .sorted(Comparator.comparing(Song::getSterne).reversed())</code><br><code>        .limit(10)</code><br><code>        .forEach(song -&gt; System.out.println(song.getTitel()));</code></p>
-<h5>Überspringen (skip)</h5>
+<h4 id="mcetoc_1g4tdrc035on">Überspringen (skip)</h4>
 <p>Will man nicht nach einem bestimmen Inhalt suchen, sondern diesen bestimmten Inhalt bewusst überspringen. Folgende Datei soll eingelesen werden:</p>
 <p><em>Höchsttemperaturen Basel</em><br><em>Datum;Temperatur</em><br><em>01.3.2021;1</em><br><em>02.3.2021;3</em><br><em>13.3.2021;8</em><br><em>…</em></p>
 <p>dabei interessieren uns aber nur die Temperaturen, die ersten zwei Zeilen interessieren uns nicht:</p>
 <p><code>daten.lines()</code><br><code>        .skip(2)</code><br><code>        .map(TemperaturMessung::parse)</code><br><code>        ...</code></p>
-<h5>Filtern (filter)</h5>
+<h4 id="mcetoc_1g4tdrc035oo">Filtern (filter)</h4>
 <p>Man übergibt ihr ein Predicate und nur die Elemente, für die das Predicate true liefert, werden im Stream weitergereicht:</p>
 <p><code>kandidaten</code><br><code>        .filter(k -&gt; k.getHaarfarbe().equals("rot") </code><br><code>                &amp;&amp; k.getAugenfarbe().equals("grün"))</code><br><code>        .forEach(k -&gt; sprichAn(k));</code></p>
-<h5>Einmaligkeit (distinct)</h5>
+<h4 id="mcetoc_1g4tdrc035op">Einmaligkeit (distinct)</h4>
 <p>Wenn in einem Stream Duplikate entfernt werden sollen, kann das mit distinct sichergestellt werden. Damit merkt sich der Strom alle Elemente, die bereits einmal vorkamen und gibt sie kein zweites Mal zurück. Bei Streams von Objekten wird Gleichheit mit equals bestimmt. Achtung: distinct ist eine Operation mit Zustand und kann für lange Streams sehr viel Speicher belegen.</p>
 <p><code>kontakte</code><br><code>        .distinct()</code><br><code>        .count();</code></p>
-<h5>Abbilden</h5>
+<h4 id="mcetoc_1g4tdrc035oq">Abbilden</h4>
 <p>Das sind alle Operationen, die aus den Eingabewerten etwas berechnen und als Ausgabestrom wieder ausgeben:</p>
 <p><code>personen</code><br><code>        .map(Person::getName)</code><br><code>        .forEach(System.out::println);</code></p>
 <p>Mit der map-Methode ist der Ausgabe-Stream wieder ein Stream von Objekten; wenn das Ergebnis der Function ein primitiver Typ ist, wird er dazu in den passenden Wrapper konvertiert. Wenn man deinen Stream von primitiven Typen als Ausgaben benötigt, stehen dafür die Methoden <em>mapToInt</em>, <em>mapToLong</em> und <em>mapToDouble</em> zur Verfügung.</p>
@@ -425,25 +466,25 @@
 <li>flatMap wird für jede Person aus <em>anmeldungen</em> gerufen, intern werden dadurch drei Stream erzeugt: [Hans Fischer, Frieda Fischer, Fritz, Max, Lisa][Ida, Martin][Max Müller, null, Moritz und Peter]. Da Max Müller keinen Partner (mehr) hat, resultiert aus p.getPartner() ein null-Wert; dieser wird von der späteren filter-Anweisung wieder entfernt werden.</li>
 <li>flatMap gibt aber nicht einen Stream pro Eingabe zurück (das käme bei map heraus), sondern nur einen langen Stream. Daher auch der Name flatMap: Anstatt einen Stream von Streams auszugeben, ist die Ausgabe flach. Der so erzeugte Stream enthält also: [Hans Fischer, Frieda Fischer, Fritz, Max, Lisa, Ida, Martin, Max Müller, null, Moritz und Peter]</li>
 </ul>
-<h5>Spicken (peek)</h5>
+<h4 id="mcetoc_1g4tdrc035or">Spicken (peek)</h4>
 <p>peek gibt genau denselben Stream aus, der auch eingegeben wurde, führt aber für jedes Element einen Consumer aus. Der Inhalt des Streams wird nicht verändert. Mit peek können Sie einem Stream bei der Arbeit zuschauen, was insbesondere bei Fehlersuche hilfreich ist:</p>
 <p><code>danksagung.lines()</code><br><code>        .peek(line -&gt; System.out.println("Ungefiltert " + line))</code><br><code>        .filter(line -&gt; line.toLowerCase().contains("Danksagung"))</code><br><code>        .peek(line -&gt; System.out.println("Gefiltert " + line))</code><br><code>        .findFirst()</code><br><code>        .ifPresent(System.out::println);</code></p>
 <p>peek kann auch verwendet werden, um beispielsweise bei Anmeldungen Bestätigungen zu versenden:</p>
 <p><code>anmeldungen</code><br><code>        .peek(p -&gt; bestaetigeAnmeldung(p))</code><br><code>        .flatMap(p -&gt; Stream.concat(Stream.of(</code><br><code>                p, p.getPartner()), </code><br><code>                p.getKinder().stream()))</code><br><code>        .filter(p -&gt; p!= null)</code><br><code>        .map(Person::getName)</code><br><code>        .forEach(System.out::println);</code></p>
-<h3>Terminale Operatoren</h3>
-<h5>Alle Elemente verarbeiten</h5>
+<h3 id="mcetoc_1g4tdrc035os">Terminale Operatoren</h3>
+<h4 id="mcetoc_1g4tdrc035ot">Alle Elemente verarbeiten</h4>
 <p>Diese Methode führt für alle Elemente, die am Ende in einem Stream enthalten sind, diesele Operation aus. forEach ist als Beispiel zu nennen. Sie führt den übergebenen Consumer für jedes Element des Streams aus. </p>
-<h5>Finden</h5>
+<h4 id="mcetoc_1g4tdrc035ou">Finden</h4>
 <p>Wenn aus einem Stream nicht alle Elemente verarbeitet werden solle, sondern nur ein einzelnen benötigt wird, gibt es dafür findFirst oder findAny:</p>
 <p><code>Optional&lt;Student&gt; gut = studenten</code><br><code>        .filter(student -&gt; student.getNotendurchschnitt() == 5.0)</code><br><code>        .findAny();</code></p>
 <p>Der unterschied zwischen den beiden Methoden ist, dass findFirst garantiert das erste Element zurückgibt, findAny nur irgendein Element. Dieser Unterschied kommt bei paralleler Verarbeitung zum Tragen, wo das erste gefunden Element nicht notwendig das erste aus dem Stream ist. findFirst stellt in dieser Situation sicher, dass wirklich das erste Element des Stream ausgegeben wird.</p>
 <p>Beide Methoden geben ein Optional-Objekt zurück. Grob gesagt handelt es sich um einen Umschlag, der ein Objekt ungleich null enthalten oder auch leer sein kann. So wird auch, wenn kein Ergebnis gefunden wurde, ein Objekt zurückgegeben, nicht direkt ein null-Wert. Dadurch können Sie an dem zurückgegeben en Objekt immer weitere Methoden aufrufen und müssen nicht auf null prüfen, was. in der Aufrufkette der Fluent API nicht möglich wäre. Stattdessen können Sie diese Prüfung in die Aufrufkette integrieren:</p>
 <p><code>studenten</code><br><code>        .filter(student -&gt; student.getNotendurchschnitt() == 5.0)</code><br><code>        .findAny()</code><br><code>        .ifPresent(s -&gt; verarbeiteGutenStudenten(s));</code></p>
 <p>Das an ifPresent übergebene Lambda wird nur ausgeführt, wenn das von findAny zurückgegebene Optional ein Ergebnis enthält.</p>
-<h5>Prüfen</h5>
+<h4 id="mcetoc_1g4tdrc035ov">Prüfen</h4>
 <p>Nur um zu prüfen, ob der Stream Elemente enthält, die einem bestimmten Kriterium entsprechen, ohne diese Elemente zurückzugeben, gibt es drei boolesche Methoden. anyMatch, prüft, ob irgendein Element des Streams zum übergebenen Predicate passt, allMatch prüft, ob alle Elemente passen, und noneMatch schliesslich, ob keines der Elemente passt.</p>
 <p><code>if (studenten.anyMatch(student -&gt; </code><br><code>        student.getNotendurchschnitt() == 6.0)){</code><br><code>    …            </code><br><code>}</code></p>
-<h5>Reduzieren</h5>
+<h4 id="mcetoc_1g4tdrc035p0">Reduzieren</h4>
 <p>Mit Streams können Sie auch einen einzelnen Wert berechnen lassen, der den Stream zusammenfasst. Der Inhalt wird auf diesen einen Wert reduziert, daher auch der Name der Methode für diese Operatoren: reduce.</p>
 <p><code>int gesamtlaenge = songs</code><br><code>        .mapToInt(Song::getLaengeInSekunden)</code><br><code>        .reduce(0, (x, y) -&gt; x+y);</code></p>
 <p>Die reduce-Methode funktioniert, indem nacheinander (oder sogar parallel) alle Elemente des Streams durch die übergebene Funktion mit einem Akkumulator verknüpft werden. Der Akkumulator wird mit dem übergebenen Neutralwert der Verknüpfung vorbelegt. Im Beispiel werden also, von einem Wert 0 ausgehend, die Länge aller Songs im Stream addiert, um die Gesamtlänge zu berechnen.</p>
@@ -495,7 +536,7 @@
             <category term="functional"/>
             <category term="dev"/>
 
-        <updated>2022-05-30T16:46:59+02:00</updated>
+        <updated>2022-06-06T23:15:00+02:00</updated>
             <summary>
                 <![CDATA[
                     Lambda Interfaces sind häufig benötigte Lambda-Ausdrücke, die Teil des JDKs sind und damit nicht in jedem Projekt wieder neu angelegt werden müssen. Zum Beispiel kann mit dieser Methode eine Summe aus Objekten berechnet werden: public static &lt;T&gt; long summiere(List&lt;T&gt; tees, ToIntFunction&lt;T&gt; func){ long result =&hellip;
@@ -503,7 +544,17 @@
             </summary>
         <content type="html">
             <![CDATA[
-                <p>Lambda Interfaces sind häufig benötigte Lambda-Ausdrücke, die Teil des JDKs sind und damit nicht in jedem Projekt wieder neu angelegt werden müssen.</p>
+                <div class="post__toc">
+<h3>Table of Contents</h3>
+<ul>
+<li><a href="#mcetoc_1g4tdtt405pg">Function</a></li>
+<li><a href="#mcetoc_1g4tdtt405ph">Predicate</a></li>
+<li><a href="#mcetoc_1g4tdtt405pi">Consumer</a></li>
+<li><a href="#mcetoc_1g4tdtt405pj">Supplier</a></li>
+<li><a href="#mcetoc_1g4tdtt405pk">BiFunction, BiPredicate, BiConsumer</a></li>
+</ul>
+</div>
+<p>Lambda Interfaces sind häufig benötigte Lambda-Ausdrücke, die Teil des JDKs sind und damit nicht in jedem Projekt wieder neu angelegt werden müssen.</p>
 <p>Zum Beispiel kann mit dieser Methode eine Summe aus Objekten berechnet werden:</p>
 <p><code>public static &lt;T&gt; long summiere(List&lt;T&gt; tees, ToIntFunction&lt;T&gt; func){</code><br><code>    long result = 0;</code><br><code>    for (T tee : tees){</code><br><code>        result += func.applyAsInt(tee);</code><br><code>    }</code><br><code>    return result;</code><br><code>}</code></p>
 <p>Alle Interfaces die Lambda-Ausdrücke ermöglichen, sind Bestandteil des Packages java.util.function. Darin sind rund 40 Interfaces enthalten. Eine konsequente Namenskonvention hilft den Überblick zu behalten. Dabei werden die Interfaces grundlegend nach der Form benannt, also nach Parametern und Rückgabewerten. Diese grundlegenden Interfaces arbeiten mit Objekten. Für Interfaces, die dieselbe Operation für Primitive bereitstellen, wird der Name des primitiven Typs vorangestellt:</p>
@@ -513,33 +564,33 @@
 <li>DoubleToIntFunction erwartet einen double-Wert als Parameter und gibt einen int-Wert zurück.</li>
 </ul>
 <p>Nicht alle möglichen Kombinationen stehen zur Verfügung, aber die am häufigsten gebrauchten sind da. Nachfolgend schauen wir uns die grundlegenden Formen von funktionalen Interfaces an.</p>
-<h3>Function</h3>
+<h3 id="mcetoc_1g4tdtt405pg">Function</h3>
 <p>Funktionsobjekte entsprechen in etwa der mathematischen Definition von einstelligen Funktionen: Sie bilden einen Wert auf einen anderen ab. Eine einfache Function ist eine Abbildung von einem Objekt auf ein anderes Objekt, eine ToIntFunction eine Abbildung von einem Objekt auf einen int-Wert usw.</p>
 <p>Im vorherigen Codebeispiel haben wir eine Anwendung für ToIntFuntion gesehen, dort werden Objekte auf einen Int-Wert abgebildet, der anschliessend zu einer laufenden Summe addiert wird. Auch die Methode Comparator.comparing erwartet ein Function-Objekt als Parameter:</p>
 <p><code>Comparator&lt;Song&gt; nachTitel = Comparator.comparing(s -&gt; s. getTitel());</code></p>
 <p>In diesem Beispiel werden Songs nach ihrem Titel sortiert, indem jeder Song als einen String, sein Titel abbildet und anschliessend nach der natürlichen Reihenfolge dieser Strings sortiert wird. Genau in diesem Fall können Sie auch eine Methodenreferenz verwenden: (da der Lambda-Ausdruck lediglich aus einem parameterlosen Methodenaufruf besteht):</p>
 <p><code>Comparator&lt;Song&gt; nachTitel = Comparator.comparing(Song::getTitel);</code></p>
 <p>Es gibt aber auch Funktionen deren Eingabe- und Ausgabetypen identisch sind, diese werden als Unary-Operator bezeichnet. So gibt es zum Beispiel den IntUnaryOperator, der einen int-Wert auf einen anderen int-Wert abbildet.</p>
-<h3>Predicate</h3>
+<h3 id="mcetoc_1g4tdtt405ph">Predicate</h3>
 <p>Funktionen bei denen der Eingabewert immer auf eine boolean-Ausgabe abgebildet wird, werden Prädikate genannt. Predicate könnte also auch ToBooleanFunction heisst, hat aber wegen seiner besonderen Bedeutung einen eigenen Namen erhalten. Predicate sind besonders wichtig zum Filtern. Damit kann ein Stream mit einem Predicate-Objekt gefiltert werden, so dass nur noch die Elemente enthalten sind, die das Prädikat erfüllen, für die der Lambda-Ausdruck also true zurückgibt:</p>
 <p><code>List&lt;Song&gt; songs = …;</code><br><code>songs.stream().filter(s -&gt; s. getSterne() == 5).count();</code></p>
 <p>Doch damit nicht genug, es ist weiter möglich Predicate mit logischen Operatoren AND, OR und NOT anzuwenden und somit mehrere Predicate zu einem einzigen zu verknüpfen:</p>
 <p><code>private static Predicate&lt;Song&gt; baueSuchPredicate(String suchtitel,</code><br><code> String suchinterpret, int suchsterne) {</code><br><code>    Predicate&lt;Song&gt; filter = (s-&gt;true);</code><br><code>    if (suchtitel != null){</code><br><code>        filter = filter.and(s -&gt; </code><br><code>                s.getTitel().startsWith(suchtitel));</code><br><code>    }</code><br><code>    if (suchinterpret != null){</code><br><code>        filter = filter.and(s -&gt; </code><br><code>                s.getInterpret().startsWith(suchinterpret));</code><br><code>    }</code></p>
 <p><code></code><code> if (suchsterne &gt; 0){</code><br><code>        filter = filter.and(s -&gt; s. getSterne() &gt;= suchsterne);</code><br><code>    }</code><br><code>    return filter;</code><br><code>}</code></p>
 <p>Die Initialisierung mit Predicate&lt;Song&gt; filter = (s-&gt;true) wird deshalb so vorgenommen, damit es ein erstes Objekt gibt, an dem Sie überhaupt and rufen können. Anderenfalls müssten Sie bei jedem Suchattribut wieder prüfen, ob es schon einen Filter gibt, falls ja, and rufen, und falls nein, einen erzeugen.</p>
-<h3>Consumer</h3>
+<h3 id="mcetoc_1g4tdtt405pi">Consumer</h3>
 <p>Dabei handelt es sich um Funktionen ohne Rückgabewert. Sie erwarten einen Parameter, den sie verarbeiten, liefern aber kein Ergebnis:</p>
 <p><code>public static void main(String[] args) throws IOException{</code><br><code>    liesStrings((s) -&gt; System.out.println(s));</code><br><code>}</code><br><code>    </code><br><code>public static void liesStrings(Consumer&lt;String&gt; sink) throws IOException{</code><br><code>    BufferedReader in = new BufferedReader(new InputStreamReader(System.in));</code><br><code>    String line;</code><br><code>    while (!"".equals(line = in.readLine())){</code><br><code>        sink.accept(line);</code><br><code>    }</code><br><code>}</code></p>
 <p>Die Methode liesStrings liest so lange beliebig viele Strings von der Standardeingabe, bis eine leere Zeile gelesen wird und gibt jede gelesene teile an den übergebenen Consumer&lt;String&gt; weiter. Im Beispiel werden die gelesenen Strings einfach wieder ausgegeben, aber dieselbe Methode könnte eine Eingabe auch in einer Liste sammeln, oder jede Zeile als Kommando interpretieren:</p>
 <p><code>//Zeilen in eine Liste lesen</code><br><code>List&lt;String&gt; zeilen = new ArrayList&lt;&gt;();</code><br><code>liesStrings(zeilen::add);</code><br><code>//Zeilen als Kommandos ausführen</code><br><code>liesStrings(this::fuehreKommandoAus);</code></p>
-<h3>Supplier</h3>
+<h3 id="mcetoc_1g4tdtt405pj">Supplier</h3>
 <p>Supplier ist das Gegenstück zum Consumer, sie haben keine Parameter, geben aber etwas zurück.</p>
 <p>Welchen Sinn kann ein solcher Aufruf</p>
 <p><code>zeigeNachricht(() -&gt; entschluessleNachricht(nachricht))</code><br><br>gegenüber dem folgenden, einfacheren haben?<br><br><code>zeigeNachricht(entschluessleNachricht(nachricht))</code><br><br>In diesem Beispiel können Sie unnötigen Rechenaufwand vermeiden. Die Methode zeigeNachricht stammt aus einem fiktiven E-Mail-Client, der Verschlüsselung beherrscht. Ihre Implementierung könnte so aussehen:<br><br><code>public zeigeNachricht(String nachricht){</code><br><code>    if (zeigeVorschau)</code><br><code>        System.out.println(nachricht);</code><br><code>}</code></p>
 <p>Im Beispiel wird die entschlüsselte Nachricht an die Methode übergeben, obwohl noch nicht klar ist, ob sie überhaupt benötigt wird. Wenn zeigeVorschau false ist, dann wird der Parameter ignoriert und die potenziell teure Entschlüsselung war umsonst.</p>
 <p><code>public zeigeNachricht(Supplier&lt;String&gt; nachricht){</code><br><code>    if (zeigeVorschau)</code><br><code>        System.out.println(nachricht.get());</code><br><code>}</code></p>
 <p>Nicht so in diesem Fall. Die Nachricht wird erst dann entschlüsselt, wenn am Supplier get gerufen wird, solange get nicht gerufen wird, wird die Nachricht nicht entschlüsselt.</p>
-<h3>BiFunction, BiPredicate, BiConsumer</h3>
+<h3 id="mcetoc_1g4tdtt405pk">BiFunction, BiPredicate, BiConsumer</h3>
 <p>Zu diesen Funktionen gibt es jeweils noch eine Variante mit einem vorangestellten Bi-. Diese unterscheiden sich von ihren einfachen Gegenstücken dadurch, dass sie zwei Parameter statt einem nehmen. Ein BiPredicate bildet also zum Beispiel zwei Objekte auf einen boolean-Wert ab. Funktionen die zwei gleichartige Wert auf einen dritten Wert desselben Typs abbilden heissen BinaryOperator.</p>
             ]]>
         </content>
@@ -556,7 +607,7 @@
             <category term="java"/>
             <category term="dev"/>
 
-        <updated>2022-05-29T15:35:47+02:00</updated>
+        <updated>2022-06-06T23:15:18+02:00</updated>
             <summary>
                 <![CDATA[
                     Im ersten Teil zum Thema Lambda-Ausdrücke haben wir gelernt was Lambda-Ausdrücke sind und wie man diese verwenden kann. Im zweiten Teil schauen wir nun hinter die Kulissen, wie Lambda-Ausdrücke funktionieren. Zentral zum Verständnis, wie Lambda-Ausdrücke in Java funktionieren, ist der Begriff des funktionalen Interface. Das&hellip;
@@ -564,13 +615,19 @@
             </summary>
         <content type="html">
             <![CDATA[
-                <p>Im ersten Teil zum Thema Lambda-Ausdrücke haben wir gelernt was Lambda-Ausdrücke sind und wie man diese verwenden kann. Im zweiten Teil schauen wir nun hinter die Kulissen, wie Lambda-Ausdrücke funktionieren.</p>
+                <div class="post__toc">
+<h3>Table of Contents</h3>
+<ul>
+<li><a href="#mcetoc_1g4tdue1l5po">Closures</a></li>
+</ul>
+</div>
+<p>Im ersten Teil zum Thema Lambda-Ausdrücke haben wir gelernt was Lambda-Ausdrücke sind und wie man diese verwenden kann. Im zweiten Teil schauen wir nun hinter die Kulissen, wie Lambda-Ausdrücke funktionieren.</p>
 <p>Zentral zum Verständnis, wie Lambda-Ausdrücke in Java funktionieren, ist der Begriff des <em>funktionalen Interface</em>. Das ist ein Interface, das nur eine Methode definiert. Das war bereits vor der Lambda Einführung eine übliche Möglichkeit, in Java Funktionalität als Parameter zu übergeben.</p>
 <p><code>Arrays.sort(einArray, new Comparator(){</code><br><code>    public int compareTo(Object o1, Object o2){…}</code><br><code>});</code></p>
 <p>Comparator ist ein funktionales Interface, es deklariert nur die Methode compareTo. Aber ein Lambda-Ausdruck kann überall dort, wo ein funktionales Interface als Parametertyp angeben wird eingesetzt werden. Das heisst auch als Comparator:</p>
 <p><code>Arrays.sort(songs, (song1, song2) -&gt; </code><br><code> song1.getLaengeInSekunden() - song2.getLaengeInSekunden())</code></p>
 <p>Das funktioniert mit allen funktionalen Interfaces, auch eigene. Wenn Sie ein Interface deklarieren, das nur eine Methode enthält, dann können Sie, um dieses Interface zu implementieren, auch Lambda-Ausdrücke verwenden.</p>
-<h3>Closures</h3>
+<h3 id="mcetoc_1g4tdue1l5po">Closures</h3>
 <p>Oft wird für Lambda-Ausdrücke auch der Begriff Closure verwendet. Die beiden gehören untrennbar zusammen, sind aber nicht dasselbe.</p>
 <p>Ein Lambda-Ausdruck ist definiert als eine anonyme Funktion. Er erfüllt dieselbe Aufgabe wie eine Methode, hat aber keinen Namen.</p>
 <p>Ein Closure hingegen ist ein Bündel aus einer Funktion und der Umgebung, aus der heraus diese Funktion aufgerufen wurde. Mit Umgebung sind hier die lokalen Variablen gemeint welche zum Zeitpunkt des Aufrufs im Scope liegen. Das beim Erzeugen der anonymen Objektinstanz oder der Lambda-Instanz eine Closure gebildet wird, erlaubt es, auf die Werte der lokalen Variablen auch dann noch zuzugreifen, wenn sie schon nicht mehr im Scope liegen:</p>
@@ -592,7 +649,7 @@
             <category term="java"/>
             <category term="dev"/>
 
-        <updated>2022-05-29T15:04:11+02:00</updated>
+        <updated>2022-06-06T23:15:28+02:00</updated>
             <summary>
                 <![CDATA[
                     Seit Java 8 können mit Lambda Expressions Funktionen komfortabler, kürzer und lesbarer ausgedrückt werden. Nachfolgend ein Beispiel von Java Code. Dieses Stück Code sucht aus Ihrer Musiksammlung die 100 längsten Songs heraus, die Sie mit mehr als vier Sternen bewertet haben und deren Interpret Ihnen&hellip;
@@ -600,16 +657,24 @@
             </summary>
         <content type="html">
             <![CDATA[
-                <p>Seit Java 8 können mit Lambda Expressions Funktionen komfortabler, kürzer und lesbarer ausgedrückt werden.</p>
+                <div class="post__toc">
+<h3>Table of Contents</h3>
+<ul>
+<li><a href="#mcetoc_1g4tduort5q2">Was sind Lambda-Ausdrücke?</a></li>
+<li><a href="#mcetoc_1g4tduort5q3">Die Lambda-Syntax</a></li>
+<li><a href="#mcetoc_1g4tduort5q4">Methodenreferenz</a></li>
+</ul>
+</div>
+<p>Seit Java 8 können mit Lambda Expressions Funktionen komfortabler, kürzer und lesbarer ausgedrückt werden.</p>
 <p>Nachfolgend ein Beispiel von Java Code. Dieses Stück Code sucht aus Ihrer Musiksammlung die 100 längsten Songs heraus, die Sie mit mehr als vier Sternen bewertet haben und deren Interpret Ihnen nicht bekannt ist, und berechnet die Gesamtlänge dieser Songs:</p>
 <p><code>List&lt;Song&gt; songs = …;</code><br><code>int sekunden = 0;</code><br><code>Sekunden</code><br><code>Collections.sort(songs, new Comparator&lt;Song&gt;(){</code><br><code>    @Override</code><br><code>    public int compare(Song o1, Song o2) {</code><br><code>        return o1.getLaengeInSekunden() - o2. getLaengeInSekunden ();</code><br><code>    }</code><br><code>});</code><br><code>int zaehler = 0;</code><br><code>for (Song song : songs){</code><br><code>    if (song.getSterne() &gt; 4 </code><br><code>            &amp;&amp; ("Unbekannter Künstler".equals(song.getInterpret())){</code><br><code>        sekunden += song.getLaengeInSekunden();</code><code></code><br><code>        if (++zaehler &gt; 100) break;</code><br><code>    }</code><br><code>}</code></p>
 <p>Nachfolgend der Java Code der den gleichen Zweck erfüllt, aber Lambda Ausdrücke verwendet:</p>
 <p><code>int sekunden = songs.stream()</code><br><code>    .filter(song -&gt; "Unbekannter Künstler".equals(song.getInterpret()))</code><br><code>    .filter(song -&gt; song.getSterne() &gt; 4)</code><br><code>    .sorted(Comparator.comparing(Song::getLaengeInSekunden).reversed())</code><br><code>    .limit(100)</code><br><code>    .mapToInt(Song::getLaengeInSekunden)</code><br><code>    .sum();</code></p>
 <p>Die Vorteile liegen auf der Hand: Abgesehen von der Zeilen und Codelänge ist der Code auch viel einfach verständlich, schnell lässt sich erkennen, was der Code bewirkt. In den ersten beiden Zeilen wird die Liste gefiltert (filter), danach sortiert (sorted), auf die 100 ersten Ergebnisse beschränkt (limit), jeder Song auf sein int-Feld laengeInSekunden abgebildet (mapToInt) und von den Längen schliesslich die Summe (sum) berechnet</p>
-<h3>Was sind Lambda-Ausdrücke?</h3>
+<h3 id="mcetoc_1g4tduort5q2">Was sind Lambda-Ausdrücke?</h3>
 <p>Es handelt sich dabei um Javas Sprachmittel, um Funktionen auszudrücken, im Gegensatz dazu stehen die prozedualen Konstrukte wie Verzweigungen und Schleifen, mit denen der Programmierablauf dargestellt wird. Lambda-Ausdrücke erlauben es zusammen mit entsprechenden APIs im Code nur das Wesentliche zu schreiben, ohne dabei jedes Mal das Übliche wiederholen zu müssen. Das Wesentliche ist eine Liste von Songs zu filtern. Das Übliche wäre in diesem Fall, über eine Liste zu iterieren und jedes Element zu prüfen.</p>
 <p>Ohne Lambda-Ausdrücke wird der Code länger, wenige gut lesbar und Fehleranfälliger, denn in Schleifen und Prüfungen schleichen sich gerne Fehler ein.</p>
-<h3>Die Lambda-Syntax</h3>
+<h3 id="mcetoc_1g4tduort5q3">Die Lambda-Syntax</h3>
 <p>Lambda-Ausdrücke sind auf den ersten Blick als solche erkennbar durch den Pfeil -&gt;, der vorkommen muss und in Java keine andere Bedeutung hat.</p>
 <p><code>(Song song) -&gt; {</code><br><code>    return "Unbekannter Künstler".equals(song.getInterpret());</code><br><code>}</code></p>
 <p>Links vom Pfeil stehen die Parameter und rechts vom Pfeil steht, was mit diesen parametern geschehen soll. Mehrere Parameter werden, genau wie bei einer Methodendeklaration auch durch Kommas getrennt.</p>
@@ -624,7 +689,7 @@
 <p>Dabei gibt es aber keine Zwischenschritte, entweder man gibt den Ausdruck wie im letzten Beispiel an, oder man muss den Ausdruck mit geschweiften Klammern, Semikolon und return angeben. Natürlich ist die kürzeste Version anzustreben. Deshalb sollte immer auf die Blockschreibweise verzichtet werden, ausser man hat mehr als ein Wert-Ausdruck, beispielsweise bei einem if-Statement, hier müssen die äusseren Klammern und Returns geschrieben werden:</p>
 <p><code>(s1, s2) -&gt; {</code><br><code>    if (aufsteigend){</code><br><code>        return s1.getLaengeInSekunden() - s2.getLaengeInSekunden();</code><br><code>    } else {</code><br><code>        return s2.getLaengeInSekunden() - s1.getLaengeInSekunden();</code><br><code>    }</code><br><code>}</code></p>
 <p>Als letzte Spezialität in diesem Artikel gehe ich auf die Variable aufsteigend ein. Genau wie anonyme innere Klassen können Lambdas auf lokale Variabeln ihrer Umgebung zugreifen. Diese lokalen Variablen müssen nicht als final deklariert werden, müssen aber also solche behandelt werden. Das heisst, es reicht aus wenn ihnen im Lambda-Ausdruck oder danach kein neuer Wert mehr zugewiesen wird.</p>
-<h3>Methodenreferenz</h3>
+<h3 id="mcetoc_1g4tduort5q4">Methodenreferenz</h3>
 <p>Wenn ein Lambda-Ausdruck nur am einzigen übergebenen Parameter eine Methode aufruft und deren Rückgabewert weitergibt, dann kann statt des Lambda-Ausdrucks eine Methodenreferenz angeben werden. Die nachfolgenden Aufrufe haben die gleiche Wirkung:</p>
 <p><code>Comparator.comparing(song -&gt; song.getSterne());</code><br><code>Comparator.comparing(Song::getSterne);</code></p>
 <p>Methodenreferenzen erkennt man am doppelten Doppelpunkt. Davor steht die Klasse, dahinter die Methode. Wichtig ist, dass man bei der Methodenreferenz keine Klammern nach dem Methodenamen setzt. Das Beispiel von oben ist eine <em>ungebundene Referenz</em>: Sie bezeichnet nicht die getSterne-Methode eines bestimmten Objekts, sondern kann auf beliebige Objekte der Klasse Song angewendet werden. Ist vor dem doppelten Doppelpunkt keine Klasse, sondern eine Objektreferenz, dann ist die Methodenreferenz gebunden und meint immer die Methode dieses einen Objekts.</p>

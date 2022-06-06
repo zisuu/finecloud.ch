@@ -11,6 +11,30 @@
     },
     "items": [
         {
+            "id": "https://www.finecloud.ch/testen-von-io-operationen.html",
+            "url": "https://www.finecloud.ch/testen-von-io-operationen.html",
+            "title": "Testen von I/O-Operationen",
+            "summary": "Das Problem von I/O-Operationen ist, dass sie nur schlecht testbar sind. Ihre Testfälle müssen sich darauf verlasse, dass bestimmte Dateien vorhanden sind, und einen bestimmten Inhalt haben. Sie können den Testfällen zwar entsprechende Dateien beilegen, aber dann müssen Sie Dateien mit Ihren Testfällen ausliefern. Es&hellip;",
+            "content_html": "<p>Das Problem von I/O-Operationen ist, dass sie nur schlecht testbar sind. Ihre Testfälle müssen sich darauf verlasse, dass bestimmte Dateien vorhanden sind, und einen bestimmten Inhalt haben. Sie können den Testfällen zwar entsprechende Dateien beilegen, aber dann müssen Sie Dateien mit Ihren Testfällen ausliefern. Es gibt Strategien das zu vermeiden.</p>\n<p>Wichtig ist, dass man für Lese- und Schreiboperationen niemals <em>File</em> als Methodenparamater deklarieren sollte, sondern immer einen <em>Reader</em> oder <em>Writer</em> (bzw. <em>InputStream</em> oder <em>OutputStream</em>). Dadurch wird der Code sofort besser testbar, denn man kann aus dem Testfall einen <em>StringReader</em> (oder <em>StringWriter</em>) übergeben. Es handelt sich dabei um einen vollwertigen <em>Reader</em> (bzw. <em>Writer</em>), der genau wie jeder andere Reader verwendet werden kann, seine Daten aber nicht aus einer Datei oder einer Netzwerkverbindung liest, sondern aus einem String, den Sie im Konstruktor übergeben. So hat der Testfall die volle Kontrolle darüber, welche Daten die zu testende Methode zu sehen bekommt:</p>\n<p><code>public static final String TESTDATEN = </code><br><code> \"2013\\t0.2\\t-0.7\\t0.1\\t8.1\\t11.8\\t15.7\\t19.5\\t17.9\\t13.3\\t10.6\\t4.6\\t3.6\\n\" +</code><br><code> \"2012\\t1.9\\t-2.5\\t6.9\\t8.1\\t14.2\\t15.5\\t17.4\\t18.4\\t13.6\\t8.7\\t5.2\\t1.5\";</code><br><br><code>@Test</code><br><code>public void testLiesTemperaturdaten() {</code><br><code>    Reader testdaten = new StringReader(TESTDATEN);</code><br><code>    Temperaturstatistik statistik = Temperaturstatistik.liesDaten(testdaten);</code><br><code>    assertNotNull(statistik.getJahr(2013);</code><br><code>    //weitere Asserts folgen</code><br><code>}</code></p>\n<p>Analog dazu funktioniert das auch beim Schreiben in einen StringWriter:</p>\n<p><code>@Test</code><br><code>public void testSchreibePlayliste() {</code><br><code>    StringWriter testWriter = new StringWriter();</code><br><code>    Playlist playlist = new Playlist();</code><br><code>    playlist.addSong(...);</code><br><code>    playlist.schreibeNach(testWriter);</code><br><code>    assertEquals(\"erwarteter Inhalt\", testWriter.toString);</code><br><code>}</code></p>\n<p>Die <em>toString</em>-Methode des <em>StringWriter</em> gibt alle Daten, die hineingeschrieben wurden, als einen String zurück. Sie können dadurch in einem Testfall ganz leicht vergleichen, ob der Inhalt dem erwarteten Inhalt entspricht. Analog dazu kann ByteArrayInputStream und ByteArrayOutputStream genutzt werden, um diese Aufgabe mit einem byte-Array für Binärdateien zu erfüllen.</p>\n<p>Schwieriger wird es, wenn der Testfall wirklich Dateien benötigt, zum Beispiel, weil die zu testende Methode Dateien in einem Verzeichnis suchen soll. Da kann man mit temporären Dateien arbeiten. Die Methode File.createTempFile erzeugt eine Datei im Verzeichnis für temporäre Dateien Ihres Betriebsystems. So kann ein Präfix übergeben werden, der klar macht, woher die Datei stammt und eine Dateiendung. Als Rückgabewert erhält man das File-Objekt der so angelegten Datei. Eine temporäre Datei wird aber nicht automatisch wieder gelöscht. Um am Ende des Tests wieder aufzuräumen, sollten Sie daher an jeder erzeugten Datei noch deleteOnExit rufen, dann stellt Java sicher, dass diese Dateien wieder entfernt werden:</p>\n<p><code>@Test</code><br><code>public void testMitDatei() throws IOException {</code><br><code>    File tempDatei = File.createTempFile(getClass().getName(), \".mp3\");</code><br><code>    tempDatei.deleteOnExit();</code><br><code>    //Test durchführen</code><br><code>}</code></p>\n<p>Als Empfehlung und gute Angewohnheit bietet es sich an, den Klassennamen als Präfix für temporäre Dateien zu verwenden. Als optionalen dritten Parameter kann createTempFile ein Verzeichnis übergeben werden, in welchem die Datei angelegt werden soll, falls man die Datei nicht im temporären Verzeichnis des Betriebssystems anlegen möchte.</p>\n<p>Wenn man ein temporäres Verzeichnis anlegen möchte, trifft man leider erneut auf den Bruch zwischen java.io und java.nio: Die Methode, die temporäre Ordner anlegt, findet man nur in der Files-Klasse, dementsprechend erhält man auch ein Path-Objekt zurück, aus dem man dann selbst wieder ein File machen muss:</p>\n<p><code>@Test</code><br><code>public void testMitVerzeichnis() throws IOException {</code><br><code>    File tempVerzeichnis = Files.createTempDirectory(\"mp3test\").toFile();</code><br><code>    tempVerzeichnis.deleteOnExit();</code><br><code>    File tempDatei = File.createTempFile(getClass().getName(), \".mp3\",</code><br><code>        tempVerzeichnis);</code><br><code>    tempDatei.deleteOnExit();</code><br><code>    //Test durchführen</code><br><code>}</code></p>\n<p> </p>\n<p> </p>",
+            "author": {
+                "name": "Finecloud"
+            },
+            "tags": [
+                   "writer",
+                   "verzeichnisse",
+                   "softwareentwicklung",
+                   "reader",
+                   "java.nio.files",
+                   "java.io.file",
+                   "java.io",
+                   "java",
+                   "dev",
+                   "dateien"
+            ],
+            "date_published": "2022-06-06T22:04:20+02:00",
+            "date_modified": "2022-06-06T22:45:58+02:00"
+        },
+        {
             "id": "https://www.finecloud.ch/java-reader-und-writer.html",
             "url": "https://www.finecloud.ch/java-reader-und-writer.html",
             "title": "Java Reader und Writer",
@@ -191,25 +215,6 @@
             ],
             "date_published": "2022-05-29T09:56:24+02:00",
             "date_modified": "2022-05-29T15:04:11+02:00"
-        },
-        {
-            "id": "https://www.finecloud.ch/java-die-pecs-regel.html",
-            "url": "https://www.finecloud.ch/java-die-pecs-regel.html",
-            "title": "Java Maps",
-            "summary": "Maps werden auf Deutsch auch als assoziative Arrays bezeichnet. Ein Array ordnet ein Objekt einer Zahl zu, dem Index. Eine Map ordnet ein Objekt, den Wert, einem anderen Objekt zu, dem Schlüssel. Damit ist es möglich Zuordnungen von einem beliebigen Typ zu einem beliebigen anderen&hellip;",
-            "content_html": "<p>Maps werden auf Deutsch auch als <em>assoziative Arrays</em> bezeichnet. Ein Array ordnet ein Objekt einer Zahl zu, dem Index. Eine Map ordnet ein Objekt, den Wert, einem anderen Objekt zu, dem Schlüssel. Damit ist es möglich Zuordnungen von einem beliebigen Typ zu einem beliebigen anderen Typ vorzunehmen. Häufig werden Strings als Schlüssel verwendet, es kann aber jeder Objekttyp als Schlüssel dienen.</p>\n<p>Eine Map besteht aus zwei Typparameter, den ersten für den Schlüssel und den zweiten für den Wert. Die Map wordCount ist eine Zuordnung von einem String-Schlüssel zu einem Integer-Wert, es ist die am häufigsten verwendete Implementierung von Map:</p>\n<p><code>private Map&lt;String, Integer&gt; wordCounts = new HashMap&lt;&gt;();</code><br><code>  private void count(InputStream source){</code><br><code>    try(Scanner scan = new Scanner(source)){</code><br><code>        scan.useDelimiter(\"[^\\\\p{IsAlphabetic}]+\");</code><br><code>        while (scan.hasNext()){</code><br><code>            String word = scan.next().toLowerCase();</code><br><code>            totalCount++;</code><br><code>            wordCounts.put(word, wordCounts.getOrDefault(word, 0) + 1);</code><br><code>        }</code><br><code>    }    </code><br><code>}</code></p>\n<p>Die put-Methode fügt ein Element hinzu (falls bereits ein Element zugeordnet ist, wird es Überschrieben), die get-Methode gibt den einem Schlüssel zugeordneten Wert zurück. GetOrDefault hat dieselbe Funktion, nur das zusätzlich ein Default-Wert übergeben werden kann, der zurückgegeben wird, falls der angegebene Schlüssel nicht in der Map enthalten ist.</p>\n<p>Hier ein weiteres Beispiel einer Geburtstagsliste:</p>\n<p><code>public class Geburtstagsliste {</code><br><code>    private Map&lt;String, LocalDate&gt; geburtstage = new TreeMap&lt;&gt;();</code><br><code>    </code><br><code>    public void fuegeGeburtstagHinzu(String name, LocalDate geburtstag){</code><br><code>        geburtstage.put(name, geburtstag);</code><br><code>    }</code><br><code>    </code><br><code>    public LocalDate findeGeburtstag(String name){</code><br><code>        return geburtstage.get(name);</code><br><code>    }</code><br><code>    </code><br><code>    public void schreibeGeburtstage(){</code><br><code>        for(Map.Entry&lt;String, LocalDate&gt; entry : geburtstage.entrySet()){</code><br><code>            System.out.println(entry.getKey() + \": \" + entry.getValue());</code><br><code>        }</code><br><code>    }</code><br><code>}</code></p>\n<p>Ein weiteres Feature von Map ist, dass man über eine Map iterieren kann:</p>\n<table style=\"border-collapse: collapse; width: 100%;\" border=\"1\">\n<tbody>\n<tr>\n<td style=\"width: 49.9288%;\"><strong>Methode</strong></td>\n<td style=\"width: 49.9288%;\"><strong>Funktion</strong></td>\n</tr>\n<tr>\n<td style=\"width: 49.9288%;\">entrySet</td>\n<td style=\"width: 49.9288%;\">Liefert ein Set von Map.Entry-Objekten, die Key (Schlüssel) und Value (Wert) eines Eintrags enthalten</td>\n</tr>\n<tr>\n<td style=\"width: 49.9288%;\">keySet</td>\n<td style=\"width: 49.9288%;\">Liefert eine Collection aller Schlüssel</td>\n</tr>\n<tr>\n<td style=\"width: 49.9288%;\">values</td>\n<td style=\"width: 49.9288%;\">Liefert eine Collection aller Werte</td>\n</tr>\n</tbody>\n</table>\n<p> </p>",
-            "author": {
-                "name": "Finecloud"
-            },
-            "tags": [
-                   "softwareentwicklung",
-                   "maps",
-                   "java",
-                   "dev",
-                   "collection"
-            ],
-            "date_published": "2022-05-28T14:53:33+02:00",
-            "date_modified": "2022-05-28T20:17:04+02:00"
         }
     ]
 }

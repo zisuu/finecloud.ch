@@ -85,6 +85,14 @@
 <lastmod>2022-05-31T12:06:01+02:00</lastmod>
 </url>
 <url>
+<loc>https://www.finecloud.ch/proxmox-ve-intro.html</loc>
+<lastmod>2022-06-08T15:46:47+02:00</lastmod>
+<image:image>
+<image:loc>https://www.finecloud.ch/media/posts/22/Screenshot-2022-06-06-at-23.00.20.png</image:loc>
+<image:title><![CDATA[Architektur]]></image:title>
+</image:image>
+</url>
+<url>
 <loc>https://www.finecloud.ch/streamcollect-daten-aus-einem-stream-sammeln.html</loc>
 <lastmod>2022-06-04T12:14:10+02:00</lastmod>
 </url>

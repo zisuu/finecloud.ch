@@ -3,12 +3,124 @@
     <title>Finecloud</title>
     <link href="https://www.finecloud.ch/feed.xml" rel="self" />
     <link href="https://www.finecloud.ch" />
-    <updated>2022-06-06T23:15:28+02:00</updated>
+    <updated>2022-06-08T15:46:47+02:00</updated>
     <author>
         <name>Finecloud</name>
     </author>
     <id>https://www.finecloud.ch</id>
 
+    <entry>
+        <title>Proxmox VE 7.2 Übersicht</title>
+        <author>
+            <name>Finecloud</name>
+        </author>
+        <link href="https://www.finecloud.ch/proxmox-ve-intro.html"/>
+        <id>https://www.finecloud.ch/proxmox-ve-intro.html</id>
+            <category term="virtualization"/>
+            <category term="unix"/>
+            <category term="proxmox"/>
+            <category term="lxc"/>
+            <category term="linux"/>
+            <category term="kvm"/>
+            <category term="hci"/>
+            <category term="container"/>
+
+        <updated>2022-06-08T15:46:47+02:00</updated>
+            <summary>
+                <![CDATA[
+                    Die Architektur Proxmox VE ist eine Plattform zum Betrieben von virtuellen Maschinen und Container. Dabei ist die gesamte Proxmox VE Plattform open source und baisert auf Debian Linux. die VE Plattform besteht aus zwei virtualisierungs-technologien: Proxmox gibt es als single node, oder als Cluster mit&hellip;
+                ]]>
+            </summary>
+        <content type="html">
+            <![CDATA[
+                <div class="post__toc">
+<h3>Table of Contents</h3>
+<ul>
+<li><a href="#mcetoc_1g4tdpel45mg">Die Architektur</a></li>
+<li><a href="#mcetoc_1g4tdhqsl5l5">Zentrales Management</a></li>
+<li><a href="#mcetoc_1g4tdhqsl5l6">Storage</a></li>
+<li><a href="#mcetoc_1g4tdhqsl5l7">Backup und Restore</a></li>
+<li><a href="#mcetoc_1g4tdhqsl5l8">High Availability Cluster</a></li>
+<li><a href="#mcetoc_1g4tdhqsl5l9">Networking</a></li>
+<li><a href="#mcetoc_1g4tdhqsl5la">Firewall</a></li>
+<li><a href="#mcetoc_1g4tdhqsl5lb">Hyper-converged Infrastructure (HCI)</a>
+<ul>
+<li><a href="#mcetoc_1g4tdlsh25m7">HCI Storage</a></li>
+</ul>
+</li>
+<li><a href="#mcetoc_1g4tdcg765ga">Feature Übersicht</a></li>
+</ul>
+</div>
+<h3 id="mcetoc_1g4tdpel45mg">Die Architektur</h3>
+<p><img loading="lazy" src="https://www.finecloud.ch/media/posts/22/Screenshot-2022-06-06-at-23.00.20.png" sizes="100vw" srcset="https://www.finecloud.ch/media/posts/22/responsive/Screenshot-2022-06-06-at-23.00.20-xs.png 300w ,https://www.finecloud.ch/media/posts/22/responsive/Screenshot-2022-06-06-at-23.00.20-sm.png 480w ,https://www.finecloud.ch/media/posts/22/responsive/Screenshot-2022-06-06-at-23.00.20-md.png 768w ,https://www.finecloud.ch/media/posts/22/responsive/Screenshot-2022-06-06-at-23.00.20-lg.png 1024w ,https://www.finecloud.ch/media/posts/22/responsive/Screenshot-2022-06-06-at-23.00.20-xl.png 1360w ,https://www.finecloud.ch/media/posts/22/responsive/Screenshot-2022-06-06-at-23.00.20-2xl.png 1600w"  alt="Architektur" width="765" height="586"></p>
+<p>Proxmox VE ist eine Plattform zum Betrieben von virtuellen Maschinen und Container. Dabei ist die gesamte Proxmox VE Plattform open source und baisert auf Debian Linux. die VE Plattform besteht aus zwei virtualisierungs-technologien:</p>
+<ul>
+<li>Kernel-based Virtual Machine (KVM)</li>
+<li>Container-based virtualization (LXC)</li>
+</ul>
+<p>Proxmox gibt es als single node, oder als Cluster mit Anzahl n Nodes. Das gesamte Management der Plattform kann über ein Web basiertes Management Interface erfolgen.</p>
+<h3 id="mcetoc_1g4tdhqsl5l5">Zentrales Management</h3>
+<p>Proxmox ermöglicht es sämtliche Management Arbeiten zentral auszuführen, egal ob es sich um einen Cluster mit n Nodes handelt, oder ob es nur ein Single Node ist.  Damit lässt sich der gesamte Cluster von jedem einzelnen Node aus verwalten. Das JavaScript basierte Web-UI erlaubt die Verwaltung von Storage, Containern sowie den KVM Guest VMs. Darüberhinaus kann über das Web-UI die History, Syslogs, Backup und Restore Jobs, live-migration oder HA Aktivitäten eingesehen werden.</p>
+<p>Was Proxmox einmalig macht ist deren Cluster File System: pmxcfs, ein Datenbank getriebener Speicher zum Speichern von Konfigurationsdateien. Mittels corosync werden diese Dateien in Echtzeit zwischen allen Nodes im Cluster repliziert. Das File System speichert alle Daten in einer persistenten Datenbank auf der Disk, unabhängig davon wird eine kopier der Datenbank im RAM, mit einer maximalen Speichergrösse von 30MB abgelegt, was für mehr als tausend VMs ausreicht.</p>
+<p>Für fortgeschrittene Anwender kann Proxmox auch via CLI, also Unix Shell oder mit Windows Powershell oder über die Rest-API verwaltet werden. Die API unterstützt JSON als primäres Datenformat.</p>
+<p>Für die Authentifizierung unterstützt Proxmox Microsoft Active Directory, LDAP, Linux PAM standard authentifizierung oder den eigenen built-in Proxmox VE auth Server.</p>
+<h3 id="mcetoc_1g4tdhqsl5l6">Storage</h3>
+<p>Proxmox verfügt über ein sehr flexibles Storage Modell. VM Images können lokal auf einem oder mehreren Local Storages gespeichert werden, oder auf einem shared Storage wie NFS oder einem SAN. Es können sämtliche für Debian Linux verfügbaren Storage-Technologien verwendet werden.</p>
+<p>Für den Betrieb eines Clusters sollte man unbedingt einen Shared Storage verwenden um die VMs zu speichern, damit man auch von der live-migrate Funktion gebrauch machen kann. Diese ermöglicht es eine VM im laufenden Betrieb von einem Node auf einen anderen zu verschieben. Dabei haben sämtliche Nodes im Cluster direkten zugriff auf die VM Disk Images. Nachfolgende Liste listet die unterstützten Storage auf:</p>
+<p>Netzwerk-Storage:</p>
+<ul>
+<li>LVM Group (network backing with iSCSI targets)</li>
+<li>iSCSI target</li>
+<li>NFS Share</li>
+<li>CIFS Share</li>
+<li>Ceph Share</li>
+<li>Directly use iSCSI LUNs</li>
+<li>GlusterFS</li>
+</ul>
+<p>Lokale Storage:</p>
+<ul>
+<li>LVM Group (local backing devices like block devices, FC devices, DRBD, ect.)</li>
+<li>Directory (storage on existing filesystem)</li>
+<li>ZFS</li>
+</ul>
+<h3 id="mcetoc_1g4tdhqsl5l7">Backup und Restore</h3>
+<p>Das integrierte Backup Tool names <em>vzdump </em>kreiert konsistente Snapshots von laufenden Containern und KVM Guests. Dabei wird ein Archiv der VM oder Container Daten erstellt, welches auch die Konfiguration der VM/CT beinhaltet.</p>
+<h3 id="mcetoc_1g4tdhqsl5l8">High Availability Cluster</h3>
+<p>Ein multi-node Proxmox VE HA Cluster erlaubt den Betrieb von hochverfügbaren virtual servers. Der Cluster basiert auf bewährte Linux HA Technologien, welche eine stabile und zuverlässigen HA Service ermöglichen.</p>
+<h3 id="mcetoc_1g4tdhqsl5l9">Networking</h3>
+<p>Proxmox erlaubt den Einsatz von VLANS (IEEE 802.1q) und Netzwerk bonding/aggregation. Damit ist es möglich auch komplexere, flexible virtuelle Netzwerke für die Proxmox VE Hosts aufzubauen und sämtliche Funktionen des Linux Netzwerk Stacks zu nutzen.</p>
+<p>Standardmässig kommt Proxmox mit einem bridge Netzwerkmodel.  Alle VMs können diese bridge verwenden, so als wären alle Guests mit virtuellen Netzwerkkabel zu einem physikalischen Netzwerk zusammengeschlossen. Jeder Netzwerkkarte kann eine TCP/IP Konfiguration zugewiesen werden.</p>
+<h3 id="mcetoc_1g4tdhqsl5la">Firewall</h3>
+<p>Die integrierte Firewall ermöglicht es Netzwerk Packete von jedem VM oder Container Interface zu filtern. Firewall Rules können in <em>Security Groups</em> gruppiert werden.</p>
+<h3 id="mcetoc_1g4tdhqsl5lb">Hyper-converged Infrastructure (HCI)</h3>
+<p>HCI Umgebungen sind besonders nützlich für Deployments in einer Infrastruktur mit hohen Anforderungen und tiefem administrations Budget.</p>
+<p id="mcetoc_1g4tdlsh25m6">Vorteile von HCI sind:</p>
+<ul>
+<li>Skalierbarkeit: nahtlose Erweiterung von Computing, Netzwerk und Storage</li>
+<li>Tiefe Kosten: Proxmox VE ist open source und integriert alle benötigten Komponenten und kann damit eine teure Computing/Storage Infrastruktur ersetzen</li>
+<li>Daten-Schutz und Effizienz: Services wie Backup und Disaster Recovery sind direkt integriert</li>
+<li>Kein Vendor-Lock-in dank open source</li>
+</ul>
+<h4 id="mcetoc_1g4tdlsh25m7">HCI Storage</h4>
+<p>Proxmox unterstützt die nahtlose Integration von HCI Storage Infrastrukturen wie ceph oder ZFS.</p>
+<ul>
+<li>ceph: bietet self-healing und self-managing shared, zuverlässig und hoch skalierbaren Storage.</li>
+<li>ZFS: kombiniert File System und Local Volume Manager mit erweitertem Schutz vor Datenkorruption, diversen RAID modi und schnellen und günstigen Snapshots. </li>
+</ul>
+<h3 id="mcetoc_1g4tdcg765ga">Feature Übersicht</h3>
+<ul>
+<li>Open source software</li>
+<li>Kein Vendor lock-in</li>
+<li>Linux kernel</li>
+<li>Schnelle installation, einfach zu verwenden</li>
+<li>Web-basiertes Management Interface</li>
+<li>REST API</li>
+<li>Grosse aktive Community</li>
+<li>Tiefe Administrationskosten und einfaches deployment</li>
+</ul>
+            ]]>
+        </content>
+    </entry>
     <entry>
         <title>Testen von I/O-Operationen</title>
         <author>
@@ -634,68 +746,6 @@
 <p><code>public static void main(String[] args) throws Exception {</code><br><code>    IntSupplier test = erzeugeClosure();</code><br><code>    new Thread(() -&gt; System.out.println(test.getAsInt())).start();</code><br><code>}</code><br><code>public static IntSupplier erzeugeClosure() {</code><br><code>    int wert = 123;</code><br><code>    return (() -&gt; wert);</code><br><code>}</code></p>
 <p>Die Funktion <em>erzeugeClosure</em> gibt eine Instanz des funktionalen Interface <em>IntSupplier</em> zurück, die als Lambda angegeben ist. Die <em>main</em>-Methode führt diese zurückgegebene Instanz in einem neuen Thread aus, indem sie ihre <em>getAsInt</em>-Methode ruft. Obwohl der Wert dieser Variable zu diesem Zeitpunkt nicht mehr im Scope liegt, kommt es zur Ausgabe "123". Das ist möglich, weil die Variable in der Closure, die für den Lambda-Ausdruck erzeugt wird, noch vorhanden ist. <strong>Der Lambda-Ausdruck ist das, was Sie in Ihrem Code niederschreiben. Erst zur Laufzeit wird daraus und aus der Ausführungsumgebung eine Closure.</strong></p>
 <p> </p>
-            ]]>
-        </content>
-    </entry>
-    <entry>
-        <title>Lambda-Ausdrücke Teil 1</title>
-        <author>
-            <name>Finecloud</name>
-        </author>
-        <link href="https://www.finecloud.ch/lambda-ausdruecke.html"/>
-        <id>https://www.finecloud.ch/lambda-ausdruecke.html</id>
-            <category term="softwareentwicklung"/>
-            <category term="lambda"/>
-            <category term="java"/>
-            <category term="dev"/>
-
-        <updated>2022-06-06T23:15:28+02:00</updated>
-            <summary>
-                <![CDATA[
-                    Seit Java 8 können mit Lambda Expressions Funktionen komfortabler, kürzer und lesbarer ausgedrückt werden. Nachfolgend ein Beispiel von Java Code. Dieses Stück Code sucht aus Ihrer Musiksammlung die 100 längsten Songs heraus, die Sie mit mehr als vier Sternen bewertet haben und deren Interpret Ihnen&hellip;
-                ]]>
-            </summary>
-        <content type="html">
-            <![CDATA[
-                <div class="post__toc">
-<h3>Table of Contents</h3>
-<ul>
-<li><a href="#mcetoc_1g4tduort5q2">Was sind Lambda-Ausdrücke?</a></li>
-<li><a href="#mcetoc_1g4tduort5q3">Die Lambda-Syntax</a></li>
-<li><a href="#mcetoc_1g4tduort5q4">Methodenreferenz</a></li>
-</ul>
-</div>
-<p>Seit Java 8 können mit Lambda Expressions Funktionen komfortabler, kürzer und lesbarer ausgedrückt werden.</p>
-<p>Nachfolgend ein Beispiel von Java Code. Dieses Stück Code sucht aus Ihrer Musiksammlung die 100 längsten Songs heraus, die Sie mit mehr als vier Sternen bewertet haben und deren Interpret Ihnen nicht bekannt ist, und berechnet die Gesamtlänge dieser Songs:</p>
-<p><code>List&lt;Song&gt; songs = …;</code><br><code>int sekunden = 0;</code><br><code>Sekunden</code><br><code>Collections.sort(songs, new Comparator&lt;Song&gt;(){</code><br><code>    @Override</code><br><code>    public int compare(Song o1, Song o2) {</code><br><code>        return o1.getLaengeInSekunden() - o2. getLaengeInSekunden ();</code><br><code>    }</code><br><code>});</code><br><code>int zaehler = 0;</code><br><code>for (Song song : songs){</code><br><code>    if (song.getSterne() &gt; 4 </code><br><code>            &amp;&amp; ("Unbekannter Künstler".equals(song.getInterpret())){</code><br><code>        sekunden += song.getLaengeInSekunden();</code><code></code><br><code>        if (++zaehler &gt; 100) break;</code><br><code>    }</code><br><code>}</code></p>
-<p>Nachfolgend der Java Code der den gleichen Zweck erfüllt, aber Lambda Ausdrücke verwendet:</p>
-<p><code>int sekunden = songs.stream()</code><br><code>    .filter(song -&gt; "Unbekannter Künstler".equals(song.getInterpret()))</code><br><code>    .filter(song -&gt; song.getSterne() &gt; 4)</code><br><code>    .sorted(Comparator.comparing(Song::getLaengeInSekunden).reversed())</code><br><code>    .limit(100)</code><br><code>    .mapToInt(Song::getLaengeInSekunden)</code><br><code>    .sum();</code></p>
-<p>Die Vorteile liegen auf der Hand: Abgesehen von der Zeilen und Codelänge ist der Code auch viel einfach verständlich, schnell lässt sich erkennen, was der Code bewirkt. In den ersten beiden Zeilen wird die Liste gefiltert (filter), danach sortiert (sorted), auf die 100 ersten Ergebnisse beschränkt (limit), jeder Song auf sein int-Feld laengeInSekunden abgebildet (mapToInt) und von den Längen schliesslich die Summe (sum) berechnet</p>
-<h3 id="mcetoc_1g4tduort5q2">Was sind Lambda-Ausdrücke?</h3>
-<p>Es handelt sich dabei um Javas Sprachmittel, um Funktionen auszudrücken, im Gegensatz dazu stehen die prozedualen Konstrukte wie Verzweigungen und Schleifen, mit denen der Programmierablauf dargestellt wird. Lambda-Ausdrücke erlauben es zusammen mit entsprechenden APIs im Code nur das Wesentliche zu schreiben, ohne dabei jedes Mal das Übliche wiederholen zu müssen. Das Wesentliche ist eine Liste von Songs zu filtern. Das Übliche wäre in diesem Fall, über eine Liste zu iterieren und jedes Element zu prüfen.</p>
-<p>Ohne Lambda-Ausdrücke wird der Code länger, wenige gut lesbar und Fehleranfälliger, denn in Schleifen und Prüfungen schleichen sich gerne Fehler ein.</p>
-<h3 id="mcetoc_1g4tduort5q3">Die Lambda-Syntax</h3>
-<p>Lambda-Ausdrücke sind auf den ersten Blick als solche erkennbar durch den Pfeil -&gt;, der vorkommen muss und in Java keine andere Bedeutung hat.</p>
-<p><code>(Song song) -&gt; {</code><br><code>    return "Unbekannter Künstler".equals(song.getInterpret());</code><br><code>}</code></p>
-<p>Links vom Pfeil stehen die Parameter und rechts vom Pfeil steht, was mit diesen parametern geschehen soll. Mehrere Parameter werden, genau wie bei einer Methodendeklaration auch durch Kommas getrennt.</p>
-<p>Doch es geht noch kürzer. Es dürfen auch die Parametertypen wegfallen:</p>
-<p><code>(song) -&gt; {</code><br><code>    return "Unbekannter Künstler".equals(song.getInterpret());</code><br><code>}</code></p>
-<p>Der Java-Compiler ist inzwischen sehr gut darin, Typen aus dem Kontext zu erkennen. Da wir mit einer List&lt;Song&gt; arbeiten und daraus ein Stream&lt;Song&gt; wird, ist für den Compiler klar, dass der Typ des Rückgabewerts auch ein Song sein muss.</p>
-<p>Weiter darf, wenn der Lambda-Ausdruck nur ein Parameter benötigt die Klammer um den Parameter herum entfallen:</p>
-<p><code>song -&gt; {</code><br><code>    return "Unbekannter Künstler".equals(song.getInterpret());</code><br><code>}</code></p>
-<p>Wenn der Ausdruck allerdings keine Parameter hat, muss die Klammer wieder hin. Beispielsweise kann () -&gt; 3 ein gültiger Lambda-Ausdruck sein, der keine Parameter erwartet und die Zahl 3 zurückgibt.</p>
-<p>Als letzte Verkürzungsregel darf, wenn ein Rumpf eines Ausdrucks nur aus einem Ausdruck besteht, also einer einzigen Anweisung, die zu einem Wert ausgewertet wird (Vergleich, Berechnung oder Methodenaufruf) nur der Wert-Ausdruck selbst angegeben werden, ohne geschweifte Klammern, ohne Semikolon und ohne return:</p>
-<p><code>song -&gt; "Unbekannter Künstler".equals(song.getInterpret())</code></p>
-<p>Dabei gibt es aber keine Zwischenschritte, entweder man gibt den Ausdruck wie im letzten Beispiel an, oder man muss den Ausdruck mit geschweiften Klammern, Semikolon und return angeben. Natürlich ist die kürzeste Version anzustreben. Deshalb sollte immer auf die Blockschreibweise verzichtet werden, ausser man hat mehr als ein Wert-Ausdruck, beispielsweise bei einem if-Statement, hier müssen die äusseren Klammern und Returns geschrieben werden:</p>
-<p><code>(s1, s2) -&gt; {</code><br><code>    if (aufsteigend){</code><br><code>        return s1.getLaengeInSekunden() - s2.getLaengeInSekunden();</code><br><code>    } else {</code><br><code>        return s2.getLaengeInSekunden() - s1.getLaengeInSekunden();</code><br><code>    }</code><br><code>}</code></p>
-<p>Als letzte Spezialität in diesem Artikel gehe ich auf die Variable aufsteigend ein. Genau wie anonyme innere Klassen können Lambdas auf lokale Variabeln ihrer Umgebung zugreifen. Diese lokalen Variablen müssen nicht als final deklariert werden, müssen aber also solche behandelt werden. Das heisst, es reicht aus wenn ihnen im Lambda-Ausdruck oder danach kein neuer Wert mehr zugewiesen wird.</p>
-<h3 id="mcetoc_1g4tduort5q4">Methodenreferenz</h3>
-<p>Wenn ein Lambda-Ausdruck nur am einzigen übergebenen Parameter eine Methode aufruft und deren Rückgabewert weitergibt, dann kann statt des Lambda-Ausdrucks eine Methodenreferenz angeben werden. Die nachfolgenden Aufrufe haben die gleiche Wirkung:</p>
-<p><code>Comparator.comparing(song -&gt; song.getSterne());</code><br><code>Comparator.comparing(Song::getSterne);</code></p>
-<p>Methodenreferenzen erkennt man am doppelten Doppelpunkt. Davor steht die Klasse, dahinter die Methode. Wichtig ist, dass man bei der Methodenreferenz keine Klammern nach dem Methodenamen setzt. Das Beispiel von oben ist eine <em>ungebundene Referenz</em>: Sie bezeichnet nicht die getSterne-Methode eines bestimmten Objekts, sondern kann auf beliebige Objekte der Klasse Song angewendet werden. Ist vor dem doppelten Doppelpunkt keine Klasse, sondern eine Objektreferenz, dann ist die Methodenreferenz gebunden und meint immer die Methode dieses einen Objekts.</p>
-<p><code>Musicplayer player = new Musicplayer();</code><br><code>songs</code><br><code>        .filter(s -&gt; s. getSterne() == 5)</code><br><code>        .forEach(player::play);</code></p>
-<p>Die Referenz player::play meint immer die play-Methode des Musicplayer, den die Variable player referenziert. Mit Lambda-Ausdrücken, aber ohne Methodenreferenz, sähe das Beispiel dann so aus:</p>
-<p><code>Musicplayer player = new Musicplayer();</code><br><code>songs</code><br><code>        .filter(s -&gt; s. getSterne() == 5)</code><br><code>        .forEach(s -&gt; player.play(s));</code></p>
             ]]>
         </content>
     </entry>

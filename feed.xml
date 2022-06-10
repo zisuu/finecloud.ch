@@ -3,12 +3,54 @@
     <title>Finecloud</title>
     <link href="https://www.finecloud.ch/feed.xml" rel="self" />
     <link href="https://www.finecloud.ch" />
-    <updated>2022-06-09T13:16:03+02:00</updated>
+    <updated>2022-06-10T14:58:43+02:00</updated>
     <author>
         <name>Finecloud</name>
     </author>
     <id>https://www.finecloud.ch</id>
 
+    <entry>
+        <title>Netzwerkkommunikation mit Java</title>
+        <author>
+            <name>Finecloud</name>
+        </author>
+        <link href="https://www.finecloud.ch/netzwerkkommunikation-mit-java.html"/>
+        <id>https://www.finecloud.ch/netzwerkkommunikation-mit-java.html</id>
+            <category term="writer"/>
+            <category term="softwareentwicklung"/>
+            <category term="socket"/>
+            <category term="reader"/>
+            <category term="network"/>
+            <category term="java.io"/>
+            <category term="java"/>
+            <category term="dev"/>
+            <category term="bufferedwriter"/>
+
+        <updated>2022-06-10T14:58:43+02:00</updated>
+            <summary>
+                <![CDATA[
+                    In Java gibt es keinen nennenswerten Unterschied wischen I/O mit Daten und I/O mit Netzwerkverbindungen. In beiden Fällen basiert die Ein- und Ausgabe auf InputStream und OutputStream, der Unterschied liegt nur darin, wo diese Datenströme herkommen. Bei der Netzwerkkommunikation mit dem TCP-Protokoll kommen sie aus&hellip;
+                ]]>
+            </summary>
+        <content type="html">
+            <![CDATA[
+                <p>In Java gibt es keinen nennenswerten Unterschied wischen I/O mit Daten und I/O mit Netzwerkverbindungen. In beiden Fällen basiert die Ein- und Ausgabe auf InputStream und OutputStream, der Unterschied liegt nur darin, wo diese Datenströme herkommen. Bei der Netzwerkkommunikation mit dem TCP-Protokoll kommen sie aus einem Socket. Bei UDP wird die Klasse DatagramSocket verwendet, welche nicht auf Streams basiert.</p>
+<p>Socket hat zwar eine lange Liste von Methoden, aber bei der grundlegenden Verwendung kann man die meisten davon ignorieren.</p>
+<h3>Client-Seite</h3>
+<p><code>String nachricht = in.readLine();</code><br><code>try (Socket verbindung = new Socket("localhost", 23456)){</code><br><code>    BufferedReader reader = new BufferedReader(</code><br><code>     new InputStreamReader(verbindung.getInputStream())); </code><br><code>    BufferedWriter writer = new BufferedWriter(</code><br><code>     new OutputStreamWriter(verbindung.getOutputStream()));</code><br><code>    writer.write(nachricht);</code><br><code>    writer.newLine();</code><br><code>    writer.flush();</code><br><code>    String antwort = reader.readLine();</code><br><code>}</code></p>
+<p>Im Beispiel wird dem Socket im Konstruktor Adresse (IP oder Hostname) und Port des Servers angegeben, mit dem eine Verbindung hergestellt werden soll. Die Verbindung wird automatisch hergestellt und mit den Methoden getInputStream und getOutputStream kann man Daten vom Server empfangen und zum Server senden.</p>
+<p>Einen kleinen Unterschied zwischen Netzwerk I/O und Datei I/O gibt es mit der flush-Methode. Sie sorgt dafür, dass der Schreibpuffer sofort weiterverarbeitet wird, auch wenn er noch nicht voll ist. Dabei wird der Strom aber nicht sofort geschlossen, denn es sollen nicht nur Daten in eine Richtung versendet werden, es soll echte Kommunikation in beide Richtungen stattfinden. Damit der Server eine Antwort schicken kann, die dann mit readLine gelesen werden kann, muss er zunächst die Nachricht vom Client erhalten und dazu muss der Client den Puffer leeren.</p>
+<p>Ausserdem wird weder InputStream noch OutputStream geschlossen. Beide sind fest mit dem Socket verbunden, aus dem sie hergestellt wurden und wenn man einen der Ströme schliesst, wird auch der Socket geschlossen. Andersherum werden die Datenströme aber auch geschlossen, wenn man den Socket schliesst, deswegen reicht es, diesen als Ressource für den try-Block anzugeben.</p>
+<h3>Server-Seite</h3>
+<p>Ein einfaches Serverprogramm in Java zu schreiben, ist kaum anders als beim Client, nur die Herkunft des Sockets ändert sich:</p>
+<p><code>ServerSocket server = new ServerSocket(23456);</code><br><code>try (Socket verbindung = server.accept()){</code><br><code>    BufferedReader reader = new BufferedReader(</code><br><code>     new InputStreamReader(verbindung.getInputStream())); </code><br><code>    BufferedWriter writer = new BufferedWriter(</code><br><code>     new OutputStreamWriter(verbindung.getOutputStream()));</code><br><code>    String nachricht = reader.readLine();</code><br><code>    writer.write(antwort);</code><br><code>    writer.flush();</code><br><code>}</code></p>
+<p>Ein ServerSocket dient nicht direkt der Kommunikation, er wartet nur auf eingehende Verbindungen. Der Konstruktor-Parameter gibt den Port an, auf dem Verbindungen akzeptiert werden sollen; die Methode accept wartet, bis auf diesem Port eine Verbindung hergestellt wird. Und warten heisst hier wirklich warten: accept blockiert so lange, bis eine Verbindung zustande kommt. Wenn dies der Fall ist, gibt accept einen Socket zurück, mit dem man genauso verfahren kann, wie mit einem Socket auf der Client-Seite.</p>
+<p>Wie demonstriert, wird nur eine Verbindung akzeptiert und verarbeitet. Für ein Beispiel ausreichend, werden für einen echten Serverprozess dagegen üblicherweise Verbindungen in einer Schleife akzeptiert und die Verarbeiten wird in einem neuen Thread durchgeführt, so dass dieser Thread erneut mit accept auf Verbindungen warten kann.</p>
+<p>Hier ein Beispiel-Code für ServerSocket mit Threads:</p>
+<p><code>ServerSocket server = new ServerSocket(23456);</code><br><code>while(!beendet){</code><br><code>    try (Socket verbindung = server.accept()){</code><br><code>        new Thread(() -&gt; verarbeiteVerbidnung(verbindung));</code><br><code>    }</code><br><code>}</code></p>
+            ]]>
+        </content>
+    </entry>
     <entry>
         <title>Proxmox VE 7.2 Installation</title>
         <author>
@@ -754,79 +796,6 @@
 <p>Komplexere Methoden, die aus einem Stream wieder andere Typen gewinnen, um z.B. einen Stream wieder in eine Liste umzuwandeln, werden mit Collections umgesetzt.</p>
 <p> </p>
 <p> </p>
-            ]]>
-        </content>
-    </entry>
-    <entry>
-        <title>Lambda Funktionale Interfaces</title>
-        <author>
-            <name>Finecloud</name>
-        </author>
-        <link href="https://www.finecloud.ch/lambda-funktionale-interfaces.html"/>
-        <id>https://www.finecloud.ch/lambda-funktionale-interfaces.html</id>
-            <category term="softwareentwicklung"/>
-            <category term="lambda"/>
-            <category term="java"/>
-            <category term="interface"/>
-            <category term="functional"/>
-            <category term="dev"/>
-
-        <updated>2022-06-06T23:15:00+02:00</updated>
-            <summary>
-                <![CDATA[
-                    Lambda Interfaces sind häufig benötigte Lambda-Ausdrücke, die Teil des JDKs sind und damit nicht in jedem Projekt wieder neu angelegt werden müssen. Zum Beispiel kann mit dieser Methode eine Summe aus Objekten berechnet werden: public static &lt;T&gt; long summiere(List&lt;T&gt; tees, ToIntFunction&lt;T&gt; func){ long result =&hellip;
-                ]]>
-            </summary>
-        <content type="html">
-            <![CDATA[
-                <div class="post__toc">
-<h3>Table of Contents</h3>
-<ul>
-<li><a href="#mcetoc_1g4tdtt405pg">Function</a></li>
-<li><a href="#mcetoc_1g4tdtt405ph">Predicate</a></li>
-<li><a href="#mcetoc_1g4tdtt405pi">Consumer</a></li>
-<li><a href="#mcetoc_1g4tdtt405pj">Supplier</a></li>
-<li><a href="#mcetoc_1g4tdtt405pk">BiFunction, BiPredicate, BiConsumer</a></li>
-</ul>
-</div>
-<p>Lambda Interfaces sind häufig benötigte Lambda-Ausdrücke, die Teil des JDKs sind und damit nicht in jedem Projekt wieder neu angelegt werden müssen.</p>
-<p>Zum Beispiel kann mit dieser Methode eine Summe aus Objekten berechnet werden:</p>
-<p><code>public static &lt;T&gt; long summiere(List&lt;T&gt; tees, ToIntFunction&lt;T&gt; func){</code><br><code>    long result = 0;</code><br><code>    for (T tee : tees){</code><br><code>        result += func.applyAsInt(tee);</code><br><code>    }</code><br><code>    return result;</code><br><code>}</code></p>
-<p>Alle Interfaces die Lambda-Ausdrücke ermöglichen, sind Bestandteil des Packages java.util.function. Darin sind rund 40 Interfaces enthalten. Eine konsequente Namenskonvention hilft den Überblick zu behalten. Dabei werden die Interfaces grundlegend nach der Form benannt, also nach Parametern und Rückgabewerten. Diese grundlegenden Interfaces arbeiten mit Objekten. Für Interfaces, die dieselbe Operation für Primitive bereitstellen, wird der Name des primitiven Typs vorangestellt:</p>
-<ul>
-<li>Function&lt;T, R&gt; erwartet ein Objekt vom Typ T als Parameter und gibt ein Objekt vom Typ R zurück.</li>
-<li>ToIntFunction&lt;T&gt; erwartet ein Objekt vom Typ T als Parameter und gibt einen int-Wert zurück.</li>
-<li>DoubleToIntFunction erwartet einen double-Wert als Parameter und gibt einen int-Wert zurück.</li>
-</ul>
-<p>Nicht alle möglichen Kombinationen stehen zur Verfügung, aber die am häufigsten gebrauchten sind da. Nachfolgend schauen wir uns die grundlegenden Formen von funktionalen Interfaces an.</p>
-<h3 id="mcetoc_1g4tdtt405pg">Function</h3>
-<p>Funktionsobjekte entsprechen in etwa der mathematischen Definition von einstelligen Funktionen: Sie bilden einen Wert auf einen anderen ab. Eine einfache Function ist eine Abbildung von einem Objekt auf ein anderes Objekt, eine ToIntFunction eine Abbildung von einem Objekt auf einen int-Wert usw.</p>
-<p>Im vorherigen Codebeispiel haben wir eine Anwendung für ToIntFuntion gesehen, dort werden Objekte auf einen Int-Wert abgebildet, der anschliessend zu einer laufenden Summe addiert wird. Auch die Methode Comparator.comparing erwartet ein Function-Objekt als Parameter:</p>
-<p><code>Comparator&lt;Song&gt; nachTitel = Comparator.comparing(s -&gt; s. getTitel());</code></p>
-<p>In diesem Beispiel werden Songs nach ihrem Titel sortiert, indem jeder Song als einen String, sein Titel abbildet und anschliessend nach der natürlichen Reihenfolge dieser Strings sortiert wird. Genau in diesem Fall können Sie auch eine Methodenreferenz verwenden: (da der Lambda-Ausdruck lediglich aus einem parameterlosen Methodenaufruf besteht):</p>
-<p><code>Comparator&lt;Song&gt; nachTitel = Comparator.comparing(Song::getTitel);</code></p>
-<p>Es gibt aber auch Funktionen deren Eingabe- und Ausgabetypen identisch sind, diese werden als Unary-Operator bezeichnet. So gibt es zum Beispiel den IntUnaryOperator, der einen int-Wert auf einen anderen int-Wert abbildet.</p>
-<h3 id="mcetoc_1g4tdtt405ph">Predicate</h3>
-<p>Funktionen bei denen der Eingabewert immer auf eine boolean-Ausgabe abgebildet wird, werden Prädikate genannt. Predicate könnte also auch ToBooleanFunction heisst, hat aber wegen seiner besonderen Bedeutung einen eigenen Namen erhalten. Predicate sind besonders wichtig zum Filtern. Damit kann ein Stream mit einem Predicate-Objekt gefiltert werden, so dass nur noch die Elemente enthalten sind, die das Prädikat erfüllen, für die der Lambda-Ausdruck also true zurückgibt:</p>
-<p><code>List&lt;Song&gt; songs = …;</code><br><code>songs.stream().filter(s -&gt; s. getSterne() == 5).count();</code></p>
-<p>Doch damit nicht genug, es ist weiter möglich Predicate mit logischen Operatoren AND, OR und NOT anzuwenden und somit mehrere Predicate zu einem einzigen zu verknüpfen:</p>
-<p><code>private static Predicate&lt;Song&gt; baueSuchPredicate(String suchtitel,</code><br><code> String suchinterpret, int suchsterne) {</code><br><code>    Predicate&lt;Song&gt; filter = (s-&gt;true);</code><br><code>    if (suchtitel != null){</code><br><code>        filter = filter.and(s -&gt; </code><br><code>                s.getTitel().startsWith(suchtitel));</code><br><code>    }</code><br><code>    if (suchinterpret != null){</code><br><code>        filter = filter.and(s -&gt; </code><br><code>                s.getInterpret().startsWith(suchinterpret));</code><br><code>    }</code></p>
-<p><code></code><code> if (suchsterne &gt; 0){</code><br><code>        filter = filter.and(s -&gt; s. getSterne() &gt;= suchsterne);</code><br><code>    }</code><br><code>    return filter;</code><br><code>}</code></p>
-<p>Die Initialisierung mit Predicate&lt;Song&gt; filter = (s-&gt;true) wird deshalb so vorgenommen, damit es ein erstes Objekt gibt, an dem Sie überhaupt and rufen können. Anderenfalls müssten Sie bei jedem Suchattribut wieder prüfen, ob es schon einen Filter gibt, falls ja, and rufen, und falls nein, einen erzeugen.</p>
-<h3 id="mcetoc_1g4tdtt405pi">Consumer</h3>
-<p>Dabei handelt es sich um Funktionen ohne Rückgabewert. Sie erwarten einen Parameter, den sie verarbeiten, liefern aber kein Ergebnis:</p>
-<p><code>public static void main(String[] args) throws IOException{</code><br><code>    liesStrings((s) -&gt; System.out.println(s));</code><br><code>}</code><br><code>    </code><br><code>public static void liesStrings(Consumer&lt;String&gt; sink) throws IOException{</code><br><code>    BufferedReader in = new BufferedReader(new InputStreamReader(System.in));</code><br><code>    String line;</code><br><code>    while (!"".equals(line = in.readLine())){</code><br><code>        sink.accept(line);</code><br><code>    }</code><br><code>}</code></p>
-<p>Die Methode liesStrings liest so lange beliebig viele Strings von der Standardeingabe, bis eine leere Zeile gelesen wird und gibt jede gelesene teile an den übergebenen Consumer&lt;String&gt; weiter. Im Beispiel werden die gelesenen Strings einfach wieder ausgegeben, aber dieselbe Methode könnte eine Eingabe auch in einer Liste sammeln, oder jede Zeile als Kommando interpretieren:</p>
-<p><code>//Zeilen in eine Liste lesen</code><br><code>List&lt;String&gt; zeilen = new ArrayList&lt;&gt;();</code><br><code>liesStrings(zeilen::add);</code><br><code>//Zeilen als Kommandos ausführen</code><br><code>liesStrings(this::fuehreKommandoAus);</code></p>
-<h3 id="mcetoc_1g4tdtt405pj">Supplier</h3>
-<p>Supplier ist das Gegenstück zum Consumer, sie haben keine Parameter, geben aber etwas zurück.</p>
-<p>Welchen Sinn kann ein solcher Aufruf</p>
-<p><code>zeigeNachricht(() -&gt; entschluessleNachricht(nachricht))</code><br><br>gegenüber dem folgenden, einfacheren haben?<br><br><code>zeigeNachricht(entschluessleNachricht(nachricht))</code><br><br>In diesem Beispiel können Sie unnötigen Rechenaufwand vermeiden. Die Methode zeigeNachricht stammt aus einem fiktiven E-Mail-Client, der Verschlüsselung beherrscht. Ihre Implementierung könnte so aussehen:<br><br><code>public zeigeNachricht(String nachricht){</code><br><code>    if (zeigeVorschau)</code><br><code>        System.out.println(nachricht);</code><br><code>}</code></p>
-<p>Im Beispiel wird die entschlüsselte Nachricht an die Methode übergeben, obwohl noch nicht klar ist, ob sie überhaupt benötigt wird. Wenn zeigeVorschau false ist, dann wird der Parameter ignoriert und die potenziell teure Entschlüsselung war umsonst.</p>
-<p><code>public zeigeNachricht(Supplier&lt;String&gt; nachricht){</code><br><code>    if (zeigeVorschau)</code><br><code>        System.out.println(nachricht.get());</code><br><code>}</code></p>
-<p>Nicht so in diesem Fall. Die Nachricht wird erst dann entschlüsselt, wenn am Supplier get gerufen wird, solange get nicht gerufen wird, wird die Nachricht nicht entschlüsselt.</p>
-<h3 id="mcetoc_1g4tdtt405pk">BiFunction, BiPredicate, BiConsumer</h3>
-<p>Zu diesen Funktionen gibt es jeweils noch eine Variante mit einem vorangestellten Bi-. Diese unterscheiden sich von ihren einfachen Gegenstücken dadurch, dass sie zwei Parameter statt einem nehmen. Ein BiPredicate bildet also zum Beispiel zwei Objekte auf einen boolean-Wert ab. Funktionen die zwei gleichartige Wert auf einen dritten Wert desselben Typs abbilden heissen BinaryOperator.</p>
             ]]>
         </content>
     </entry>

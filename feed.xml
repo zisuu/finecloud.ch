@@ -3,12 +3,54 @@
     <title>Finecloud</title>
     <link href="https://www.finecloud.ch/feed.xml" rel="self" />
     <link href="https://www.finecloud.ch" />
-    <updated>2022-06-17T06:44:36+02:00</updated>
+    <updated>2022-06-18T14:28:14+02:00</updated>
     <author>
         <name>Finecloud</name>
     </author>
     <id>https://www.finecloud.ch</id>
 
+    <entry>
+        <title>Atomare Datentypen</title>
+        <author>
+            <name>Finecloud</name>
+        </author>
+        <link href="https://www.finecloud.ch/atomare-datentypen.html"/>
+        <id>https://www.finecloud.ch/atomare-datentypen.html</id>
+            <category term="threads"/>
+            <category term="softwareentwicklung"/>
+            <category term="parallel"/>
+            <category term="java"/>
+            <category term="dev"/>
+            <category term="atomar"/>
+
+        <updated>2022-06-18T14:27:50+02:00</updated>
+            <summary>
+                <![CDATA[
+                    Das Problem beim inkrementieren von einer zentralen int-Variabel mit mehreren Threads ist, dass diese sich bekanntlich überschreiben. Davon handelt der vorherige Blogpost. Die einzige Lösung hierfür ist, dass man statt der primitiven Objekt int-Klasse die Klasse java.util.concurrent.atomic.AtomicInteger zu verwenden. Der einzige Zweck dieser Klasse ist,&hellip;
+                ]]>
+            </summary>
+        <content type="html">
+            <![CDATA[
+                <p>Das Problem beim inkrementieren von einer zentralen int-Variabel mit mehreren Threads ist, dass diese sich bekanntlich überschreiben. Davon handelt der vorherige <a href="https://www.finecloud.ch/multithreading.html">Blogpost</a>. Die einzige Lösung hierfür ist, dass man statt der primitiven Objekt int-Klasse die Klasse <em>java.util.concurrent.atomic.AtomicInteger</em> zu verwenden. Der einzige Zweck dieser Klasse ist, int-Operatoren atomar zu machen. Für diesen Zweck bietet sich die Methode <em>incrementAndGet</em> an, die dasselbe macht die der ++-Operator für int-primitive, aber garantiert atomar:</p>
+<p><code>public class ThreadTest {</code><br><code>    public AtomicInteger counter = new AtomicInteger();</code><br><br><code>    public void run() {</code><br><code>        Thread[] threads = new Thread[10];</code><br><code>        for (int i = 0; i &lt; 10; i++) {</code><br><code>            threads[i] = new Thread(() -&gt; {</code><br><code>                for (int j = 0; j &lt; 100; j++){</code><br><code>                    counter.incrementAndGet();</code><br><code>                }</code><br><code>            }, "Thread " + i);</code><br><code>            threads[i].start();</code><br><code>        }</code><br><code>        //warten und ausgeben, genau wie vorher</code><br><code>    }</code><br><code>}</code></p>
+<p>Dieser Code zählt garantiert immer bis 1000. AtomicInteger stellt sicher, dass es niemals zu einer Unterbrechung zwischen Auslesen, Addieren und Zurückschreiben kommt, egal wieviele Threads darauf zugreifen.</p>
+<p>Das bedeutet für alle anderen Threads, dass die warten müssen. Erst wenn der vorherige Thread die Methode <em>incrementAndGet</em> verlassen hat, kann der nächste Thread sie betreten.</p>
+<p>Die anderen Methoden von AtomicInteger funktionieren auch nach diesem Prinzip:</p>
+<ul>
+<li><em>decrementAndGet</em> verringert den Wert um eins, entsprechend dem Operator --.</li>
+<li><em>getAndIncrement</em> und <em>getAndDecrement</em> erhöhen/verringern den gespeicherten Wert ebenfalls, geben aber den alten Wert zurück. Diese Methoden entsprechen den nachgestellten Operatoren x++ und x--, die vorgenannten Methoden den vorangestellten Operatoren ++x und --x.</li>
+<li><em>addAndGet</em> addiert den übergeben int-Wert zum gespeicherten Wert. Es gibt keine analoge Methode subtractAndGet, zum Subtrahieren muss man eine negative Zahl an <em>addAndGet</em> übergeben.</li>
+<li><em>set</em> setzt einen neuen Wert und überschreibt den alten.</li>
+<li><em>getAndSet</em> setzt einen neuen Wert und gibt den alten Wert zurück.</li>
+<li><em>compareAndSet</em> nimmt zwei int-Parameter und setzt den zweiten als neuen Wert, wenn dem der erste dem aktuellen Wert entspricht.</li>
+</ul>
+<p>Dieselben Methoden bietet auch die Klasse AtomicLong, die Operationen auf einer long-Variablen atomar macht. Daneben gibt es die Klassen AtomicBoolean und AtomicReference, die für eine boolean-Variable bzw. für eine Objektvariable die Operationen getAndSet und compareAndSet anbieten.</p>
+<p>Wenn man mehrere Variablen in einem gemeinsamen konsistenten Zustand halten muss, dann reichen diese Werkzeuge nicht mehr aus. In diesem Fall muss man auf die <em>Synchronisation</em> zurückgreifen.</p>
+<p> </p>
+<p> </p>
+            ]]>
+        </content>
+    </entry>
     <entry>
         <title>Tabby Config-Sync auf Nextcloud einrichten</title>
         <author>
@@ -101,7 +143,7 @@
             <category term="java"/>
             <category term="dev"/>
 
-        <updated>2022-06-17T06:32:45+02:00</updated>
+        <updated>2022-06-18T14:28:14+02:00</updated>
             <summary>
                 <![CDATA[
                     In Java ist ein Thread zunächst ein Objekt wie jedes andere auch. Ein Thread kann erzeugt werden, indem man einen Konstruktoren der Klasse Thread aufruft. Diesen kann man behandeln wie jedes andere Objekt auch, ihn in einer Variabel speichern, als Parameter übergeben usw. Erst wenn&hellip;
@@ -140,7 +182,7 @@
 </ol>
 <p>Das Problem ist, dass der Inkrement-Operator nicht <em>atomar</em> ist. Als atomar bezeichnet werden solche Operatoren, die nicht von einem anderen Thread unterbrochen werden können.</p>
 <p>Operationen, die ihrerseits ohne weiteres zutun atomar sind, gibt es in Java nur eine: die Zuweisung. Objektvariablen und primitive Variabel mit der Ausnahme von long und double werden neue Werte von der JVM in nur einem Arbeitsschritt zugewiesen, es ist für einen anderen Thread schlicht nicht möglich, eine Zuweisung zu unterbrechen.</p>
-<p>Atomare Zuweisungen lösen das obrige Problem aber leider nicht. Um den Zähler trotz Zugriff aus mehreren Threads korrekt zu halten, müssen wir selbst dafür sorgen, dass die Variable atomar inkrementiert wird. Dazu gibt es zwei Wege: einen einfacheen mit begrenzen Möglichkeiten mit "Atomaren Datentypen" oder einen komplexen, aber vielseitigen mittels "Synchronisation".</p>
+<p>Atomare Zuweisungen lösen das obrige Problem aber leider nicht. Um den Zähler trotz Zugriff aus mehreren Threads korrekt zu halten, müssen wir selbst dafür sorgen, dass die Variable atomar inkrementiert wird. Dazu gibt es zwei Wege: einen einfacheen mit begrenzen Möglichkeiten mit "<a href="https://www.finecloud.ch/atomare-datentypen.html">Atomaren Datentypen</a>" oder einen komplexen, aber vielseitigen mittels "Synchronisation".</p>
 <p> </p>
 <p> </p>
             ]]>
@@ -710,36 +752,6 @@
 <p>So einfach bekommen Sie den besten Song jedes Interpreten. Erst werden Songs nach Interpret gruppiert, in jeder Gruppe wird anschliessend der Song mit der maximalen Anzahl Sterne gefunden.</p>
 <p>Fast immer ist es egal, welche Art von Map Sie beim Gruppieren oder Partitionieren zurückbekommen, aber in seltenen Fällen möchten Sie eine bestimmte Art von Map nutzen, zum Beispiel eine SortedMap. Für diesen Fall können Sie auch noch einen Supplier übergeben, der die richtige Map-Implementierung erzeugt.</p>
 <p> </p>
-            ]]>
-        </content>
-    </entry>
-    <entry>
-        <title>Endlose Streams</title>
-        <author>
-            <name>Finecloud</name>
-        </author>
-        <link href="https://www.finecloud.ch/endlose-streams.html"/>
-        <id>https://www.finecloud.ch/endlose-streams.html</id>
-            <category term="threads"/>
-            <category term="stream-api"/>
-            <category term="softwareentwicklung"/>
-            <category term="lambda"/>
-            <category term="java"/>
-            <category term="dev"/>
-
-        <updated>2022-06-02T11:03:18+02:00</updated>
-            <summary>
-                <![CDATA[
-                    Nicht jeder Stream ist endlich. Manche Streams erzeugen immer weiter Daten. Solche Streams nennt man auch Generatoren, weil sie ihre Daten selbst herstellen. Dazu gibt es in Stream und den primitiven Streams jeweils zwei statische Methoden, die einen solchen Stream erzeugen. Die generate-Methode arbeiten mit&hellip;
-                ]]>
-            </summary>
-        <content type="html">
-            <![CDATA[
-                <p>Nicht jeder Stream ist endlich. Manche Streams erzeugen immer weiter Daten. Solche Streams nennt man auch Generatoren, weil sie ihre Daten selbst herstellen. Dazu gibt es in Stream und den primitiven Streams jeweils zwei statische Methoden, die einen solchen Stream erzeugen.</p>
-<p>Die <em>generate</em>-Methode arbeiten mit einem <em>Supplier</em>. Der so erzeugte Stream enthält nach und nach alle Werte, die dieser Supplier liefert. Ein solcher Stream ist sehr monoton, wenn der übergebene Supplier () -&gt; 1 lautet, aber er ist trotzdem endlos, denn der Supplier wird immer wieder aufgerufen. Zum Glück existieren auch interessantere Supplier.</p>
-<p>Die zweite Möglichkeit, einen endlosen Stream zu erzeugen, heisst <em>iterate</em>. Diese Methode erzeugt einen Stream, indem sie eine übergebene Funktion immer wieder auf einen Standwert anwendet. Für einen Startwert n und eine Funktion f heisst das, der erzeugt Stream enthält die Werte [n, f(n), f(f(n)), f(f(f(n))), …]</p>
-<p><code>Stream.iterate(BigInteger.ONE, i -&gt; i.multiply(two))</code><br><code>        .limit(1000)</code><br><code>        .forEach(System.out::println);</code></p>
-<p>Das Beispiel erzeugt einen Stream alle Zweierpotenzen und gibt die ersten 1000 davon aus. Es versteht sich von selbst, dass manche Operationen auf einem endlosen Stream keine gute Idee sind. Ihn zu sortieren, führt eher zu Problemen, und auch bei einer forEach ohne limit sollte man sicher sein, was man tut. Für den zweiten Fall gibt es aber durchaus Anwendungen. So könnte man in einem Thread einen endlosen Stream von Ergebnissen erzeugen und jedes gefundene Ergebnis in einem anderen Thread verarbeiten.</p>
             ]]>
         </content>
     </entry>

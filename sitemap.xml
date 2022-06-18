@@ -5,6 +5,10 @@
 <loc>https://www.finecloud.ch/</loc>
 </url>
 <url>
+<loc>https://www.finecloud.ch/atomare-datentypen.html</loc>
+<lastmod>2022-06-18T14:27:50+02:00</lastmod>
+</url>
+<url>
 <loc>https://www.finecloud.ch/dateien-und-verzeichnisse-unter-java.html</loc>
 <lastmod>2022-06-06T23:13:08+02:00</lastmod>
 </url>
@@ -70,7 +74,7 @@
 </url>
 <url>
 <loc>https://www.finecloud.ch/multithreading.html</loc>
-<lastmod>2022-06-17T06:32:45+02:00</lastmod>
+<lastmod>2022-06-18T14:28:14+02:00</lastmod>
 </url>
 <url>
 <loc>https://www.finecloud.ch/netzwerkkommunikation-mit-java.html</loc>

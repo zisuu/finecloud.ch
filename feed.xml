@@ -3,124 +3,12 @@
     <title>Finecloud</title>
     <link href="https://www.finecloud.ch/feed.xml" rel="self" />
     <link href="https://www.finecloud.ch" />
-    <updated>2022-06-19T09:40:15+02:00</updated>
+    <updated>2022-06-20T07:09:59+02:00</updated>
     <author>
         <name>Finecloud</name>
     </author>
     <id>https://www.finecloud.ch</id>
 
-    <entry>
-        <title>Thread Synchronisation</title>
-        <author>
-            <name>Finecloud</name>
-        </author>
-        <link href="https://www.finecloud.ch/synchronisation.html"/>
-        <id>https://www.finecloud.ch/synchronisation.html</id>
-            <category term="threads"/>
-            <category term="synchronisation"/>
-            <category term="softwareentwicklung"/>
-            <category term="parallel"/>
-            <category term="java.io"/>
-            <category term="java"/>
-            <category term="dev"/>
-            <category term="deadlocks"/>
-
-        <updated>2022-06-19T09:40:15+02:00</updated>
-            <summary>
-                <![CDATA[
-                    Schon in einem einfachen Beispiel entstehen schnell Inkonsistenzen: public class MusikStatistik { private long gesamtgroesse; private int anzahl; private double durchschnitt; public void fuegeHinzu(File datei){ gesamtgroesse += datei.length(); anzahl ++; durchschnitt = gesamtgroesse / anzahl; System.out.println(anzahl + " Dateien, " + gesamtgroesse + " Byte&hellip;
-                ]]>
-            </summary>
-        <content type="html">
-            <![CDATA[
-                <p>Schon in einem einfachen Beispiel entstehen schnell Inkonsistenzen:</p>
-<p><code>public class MusikStatistik {</code><br><code>    private long gesamtgroesse;</code><br><code>    private int anzahl;</code><br><code>    private double durchschnitt;</code><br><code>        </code><br><code>    public void fuegeHinzu(File datei){</code><br><code>        gesamtgroesse += datei.length();</code><br><code>        anzahl ++;</code><br><code>        durchschnitt = gesamtgroesse / anzahl;</code><br><code>        System.out.println(anzahl + " Dateien, " + gesamtgroesse + </code><br><code>            " Byte gesamt. Durchschnitt: " + durchschnitt + </code><br><code>            "  (Letzte Datei: " + datei.getAbsolutePath()+")");</code><br><code>    }</code><br><code>        </code><br><code>    public static void main(String[] args) throws Exception {</code><br><code>        MusikStatistik statistik = new MusikStatistik();</code><br><code>        for (File root : File.listRoots()){</code><br><code>            new Thread(() -&gt; new Musikfinder(root).</code><br><code>             findeMusik(statistik::fuegeHinzu)).start();</code><br><code>        }</code><br><code>    }        </code><br><code>}</code></p>
-<p>Dieses Beispiel benutzt die Klasse Musikfinder, um die Durchschnittsgrösse Ihrer Musikdateien zu berechnen. Um den Vorgang zu beschleunigen, wird für jedes Wurzelverzeichnis ein Thread gestartet. Natürlich bringt das nicht viel, weil auf einem Unix-System nur ein Root Verzeichnis existiert, es geht hier aber nur um ein Code-Beispiel für Thread-Probleme.</p>
-<p>In diesem Beispiel helfen die <em>Atomic</em>-Klassen nicht mehr weiter, denn dass die Additionen auf <em>gesamtgroesse</em> und <em>anzahl</em> nicht atomar sind, ist nur ein Teil des Problems. Es kommt erschwerend hinzu, dass die Werte der beiden Variabeln auch zusammenpassen müssen, denn sonst kann folgende Situation entstehen:</p>
-<ol>
-<li>Thread 1 fügt die erste Datei hinzu, ihre Grösse ist 5MB.</li>
-<li>Thread 1 addiert 5 MB zu <em>gesamtgroesse. </em>Der neue Wert ist 5.242.880.</li>
-<li>Thread 1 inkrementiert <em>anzahl</em>. Der neue Wert ist 1.</li>
-<li>Thread 2 fügt seine erste Datei hinzu, ihre Grösse ist ebenfalls 5MB.</li>
-<li>Thread 2 addiert 5MB zu <em>gemsamtgroesse</em>. Der neue Wert ist 10.485.760.</li>
-<li>Thread 1 berechnet den Durchschnitt und gibt ihn aus: 10.485.760 / 1 = 10.485.760.</li>
-</ol>
-<p>Der ausgegebene Durchschnitt ist offensichtlich falsch: In <em>gesamtgroessee</em> steht bereits die Summe von zwei Dateien, es wird aber nur durch eins geteilt, weil die Anzahl noch nicht inkrementiert wurde.</p>
-<h3>"synchronized" als Modifikator für Methoden</h3>
-<p>Um diese Art von Problem zu vermeiden, gibt es in Java das Schlüsselwort synchronized. Es stellt sicher, dass Operationen auf den Objekten immer vollständig ausgeführt werden, bevor ein anderer Thread eine Operation auf diesem Objekt durchführen kann:</p>
-<p><code>public synchronized void fuegeHinzu(File datei){…}</code></p>
-<p>Diese einfache Erweiterung führt dazu, dass niemals zwei Threads gleichzeitig die Methode <em>fuegeHinzu</em> ausführen können. Das wird durch ein <em>exclusive Lock </em>auf dem Objekt realisiert, eine Sperre, durch die nur ein Thread Zugang zum so geschützten Code erhalten kann. Ein zweiter Thread, der <em>fuegeHinzu</em> aufrufen will, wird solange zum Warten gezwungen,  bis der erste Thread sein Lock wieder freigibt, erst dann kann der zweite weiter ausgeführt werden. Eine Sperre, die durch den synchronized-Modifikator an einer Methode eingerichtet wird, gilt für das ganze Objekt, zu dem die Methode gehört. Auch wenn mehrere synchronized-Methoden in einem Objekt vorhanden sind, gibt es nur ein Lock. </p>
-<p>Eine wichtige Grundregel, wenn man ein Objekt <em>threadsicher</em>, also sicher für den Zugriff aus mehreren Threads, machen, lautet deshalb: sei Gründlich. Fehlende Synchronisierung kann zu inkonsistenten Zuständen des Objekts führen, zu viel Synchronisierung verlangsamt im besten Fall das Programm und führt im schlimmsten Fall zu Deadlocks.</p>
-<h3>Das "synchronized"-Statement</h3>
-<p><code>public synchronized void fuegeHinzu(File datei){</code><br><code>    gesamtlaenge += berechneLaenge(datei);</code><br><code>    anzahl ++;</code><br><code>    durchschnitt = gesamtlaenge / anzahl;</code><br><code>}</code></p>
-<p>Dieses Beispiel lässt sich optimieren, indem man die teile, welche nicht synchronisiert werden müssten aus dem synchronized Block entfernt. Um das zu erreichen, gibt es eine zweite Art, das Schlüsselwort synchronized anzuwenden: als Statement, das nur seinen Block mit einem Lock versieht:</p>
-<p><code>public void fuegeHinzu(File datei){</code><br><code>    int laenge = berechneLaenge(datei);</code><br><code>    synchronized(this){</code><br><code>        gesamtlaenge += berechneLaenge(datei);</code><br><code>        anzahl ++;</code><br><code>        durchschnitt = gesamtlaenge / anzahl;</code><br><code>    }</code><br><code>}</code></p>
-<p>Jetzt können beliebig viele Threads gleichzeitig die Länge ihrer Dateien berechnen, nur mit dem Updaten der Variabeln müssen sie warten, bis sie den alleinigen Zugriff haben.</p>
-<p>Das synchronized-Statement ist aber auch etwas komplexer in der Benutzung als eine synchronisierte Methode, denn Sie müssen selbst das Objekt angeben, durch das die Sperre realisiert werden soll, den sogenannten <em>Monitor</em>. Als Analogie hilft es, sich den Monitor als »Redestab« in einer Gruppensitzung vorzustellen: Nur wer den Redestab hält, darf sprechen. Genauso darf nur, wer den Monitor besitzt, den synchronized-Block betreten. Das oben angesprochene Lock entspricht dabei dem abstrakten »Recht zu reden«, der Monitor ist genau wie der Redestab das Werkzeug, mit dem dieses Recht umgesetzt wird – man sagt auch: »das Objekt, auf dem gesperrt wird«.</p>
-<p>synchronized(this) verwendet das umgebende Objekt als Monitor, genau wie eine synchronisierte Methode. Man kann aber auch auf einem beliebigen anderen Objekt sperren, und auch dafür gibt es nützliche Anwendungsfälle:</p>
-<p><code>public static void main(String[] args) throws Exception {</code><br><code>    MusikStatistik statistik = new MusikStatistik();</code><br><code>    Thread watcher = new Thread(() -&gt; {</code><br><code>        while (true){</code><br><code>            synchronized (statistik){</code><br><code>                System.out.println(statistik.getAnzahl() </code><br><code>                    + " Dateien, " + statistik.getGesamtgroesse() </code><br><code>                    + " Byte gesamt. Durchschnitt: " </code><br><code>                    + statistik.getDurchschnitt());</code><br><code>            }</code><br><code>            try {</code><br><code>                Thread.sleep(10000);</code><br><code>            } catch (InterruptedException ex) {</code><br><code>            }</code><br><code>        }</code><br><code>    }, "Beobachter");</code><br><code>    watcher.setDaemon(true);</code><br><code>    watcher.start();</code><br><code>    for (File root : File.listRoots()){</code><br><code>        new Thread(() -&gt; </code><br><code>                new Musikfinder(root).findeMusik(statistik::fuegeHinzu), </code><br><code>                "Crawler " + root.getName()</code><br><code>        ).start();</code><br><code>    }</code><br><code>} </code></p>
-<p>Die Ausgabe wird jetzt in einem eigenen Thread realisiert, der alle 10 Sekunden tätig wird und den aktuellen Stand der Daten ausgibt. Das Warten wird durch Thread.sleep mit der Wartezeit in Millisekunden umgesetzt.</p>
-<p>Erfolgte die Ausgabe ohne Synchronisation, würde Sie wieder in das alte Problem laufen: Während Sie die Ausgabe machen, aktualisiert ein anderer Thread die Daten und die ausgegeben Daten sind nicht konsistent. Die Getter zu synchronisieren, würde keinen Unterschied machen, denn es wäre nur jeder Getter für sich synchronisiert, zwischen zwei Aufrufen könnte aber nach wie vor ein anderer Thread dazwischenschreiben.</p>
-<p>Um konsistente Ausgaben sicherzustellen, muss die Sperre auf dem Objekt bestehen bleiben, bis Sie alle Daten ausgegeben haben. Genau das erreichen Sie, indem Sie die Ausgabe in einem Block machen, der mit dem Objekt <em>statistik</em> synchronisiert ist. Andere Threads können die synchronisierte Methode <em>fuegeHinzu</em> während der Ausgabe nicht betreten, sie müssen auf den Lock warten.</p>
-<h3>Deadlocks</h3>
-<p>Der Fluch der parallelen Programmierung: Deadlocks - eine Klasse von Fehlern, von der Sie sicher sein können, dass Sie ihr früher oder später begegnen werden. Ein Deadlock kann immer dann auftreten, wenn Sie mit mehreren Monitor-Objekten gleichzeitig sperren müssen und dabei nicht vorsichtig sind. Dann kann es zu folgender Situation kommen, wenn beide Threads versuchen auf denselben Objekten zu synchronisieren. Achten Sie darauf, wo der Unterschied zwischen den beiden Threads liegt:</p>
-<p><code>Thread t1 = new Thread(() -&gt; {</code><br><code>    synchronized(objektEins){</code><br><code>        synchronized(objektZwei){</code><br><code>             …                      </code><br><code>        }</code><br><code>    }</code><br><code>});</code><br><code>Thread t2 = new Thread(() -&gt; {</code><br><code>    synchronized(objektZwei){</code><br><code>        synchronized(objektEins){</code><br><code>            …                     </code><br><code>        }</code><br><code>    }</code><br><code>});</code><br><code>t1.start();</code><br><code>t2.start();</code></p>
-<p>Der Unterschied zwischen beiden Threads ist zwar subtil, aber wenn Sie den Code aufmerksam lesen, schnell zu finden: beide Threads versuchen, die Locks in unterschiedlicher Reihenfolge zu erhalten. Nun kann das passieren:</p>
-<ol>
-<li>t1 sperrt auf <em>objektEins</em>.</li>
-<li>t2 sperrt auf <em>objektZwei</em>.</li>
-<li>t1 wartet, bis das Lock auf <em>objektZwei</em> freigegeben wird.</li>
-<li>t2 wartet, bis das Lock auf <em>objektEins</em> freigeben wird.</li>
-</ol>
-<p>Da es kein Time-out auf Sperren gibt, geben beide Threads die Locks, die sie halten, erst frei, wenn der jeweilige äussere synchronized-Block beendet ist. Der synchronized-Block kann aber nicht weiter ausgeführt werden, ohne den inneren synchronized-Block auszuführen. Und der kann nicht ausgeführt werden, ohne dass der andere Thread seine Sperre aufgibt. Und so ist es an dieser Stelle sicher, dass keiner der beiden Threads weiter ausgeführt werden kann, beide werden warte, bis der Java-Prozess beendet wird - und wenn es keine Deamon-Threads sind, dann ist das nur noch mit Gewalt möglich.</p>
-<p>Deshalb sollte man versuchen, Deadlocks von vornherein zu vermeiden und der beste Ansatz dazu ist, die synchronized-Blöcke so kurz wie möglich zu halten.</p>
-<p> </p>
-<p> </p>
-            ]]>
-        </content>
-    </entry>
-    <entry>
-        <title>Atomare Datentypen</title>
-        <author>
-            <name>Finecloud</name>
-        </author>
-        <link href="https://www.finecloud.ch/atomare-datentypen.html"/>
-        <id>https://www.finecloud.ch/atomare-datentypen.html</id>
-            <category term="threads"/>
-            <category term="softwareentwicklung"/>
-            <category term="parallel"/>
-            <category term="java"/>
-            <category term="dev"/>
-            <category term="atomar"/>
-
-        <updated>2022-06-18T14:27:50+02:00</updated>
-            <summary>
-                <![CDATA[
-                    Das Problem beim inkrementieren von einer zentralen int-Variabel mit mehreren Threads ist, dass diese sich bekanntlich überschreiben. Davon handelt der vorherige Blogpost. Die einzige Lösung hierfür ist, dass man statt der primitiven Objekt int-Klasse die Klasse java.util.concurrent.atomic.AtomicInteger zu verwenden. Der einzige Zweck dieser Klasse ist,&hellip;
-                ]]>
-            </summary>
-        <content type="html">
-            <![CDATA[
-                <p>Das Problem beim inkrementieren von einer zentralen int-Variabel mit mehreren Threads ist, dass diese sich bekanntlich überschreiben. Davon handelt der vorherige <a href="https://www.finecloud.ch/multithreading.html">Blogpost</a>. Die einzige Lösung hierfür ist, dass man statt der primitiven Objekt int-Klasse die Klasse <em>java.util.concurrent.atomic.AtomicInteger</em> zu verwenden. Der einzige Zweck dieser Klasse ist, int-Operatoren atomar zu machen. Für diesen Zweck bietet sich die Methode <em>incrementAndGet</em> an, die dasselbe macht die der ++-Operator für int-primitive, aber garantiert atomar:</p>
-<p><code>public class ThreadTest {</code><br><code>    public AtomicInteger counter = new AtomicInteger();</code><br><br><code>    public void run() {</code><br><code>        Thread[] threads = new Thread[10];</code><br><code>        for (int i = 0; i &lt; 10; i++) {</code><br><code>            threads[i] = new Thread(() -&gt; {</code><br><code>                for (int j = 0; j &lt; 100; j++){</code><br><code>                    counter.incrementAndGet();</code><br><code>                }</code><br><code>            }, "Thread " + i);</code><br><code>            threads[i].start();</code><br><code>        }</code><br><code>        //warten und ausgeben, genau wie vorher</code><br><code>    }</code><br><code>}</code></p>
-<p>Dieser Code zählt garantiert immer bis 1000. AtomicInteger stellt sicher, dass es niemals zu einer Unterbrechung zwischen Auslesen, Addieren und Zurückschreiben kommt, egal wieviele Threads darauf zugreifen.</p>
-<p>Das bedeutet für alle anderen Threads, dass die warten müssen. Erst wenn der vorherige Thread die Methode <em>incrementAndGet</em> verlassen hat, kann der nächste Thread sie betreten.</p>
-<p>Die anderen Methoden von AtomicInteger funktionieren auch nach diesem Prinzip:</p>
-<ul>
-<li><em>decrementAndGet</em> verringert den Wert um eins, entsprechend dem Operator --.</li>
-<li><em>getAndIncrement</em> und <em>getAndDecrement</em> erhöhen/verringern den gespeicherten Wert ebenfalls, geben aber den alten Wert zurück. Diese Methoden entsprechen den nachgestellten Operatoren x++ und x--, die vorgenannten Methoden den vorangestellten Operatoren ++x und --x.</li>
-<li><em>addAndGet</em> addiert den übergeben int-Wert zum gespeicherten Wert. Es gibt keine analoge Methode subtractAndGet, zum Subtrahieren muss man eine negative Zahl an <em>addAndGet</em> übergeben.</li>
-<li><em>set</em> setzt einen neuen Wert und überschreibt den alten.</li>
-<li><em>getAndSet</em> setzt einen neuen Wert und gibt den alten Wert zurück.</li>
-<li><em>compareAndSet</em> nimmt zwei int-Parameter und setzt den zweiten als neuen Wert, wenn dem der erste dem aktuellen Wert entspricht.</li>
-</ul>
-<p>Dieselben Methoden bietet auch die Klasse AtomicLong, die Operationen auf einer long-Variablen atomar macht. Daneben gibt es die Klassen AtomicBoolean und AtomicReference, die für eine boolean-Variable bzw. für eine Objektvariable die Operationen getAndSet und compareAndSet anbieten.</p>
-<p>Wenn man mehrere Variablen in einem gemeinsamen konsistenten Zustand halten muss, dann reichen diese Werkzeuge nicht mehr aus. In diesem Fall muss man auf die <em>Synchronisation</em> zurückgreifen.</p>
-<p> </p>
-<p> </p>
-            ]]>
-        </content>
-    </entry>
     <entry>
         <title>Tabby Config-Sync auf Nextcloud einrichten</title>
         <author>
@@ -195,70 +83,6 @@
         </content>
     </entry>
     <entry>
-        <title>Threads und Runnables</title>
-        <author>
-            <name>Finecloud</name>
-        </author>
-        <link href="https://www.finecloud.ch/multithreading.html"/>
-        <id>https://www.finecloud.ch/multithreading.html</id>
-            <category term="writer"/>
-            <category term="threads"/>
-            <category term="softwareentwicklung"/>
-            <category term="socket"/>
-            <category term="runnable"/>
-            <category term="reader"/>
-            <category term="parallel"/>
-            <category term="lambda"/>
-            <category term="java.io"/>
-            <category term="java"/>
-            <category term="dev"/>
-
-        <updated>2022-06-18T14:28:14+02:00</updated>
-            <summary>
-                <![CDATA[
-                    In Java ist ein Thread zunächst ein Objekt wie jedes andere auch. Ein Thread kann erzeugt werden, indem man einen Konstruktoren der Klasse Thread aufruft. Diesen kann man behandeln wie jedes andere Objekt auch, ihn in einer Variabel speichern, als Parameter übergeben usw. Erst wenn&hellip;
-                ]]>
-            </summary>
-        <content type="html">
-            <![CDATA[
-                <p>In Java ist ein Thread zunächst ein Objekt wie jedes andere auch. Ein Thread kann erzeugt werden, indem man einen Konstruktoren der Klasse Thread aufruft. Diesen kann man behandeln wie jedes andere Objekt auch, ihn in einer Variabel speichern, als Parameter übergeben usw. Erst wenn man die Methode start ruft, kehrt dieser sofort zurück und der Thread, in dem der Aufruf erfolgt, wird mit der nächsten Anweisung fortgesetzt. Gleichzeitig und unabhängig wird nun aber auch der neue Thread ausgeführt und folgt seiner eigenen Anweisungsfolge.</p>
-<p>Was ein Thead tun soll, übergibt man ihm normalerweise als Konstruktor, in Form eines Runnable-Objekts. Runnable ist ein funktionales Interface, das die Methode public void run () fordert. Man kann das Interface traditionell implementieren oder einen neuen Thea als Lambda übergeben:</p>
-<p><code>public static void main(String[] args) throws Exception {</code><br><code>    for (int i = 0; i &lt; 10; i++){</code><br><code>        Thread t = new Thread(() -&gt; </code><br><code>                IntStream.range(0, 10)</code><br><code>                .forEach(j -&gt;</code><br><code>                 System.out.println(</code><br><code>                 Thread.currentThread().getName() + " Durchlauf " + j)),</code><br><code>                 "Thread " + i);</code><br><code>        t.start();</code><br><code>    }</code><br><code>}</code></p>
-<p>Welcher Thread zuerst bis Zehn gezählt hat ist völlig willkürlich und bei der nächsten Ausführung bestimmt wieder anders. Es gibt keine Garantie welcher Thread zuerst ausgeführt wird. Man kann Einfluss darauf nehmen, wie viel Ausführungszeit einem Thread zugeteilt wird, indem man mit <em>setPriority</em> seine Priorität setzt. Ein Thread mit höherer Priorität erhält mehr Prozessorzeit als ein Thread mit niedriger Priorität. Aber auch <em>Thread.MAX_PRITORIY</em> zu setzen gibt keine Sicherheit, dass dieser Thread zuerst ausgeführt wird, es bedeutet lediglich, dass ihm insgesamt mehr Zeit zugeteilt wird. Das ist ein Problem der parallelen Programmierung: Man hat niemals die Sicherheit, dass Operationen in verschiedenen Threads in einer bestimmten Reihenfolge ausgeführt werden.</p>
-<p>Der Lebenszyklus eines Threads sieht wie folgt aus:</p>
-<ul>
-<li>Wurde das Thread-Objekt erzeugt, aber noch nicht gestartet, so existiert der Thread noch nicht. Hier ist es wichtig die Begriffe klar zu trennen: Natürlich existiert das Java-Objekt vom Typ Thread. Es gibt aber zu diesem Zeitpunkt noch keinen weiteren Ausführungsstrang.</li>
-<li>Sobald <em>start</em> gerufen wird, ist der Thread lebendig. Ein weiterer Ausführungsstrang wurde gestartet und ihm wird Rechenzeit zugeteilt. Ob ein Thread lebendig ist, können Sie mit der Methode <em>isAlive</em> prüfen.</li>
-<li>Wenn das Ende der <em>run</em>-Methode des übergebeben Runnable erreicht ist, der Thread als keinen weiteren Code mehr auszuführen hat, ist der Thread tot. Ein toter Thread bleibt auch tot, man kann ihn nicht mit <em>start</em> erneut ausführen.</li>
-</ul>
-<p><code>public static class NetzEmpfaenger implements Runnable {</code><br><code>    @Override</code><br><code>    public void run() {</code><br><code>        try (Socket verbindung = new Socket("…", 23456)){</code><br><code>            InputStream in = verbindung.getInputStream();</code><br><code>            byte[] buffer = new byte[256];</code><br><code>            while (true) {</code><br><code>                int gelesen = in.read(buffer);</code><br><code>                verarbeite(buffer, gelesen);</code><br><code>            }</code><br><code>        } catch (IOException ex) {</code><br><code>            verbindungVerloren();</code><br><code>        }</code><br><code>    }</code><br><code>    protected void verarbeite(byte[] buffer, int gelesen){…}</code><br><code>    protected void verbindungVerloren(){…}</code><br><code>}</code></p>
-<p>Dieser Code liest solange Daten aus einer Netzwerkverbindung, bis die Verbindung unterbrochen wird. Währenddessen muss das Programm aber nie auf Daten aus dem Netzwerk warten, das blockierende Lesen passiert im Thread des Runnable und behindert keine anderen Threads. Solche laufende Threads haben den Nachteil das die JVM am laufen bleibt, bis alle Threads beendet wurden. Der Haupt-Thread, also der, der die main-Methode ausführt, ist in dieser Beziehung nichts besonderes. Auch wenn er beendet wurde, läuft die JVM so lange weiter, bis alle Threads tot sind. Mit solchen Threads wie dem oben gezeigten würde sie also nie beendet. Um die unsterbliche JVM zu vermeiden, könnte man entweder einen Mechanismus einbauen. um Ihre Threads zu stoppen - das ist aber umständlich -, oder man macht aus dem ausführenden Thread einen Daemon-Thread:</p>
-<p><code>Thread t = new Thread(new NetzEmpfaenger(), "Netzwerkthread");</code><br><code>t.setDaemon(true);</code><br><code>t.start;</code></p>
-<p>Werden in einem Programm nur noch Daemons ausgeführt, so kann die JVM beendet werden und die Daemon-Threads laufen weiter.</p>
-<h3>Geteilte Ressourcen</h3>
-<p>Herausfordernd wird es, wenn mehrere Threads auf dieselbe Ressource zugreifen möchten, zum Beispiel auf die gleiche Variable:</p>
-<p><code>public class ThreadTest {</code><br><code>    public int counter = 0;</code><br><code>    public void run() {</code><br><code>        Thread[] threads = new Thread[10];</code><br><code>        for (int i = 0; i &lt; 10; i++) {</code><br><code>            threads[i] = new Thread(() -&gt; {</code><br><code>                for (int j = 0; j &lt; 100; j++){</code><br><code>                    counter++;</code><br><code>                }</code><br><code>            }, "Thread " + i);</code><br><code>            threads[i].start();</code><br><code>        }</code><br><code>        for (Thread t : threads) {</code><br><code>            while (t.isAlive()) {</code><br><code>                try {</code><br><code>                    t.join();</code><br><code>                } catch (InterruptedException ex) {</code><br><code>                }</code><br><code>            }</code><br><code>        }</code><br><code>        System.out.println(counter);</code><br><code>    }</code><br><code>}</code></p>
-<p>Es werden zehr Threads gestartet. Jeder Thread führt nun eine Schleife mit 100 Durchläufen aus und addiert für jeden Durchlauf 1 zu counter, einem Feld der ThreadTest-Klasse.</p>
-<p>Jeder erzeugte Thread-Objekt wird in einem Array gespeichert, weil es noch in einer zweiten Schleife verwendet wird. Dort wird mit der Methode join darauf gewartet, dass jeder der zehn Threads auch beendeet wird. Das ganze Drumherum, die Schleife und das Try-catch-Statement sind nur deshalb nötig, weil join theoretisch beim Warten unterbrochen werden könnte und dann eine InterruptedException werfen würde. Die untere Schleife dient nur dazu, auf die zehn Threads zu warten und erst, wenn sie alle beendet sind, den finalen Wert von counter auszugeben.</p>
-<p>Das Problem in diesem Code ist, dass anstatt dem Erwarteten Resultat von 1000 teilweise das Ergebniss 850 oder andere Werte zurück kommen. Was passiert da?</p>
-<p>Die Kurzschreibweise counter++ sieht in Wirklichkeit eher so aus:</p>
-<p>int neuerWert = counter + 1;<br>counter = neuerWert;</p>
-<p>Der Wert von Counter wird ausgelesen, dann wird eins addiert und dieser neue Wert nach counter zurückgegeben. Das ist kein Problem, solange es nur einen Thread gibt. Aber mit mehreren Threads kann das passieren:</p>
-<ol>
-<li>Thread 1 lies den Wert von counter aus und erhält zum Beispiel 17.</li>
-<li>Thread 2 liest den Wert von counter aus und erhält ebenfalls 17.</li>
-<li>Thread 2 addiert 1 zu seinem gelesenen Wert und schreibt das Resultat 18 nach counter.</li>
-<li>Thread 1 addiert 1 zu seinem gelesenen Wert, erhält ebenfalls das Ergebnis 18 und schreibt dieses nach counter.</li>
-</ol>
-<p>Das Problem ist, dass der Inkrement-Operator nicht <em>atomar</em> ist. Als atomar bezeichnet werden solche Operatoren, die nicht von einem anderen Thread unterbrochen werden können.</p>
-<p>Operationen, die ihrerseits ohne weiteres zutun atomar sind, gibt es in Java nur eine: die Zuweisung. Objektvariablen und primitive Variabel mit der Ausnahme von long und double werden neue Werte von der JVM in nur einem Arbeitsschritt zugewiesen, es ist für einen anderen Thread schlicht nicht möglich, eine Zuweisung zu unterbrechen.</p>
-<p>Atomare Zuweisungen lösen das obrige Problem aber leider nicht. Um den Zähler trotz Zugriff aus mehreren Threads korrekt zu halten, müssen wir selbst dafür sorgen, dass die Variable atomar inkrementiert wird. Dazu gibt es zwei Wege: einen einfacheen mit begrenzen Möglichkeiten mit "<a href="https://www.finecloud.ch/atomare-datentypen.html">Atomaren Datentypen</a>" oder einen komplexen, aber vielseitigen mittels "Synchronisation".</p>
-<p> </p>
-<p> </p>
-            ]]>
-        </content>
-    </entry>
-    <entry>
         <title>Netzwerkkommunikation mit Java</title>
         <author>
             <name>Finecloud</name>
@@ -275,7 +99,7 @@
             <category term="dev"/>
             <category term="bufferedwriter"/>
 
-        <updated>2022-06-10T14:58:43+02:00</updated>
+        <updated>2022-06-20T07:09:59+02:00</updated>
             <summary>
                 <![CDATA[
                     In Java gibt es keinen nennenswerten Unterschied wischen I/O mit Daten und I/O mit Netzwerkverbindungen. In beiden Fällen basiert die Ein- und Ausgabe auf InputStream und OutputStream, der Unterschied liegt nur darin, wo diese Datenströme herkommen. Bei der Netzwerkkommunikation mit dem TCP-Protokoll kommen sie aus&hellip;
@@ -536,109 +360,6 @@
         </content>
     </entry>
     <entry>
-        <title>Testen von I/O-Operationen</title>
-        <author>
-            <name>Finecloud</name>
-        </author>
-        <link href="https://www.finecloud.ch/testen-von-io-operationen.html"/>
-        <id>https://www.finecloud.ch/testen-von-io-operationen.html</id>
-            <category term="writer"/>
-            <category term="verzeichnisse"/>
-            <category term="softwareentwicklung"/>
-            <category term="reader"/>
-            <category term="java.nio.files"/>
-            <category term="java.io.file"/>
-            <category term="java.io"/>
-            <category term="java"/>
-            <category term="dev"/>
-            <category term="dateien"/>
-
-        <updated>2022-06-06T22:45:58+02:00</updated>
-            <summary>
-                <![CDATA[
-                    Das Problem von I/O-Operationen ist, dass sie nur schlecht testbar sind. Ihre Testfälle müssen sich darauf verlasse, dass bestimmte Dateien vorhanden sind, und einen bestimmten Inhalt haben. Sie können den Testfällen zwar entsprechende Dateien beilegen, aber dann müssen Sie Dateien mit Ihren Testfällen ausliefern. Es&hellip;
-                ]]>
-            </summary>
-        <content type="html">
-            <![CDATA[
-                <p>Das Problem von I/O-Operationen ist, dass sie nur schlecht testbar sind. Ihre Testfälle müssen sich darauf verlasse, dass bestimmte Dateien vorhanden sind, und einen bestimmten Inhalt haben. Sie können den Testfällen zwar entsprechende Dateien beilegen, aber dann müssen Sie Dateien mit Ihren Testfällen ausliefern. Es gibt Strategien das zu vermeiden.</p>
-<p>Wichtig ist, dass man für Lese- und Schreiboperationen niemals <em>File</em> als Methodenparamater deklarieren sollte, sondern immer einen <em>Reader</em> oder <em>Writer</em> (bzw. <em>InputStream</em> oder <em>OutputStream</em>). Dadurch wird der Code sofort besser testbar, denn man kann aus dem Testfall einen <em>StringReader</em> (oder <em>StringWriter</em>) übergeben. Es handelt sich dabei um einen vollwertigen <em>Reader</em> (bzw. <em>Writer</em>), der genau wie jeder andere Reader verwendet werden kann, seine Daten aber nicht aus einer Datei oder einer Netzwerkverbindung liest, sondern aus einem String, den Sie im Konstruktor übergeben. So hat der Testfall die volle Kontrolle darüber, welche Daten die zu testende Methode zu sehen bekommt:</p>
-<p><code>public static final String TESTDATEN = </code><br><code> "2013\t0.2\t-0.7\t0.1\t8.1\t11.8\t15.7\t19.5\t17.9\t13.3\t10.6\t4.6\t3.6\n" +</code><br><code> "2012\t1.9\t-2.5\t6.9\t8.1\t14.2\t15.5\t17.4\t18.4\t13.6\t8.7\t5.2\t1.5";</code><br><br><code>@Test</code><br><code>public void testLiesTemperaturdaten() {</code><br><code>    Reader testdaten = new StringReader(TESTDATEN);</code><br><code>    Temperaturstatistik statistik = Temperaturstatistik.liesDaten(testdaten);</code><br><code>    assertNotNull(statistik.getJahr(2013);</code><br><code>    //weitere Asserts folgen</code><br><code>}</code></p>
-<p>Analog dazu funktioniert das auch beim Schreiben in einen StringWriter:</p>
-<p><code>@Test</code><br><code>public void testSchreibePlayliste() {</code><br><code>    StringWriter testWriter = new StringWriter();</code><br><code>    Playlist playlist = new Playlist();</code><br><code>    playlist.addSong(...);</code><br><code>    playlist.schreibeNach(testWriter);</code><br><code>    assertEquals("erwarteter Inhalt", testWriter.toString);</code><br><code>}</code></p>
-<p>Die <em>toString</em>-Methode des <em>StringWriter</em> gibt alle Daten, die hineingeschrieben wurden, als einen String zurück. Sie können dadurch in einem Testfall ganz leicht vergleichen, ob der Inhalt dem erwarteten Inhalt entspricht. Analog dazu kann ByteArrayInputStream und ByteArrayOutputStream genutzt werden, um diese Aufgabe mit einem byte-Array für Binärdateien zu erfüllen.</p>
-<p>Schwieriger wird es, wenn der Testfall wirklich Dateien benötigt, zum Beispiel, weil die zu testende Methode Dateien in einem Verzeichnis suchen soll. Da kann man mit temporären Dateien arbeiten. Die Methode File.createTempFile erzeugt eine Datei im Verzeichnis für temporäre Dateien Ihres Betriebsystems. So kann ein Präfix übergeben werden, der klar macht, woher die Datei stammt und eine Dateiendung. Als Rückgabewert erhält man das File-Objekt der so angelegten Datei. Eine temporäre Datei wird aber nicht automatisch wieder gelöscht. Um am Ende des Tests wieder aufzuräumen, sollten Sie daher an jeder erzeugten Datei noch deleteOnExit rufen, dann stellt Java sicher, dass diese Dateien wieder entfernt werden:</p>
-<p><code>@Test</code><br><code>public void testMitDatei() throws IOException {</code><br><code>    File tempDatei = File.createTempFile(getClass().getName(), ".mp3");</code><br><code>    tempDatei.deleteOnExit();</code><br><code>    //Test durchführen</code><br><code>}</code></p>
-<p>Als Empfehlung und gute Angewohnheit bietet es sich an, den Klassennamen als Präfix für temporäre Dateien zu verwenden. Als optionalen dritten Parameter kann createTempFile ein Verzeichnis übergeben werden, in welchem die Datei angelegt werden soll, falls man die Datei nicht im temporären Verzeichnis des Betriebssystems anlegen möchte.</p>
-<p>Wenn man ein temporäres Verzeichnis anlegen möchte, trifft man leider erneut auf den Bruch zwischen java.io und java.nio: Die Methode, die temporäre Ordner anlegt, findet man nur in der Files-Klasse, dementsprechend erhält man auch ein Path-Objekt zurück, aus dem man dann selbst wieder ein File machen muss:</p>
-<p><code>@Test</code><br><code>public void testMitVerzeichnis() throws IOException {</code><br><code>    File tempVerzeichnis = Files.createTempDirectory("mp3test").toFile();</code><br><code>    tempVerzeichnis.deleteOnExit();</code><br><code>    File tempDatei = File.createTempFile(getClass().getName(), ".mp3",</code><br><code>        tempVerzeichnis);</code><br><code>    tempDatei.deleteOnExit();</code><br><code>    //Test durchführen</code><br><code>}</code></p>
-<p> </p>
-<p> </p>
-            ]]>
-        </content>
-    </entry>
-    <entry>
-        <title>Java Reader und Writer</title>
-        <author>
-            <name>Finecloud</name>
-        </author>
-        <link href="https://www.finecloud.ch/java-reader-und-writer.html"/>
-        <id>https://www.finecloud.ch/java-reader-und-writer.html</id>
-            <category term="softwareentwicklung"/>
-            <category term="reader"/>
-            <category term="java.nio.files"/>
-            <category term="java.io.file"/>
-            <category term="java.io"/>
-            <category term="java"/>
-            <category term="dev"/>
-            <category term="dateien"/>
-            <category term="bufferedwriter"/>
-
-        <updated>2022-06-06T23:12:59+02:00</updated>
-            <summary>
-                <![CDATA[
-                    Lese und Schreiboperationen an Dateien sind in Java streambasiert. Diese Streams haben aber nichts mit der Stream-API zu tun. Streambasierte I/O bedeutet, dass nicht alle Dateien im Speicher behalten werden müssen, damit man mit ihnen Arbeiten kann. Man muss also nicht den gesamten Dateiinhalt lesen,&hellip;
-                ]]>
-            </summary>
-        <content type="html">
-            <![CDATA[
-                <div class="post__toc">
-<h3>Table of Contents</h3>
-<ul>
-<li><a href="#mcetoc_1g4tdq62j5mq">Lesen und Schreiben von Textdaten</a></li>
-<li><a href="#mcetoc_1g4tdq62j5mr">Puffern und zeilenweise lesen</a></li>
-<li><a href="#mcetoc_1g4tdq62j5ms">Schreiben mit Writer</a></li>
-</ul>
-</div>
-<p>Lese und Schreiboperationen an Dateien sind in Java streambasiert. Diese Streams haben aber nichts mit der Stream-API zu tun. Streambasierte I/O bedeutet, dass nicht alle Dateien im Speicher behalten werden müssen, damit man mit ihnen Arbeiten kann. Man muss also nicht den gesamten Dateiinhalt lesen, bevor man ihn verarbeiten kann. Folglich muss man bei einer Netzwerkverbindung nicht darauf warte, dass alle Daten eingegangen sind, stattdessen kann man die Daten Stück für Stück aus einem <em>InputStream</em> lesen und verarbeiten. Im Idealfall kann das gerade eingelesene Datenstück bereits wieder aus dem Speicher entfernt werden, bevor das nächste Datenstück gelesen wird. Genau so können auch Datenstücke in einen OutputStream bereits geschrieben werden sobald diese zur Verfügung stehen und muss nicht zuerst gewartet werden, bis alle Daten bereit sind.</p>
-<p>Java macht einen Unterschied ob, mit Textdaten oder mit Binärdaten gearbeitet wird. Textdaten werden mit einem <em>Reader</em> gelesen und mit einem <em>Writer</em> geschrieben, für Binärdaten gibt es dafür <em>InputStream</em> und <em>OutputStream</em>.</p>
-<h3 id="mcetoc_1g4tdq62j5mq">Lesen und Schreiben von Textdaten</h3>
-<p>Folgender Code liest Daten zeilenweise ein:</p>
-<p><code>try (BufferedReader reader = new BufferedReader(new FileReader(dateiname))){</code><br><code>    …</code><br><code>}</code></p>
-<p>Das ist bereits eine spezialisierte Funktion, die nur BufferedReader bietet. Andere Reader, zum Beispiel der <em>FileReader</em>, wissen nichts von Zeilen, sie arbeiten nur mit Zeichen. Dazu bietet <em>Reader</em> eine parameterlose Methode read, die genau ein Zeichen liest. Das ist zwar die für den Entwickler einfachste Variante, sie ist aber auch äusserst ineffektiv. Der komplexere, aber bessere Weg, aus einem <em>Reader</em> zu lesen, ist ein char[] als Puffer zu benutzen:</p>
-<p><code>File quelle = new File(…);</code><br><code>char[] buffer = new char[1024];</code><br><code>try (Reader reader = new FileReader(quelle)) {</code><br><code>    int gelesen;</code><br><code>    while ((gelesen = reader.read(buffer)) &gt; -1) {</code><br><code>        char[] geleseneDaten = (gelesen == buffer.length)</code><br><code>                ? buffer</code><br><code>                : Arrays.copyOf(buffer, gelesen);</code><br><code>        vearbeitePuffer(geleseneDaten);</code><br><code>    }</code><br><code>}</code></p>
-<p>Damit wird wesentlich effizienter gelesen, als Zeichen für Zeichen. Mit jedem Aufruf von read wird der Puffer gefüllt. Der Rückgabewert ist die Anzahl Zeichen, die vom Stream gelesen wurden. Meist entspricht er der Grösse des Puffers, es können aber weniger Zeichen gelesen werden, wenn das Ende der Daten erreicht ist oder gerade in diesem Moment keine Daten mehr zur Verfügung stehen. Wenn das Ende des Datenstroms erreicht ist, gibt read -1 zurück: Daten werden in einer Schleife gelesen und verarbeitet, bis dieser Punkt erreicht ist.</p>
-<p><strong>Wenn weniger Zeichen gelesen werden, als die Puffergrösse gross ist, wird der Rest des Puffers nicht verändert. Das bedeutet, dass am Ende des char-Arrays Daten aus dem Vorherigen Schleifen-Durchlauf stehen können. Deswegen werden die gelesenen Daten, falls es weniger als die Puffergrösse waren, in ein neues Array kopiert; so kann die Methode <em>verarbeitePuffer</em> immer mit einem vollständigen Array arbeiten und muss sich keine Sorgen um übrig gebliebene Daten am Ende des Arrays machen. </strong>Es ist zwar performanter, der verarbeitenden Methode das teilweise gefüllte Array und den Endindex zu übergeben, die gezeigt Variante ist aber weniger fehleranfällig, weil man in <em>verarbeitePuffer</em> nicht darauf achten muss, wann man mit lesen aufhört.</p>
-<p><strong>Es ist sehr wichtig, dass man eine Datei nach dem Zugriff darauf wieder schliesst.</strong> Im Beispiel geschieht das implizit durch das Statement try-with-resources, das an seinen Ressourcen automatisch close aufruft. Sollte man aus irgendeinem Grund dieses Statement nicht verwenden können oder wollen, dann muss man selbst sicherstellen, dass der Reader (oder Writer, InputStream, OutputStream oder jedes Objekt, das auf eine Datei zugreift) ordnungsgemäss geschlossen wird.</p>
-<p><code>public void liesAusDatei(File quelle) throws IOException{</code><br><code>    Reader reader = null;</code><br><code>    try {</code><br><code>        reader =  new BufferedReader(new FileReader(quelle));</code><br><code>        //Daten lesen und verarbeiten</code><br><code>    } finally {</code><br><code>        if (reader != null){</code><br><code>            reader.close();</code><br><code>        }</code><br><code>    }</code><br><code>}</code></p>
-<p>Dieser Code ist etwas unhandlicher und hat zwei Unschönheiten. Die Reader-Variable muss ausserhalb des try-Blocks deklariert werden, da try und Finally keinen gemeinsamen Scope haben. Ausserdem muss im finally-Block geprüft werden, ob der Reader nicht null ist. Das kann passieren, wenn schon beim Erzeugen des Readers eine Exception auftritt, weil Beispielsweise die Datei nicht existiert. In diesem Fall gibt es keinen Reader, der geschlossen werden kann, und ohne die entsprechende Prüfung käme es zu einer weiteren NullPointerException.</p>
-<p>Ein weiteres Problem ist, dass auch reader.close eine IOException werfen kann. Im Beispiel werden innerhalb der Methode liesAusDatei keine Fehler behandelt, alle Fehler werden an den Aufrufer weitergereicht. Im schlimmsten Fall kann es so passieren, dass sowohl im try- als auch im finally-Block Fehler geworfen werden. Der Aufrufer erhält dann nur die Exception aus dem finally-Block, obwohl sie wahrscheinlich nur eine Konsequenz der Exception aus dem try-Block ist. <strong>Das untere Code-Beispiel ist also länger, komplexer und fehleranfälliger. Es gibt somit keinen Grund, diese Variante zu bevorzugen, wenn die Java-Version try-with-resources unterstützt.</strong></p>
-<h3 id="mcetoc_1g4tdq62j5mr">Puffern und zeilenweise lesen</h3>
-<p>Das Puffern der Daten in einem char[] kann man sich theoretisch sparen, wenn man einen BufferedReader einsetzt. Dessen Hauptaufgabe ist es, zu verhindern, dass Daten Byte für Byte von der Festplatte gelesen werden. Dazu liest er immer einen Puffer voll Daten ein, genau wie im oberen Beispiel. Nachfolgende read-Aufrufe werden dann aus dem Puffer bedient, solange dieser noch genügend Daten enthält, erst danach wird wieder auf die Festplatte zugegriffen.</p>
-<p>Als Nebeneffekt seines Puffers hat der BufferedReader aber eine weitere nützliche Fähigkeit: Er kann Textdateien zeilenweise lesen. BufferedReader bietet sowohl die Methode readLine, die die nächste Zeile der Datei liefert, als auf die Methode lines, die alle Zeilen der Datei in einem Stream liefert. Wenn der Inhalt der Datei zeilenorientiert ist, dann ist das viel praktischer, als Daten Zeichen für Zeichen oder Puffer für Puffer einzulesen und selbst nach den Umbrüchen zu suchen.</p>
-<p>Eine BufferedReader lässt sich aus jedem anderen Reader erzeugen, indem man diesen als parameter an den Konstruktor von BufferedReader übergibt:</p>
-<p><code>try (BufferedReader reader = new BufferedReader(new FileReader(quelle))) {</code><br><code>    String zeile;</code><br><code>    while ((zeile = reader.readLine()) != null){</code><br><code>        verarbeiteZeile(zeile);</code><br><code>    }</code><br><code>}</code></p>
-<p>Der zugrunde liegende FileReader wird in einem BufferReader verpackt, um die Fähigkeit zu puffern und zeilenweise zu lesen hinzuzufügen. Das ist eine Anwendung des Decorator-Entwurfsmusters, das für Ein- und Ausgabe in Java extensiv zum Einsatz kommt. Man muss in diesem Fall nur den BufferedReader schliessen, dessen close-Methode ruft automatisch die close-Methode des dekorierten Readers auf.</p>
-<h3 id="mcetoc_1g4tdq62j5ms">Schreiben mit Writer</h3>
-<p>Das Schreiben in eine Date funktioniert fast genau so wie das Lesen aus einer Datei. Man erzeugt ein FileWriter-Objekt, dekoriert es noch mit einem BufferedWriter, schreibt Daten hinein und schliesst den Writer wieder:</p>
-<p><code>try (BufferedWriter writer = new BufferedWriter(new FileWriter(ziel))) {</code><br><code>    for (String zeile : zeilen){</code><br><code>        writer.write(zeile);</code><br><code>        writer.newLine();</code><br><code>    }</code><br><code>}</code></p>
-<p>So schreibt man eine Datei Zeile für Zeile. Writer sind in vielerlei Hinsicht das Spiegelbild von Readern. Sie besitzen eine Methode, die einzelne char-Werte schreibt und eine Methode, die ein ganzes char[] schreibt - man kann einen Schreibpuffer erzeugen, indem man seinen Writer mit einem BufferedWriter dekoriert und auch den Writer in diesem Fall schliesst, wenn man damit fertig ist. Writer selbst kennen das Konzept der Zeile ebenfalls nicht. Wenn man zeilenweise schreiben möchte, dann ist der beste Weg, einen BufferedWriter und seine Methode newLine zu verwenden, um an Ende jeder Zeile einen Umbruch zu erzeugen.</p>
-<p> </p>
-<p> </p>
-            ]]>
-        </content>
-    </entry>
-    <entry>
         <title>Dateien und Verzeichnisse unter Java</title>
         <author>
             <name>Finecloud</name>
@@ -745,6 +466,182 @@
 <p><code>Files.walk(quelle.toPath()).forEach(System.out::println);</code></p>
 <p>Optional kann die Tiefe der rekursiven Auflistung limitiert werden bis zu einer bestimmten Tiefe. walk(quelle, 1) enthält nur den Inhalt des Verzeichnisses selbst, tut also dasselbe wie list. walk(quelle, 2) enthält den Inhalt der Verzeichnisses und seiner direkten Unterverzeichnisse usw.</p>
 <p>Weiter kann mit Files.find in einem Verzeichnis und dessen Unterverzeichnisse nach Dateien gesucht werden, die bestimmten Vorgaben entsprechen. Leider ist auch hier dass java.io und java.nio nicht aus einem Guss. So muss man also die Suchkriterien nicht als FileFilter angeben, sondern als BiPredicate, das als Parameter des Path-Objekt der Datei und ein Objekt vom Typ BasicFileAttributes erhält, in dem sich Informationen wie Dateigrösse und letzte Zugriffszeit finden. Das Beispiel zeigt, wie man Dateien, die grösser als 500MB sind, auflisten kann. Der grosse Nachteil von walk und find ist, dass wenn der Zugriff auf ein Verzeichnis nicht möglich ist, brechen sie mit einer Fehlermeldung ab. Es gibt keine Funktion, diesen Methoden beizubringen, bei unlesbaren Verzeichnissen einfach den Fehler zu ignorieren und weiter zu suchen. Deswegen wird häufig dennoch auf File.listFiles zurückgegriffen.</p>
+            ]]>
+        </content>
+    </entry>
+    <entry>
+        <title>Genereische Java Methoden und beschränkte Typen</title>
+        <author>
+            <name>Finecloud</name>
+        </author>
+        <link href="https://www.finecloud.ch/java-genereische-methoden-und-beschraenkte-typen.html"/>
+        <id>https://www.finecloud.ch/java-genereische-methoden-und-beschraenkte-typen.html</id>
+            <category term="softwareentwicklung"/>
+            <category term="parameterlisten"/>
+            <category term="java"/>
+            <category term="dev"/>
+            <category term="collectionlist"/>
+            <category term="collection"/>
+
+        <updated>2022-05-28T20:17:55+02:00</updated>
+            <summary>
+                <![CDATA[
+                    Eine Methode kann einen typisierten Parameter erzwingen und einen typisierten Wert zurückgeben: public List&lt;Integer&gt; parseAlleInts(List&lt;String&gt; strings){ List&lt;Integer&gt; ergebnis = new ArrayList&lt;&gt;(); for (String s : strings){ ergebnis.add(Integer.parseInt(s)); } return ergebnis; } So ist es möglich eine Liste von Strings als Paramter in eine Liste von&hellip;
+                ]]>
+            </summary>
+        <content type="html">
+            <![CDATA[
+                <p>Eine Methode kann einen typisierten Parameter erzwingen und einen typisierten Wert zurückgeben:</p>
+<p><code>public List&lt;Integer&gt; parseAlleInts(List&lt;String&gt; strings){        </code><br><code>    List&lt;Integer&gt; ergebnis = new ArrayList&lt;&gt;();</code><br><code>    for (String s : strings){</code><br><code>        ergebnis.add(Integer.parseInt(s));</code><br><code>    }</code><br><code>    return ergebnis;</code><br><code>}</code></p>
+<p>So ist es möglich eine Liste von Strings als Paramter in eine Liste von Zahlen (Integern) umzuwandeln.</p>
+            ]]>
+        </content>
+    </entry>
+    <entry>
+        <title>Java Collection Iteratoren</title>
+        <author>
+            <name>Finecloud</name>
+        </author>
+        <link href="https://www.finecloud.ch/java-collection-iteratoren.html"/>
+        <id>https://www.finecloud.ch/java-collection-iteratoren.html</id>
+            <category term="softwareentwicklung"/>
+            <category term="java"/>
+            <category term="dev"/>
+            <category term="collectioniterator"/>
+            <category term="collection"/>
+            <category term="array"/>
+
+        <updated>2022-05-26T14:18:44+02:00</updated>
+            <summary>
+                <![CDATA[
+                    Diese Collection Methode kann dazu verwendet werden, über alle Werte einer Collection zu iterieren: die Methode iterator, gibt ein Objekt vom Typ Iterator zurück. Mit der Methode hasNext wird geprüft, ob es noch ein weiteres Element in der Collection gibt, next gibt das nächste Element&hellip;
+                ]]>
+            </summary>
+        <content type="html">
+            <![CDATA[
+                <p>Diese Collection Methode kann dazu verwendet werden, über alle Werte einer Collection zu iterieren: die Methode <em>iterator</em>, gibt ein Objekt vom Typ <em>Iterator</em> zurück.</p>
+<p>Mit der Methode <em>hasNext</em> wird geprüft, ob es noch ein weiteres Element in der Collection gibt, <em>next</em> gibt das nächste Element zurück:</p>
+<p><code>List&lt;Book&gt; books = …;</code><br><code>Iterator&lt;Book&gt; it = books.iterator();</code><br><code>while (it.hasNext){</code><br><code>    Book book = it.next();</code><br><code>    …</code><br><code>}</code></p>
+<p>Seit Java 5 und der Einführung der for-each-Schleife ist es nur noch selten nötig, selbst mit dem Interator zu arbeiten. Ein wesentlicher Vorteil ist, dass es keine Sprachkonstrukte, sondern Objekte sind und können als solche in Feldern gespeichert und als Parameter an Methoden übergeben und aus Methoden zurückgegeben werden. Beispielsweise kann damit ein einzelnen Element ausgelesen werden und zu einem späteren Zeitpunkt an derselben Stelle fortgesetzt werden:</p>
+<p><code>public boolean spieleHoerbuch(Iterator&lt;Book&gt; books, int zeit) {</code><br><code>    int gesamtzeit = 0;</code><br><code>    while (gesamtzeit &lt; zeit) {</code><br><code>        if (books.hasNext()) {</code><br><code>            Book book = books.next();</code><br><code>            gesamtzeit += book.getLaenge();</code><br><code>            spieleBook(book);</code><br><code>        } else {</code><br><code>            return false;</code><br><code>        }</code><br><code>    }</code><br><code>    return books.hasNext();</code><br><code>}</code></p>
+<p>In diesem Beispiel werden solange Hörbücher abgespielt, bis eine Gesamtzeit erreicht ist, dann wird das aktuelle Hörbuch zu ende gespielt. Wenn Sie die Methode das nächste Mal aktivieren, dann übergeben Sie denselben Iterator und es geht mit dem nächsten Hörbuch weiter.</p>
+            ]]>
+        </content>
+    </entry>
+    <entry>
+        <title>Java Collection Sets</title>
+        <author>
+            <name>Finecloud</name>
+        </author>
+        <link href="https://www.finecloud.ch/java-collection-sets.html"/>
+        <id>https://www.finecloud.ch/java-collection-sets.html</id>
+            <category term="softwareentwicklung"/>
+            <category term="java"/>
+            <category term="dev"/>
+            <category term="collectionset"/>
+            <category term="collection"/>
+            <category term="array"/>
+
+        <updated>2022-05-26T14:03:21+02:00</updated>
+            <summary>
+                <![CDATA[
+                    Sets eignen sich für die Bearbeitung einer mathematischen Menge. Set kann somit keine identische Elemente enthalten und kann keine interneReihenfolge haben. Deshalb gibt es für Set auch keine Methoden die den direkten Zugriff auf ein Element ermöglichen. Um auf ein Element eines Set zuzugreifen muss&hellip;
+                ]]>
+            </summary>
+        <content type="html">
+            <![CDATA[
+                <p>Sets eignen sich für die Bearbeitung einer mathematischen Menge. Set kann somit keine identische Elemente enthalten und kann keine interneReihenfolge haben. Deshalb gibt es für Set auch keine Methoden die den direkten Zugriff auf ein Element ermöglichen. Um auf ein Element eines Set zuzugreifen muss darüber iteriert werden:</p>
+<p><code>Set&lt;String&gt; besuchteOrte = new HashSet&lt;&gt;();</code><br><code>besuchteOrte.add("Bern");</code><br><code>besuchteOrte.add("Basel");</code><br><code>besuchteOrte.add("Bern");</code><br><code>besuchteOrte.add("Bellinzona");</code><br><code>for (String ort : besuchteOrte){</code><br><code>    System.out.println(ort);</code><br><code>}</code></p>
+<p>Im Beispiel wird Bern nur einmal ausgegeben, auch wenn Bern zweimal hinzugefügt wurde, zählt es nur einmal. Beim Hinzufügen ein neuen Elementen mit der add-Methode, gibt die Collection einen boolean-Wert zurück: Wenn das Element hinzugefügt wurde, ist der return true, wenn der Wert bereits vorhanden war, false. So kann festgestellt werden, ob ein neues Element hinzugefügt wurde, oder nicht. Wichtig zu beachten ist zudem, dass die Ausgabe eines Collection Sets nicht in einer festgelegen Reihenfolge erfolgt und es auch keine konstante Reihenfolge der Werte in einem Collection Set gibt.</p>
+<p>Die Hauptverwendung von Set, ist HashSet, das die Einmaligkeit der enthaltenen Elemente durch deren Hashcode sicherstellt. Wenn man also eine Set Collection verwenden, sollte man unbedingt in der Klasse die Methoden hashCode und equals überschreiben:</p>
+<p><code>Set&lt;Book&gt; meineBuecher = new HashSet&lt;&gt;();</code><br><code>meineBuecher.add(new Book("Bretonische Nächte", "Jean-Luc Bannalec", 298));</code><br><code>meineBuecher.add(new Book("Bretonische Nächte", "Jean-Luc Bannalec", 316));</code></p>
+<p>Wenn die Klasse Book die hashCode Methode nicht überschreibt, dann ist "Bretonische Nächte" zweimal im Set enthalten, denn die von Object geerbte bashCode-Implementierung gibt für verschiedene Objekte verschiedene Werte zurück, auch wenn die Objekte Inhaltsgleich sind. Deshalb muss eine eigene hashCode-Methode geschrieben werden, die den Code aus Titel, Autor und Seitenzahl berechnet, dann wird das zweite Buch nicht hinzugefügt, weil das Buch jetzt als identisch erkannt wird.</p>
+<p> </p>
+            ]]>
+        </content>
+    </entry>
+    <entry>
+        <title>Java Collection Listen</title>
+        <author>
+            <name>Finecloud</name>
+        </author>
+        <link href="https://www.finecloud.ch/java-collection-listen.html"/>
+        <id>https://www.finecloud.ch/java-collection-listen.html</id>
+            <category term="softwareentwicklung"/>
+            <category term="java"/>
+            <category term="dev"/>
+            <category term="collectionlist"/>
+            <category term="collection"/>
+            <category term="arraylist"/>
+            <category term="array"/>
+
+        <updated>2022-05-26T14:44:15+02:00</updated>
+            <summary>
+                <![CDATA[
+                    Listen sind Collections, die am ehesten einem Array entsprechen. Die Elemente bleiben in der Reihenfolge wie sie hinzugefügt werden und sie können auf einzelne Positionen im Index der Liste zugreifen: lesen mit get(index) und schreiben mit set(index, element). Damit ist mit Listen alles möglich, was&hellip;
+                ]]>
+            </summary>
+        <content type="html">
+            <![CDATA[
+                <p>Listen sind Collections, die am ehesten einem Array entsprechen. Die Elemente bleiben in der Reihenfolge wie sie hinzugefügt werden und sie können auf einzelne Positionen im Index der Liste zugreifen: lesen mit <em>get(index) </em>und schreiben mit <em>set(index, element).</em></p>
+<p>Damit ist mit Listen alles möglich, was man mit Arrays auch kann, einfach mit mehr Komfort. Die Liste wächst bei neuen Elementen automatisch an und wenn ein Element mit remove entfernt wird, wird die Lücke geschlossen, indem alle nachfolgenden Elemente nachrutschen:</p>
+<p><code>List&lt;Book&gt; booklist = new ArrayList&lt;&gt;();</code><br><code>//Der Booklist zwei Books hinzufügen</code><br><code>booklist.add(new Book(…));</code><br><code>booklist.add(new Book(…));</code><br><code>//Das zweite Buch durch ein anderes ersetzen</code><br><code>booklist.set(1, new Book(…));</code><br><code>//Alle Buecher anzeigen</code><br><code>for (Book book : booklist){</code><br><code>    System.out.println(book.getTitel());</code><code></code><br><code>}</code></p>
+<p>Für die meisten Fälle ist die ArrayList die performanteste aller List-Implementierungen.</p>
+            ]]>
+        </content>
+    </entry>
+    <entry>
+        <title>Java Collections</title>
+        <author>
+            <name>Finecloud</name>
+        </author>
+        <link href="https://www.finecloud.ch/java-collections.html"/>
+        <id>https://www.finecloud.ch/java-collections.html</id>
+            <category term="softwareentwicklung"/>
+            <category term="java"/>
+            <category term="dev"/>
+            <category term="collection"/>
+            <category term="array"/>
+
+        <updated>2022-05-26T13:27:11+02:00</updated>
+            <summary>
+                <![CDATA[
+                    Collections sind ganz alltägliche Java Objekte. Im Gegensatz zu Arrays sind Collections nicht durch native Methoden und einem zusammenhängenden Speicherbereich optimiert, sie haben auch keine eigene Syntax. Die Vorteile von Collections sind der Benutzerkomfort, da sie über eine umfangreichere und komfortablere API verfügen. Zudem können&hellip;
+                ]]>
+            </summary>
+        <content type="html">
+            <![CDATA[
+                <p>Collections sind ganz alltägliche Java Objekte. Im Gegensatz zu Arrays sind Collections nicht durch native Methoden und einem zusammenhängenden Speicherbereich optimiert, sie haben auch keine eigene Syntax. </p>
+<p>Die <strong>Vorteile von Collections</strong> sind der <strong>Benutzerkomfort</strong>, da sie über eine <strong>umfangreichere und komfortablere API</strong> verfügen. Zudem können verschiedene Implementierungen des Interface Collection, je nach Anwendungsfall verwendet werden. Der wohl grösste Vorteil, ist das Collections <strong>keine Grösse Vorgeben, Collections wachsen bei Bedarf.</strong></p>
+<blockquote>
+<p>Arrays eignen sich deshalb besondern für Performance getrimmte und Systemnahe Applikationen, während Collections eher für Anwendungen geeignet sind, bei denen es nicht auf jede Nanosekunde ankommt und der Vorteil des Komforts überwiegt.</p>
+</blockquote>
+<p>Standardmässig arbeiten Collections einfach mit dem Typ Object. Wenn man will, kann man einer Collection einen bestimmten Typ mitgeben:</p>
+<p><code> Collection&lt;Buch&gt; playlist = new ArrayList&lt;&gt;();</code></p>
+<p>Es gibt bei Collections keine Methoden für den Zugriff auf ein bestimmtes Element. Der allgemeine Ansatz, an den Inhalt einer Collection heranzukommen, ist der, sie in einer for-each-Schleife zu durchlaufen oder mit der Methode iterator ein Iterator-Objekt zu erzeugen. Nachfolgend sind die wichtigsten Methoden aufgelistet:</p>
+<table style="border-collapse: collapse; width: 100%; height: 287.828px;" border="1">
+<tbody>
+<tr style="height: 50.3594px;">
+<td style="width: 30.5463%; height: 50.3594px;"><strong>Methoden von <em>java.util.Collection</em></strong></td>
+<td style="width: 69.4537%; height: 50.3594px;"><strong>Beschreibung</strong></td>
+</tr>
+<tr style="height: 107.953px;">
+<td style="width: 30.5463%; height: 107.953px;">add / addAll</td>
+<td style="width: 69.4537%; height: 107.953px;">Fügen einer Collection ein Objekt, bzw. alle Objekte einer anderen Collection hinzu.</td>
+</tr>
+<tr style="height: 79.1562px;">
+<td style="width: 30.5463%; height: 79.1562px;">contains / containsAll</td>
+<td style="width: 69.4537%; height: 79.1562px;">Prüfen, ob ein oder mehrere Objekte in der Collection enthalten sind.</td>
+</tr>
+<tr style="height: 50.3594px;">
+<td style="width: 30.5463%; height: 50.3594px;">remove / removeAll</td>
+<td style="width: 69.4537%; height: 50.3594px;">Entfernt Objekte aus der Collection</td>
+</tr>
+</tbody>
+</table>
+<p>Was wenn ich nun aber doch ein Array will? Dann kann ich mit der toArray-Methode jede Collection in ein Array umwandeln. Die parameterlose toArray-Methode liefert aber immer ein Object[], auch wenn ein Typ für die Collection angeben wurde. Es ist nicht möglich ein solches Object[] Array einfach in den gewünschten Typ zu casten. Wenn ich aber aus einer Collection von Buecher ein Buch[] machen will, dann muss ich die toArray-Methode mit Parameter übergeben:</p>
+<p><code>Collection&lt;Double&gt; liste = new ArrayList&lt;&gt;();</code><br><code>Double[] alsDoubles = liste.toArray(new Double[liste.size()]);</code><br><code>Number[] alsNumber = liste.toArray(new Number[liste.size()]);</code><br><code>Object[] alsObject = liste.toArray(new Object[liste.size()]);</code><br><code>Object[] auchAlsObject = liste.toArray();</code></p>
+<p>Wichtig ist, dass die Grösse des Arrays passt. Wenn das Array zu klein ist, dann ist der Rückgabewert ein neues Array des gleichen Typs mit der Grösse der Collection.</p>
             ]]>
         </content>
     </entry>

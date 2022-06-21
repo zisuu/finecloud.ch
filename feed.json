@@ -11,6 +11,20 @@
     },
     "items": [
         {
+            "id": "https://www.finecloud.ch/java-serverlets.html",
+            "url": "https://www.finecloud.ch/java-serverlets.html",
+            "title": "Java Serverlet Container installieren",
+            "summary": "Einleitung Das Serverlet-Framework Jakarta EE ermöglicht die Entwicklung von Anwendungen für eine grosse Anzahl paralleler Benutzer die über einen Web-Browser zugreifen. Dazu ist besonders die Serverlet-API von JEE von Interesse. Diese API-Klasse wartet auf eingehende Netzwerkverbindungen und reagiert mit einer entsprechenden Antwort. Für die übertragenen&hellip;",
+            "content_html": "<h2>Einleitung</h2>\n<p>Das Serverlet-Framework Jakarta EE ermöglicht die Entwicklung von Anwendungen für eine grosse Anzahl paralleler Benutzer die über einen Web-Browser zugreifen. Dazu ist besonders die Serverlet-API von JEE von Interesse.</p>\n<p>Diese API-Klasse wartet auf eingehende Netzwerkverbindungen und reagiert mit einer entsprechenden Antwort. Für die übertragenen Daten wird fast immer das HTTP (Hypertext Transfer Protocol) verwendet.</p>\n<p>Die Hauptaufgabe eines Serverlets ist von einem Serverprozess aufgerufen zu werden, um in eine Netzwerkverbindung einen Datenstrom zu schreiben, den es auf irgendeine Weise erzeugt hat. Damit ein Serverlet ausgeführt werden kann, braucht es den Serverlet-Container. Das ist ein Programm, das man fertig installiert. Dieses Programm stellt anschliessend ein oder mehrere Serverlets zur Verfügung, die vom Container aufgerufen werden. Ein Serverlet verfügt nicht über eine main-Methode und ist allein nicht funktionsfähig, es kann also auch nicht einfach von der Kommandozeile aus ausgerufen werden.</p>\n<p>Die Aufgaben des Containers sind alle Aufgaben, die nicht mit der Logik der Anwendung zu tun haben. Beispielsweise die Verwaltung der Netzwerkverbindungen, Benutzerberechtigungen und des Speichers. Dazu kann das Serverlet auf die Schnittstellen des Containers zugreifen. Das ermöglicht dem Entwickler sich auf die Anwendung zu konzentrieren. Der Hauptvorteil von Serverlets ist, das diese bereits out-of-the-Box sicherer, performanter und stabiler sind, als wenn man diese Funktionen und Methoden selbst noch neu entwickeln müsste.</p>\n<h2>Serverlet-Container installieren</h2>\n<p>Es gibt eine Vielzahl von Serverlet-Containern. Nicht alle eigenen sich für jeden Anwendungsfall. Wir werden Testeshalber den Apache Tomcat verwenden. Dieser Server, wie auch alle anderen Serverlet-Container sind selbst ein Java-Programm und dadurch unabhängig vom Betriebssystem. <strong>Die Anweisungen hier gelten nur für eine Testumgebung und sind nicht für den produktiven Einsatz als Webserver gedacht.</strong></p>\n<h3>Option 1: Manuelle Installation des Tomcat-Servers auf dem eigenen Gerät</h3>\n<p>Wer sich den manuellen overhead der Installation des Tomcat-Servers antun will, der kann die aktuellste Version des Tomcat hier heruntergeladen werden: <a href=\"https://tomcat.apache.org/download-90.cgi\">https://tomcat.apache.org/download-90.cgi</a></p>\n<p>Die Installationsanweisungen befinden sich hier: <a href=\"https://tomcat.apache.org/tomcat-9.0-doc/setup.html\">https://tomcat.apache.org/tomcat-9.0-doc/setup.html</a></p>\n<p>Da ich mich nicht mit manuellen Installationen herumschlagen will, ist Option 2 mein Favorit.</p>\n<h3>Option 2: Installation des Tomcat-Servers via VSCode</h3>\n<p>Falls man für die Entwicklung in der IDE VSCode arbeitet, kann man dort direkt Tomcat als AddOn installieren und muss sich so garnicht mit der Installation des Tomcat befassen. Link zum Add-On: <a href=\"https://marketplace.visualstudio.com/items?itemName=redhat.vscode-community-server-connector\">https://marketplace.visualstudio.com/items?itemName=redhat.vscode-community-server-connector</a></p>\n<h3>(Option 3: Tomcat Docker Image)</h3>\n<p>Fortgeschrittene Java Entwickler können theoretisch auch direkt das Docker Tomcat Image nutzen. Da ich jedoch Java sowie Tomcat Anfänger bin, verzichte ich vorerst auf den Docker Container, und werde Option 2 weiter erläutern.</p>\n<p> </p>\n<p> </p>\n<p> </p>\n<p> </p>\n<h4> </h4>\n<p> </p>",
+            "author": {
+                "name": "Finecloud"
+            },
+            "tags": [
+            ],
+            "date_published": "2022-06-21T10:19:09+02:00",
+            "date_modified": "2022-06-21T10:19:09+02:00"
+        },
+        {
             "id": "https://www.finecloud.ch/tabby.html",
             "url": "https://www.finecloud.ch/tabby.html",
             "title": "Tabby Config-Sync auf Nextcloud einrichten",
@@ -201,25 +215,6 @@
             ],
             "date_published": "2022-05-26T13:19:01+02:00",
             "date_modified": "2022-05-26T14:44:15+02:00"
-        },
-        {
-            "id": "https://www.finecloud.ch/java-collections.html",
-            "url": "https://www.finecloud.ch/java-collections.html",
-            "title": "Java Collections",
-            "summary": "Collections sind ganz alltägliche Java Objekte. Im Gegensatz zu Arrays sind Collections nicht durch native Methoden und einem zusammenhängenden Speicherbereich optimiert, sie haben auch keine eigene Syntax. Die Vorteile von Collections sind der Benutzerkomfort, da sie über eine umfangreichere und komfortablere API verfügen. Zudem können&hellip;",
-            "content_html": "<p>Collections sind ganz alltägliche Java Objekte. Im Gegensatz zu Arrays sind Collections nicht durch native Methoden und einem zusammenhängenden Speicherbereich optimiert, sie haben auch keine eigene Syntax. </p>\n<p>Die <strong>Vorteile von Collections</strong> sind der <strong>Benutzerkomfort</strong>, da sie über eine <strong>umfangreichere und komfortablere API</strong> verfügen. Zudem können verschiedene Implementierungen des Interface Collection, je nach Anwendungsfall verwendet werden. Der wohl grösste Vorteil, ist das Collections <strong>keine Grösse Vorgeben, Collections wachsen bei Bedarf.</strong></p>\n<blockquote>\n<p>Arrays eignen sich deshalb besondern für Performance getrimmte und Systemnahe Applikationen, während Collections eher für Anwendungen geeignet sind, bei denen es nicht auf jede Nanosekunde ankommt und der Vorteil des Komforts überwiegt.</p>\n</blockquote>\n<p>Standardmässig arbeiten Collections einfach mit dem Typ Object. Wenn man will, kann man einer Collection einen bestimmten Typ mitgeben:</p>\n<p><code> Collection&lt;Buch&gt; playlist = new ArrayList&lt;&gt;();</code></p>\n<p>Es gibt bei Collections keine Methoden für den Zugriff auf ein bestimmtes Element. Der allgemeine Ansatz, an den Inhalt einer Collection heranzukommen, ist der, sie in einer for-each-Schleife zu durchlaufen oder mit der Methode iterator ein Iterator-Objekt zu erzeugen. Nachfolgend sind die wichtigsten Methoden aufgelistet:</p>\n<table style=\"border-collapse: collapse; width: 100%; height: 287.828px;\" border=\"1\">\n<tbody>\n<tr style=\"height: 50.3594px;\">\n<td style=\"width: 30.5463%; height: 50.3594px;\"><strong>Methoden von <em>java.util.Collection</em></strong></td>\n<td style=\"width: 69.4537%; height: 50.3594px;\"><strong>Beschreibung</strong></td>\n</tr>\n<tr style=\"height: 107.953px;\">\n<td style=\"width: 30.5463%; height: 107.953px;\">add / addAll</td>\n<td style=\"width: 69.4537%; height: 107.953px;\">Fügen einer Collection ein Objekt, bzw. alle Objekte einer anderen Collection hinzu.</td>\n</tr>\n<tr style=\"height: 79.1562px;\">\n<td style=\"width: 30.5463%; height: 79.1562px;\">contains / containsAll</td>\n<td style=\"width: 69.4537%; height: 79.1562px;\">Prüfen, ob ein oder mehrere Objekte in der Collection enthalten sind.</td>\n</tr>\n<tr style=\"height: 50.3594px;\">\n<td style=\"width: 30.5463%; height: 50.3594px;\">remove / removeAll</td>\n<td style=\"width: 69.4537%; height: 50.3594px;\">Entfernt Objekte aus der Collection</td>\n</tr>\n</tbody>\n</table>\n<p>Was wenn ich nun aber doch ein Array will? Dann kann ich mit der toArray-Methode jede Collection in ein Array umwandeln. Die parameterlose toArray-Methode liefert aber immer ein Object[], auch wenn ein Typ für die Collection angeben wurde. Es ist nicht möglich ein solches Object[] Array einfach in den gewünschten Typ zu casten. Wenn ich aber aus einer Collection von Buecher ein Buch[] machen will, dann muss ich die toArray-Methode mit Parameter übergeben:</p>\n<p><code>Collection&lt;Double&gt; liste = new ArrayList&lt;&gt;();</code><br><code>Double[] alsDoubles = liste.toArray(new Double[liste.size()]);</code><br><code>Number[] alsNumber = liste.toArray(new Number[liste.size()]);</code><br><code>Object[] alsObject = liste.toArray(new Object[liste.size()]);</code><br><code>Object[] auchAlsObject = liste.toArray();</code></p>\n<p>Wichtig ist, dass die Grösse des Arrays passt. Wenn das Array zu klein ist, dann ist der Rückgabewert ein neues Array des gleichen Typs mit der Grösse der Collection.</p>",
-            "author": {
-                "name": "Finecloud"
-            },
-            "tags": [
-                   "softwareentwicklung",
-                   "java",
-                   "dev",
-                   "collection",
-                   "array"
-            ],
-            "date_published": "2022-05-26T12:49:28+02:00",
-            "date_modified": "2022-05-26T13:27:11+02:00"
         }
     ]
 }

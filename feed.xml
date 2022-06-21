@@ -3,7 +3,7 @@
     <title>Finecloud</title>
     <link href="https://www.finecloud.ch/feed.xml" rel="self" />
     <link href="https://www.finecloud.ch" />
-    <updated>2022-06-21T09:59:48+02:00</updated>
+    <updated>2022-06-21T10:11:31+02:00</updated>
     <author>
         <name>Finecloud</name>
     </author>
@@ -99,7 +99,7 @@
             <category term="dev"/>
             <category term="bufferedwriter"/>
 
-        <updated>2022-06-21T09:59:48+02:00</updated>
+        <updated>2022-06-21T10:11:31+02:00</updated>
             <summary>
                 <![CDATA[
                     In Java gibt es keinen nennenswerten Unterschied wischen I/O mit Daten und I/O mit Netzwerkverbindungen. In beiden Fällen basiert die Ein- und Ausgabe auf InputStream und OutputStream, der Unterschied liegt nur darin, wo diese Datenströme herkommen. Bei der Netzwerkkommunikation mit dem TCP-Protokoll kommen sie aus&hellip;
@@ -110,46 +110,41 @@
                 <p>In Java gibt es keinen nennenswerten Unterschied wischen I/O mit Daten und I/O mit Netzwerkverbindungen. In beiden Fällen basiert die Ein- und Ausgabe auf InputStream und OutputStream, der Unterschied liegt nur darin, wo diese Datenströme herkommen. Bei der Netzwerkkommunikation mit dem TCP-Protokoll kommen sie aus einem Socket. Bei UDP wird die Klasse DatagramSocket verwendet, welche nicht auf Streams basiert.</p>
 <p>Socket hat zwar eine lange Liste von Methoden, aber bei der grundlegenden Verwendung kann man die meisten davon ignorieren.</p>
 <h3>Client-Seite</h3>
-<p><code class="language-java">
-		String nachricht = in.readLine();
-		try (Socket verbindung = new Socket("localhost", 23456)){
-		    BufferedReader reader = new BufferedReader(
-		     new InputStreamReader(verbindung.getInputStream())); 
-		    BufferedWriter writer = new BufferedWriter(
-		     new OutputStreamWriter(verbindung.getOutputStream()));
-		    writer.write(nachricht);
-		    writer.newLine();
-		    writer.flush();
-		    String antwort = reader.readLine();
-		}
-	</code></p>
+<pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;">String nachricht = in.readLine();
+<span class="hljs-keyword" style="color: #cc7832;">try</span> (Socket verbindung = <span class="hljs-keyword" style="color: #cc7832;">new</span> Socket(<span class="hljs-string" style="color: #6a8759;">"localhost"</span>, <span class="hljs-number" style="color: #6897bb;">23456</span>)){
+    BufferedReader reader = <span class="hljs-keyword" style="color: #cc7832;">new</span> BufferedReader(
+     <span class="hljs-keyword" style="color: #cc7832;">new</span> InputStreamReader(verbindung.getInputStream())); 
+    BufferedWriter writer = <span class="hljs-keyword" style="color: #cc7832;">new</span> BufferedWriter(
+     <span class="hljs-keyword" style="color: #cc7832;">new</span> OutputStreamWriter(verbindung.getOutputStream()));
+    writer.write(nachricht);
+    writer.newLine();
+    writer.flush();
+    String antwort = reader.readLine();
+}</pre>
 <p>Im Beispiel wird dem Socket im Konstruktor Adresse (IP oder Hostname) und Port des Servers angegeben, mit dem eine Verbindung hergestellt werden soll. Die Verbindung wird automatisch hergestellt und mit den Methoden getInputStream und getOutputStream kann man Daten vom Server empfangen und zum Server senden.</p>
 <p>Einen kleinen Unterschied zwischen Netzwerk I/O und Datei I/O gibt es mit der flush-Methode. Sie sorgt dafür, dass der Schreibpuffer sofort weiterverarbeitet wird, auch wenn er noch nicht voll ist. Dabei wird der Strom aber nicht sofort geschlossen, denn es sollen nicht nur Daten in eine Richtung versendet werden, es soll echte Kommunikation in beide Richtungen stattfinden. Damit der Server eine Antwort schicken kann, die dann mit readLine gelesen werden kann, muss er zunächst die Nachricht vom Client erhalten und dazu muss der Client den Puffer leeren.</p>
 <p>Ausserdem wird weder InputStream noch OutputStream geschlossen. Beide sind fest mit dem Socket verbunden, aus dem sie hergestellt wurden und wenn man einen der Ströme schliesst, wird auch der Socket geschlossen. Andersherum werden die Datenströme aber auch geschlossen, wenn man den Socket schliesst, deswegen reicht es, diesen als Ressource für den try-Block anzugeben.</p>
 <h3>Server-Seite</h3>
 <p>Ein einfaches Serverprogramm in Java zu schreiben, ist kaum anders als beim Client, nur die Herkunft des Sockets ändert sich:</p>
-<p><code class="language-java">
-		ServerSocket server = new ServerSocket(23456);
-		try (Socket verbindung = server.accept()){
-		    BufferedReader reader = new BufferedReader(
-		     new InputStreamReader(verbindung.getInputStream())); 
-		    BufferedWriter writer = new BufferedWriter(
-		     new OutputStreamWriter(verbindung.getOutputStream()));
-		    String nachricht = reader.readLine();
-		    writer.write(antwort);
-		    writer.flush();
-		}
-	</code></p>
+<pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;">ServerSocket server = <span class="hljs-keyword" style="color: #cc7832;">new</span> ServerSocket(<span class="hljs-number" style="color: #6897bb;">23456</span>);
+<span class="hljs-keyword" style="color: #cc7832;">try</span> (Socket verbindung = server.accept()){
+    BufferedReader reader = <span class="hljs-keyword" style="color: #cc7832;">new</span> BufferedReader(
+     <span class="hljs-keyword" style="color: #cc7832;">new</span> InputStreamReader(verbindung.getInputStream())); 
+    BufferedWriter writer = <span class="hljs-keyword" style="color: #cc7832;">new</span> BufferedWriter(
+     <span class="hljs-keyword" style="color: #cc7832;">new</span> OutputStreamWriter(verbindung.getOutputStream()));
+    String nachricht = reader.readLine();
+    writer.write(antwort);
+    writer.flush();
+}</pre>
 <p>Ein ServerSocket dient nicht direkt der Kommunikation, er wartet nur auf eingehende Verbindungen. Der Konstruktor-Parameter gibt den Port an, auf dem Verbindungen akzeptiert werden sollen; die Methode accept wartet, bis auf diesem Port eine Verbindung hergestellt wird. Und warten heisst hier wirklich warten: accept blockiert so lange, bis eine Verbindung zustande kommt. Wenn dies der Fall ist, gibt accept einen Socket zurück, mit dem man genauso verfahren kann, wie mit einem Socket auf der Client-Seite.</p>
 <p>Wie demonstriert, wird nur eine Verbindung akzeptiert und verarbeitet. Für ein Beispiel ausreichend, werden für einen echten Serverprozess dagegen üblicherweise Verbindungen in einer Schleife akzeptiert und die Verarbeiten wird in einem neuen Thread durchgeführt, so dass dieser Thread erneut mit accept auf Verbindungen warten kann.</p>
 <p>Hier ein Beispiel-Code für ServerSocket mit Threads:</p>
-<p><code class="language-java">
-    ServerSocket server = new ServerSocket(23456);
-while(!beendet){
-    try (Socket verbindung = server.accept()){
-        new Thread(() -&gt; verarbeiteVerbidnung(verbindung));
+<pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;">ServerSocket server = <span class="hljs-keyword" style="color: #cc7832;">new</span> ServerSocket(<span class="hljs-number" style="color: #6897bb;">23456</span>);
+<span class="hljs-keyword" style="color: #cc7832;">while</span>(!beendet){
+    <span class="hljs-keyword" style="color: #cc7832;">try</span> (Socket verbindung = server.accept()){
+        <span class="hljs-keyword" style="color: #cc7832;">new</span> Thread(() -&gt; verarbeiteVerbidnung(verbindung));
     }
-}    </code></p>
+}</pre>
             ]]>
         </content>
     </entry>

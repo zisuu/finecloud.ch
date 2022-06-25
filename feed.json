@@ -11,6 +11,26 @@
     },
     "items": [
         {
+            "id": "https://www.finecloud.ch/http-methoden-rfc9110.html",
+            "url": "https://www.finecloud.ch/http-methoden-rfc9110.html",
+            "title": "HTTP Methoden - RFC9110",
+            "summary": "Was geschieht eigentlich wenn ich eine Webseite aufrufe? Wir überspringen den Ersten Teil mit DNS und gehen davon aus, dass die URL bereits im DNS Cache ist. Um diese Frage zu beantworten, müssen wir uns mit den Grundlagen des HTTP-Protokolls befassen. Der Aufruf der Webseite&hellip;",
+            "content_html": "<h2>Was geschieht eigentlich wenn ich eine Webseite aufrufe?</h2>\n<p>Wir überspringen den Ersten Teil mit DNS und gehen davon aus, dass die URL bereits im DNS Cache ist. Um diese Frage zu beantworten, müssen wir uns mit den Grundlagen des HTTP-Protokolls befassen.</p>\n<h3>Der Standard HTTP-Request</h3>\n<p>Der Aufruf der Webseite beginnt im Browser. Dieser öffnet eine Netzwerkverbindung zur eingegebenen Adresse. Für diesen Schritt ist aber noch nicht die gesamte URL relevant, nur Servername (oder die IP-Adresse) und Port werden benötigt. Über diese Netzwerkverbindung wird ein HTTP-Request gesendet. HTTP ist ein textbasiertes Protokoll, deswegen kann man einfach einsehen, wie dieser Request aussieht:</p>\n<pre class=\"hljs\" style=\"color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;\">GET <span class=\"hljs-regexp\">/servlet-1.0-SNAPSHOT/</span> HTTP/<span class=\"hljs-number\" style=\"color: #6897bb;\">1.1</span>\n<span class=\"hljs-string\" style=\"color: #6a8759;\">Host:</span> <span class=\"hljs-string\" style=\"color: #6a8759;\">localhost:</span><span class=\"hljs-number\" style=\"color: #6897bb;\">8080</span>\nUser-<span class=\"hljs-string\" style=\"color: #6a8759;\">Agent:</span> Mozilla<span class=\"hljs-regexp\">/5.0 (Macintosh; Intel Mac OS X 10.15; rv:101.0) Gecko/</span><span class=\"hljs-number\" style=\"color: #6897bb;\">20100101</span> Firefox/<span class=\"hljs-number\" style=\"color: #6897bb;\">101.0</span>\n<span class=\"hljs-string\" style=\"color: #6a8759;\">Accept:</span> text<span class=\"hljs-regexp\">/html,application/</span>xhtml+xml,application<span class=\"hljs-regexp\">/xml;q=0.9,image/</span>avif,image<span class=\"hljs-regexp\">/webp,*/</span>*;q=<span class=\"hljs-number\" style=\"color: #6897bb;\">0.8</span>\nAccept-<span class=\"hljs-string\" style=\"color: #6a8759;\">Language:</span> en-US,en;q=<span class=\"hljs-number\" style=\"color: #6897bb;\">0.5</span>\nAccept-<span class=\"hljs-string\" style=\"color: #6a8759;\">Encoding:</span> gzip, deflate, br\n<span class=\"hljs-string\" style=\"color: #6a8759;\">Connection:</span> keep-alive</pre>\n<p>Die erste Zeile des Requests enthält die wichtigsten Informationen:</p>\n<ul>\n<li>die relative Adresse der angesprochenen Ressource auf dem Server: /servlet-1.0-SNAPSHOT. Anhand dieses Pfades bestimmt der Server, welche Datei er ausliefern oder welches Servlet er ansprechen soll.</li>\n<li>was mit dieser Ressource passieren soll. GET bedeutet, sie soll an den Anfragenden gesendet werden.</li>\n<li>die verwendete Version des HTTP-Protokolls: HTTP/1.1. Diese Information ist für  eine funktionierende Kommunikation zwischen Client und Server wesentlich.</li>\n</ul>\n<p>Alle weiteren Zeilen des Requests sind sogenannte Header. Sie transportieren zusätzliche Informationen, die der Server bei seiner Arbeit berücksichtigen sollte, aber nicht unbedingt muss. So enthält zum Beispiel der Header Accept-Language die Vorliebe des Benutzers, in welcher Sprache er den angefragten Inhalt sehen möchte. Der Server kann diese Information aber ignorieren und den Inhalt in einer völlig anderen Sprache zurückliefern.<br><br>In den Headern werden auch Cookies übertragen, kleine Textstücke, die ein Server im Browser hinterlegen kann und die bei weiteren Anfragen an denselben Server vom Browser an den Server zurückgesendet werden. Cookies sind die verbreitete Möglichkeit für den Server, zu bestimmen, ob zwei Anfragen vom selben Client stammen. Das HTTP-Protokoll ist zustandslos, jede Anfrage ist völlig unabhängig von allen anderen Anfragen. Wenn der Server also Informationen zwischen zwei Requests speichern muss, dann geschieht das üblicherweise durch Cookies. Im Servlet-Container werden diese durch das Session-Objekt abgebildet.</p>\n<h3>Weitere HTTP-Methoden</h3>\n<p>Alle server müssen zwingend die GET und HEAD Methoden unterstützen, alle anderen Methoden sind Optional:</p>\n<table id=\"table-4\" class=\"left\" style=\"width: 100%; height: 539.625px;\">\n<thead>\n<tr style=\"height: 79.1562px;\">\n<th class=\"text-left\" style=\"width: 20.6007%; height: 79.1562px;\"><strong>Method Name</strong></th>\n<th class=\"text-left\" style=\"width: 79.2568%; height: 79.1562px;\"><strong>Description</strong></th>\n</tr>\n</thead>\n<tbody>\n<tr style=\"height: 50.3594px;\">\n<td class=\"text-left\" style=\"width: 20.6007%; height: 50.3594px;\">GET</td>\n<td class=\"text-left\" style=\"width: 79.2568%; height: 50.3594px;\">Transfer a current representation of the target resource.</td>\n</tr>\n<tr style=\"height: 50.3594px;\">\n<td class=\"text-left\" style=\"width: 20.6007%; height: 50.3594px;\">HEAD</td>\n<td class=\"text-left\" style=\"width: 79.2568%; height: 50.3594px;\">Same as GET, but do not transfer the response content.</td>\n</tr>\n<tr style=\"height: 50.3594px;\">\n<td class=\"text-left\" style=\"width: 20.6007%; height: 50.3594px;\">POST</td>\n<td class=\"text-left\" style=\"width: 79.2568%; height: 50.3594px;\">Perform resource-specific processing on the request content.</td>\n</tr>\n<tr style=\"height: 79.1562px;\">\n<td class=\"text-left\" style=\"width: 20.6007%; height: 79.1562px;\">PUT</td>\n<td class=\"text-left\" style=\"width: 79.2568%; height: 79.1562px;\">Replace all current representations of the target resource with the request content.</td>\n</tr>\n<tr style=\"height: 50.3594px;\">\n<td class=\"text-left\" style=\"width: 20.6007%; height: 50.3594px;\">DELETE</td>\n<td class=\"text-left\" style=\"width: 79.2568%; height: 50.3594px;\">Remove all current representations of the target resource.</td>\n</tr>\n<tr style=\"height: 50.3594px;\">\n<td class=\"text-left\" style=\"width: 20.6007%; height: 50.3594px;\">CONNECT</td>\n<td class=\"text-left\" style=\"width: 79.2568%; height: 50.3594px;\">Establish a tunnel to the server identified by the target resource.</td>\n</tr>\n<tr style=\"height: 50.3594px;\">\n<td class=\"text-left\" style=\"width: 20.6007%; height: 50.3594px;\">OPTIONS</td>\n<td class=\"text-left\" style=\"width: 79.2568%; height: 50.3594px;\">Describe the communication options for the target resource.</td>\n</tr>\n<tr style=\"height: 79.1562px;\">\n<td class=\"text-left\" style=\"width: 20.6007%; height: 79.1562px;\">TRACE</td>\n<td class=\"text-left\" style=\"width: 79.2568%; height: 79.1562px;\">Perform a message loop-back test along the path to the target resource.</td>\n</tr>\n</tbody>\n</table>\n<p>Quelle: <a href=\"https://www.rfc-editor.org/rfc/rfc9110.html#name-methods\" rel=\"nofollow\">RFC9110</a></p>\n<p>Von diesen Methoden sind GET, HEAD und POST die mit grossem Abstand häufiger verwendeten. Die meisten Anwendungen kommen ohne PUT und DELETE aus, und wenn diese Methoden doch verwendet werden, dann nur unter starken Sicherheitsvorkehrungen. Es bedarf nicht viel Fantasie, das Missbrauchspotenzial zu erkennen, wenn jeder Dateien auf Ihrem Server anlegen und löschen könnte.</p>\n<h3>Verarbeitung im Servlet-Container</h3>\n<p>Der Servlet-Container empfängt diesen HTTP-Request und erzeugt daraus ein Objekt der Klasse <em>HttpServletRequest</em>. Durch dieses Objekt sind alle Daten zugänglich, die im Request gesendet wurden.</p>\n<p>Als Nächstes ermittelt der Servlet-Container anhand der Adresse in der ersten Request-Zeile, an welche Anwendung und welche Ressource der Request adressiert ist. Die Anwendung wird durch den ersten Teil der Adresse identifiziert, der Teil /servlet-1.0-SNAPSHOT, identifiziert die Ressource. Das kann ein Servlet sein, dessen <em>urlPatterns-Attribut</em> passt, oder bei einem GET-Request eine statische Ressource dieses Namens, die im Wurzelverzeichnis des WARs liegt.<br><br>Unter /servlet-1.0-SNAPSHOT antwortet ein Servlet. Falls noch keine Instanz dieses Servlets erzeugt wurde, erzeugt der Container nun eine. Es wird nicht für jeden Request eine neue Servlet-Instanz erzeugt, deshalb sollten man niemals Daten, die zu einem Request gehören, in Instanzvariablen speichern, denn diese könnten in einem anderen Request weiterverwendet werden.<br><br>Nun endlich so weit: Das Servlet wird aufgerufen.</p>\n<p id=\"table.of.methods\"></p>",
+            "author": {
+                "name": "Finecloud"
+            },
+            "tags": [
+                   "softwareentwicklung",
+                   "servlet",
+                   "rfc9110",
+                   "java",
+                   "http",
+                   "dev"
+            ],
+            "date_published": "2022-06-25T10:55:55+02:00",
+            "date_modified": "2022-06-25T10:55:55+02:00"
+        },
+        {
             "id": "https://www.finecloud.ch/toc-in-readmemd-erstellen.html",
             "url": "https://www.finecloud.ch/toc-in-readmemd-erstellen.html",
             "title": "TOC in README.md erstellen mit VSCode",
@@ -46,8 +66,8 @@
                    "java",
                    "dev"
             ],
-            "date_published": "2022-06-25T07:51:35+02:00",
-            "date_modified": "2022-06-25T08:39:44+02:00"
+            "date_published": "2022-06-22T07:51:00+02:00",
+            "date_modified": "2022-06-25T09:54:05+02:00"
         },
         {
             "id": "https://www.finecloud.ch/java-serverlets.html",
@@ -193,26 +213,6 @@
             ],
             "date_published": "2022-05-28T14:39:55+02:00",
             "date_modified": "2022-05-28T20:17:55+02:00"
-        },
-        {
-            "id": "https://www.finecloud.ch/java-collection-iteratoren.html",
-            "url": "https://www.finecloud.ch/java-collection-iteratoren.html",
-            "title": "Java Collection Iteratoren",
-            "summary": "Diese Collection Methode kann dazu verwendet werden, über alle Werte einer Collection zu iterieren: die Methode iterator, gibt ein Objekt vom Typ Iterator zurück. Mit der Methode hasNext wird geprüft, ob es noch ein weiteres Element in der Collection gibt, next gibt das nächste Element&hellip;",
-            "content_html": "<p>Diese Collection Methode kann dazu verwendet werden, über alle Werte einer Collection zu iterieren: die Methode <em>iterator</em>, gibt ein Objekt vom Typ <em>Iterator</em> zurück.</p>\n<p>Mit der Methode <em>hasNext</em> wird geprüft, ob es noch ein weiteres Element in der Collection gibt, <em>next</em> gibt das nächste Element zurück:</p>\n<p><code>List&lt;Book&gt; books = …;</code><br><code>Iterator&lt;Book&gt; it = books.iterator();</code><br><code>while (it.hasNext){</code><br><code>    Book book = it.next();</code><br><code>    …</code><br><code>}</code></p>\n<p>Seit Java 5 und der Einführung der for-each-Schleife ist es nur noch selten nötig, selbst mit dem Interator zu arbeiten. Ein wesentlicher Vorteil ist, dass es keine Sprachkonstrukte, sondern Objekte sind und können als solche in Feldern gespeichert und als Parameter an Methoden übergeben und aus Methoden zurückgegeben werden. Beispielsweise kann damit ein einzelnen Element ausgelesen werden und zu einem späteren Zeitpunkt an derselben Stelle fortgesetzt werden:</p>\n<p><code>public boolean spieleHoerbuch(Iterator&lt;Book&gt; books, int zeit) {</code><br><code>    int gesamtzeit = 0;</code><br><code>    while (gesamtzeit &lt; zeit) {</code><br><code>        if (books.hasNext()) {</code><br><code>            Book book = books.next();</code><br><code>            gesamtzeit += book.getLaenge();</code><br><code>            spieleBook(book);</code><br><code>        } else {</code><br><code>            return false;</code><br><code>        }</code><br><code>    }</code><br><code>    return books.hasNext();</code><br><code>}</code></p>\n<p>In diesem Beispiel werden solange Hörbücher abgespielt, bis eine Gesamtzeit erreicht ist, dann wird das aktuelle Hörbuch zu ende gespielt. Wenn Sie die Methode das nächste Mal aktivieren, dann übergeben Sie denselben Iterator und es geht mit dem nächsten Hörbuch weiter.</p>",
-            "author": {
-                "name": "Finecloud"
-            },
-            "tags": [
-                   "softwareentwicklung",
-                   "java",
-                   "dev",
-                   "collectioniterator",
-                   "collection",
-                   "array"
-            ],
-            "date_published": "2022-05-26T14:07:33+02:00",
-            "date_modified": "2022-05-26T14:18:44+02:00"
         }
     ]
 }

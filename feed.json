@@ -11,6 +11,23 @@
     },
     "items": [
         {
+            "id": "https://www.finecloud.ch/toc-in-readmemd-erstellen.html",
+            "url": "https://www.finecloud.ch/toc-in-readmemd-erstellen.html",
+            "title": "TOC in README.md erstellen mit VSCode",
+            "summary": "TOC steht für Table of Contents (aka Inhaltsverzeichnis). Jedes grössere README Markdown File in einem git Repo sollte über ein TOC verfügen. Doch die Pflege eines TOC sowie die initiale Erstellung ist nicht sehr handlich, du musst für jeden einzelnen Titel in der richtigen Einrückung&hellip;",
+            "content_html": "<p><em>TOC</em> steht für <em>Table of Contents</em> (aka Inhaltsverzeichnis). Jedes grössere README Markdown File in einem git Repo sollte über ein TOC verfügen.</p>\n<p>Doch die Pflege eines TOC sowie die initiale Erstellung ist nicht sehr handlich, du musst für jeden einzelnen Titel in der richtigen Einrückung (damit die Titelanordnung stimmt) folgender Inhalt eintippen, obwohl du diese ja bereits als Titel in der Markdown Datei definiert hast:</p>\n<pre class=\"hljs\" style=\"color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;\"><span class=\"hljs-bullet\" style=\"color: #6897bb;\">- </span>[<span class=\"hljs-string\" style=\"color: #6a8759;\">Table of Contents</span>](<span class=\"hljs-link\" style=\"color: #629755;\">#table-of-contents</span>)\n<span class=\"hljs-bullet\" style=\"color: #6897bb;\">- </span>[<span class=\"hljs-string\" style=\"color: #6a8759;\">Verbesserungen</span>](<span class=\"hljs-link\" style=\"color: #629755;\">#verbesserungen</span>)\n<span class=\"hljs-bullet\" style=\"color: #6897bb;\">- </span>[<span class=\"hljs-string\" style=\"color: #6a8759;\">Anpassungen innerhalb dieses Repositories</span>](<span class=\"hljs-link\" style=\"color: #629755;\">#anpassungen-innerhalb-dieses-repositories</span>)\n<span class=\"hljs-code\">    - [CI Pipeline](#ci-pipeline)</span>\n</pre>\n<p>damit dann dieses schöne Inhaltsverzeichnis entsteht:</p>\n<figure class=\"post__image\"><img loading=\"lazy\"  src=\"https://www.finecloud.ch/media/posts/39/Screenshot-2022-06-25-at-08.21.47.png\" sizes=\"100vw\" srcset=\"https://www.finecloud.ch/media/posts/39/responsive/Screenshot-2022-06-25-at-08.21.47-xs.png 300w ,https://www.finecloud.ch/media/posts/39/responsive/Screenshot-2022-06-25-at-08.21.47-sm.png 480w ,https://www.finecloud.ch/media/posts/39/responsive/Screenshot-2022-06-25-at-08.21.47-md.png 768w ,https://www.finecloud.ch/media/posts/39/responsive/Screenshot-2022-06-25-at-08.21.47-lg.png 1024w ,https://www.finecloud.ch/media/posts/39/responsive/Screenshot-2022-06-25-at-08.21.47-xl.png 1360w ,https://www.finecloud.ch/media/posts/39/responsive/Screenshot-2022-06-25-at-08.21.47-2xl.png 1600w\"  alt=\"\" width=\"366\" height=\"115\"></figure>\n<p>Doch es gibt einen Weg, wie du ohne die Arbeit doppelt zu machen (jeden Titel zweimal schreiben 😒), einfach und schnell aus deinem Markdown ein TOC erstellen und später auch einfach wieder aktualisieren kannst. </p>\n<p>In der IDE VSCode kannst du dazu die Extension <a href=\"https://marketplace.visualstudio.com/items?itemName=huntertran.auto-markdown-toc\" target=\"_blank\" rel=\"nofollow noopener noreferrer\">Auto Markdown TOC</a> installieren. Es gibt duzende solche Extensions, lass mich wissen wenn du ein besseres findest. 😃</p>\n<p>Wenn du die Extension installiert hast, kannst du anschliessend direkt aus VSCode in deinem Markdown File ein TOC generieren lassen:</p>\n<figure class=\"AnimatedImagePlayer-animatedImage\"><img loading=\"lazy\"  style=\"display: block; opacity: 1;\" src=\"https://github.com/huntertran/markdown-toc/raw/master/img/insert-toc.gif\" data-is-external-image=\"true\"  alt=\"Insert TOC\" data-target=\"animated-image.replacedImage\"></figure>\n<p>Viel Spass damit!</p>",
+            "author": {
+                "name": "Finecloud"
+            },
+            "tags": [
+                   "vscode",
+                   "markdown",
+                   "git"
+            ],
+            "date_published": "2022-06-25T08:07:31+02:00",
+            "date_modified": "2022-06-25T08:31:16+02:00"
+        },
+        {
             "id": "https://www.finecloud.ch/java-serverlet-entwickeln-mit-vscode.html",
             "url": "https://www.finecloud.ch/java-serverlet-entwickeln-mit-vscode.html",
             "title": "Java Serverlet mit Tomcat und Maven in VS Code",
@@ -196,26 +213,6 @@
             ],
             "date_published": "2022-05-26T14:07:33+02:00",
             "date_modified": "2022-05-26T14:18:44+02:00"
-        },
-        {
-            "id": "https://www.finecloud.ch/java-collection-sets.html",
-            "url": "https://www.finecloud.ch/java-collection-sets.html",
-            "title": "Java Collection Sets",
-            "summary": "Sets eignen sich für die Bearbeitung einer mathematischen Menge. Set kann somit keine identische Elemente enthalten und kann keine interneReihenfolge haben. Deshalb gibt es für Set auch keine Methoden die den direkten Zugriff auf ein Element ermöglichen. Um auf ein Element eines Set zuzugreifen muss&hellip;",
-            "content_html": "<p>Sets eignen sich für die Bearbeitung einer mathematischen Menge. Set kann somit keine identische Elemente enthalten und kann keine interneReihenfolge haben. Deshalb gibt es für Set auch keine Methoden die den direkten Zugriff auf ein Element ermöglichen. Um auf ein Element eines Set zuzugreifen muss darüber iteriert werden:</p>\n<p><code>Set&lt;String&gt; besuchteOrte = new HashSet&lt;&gt;();</code><br><code>besuchteOrte.add(\"Bern\");</code><br><code>besuchteOrte.add(\"Basel\");</code><br><code>besuchteOrte.add(\"Bern\");</code><br><code>besuchteOrte.add(\"Bellinzona\");</code><br><code>for (String ort : besuchteOrte){</code><br><code>    System.out.println(ort);</code><br><code>}</code></p>\n<p>Im Beispiel wird Bern nur einmal ausgegeben, auch wenn Bern zweimal hinzugefügt wurde, zählt es nur einmal. Beim Hinzufügen ein neuen Elementen mit der add-Methode, gibt die Collection einen boolean-Wert zurück: Wenn das Element hinzugefügt wurde, ist der return true, wenn der Wert bereits vorhanden war, false. So kann festgestellt werden, ob ein neues Element hinzugefügt wurde, oder nicht. Wichtig zu beachten ist zudem, dass die Ausgabe eines Collection Sets nicht in einer festgelegen Reihenfolge erfolgt und es auch keine konstante Reihenfolge der Werte in einem Collection Set gibt.</p>\n<p>Die Hauptverwendung von Set, ist HashSet, das die Einmaligkeit der enthaltenen Elemente durch deren Hashcode sicherstellt. Wenn man also eine Set Collection verwenden, sollte man unbedingt in der Klasse die Methoden hashCode und equals überschreiben:</p>\n<p><code>Set&lt;Book&gt; meineBuecher = new HashSet&lt;&gt;();</code><br><code>meineBuecher.add(new Book(\"Bretonische Nächte\", \"Jean-Luc Bannalec\", 298));</code><br><code>meineBuecher.add(new Book(\"Bretonische Nächte\", \"Jean-Luc Bannalec\", 316));</code></p>\n<p>Wenn die Klasse Book die hashCode Methode nicht überschreibt, dann ist \"Bretonische Nächte\" zweimal im Set enthalten, denn die von Object geerbte bashCode-Implementierung gibt für verschiedene Objekte verschiedene Werte zurück, auch wenn die Objekte Inhaltsgleich sind. Deshalb muss eine eigene hashCode-Methode geschrieben werden, die den Code aus Titel, Autor und Seitenzahl berechnet, dann wird das zweite Buch nicht hinzugefügt, weil das Buch jetzt als identisch erkannt wird.</p>\n<p> </p>",
-            "author": {
-                "name": "Finecloud"
-            },
-            "tags": [
-                   "softwareentwicklung",
-                   "java",
-                   "dev",
-                   "collectionset",
-                   "collection",
-                   "array"
-            ],
-            "date_published": "2022-05-26T13:28:00+02:00",
-            "date_modified": "2022-05-26T14:03:21+02:00"
         }
     ]
 }

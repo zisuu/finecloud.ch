@@ -3,12 +3,215 @@
     <title>Finecloud</title>
     <link href="https://www.finecloud.ch/feed.xml" rel="self" />
     <link href="https://www.finecloud.ch" />
-    <updated>2022-06-21T11:01:12+02:00</updated>
+    <updated>2022-06-25T07:51:35+02:00</updated>
     <author>
         <name>Finecloud</name>
     </author>
     <id>https://www.finecloud.ch</id>
 
+    <entry>
+        <title>Java Serverlet mit Tomcat und Maven in VS Code</title>
+        <author>
+            <name>Finecloud</name>
+        </author>
+        <link href="https://www.finecloud.ch/java-serverlet-entwickeln-mit-vscode.html"/>
+        <id>https://www.finecloud.ch/java-serverlet-entwickeln-mit-vscode.html</id>
+            <category term="vscode"/>
+            <category term="tomcat"/>
+            <category term="softwareentwicklung"/>
+            <category term="servlet"/>
+            <category term="network"/>
+            <category term="maven"/>
+            <category term="java"/>
+            <category term="dev"/>
+
+        <updated>2022-06-25T07:51:35+02:00</updated>
+            <summary>
+                <![CDATA[
+                    Im diesem Artikel ist beschrieben, wie man Apache Tomcat direkt in VSCode nutzen kann. Voraussetzung ist, dass du auf deinem Gerät bereits eine Java JRE und Apache Maven installiert hast. Weiter brauchen wir in VSCode das Extension Pack for Java, du kannst dire in VSCode&hellip;
+                ]]>
+            </summary>
+        <content type="html">
+            <![CDATA[
+                <p>Im <a href="https://www.finecloud.ch/java-serverlet-entwickeln-mit-vscode.html" rel="nofollow">diesem Artikel</a> ist beschrieben, wie man Apache Tomcat direkt in VSCode nutzen kann.<a href="https://www.finecloud.ch/java-serverlet-entwickeln-mit-vscode.html" rel="nofollow"></a></p>
+<p>Voraussetzung ist, dass du auf deinem Gerät bereits eine Java JRE und Apache Maven installiert hast. Weiter brauchen wir in VSCode das <em>Extension Pack for Java</em>, du kannst dire in VSCode installieren, wenn du  <em>CTRL + SHIFT + X</em> und dann <code>vscode:extension/vscjava.vscode-java-pack</code> eingibst.</p>
+<h2>Maven Projekt anlegen</h2>
+<p>Als erster Schritt legen wir ein neues Maven Projekt an:</p>
+<ul>
+<li>Aus VSCode mit <em>Strg+Shift+P</em>, dann</li>
+<li>Wählen Sie <code>Maven: Create Maven-Procekt</code></li>
+<li>Wählen Sie <code>maven-archetype-quickstart</code></li>
+<li>Wählen Sie die aktuelle Vision wie <code>1.4</code></li>
+<li>Geben Sie Ihre Gruppen-ID wie <code>com.testservlet</code> ein</li>
+<li>Geben Sie Ihre Artefakt-ID wie <code>servlet</code> ein</li>
+<li>Suchen Sie Ihren Zielordner, den Sie zuvor erstellt haben, und generieren Sie dort das Projekt.</li>
+</ul>
+<h2>Task File anlegen</h2>
+<p>Wir müssen nun ein tasks file konfigurieren das besagt wie das Maven Projekt zu kompilieren ist.</p>
+<ul>
+<li>Aus VSCode mit <em>Strg+Shift+P</em>, dann</li>
+<li><code style="font-weight: var(--font-weight-normal);">Tasks: Configure task</code></li>
+<li><code style="font-weight: var(--font-weight-normal);">Create tasks.json from template</code></li>
+<li><code style="font-weight: var(--font-weight-normal);">maven: executes common maven command</code></li>
+</ul>
+<p>Anschliessen wir ein leeres default <strong>tasks.json</strong> file generiert. Das passen wir nun so an:</p>
+<pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;">{
+    <span class="hljs-attr">"version"</span>: <span class="hljs-string" style="color: #6a8759;">"2.0.0"</span>,
+    <span class="hljs-attr">"tasks"</span>: [
+        {
+            <span class="hljs-attr">"label"</span>: <span class="hljs-string" style="color: #6a8759;">"compile"</span>,
+            <span class="hljs-attr">"type"</span>: <span class="hljs-string" style="color: #6a8759;">"shell"</span>,
+            <span class="hljs-attr">"command"</span>: <span class="hljs-string" style="color: #6a8759;">"mvn -B compile"</span>,
+            <span class="hljs-attr">"group"</span>: <span class="hljs-string" style="color: #6a8759;">"build"</span>
+        },
+        {
+            <span class="hljs-attr">"label"</span>: <span class="hljs-string" style="color: #6a8759;">"test"</span>,
+            <span class="hljs-attr">"type"</span>: <span class="hljs-string" style="color: #6a8759;">"shell"</span>,
+            <span class="hljs-attr">"command"</span>: <span class="hljs-string" style="color: #6a8759;">"mvn -B test"</span>,
+            <span class="hljs-attr">"group"</span>: <span class="hljs-string" style="color: #6a8759;">"test"</span>
+        }
+    ]
+}
+</pre>
+<p>Nun kompilieren wir unser maven Projekt, dazu in VSCode in der top bar auf <code>Terminal</code>, <code>Run Build Task</code><em> </em>und dann <code>compile</code>.</p>
+<h2>Dependencies hinzufügen</h2>
+<p>Bevor wir loslegen können, müssen wir für unser Servlet noch wesentliche Dependencies deklarieren, ansonsten kann das Servlet nicht erstellt werden. Dazu fügen wir im <code>pom.xml </code>File folgenden Inhalt hinzu:</p>
+<pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-attribute" style="color: #6a8759;">&lt;dependency&gt;</span>
+    <span class="hljs-attribute" style="color: #6a8759;">&lt;groupId&gt;</span>javax.servlet<span class="hljs-attribute" style="color: #6a8759;">&lt;/groupId&gt;</span>
+    <span class="hljs-attribute" style="color: #6a8759;">&lt;artifactId&gt;</span>javax.servlet-api<span class="hljs-attribute" style="color: #6a8759;">&lt;/artifactId&gt;</span>
+    <span class="hljs-attribute" style="color: #6a8759;">&lt;version&gt;</span>4.0.1<span class="hljs-attribute" style="color: #6a8759;">&lt;/version&gt;</span>
+    <span class="hljs-attribute" style="color: #6a8759;">&lt;scope&gt;</span>provided<span class="hljs-attribute" style="color: #6a8759;">&lt;/scope&gt;</span>
+<span class="hljs-attribute" style="color: #6a8759;">&lt;/dependency&gt;</span>
+<span class="hljs-attribute" style="color: #6a8759;">&lt;dependency&gt;</span>
+     <span class="hljs-attribute" style="color: #6a8759;">&lt;groupId&gt;</span>javax.servlet<span class="hljs-attribute" style="color: #6a8759;">&lt;/groupId&gt;</span>
+     <span class="hljs-attribute" style="color: #6a8759;">&lt;artifactId&gt;</span>jstl<span class="hljs-attribute" style="color: #6a8759;">&lt;/artifactId&gt;</span>
+     <span class="hljs-attribute" style="color: #6a8759;">&lt;version&gt;</span>1.2<span class="hljs-attribute" style="color: #6a8759;">&lt;/version&gt;</span>
+<span class="hljs-attribute" style="color: #6a8759;">&lt;/dependency&gt;</span>
+<span class="hljs-attribute" style="color: #6a8759;">&lt;dependency&gt;</span>
+    <span class="hljs-attribute" style="color: #6a8759;">&lt;groupId&gt;</span>javax<span class="hljs-attribute" style="color: #6a8759;">&lt;/groupId&gt;</span>
+    <span class="hljs-attribute" style="color: #6a8759;">&lt;artifactId&gt;</span>javaee-web-api<span class="hljs-attribute" style="color: #6a8759;">&lt;/artifactId&gt;</span>
+    <span class="hljs-attribute" style="color: #6a8759;">&lt;version&gt;</span>8.0<span class="hljs-attribute" style="color: #6a8759;">&lt;/version&gt;</span>
+    <span class="hljs-attribute" style="color: #6a8759;">&lt;scope&gt;</span>provided<span class="hljs-attribute" style="color: #6a8759;">&lt;/scope&gt;</span>
+<span class="hljs-attribute" style="color: #6a8759;">&lt;/dependency&gt;</span></pre>
+<h2>Servlet erstellen</h2>
+<p>Wir löschen die default Klasse App.java und erstellen folgende neue NewServlet.java Klasse unter diesem Pfad: <code>src\main\java\com\myservlet\NewServlet.java</code></p>
+<pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-keyword" style="color: #cc7832;">package</span> com.myservlet;
+
+<span class="hljs-keyword" style="color: #cc7832;">import</span> java.io.IOException;
+<span class="hljs-keyword" style="color: #cc7832;">import</span> java.io.PrintWriter;
+<span class="hljs-keyword" style="color: #cc7832;">import</span> javax.servlet.ServletException;
+<span class="hljs-keyword" style="color: #cc7832;">import</span> javax.servlet.annotation.WebServlet;
+<span class="hljs-keyword" style="color: #cc7832;">import</span> javax.servlet.http.HttpServlet;
+<span class="hljs-keyword" style="color: #cc7832;">import</span> javax.servlet.http.HttpServletRequest;
+<span class="hljs-keyword" style="color: #cc7832;">import</span> javax.servlet.http.HttpServletResponse;
+
+<span class="hljs-comment" style="color: grey;">/**
+ * NewServlet
+ */</span>
+<span class="hljs-meta" style="color: #bbb529;">@WebServlet</span>(urlPatterns = <span class="hljs-string" style="color: #6a8759;">"/mambo.do"</span>)
+<span class="hljs-keyword" style="color: #cc7832;">public</span> <span class="hljs-class"><span class="hljs-keyword" style="color: #cc7832;">class</span> <span class="hljs-title" style="color: #ffc66d;">NewServlet</span> <span class="hljs-keyword" style="color: #cc7832;">extends</span> <span class="hljs-title" style="color: #ffc66d;">HttpServlet</span> </span>{
+
+    <span class="hljs-comment" style="color: grey;">/**
+     * Processes requests for both HTTP &lt;code&gt;GET&lt;/code&gt; and &lt;code&gt;POST&lt;/code&gt;
+     * methods.
+     *
+     * <span class="hljs-doctag">@param</span> request servlet request
+     * <span class="hljs-doctag">@param</span> response servlet response
+     * <span class="hljs-doctag">@throws</span> ServletException if a servlet-specific error occurs
+     * <span class="hljs-doctag">@throws</span> IOException if an I/O error occurs
+     */</span>
+    <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">protected</span> <span class="hljs-keyword" style="color: #cc7832;">void</span> <span class="hljs-title" style="color: #ffc66d;">processRequest</span><span class="hljs-params">(HttpServletRequest request, HttpServletResponse response)</span>
+            <span class="hljs-keyword" style="color: #cc7832;">throws</span> ServletException, IOException </span>{
+        response.setContentType(<span class="hljs-string" style="color: #6a8759;">"text/html;charset=UTF-8"</span>);
+        <span class="hljs-keyword" style="color: #cc7832;">try</span> ( PrintWriter out = response.getWriter()) {
+            <span class="hljs-comment" style="color: grey;">/* TODO output your page here. You may use following sample code. */</span>
+            out.println(<span class="hljs-string" style="color: #6a8759;">"&lt;!DOCTYPE html&gt;"</span>);
+            out.println(<span class="hljs-string" style="color: #6a8759;">"&lt;html&gt;"</span>);
+            out.println(<span class="hljs-string" style="color: #6a8759;">"&lt;head&gt;"</span>);
+            out.println(<span class="hljs-string" style="color: #6a8759;">"&lt;title&gt;Servlet NewServlet&lt;/title&gt;"</span>);            
+            out.println(<span class="hljs-string" style="color: #6a8759;">"&lt;/head&gt;"</span>);
+            out.println(<span class="hljs-string" style="color: #6a8759;">"&lt;body&gt;"</span>);
+            out.println(<span class="hljs-string" style="color: #6a8759;">"&lt;h1&gt;Servlet NewServlet at "</span> + request.getContextPath() + <span class="hljs-string" style="color: #6a8759;">"&lt;/h1&gt;"</span>);
+            out.println(<span class="hljs-string" style="color: #6a8759;">"&lt;/body&gt;"</span>);
+            out.println(<span class="hljs-string" style="color: #6a8759;">"&lt;/html&gt;"</span>);
+        }
+    }
+
+    <span class="hljs-comment" style="color: grey;">// &lt;editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code."&gt;</span>
+    <span class="hljs-comment" style="color: grey;">/**
+     * Handles the HTTP &lt;code&gt;GET&lt;/code&gt; method.
+     *
+     * <span class="hljs-doctag">@param</span> request servlet request
+     * <span class="hljs-doctag">@param</span> response servlet response
+     * <span class="hljs-doctag">@throws</span> ServletException if a servlet-specific error occurs
+     * <span class="hljs-doctag">@throws</span> IOException if an I/O error occurs
+     */</span>
+    <span class="hljs-meta" style="color: #bbb529;">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">protected</span> <span class="hljs-keyword" style="color: #cc7832;">void</span> <span class="hljs-title" style="color: #ffc66d;">doGet</span><span class="hljs-params">(HttpServletRequest request, HttpServletResponse response)</span>
+            <span class="hljs-keyword" style="color: #cc7832;">throws</span> ServletException, IOException </span>{
+        processRequest(request, response);
+    }
+
+    <span class="hljs-comment" style="color: grey;">/**
+     * Handles the HTTP &lt;code&gt;POST&lt;/code&gt; method.
+     *
+     * <span class="hljs-doctag">@param</span> request servlet request
+     * <span class="hljs-doctag">@param</span> response servlet response
+     * <span class="hljs-doctag">@throws</span> ServletException if a servlet-specific error occurs
+     * <span class="hljs-doctag">@throws</span> IOException if an I/O error occurs
+     */</span>
+    <span class="hljs-meta" style="color: #bbb529;">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">protected</span> <span class="hljs-keyword" style="color: #cc7832;">void</span> <span class="hljs-title" style="color: #ffc66d;">doPost</span><span class="hljs-params">(HttpServletRequest request, HttpServletResponse response)</span>
+            <span class="hljs-keyword" style="color: #cc7832;">throws</span> ServletException, IOException </span>{
+        processRequest(request, response);
+    }
+
+    <span class="hljs-comment" style="color: grey;">/**
+     * Returns a short description of the servlet.
+     *
+     * <span class="hljs-doctag">@return</span> a String containing servlet description
+     */</span>
+    <span class="hljs-meta" style="color: #bbb529;">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">public</span> String <span class="hljs-title" style="color: #ffc66d;">getServletInfo</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-keyword" style="color: #cc7832;">return</span> <span class="hljs-string" style="color: #6a8759;">"Short description"</span>;
+    }<span class="hljs-comment" style="color: grey;">// &lt;/editor-fold&gt;</span>
+
+}
+
+</pre>
+<h2>web.xml File anlegen</h2>
+<ul>
+<li>Erstelle unter dem Pfad "src/main/" den Ordner webapp (wenn nicht bereits vorhanden).</li>
+<li>Erstelle unter dem Pfad "src/main/webapp" den Ordner "WEB-INF" und die Datei web.xml mit dem folgenden Inhalt:</li>
+</ul>
+<pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;">&lt;web-<span class="hljs-keyword" style="color: #cc7832;">app</span> xmlns=<span class="hljs-string" style="color: #6a8759;">"http://java.sun.com/xml/ns/javaee"</span> xmlns:xsi=<span class="hljs-string" style="color: #6a8759;">"http://www.w3.org/2001/XMLSchema-instance"</span>
+    xsi:schemaLocation=<span class="hljs-string" style="color: #6a8759;">"http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"</span>
+    <span class="hljs-keyword" style="color: #cc7832;">version</span>=<span class="hljs-string" style="color: #6a8759;">"3.0"</span>&gt;
+    &lt;<span class="hljs-keyword" style="color: #cc7832;">display</span>-name&gt;To <span class="hljs-keyword" style="color: #cc7832;">do</span> <span class="hljs-keyword" style="color: #cc7832;">List</span>&lt;/<span class="hljs-keyword" style="color: #cc7832;">display</span>-name&gt;
+    &lt;welcome-<span class="hljs-keyword" style="color: #cc7832;">file</span>-<span class="hljs-keyword" style="color: #cc7832;">list</span>&gt;
+        &lt;welcome-<span class="hljs-keyword" style="color: #cc7832;">file</span>&gt;mambo.<span class="hljs-keyword" style="color: #cc7832;">do</span>&lt;/welcome-<span class="hljs-keyword" style="color: #cc7832;">file</span>&gt;
+    &lt;/welcome-<span class="hljs-keyword" style="color: #cc7832;">file</span>-<span class="hljs-keyword" style="color: #cc7832;">list</span>&gt;
+&lt;/web-<span class="hljs-keyword" style="color: #cc7832;">app</span>&gt;
+</pre>
+<h2>war File erstellen</h2>
+<p>Bevor wir die war Datei erstellen können, müssen wir sicherstellen, dass in der pom.xml Datei nicht ein jar erstellt wird, sondern ein war:</p>
+<pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;"> <span class="hljs-attribute" style="color: #6a8759;">&lt;groupId&gt;</span>com.myservlet<span class="hljs-attribute" style="color: #6a8759;">&lt;/groupId&gt;</span>
+ <span class="hljs-attribute" style="color: #6a8759;">&lt;artifactId&gt;</span>servlet<span class="hljs-attribute" style="color: #6a8759;">&lt;/artifactId&gt;</span>
+ <span class="hljs-attribute" style="color: #6a8759;">&lt;version&gt;</span>1.0-SNAPSHOT<span class="hljs-attribute" style="color: #6a8759;">&lt;/version&gt;</span>
+ <span class="hljs-attribute" style="color: #6a8759;">&lt;packaging&gt;</span>war<span class="hljs-attribute" style="color: #6a8759;">&lt;/packaging&gt;</span></pre>
+<p>Nun können wir die war Datei kompilieren, dazu im Menu von VSCode auf Terminal -&gt; Run Build Task -&gt; compile klicken. Nachdem die war Datei kompiliert wurde, muss auf der Konsole, im Projektverzeichnis noch   </p>
+<pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;"># mvn clean package</pre>
+<p>ausgeführt werden. Sofern die war Datei nun erfolgreich erstellt wurde, können wir diese nun auf den Tomcat deployen.</p>
+<h2>War File auf lokalen Tomcat deployen</h2>
+<p>In <a href="https://www.finecloud.ch/java-serverlets.html" rel="nofollow">diesem Artikel</a> steht, wie du ein Tomcat direkt in VSCode verwenden kannst.</p>
+<p>Starte den Tomcat Server, und mache ein Rechtsklick auf den Server und wähle "Add Deployment", wähle "File". Anschliessend lade das zuvor erstellte war File hoch. Das war File wird in der Regel im Projektordner unter "target" abgelegt. Bei der Frage "Do you want to edit optional deployment parameters", wähle "no". Nun musst du noch mit einem Rechtsklick auf den Server "Publish Server (Full)" auswählen, damit die war Datei aktiv wird.</p>
+<p>Endlich kannst du in deinem Browser unter dieser URL dein servlet aufrufen: <a href="http://localhost:8080/servlet-1.0-SNAPSHOT/">http://localhost:8080/servlet-1.0-SNAPSHOT/</a></p>
+<p>Alternativ kannst du mit Rechtsklick auf den Server "Server Actions", "Show in Browser" auswählen.</p>
+<p> </p>
+<p> </p>
+            ]]>
+        </content>
+    </entry>
     <entry>
         <title>Java Serverlet Container installieren</title>
         <author>
@@ -639,36 +842,6 @@
 <p><code>Set&lt;Book&gt; meineBuecher = new HashSet&lt;&gt;();</code><br><code>meineBuecher.add(new Book("Bretonische Nächte", "Jean-Luc Bannalec", 298));</code><br><code>meineBuecher.add(new Book("Bretonische Nächte", "Jean-Luc Bannalec", 316));</code></p>
 <p>Wenn die Klasse Book die hashCode Methode nicht überschreibt, dann ist "Bretonische Nächte" zweimal im Set enthalten, denn die von Object geerbte bashCode-Implementierung gibt für verschiedene Objekte verschiedene Werte zurück, auch wenn die Objekte Inhaltsgleich sind. Deshalb muss eine eigene hashCode-Methode geschrieben werden, die den Code aus Titel, Autor und Seitenzahl berechnet, dann wird das zweite Buch nicht hinzugefügt, weil das Buch jetzt als identisch erkannt wird.</p>
 <p> </p>
-            ]]>
-        </content>
-    </entry>
-    <entry>
-        <title>Java Collection Listen</title>
-        <author>
-            <name>Finecloud</name>
-        </author>
-        <link href="https://www.finecloud.ch/java-collection-listen.html"/>
-        <id>https://www.finecloud.ch/java-collection-listen.html</id>
-            <category term="softwareentwicklung"/>
-            <category term="java"/>
-            <category term="dev"/>
-            <category term="collectionlist"/>
-            <category term="collection"/>
-            <category term="arraylist"/>
-            <category term="array"/>
-
-        <updated>2022-05-26T14:44:15+02:00</updated>
-            <summary>
-                <![CDATA[
-                    Listen sind Collections, die am ehesten einem Array entsprechen. Die Elemente bleiben in der Reihenfolge wie sie hinzugefügt werden und sie können auf einzelne Positionen im Index der Liste zugreifen: lesen mit get(index) und schreiben mit set(index, element). Damit ist mit Listen alles möglich, was&hellip;
-                ]]>
-            </summary>
-        <content type="html">
-            <![CDATA[
-                <p>Listen sind Collections, die am ehesten einem Array entsprechen. Die Elemente bleiben in der Reihenfolge wie sie hinzugefügt werden und sie können auf einzelne Positionen im Index der Liste zugreifen: lesen mit <em>get(index) </em>und schreiben mit <em>set(index, element).</em></p>
-<p>Damit ist mit Listen alles möglich, was man mit Arrays auch kann, einfach mit mehr Komfort. Die Liste wächst bei neuen Elementen automatisch an und wenn ein Element mit remove entfernt wird, wird die Lücke geschlossen, indem alle nachfolgenden Elemente nachrutschen:</p>
-<p><code>List&lt;Book&gt; booklist = new ArrayList&lt;&gt;();</code><br><code>//Der Booklist zwei Books hinzufügen</code><br><code>booklist.add(new Book(…));</code><br><code>booklist.add(new Book(…));</code><br><code>//Das zweite Buch durch ein anderes ersetzen</code><br><code>booklist.set(1, new Book(…));</code><br><code>//Alle Buecher anzeigen</code><br><code>for (Book book : booklist){</code><br><code>    System.out.println(book.getTitel());</code><code></code><br><code>}</code></p>
-<p>Für die meisten Fälle ist die ArrayList die performanteste aller List-Implementierungen.</p>
             ]]>
         </content>
     </entry>

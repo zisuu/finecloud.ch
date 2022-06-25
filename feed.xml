@@ -3,7 +3,7 @@
     <title>Finecloud</title>
     <link href="https://www.finecloud.ch/feed.xml" rel="self" />
     <link href="https://www.finecloud.ch" />
-    <updated>2022-06-25T08:32:51+02:00</updated>
+    <updated>2022-06-25T08:39:44+02:00</updated>
     <author>
         <name>Finecloud</name>
     </author>
@@ -61,15 +61,15 @@
             <category term="java"/>
             <category term="dev"/>
 
-        <updated>2022-06-25T08:32:51+02:00</updated>
+        <updated>2022-06-25T08:39:44+02:00</updated>
             <summary>
                 <![CDATA[
-                    Im diesem Artikel ist beschrieben, wie man Apache Tomcat direkt in VSCode nutzen kann. Voraussetzung ist, dass du auf deinem Gerät bereits eine Java JRE und Apache Maven installiert hast. Weiter brauchen wir in VSCode das Extension Pack for Java, du kannst dire in VSCode&hellip;
+                    In diesem Artikel ist beschrieben, wie man Apache Tomcat direkt in VSCode nutzen kann. Voraussetzung ist, dass du auf deinem Gerät bereits eine Java JRE und Apache Maven installiert hast. Weiter brauchen wir in VSCode das Extension Pack for Java, du kannst dire in VSCode&hellip;
                 ]]>
             </summary>
         <content type="html">
             <![CDATA[
-                <p>Im <a href="https://www.finecloud.ch/java-serverlet-entwickeln-mit-vscode.html" rel="nofollow">diesem Artikel</a> ist beschrieben, wie man Apache Tomcat direkt in VSCode nutzen kann.<a href="https://www.finecloud.ch/java-serverlet-entwickeln-mit-vscode.html" rel="nofollow"></a></p>
+                <p>In <a href="https://www.finecloud.ch/java-serverlet-entwickeln-mit-vscode.html" rel="nofollow">diesem Artikel</a> ist beschrieben, wie man Apache Tomcat direkt in VSCode nutzen kann.<a href="https://www.finecloud.ch/java-serverlet-entwickeln-mit-vscode.html" rel="nofollow"></a></p>
 <p>Voraussetzung ist, dass du auf deinem Gerät bereits eine Java JRE und Apache Maven installiert hast. Weiter brauchen wir in VSCode das <em>Extension Pack for Java</em>, du kannst dire in VSCode installieren, wenn du  <em>CTRL + SHIFT + X</em> und dann <code>vscode:extension/vscjava.vscode-java-pack</code> eingibst.</p>
 <h2>Maven Projekt anlegen</h2>
 <p>Als erster Schritt legen wir ein neues Maven Projekt an:</p>

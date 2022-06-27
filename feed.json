@@ -100,9 +100,18 @@
                 "name": "Finecloud"
             },
             "tags": [
+                   "vscode",
+                   "tomcat",
+                   "softwareentwicklung",
+                   "socket",
+                   "servlet",
+                   "network",
+                   "java.io",
+                   "java",
+                   "dev"
             ],
             "date_published": "2022-06-21T10:19:09+02:00",
-            "date_modified": "2022-06-21T11:01:12+02:00"
+            "date_modified": "2022-06-27T09:22:53+02:00"
         },
         {
             "id": "https://www.finecloud.ch/tabby.html",

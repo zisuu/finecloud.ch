@@ -3,7 +3,7 @@
     <title>Finecloud</title>
     <link href="https://www.finecloud.ch/feed.xml" rel="self" />
     <link href="https://www.finecloud.ch" />
-    <updated>2022-06-27T06:35:21+02:00</updated>
+    <updated>2022-06-27T09:22:53+02:00</updated>
     <author>
         <name>Finecloud</name>
     </author>
@@ -455,8 +455,17 @@ Accept-<span class="hljs-string" style="color: #6a8759;">Encoding:</span> gzip, 
         </author>
         <link href="https://www.finecloud.ch/java-serverlets.html"/>
         <id>https://www.finecloud.ch/java-serverlets.html</id>
+            <category term="vscode"/>
+            <category term="tomcat"/>
+            <category term="softwareentwicklung"/>
+            <category term="socket"/>
+            <category term="servlet"/>
+            <category term="network"/>
+            <category term="java.io"/>
+            <category term="java"/>
+            <category term="dev"/>
 
-        <updated>2022-06-21T11:01:12+02:00</updated>
+        <updated>2022-06-27T09:22:53+02:00</updated>
             <summary>
                 <![CDATA[
                     Einleitung Das Serverlet-Framework Jakarta EE ermöglicht die Entwicklung von Anwendungen für eine grosse Anzahl paralleler Benutzer die über einen Web-Browser zugreifen. Dazu ist besonders die Serverlet-API von JEE von Interesse. Diese API-Klasse wartet auf eingehende Netzwerkverbindungen und reagiert mit einer entsprechenden Antwort. Für die übertragenen&hellip;

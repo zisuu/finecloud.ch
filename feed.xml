@@ -3,12 +3,119 @@
     <title>Finecloud</title>
     <link href="https://www.finecloud.ch/feed.xml" rel="self" />
     <link href="https://www.finecloud.ch" />
-    <updated>2022-06-25T10:55:55+02:00</updated>
+    <updated>2022-06-27T06:35:21+02:00</updated>
     <author>
         <name>Finecloud</name>
     </author>
     <id>https://www.finecloud.ch</id>
 
+    <entry>
+        <title>HTTP Response Status Codes</title>
+        <author>
+            <name>Finecloud</name>
+        </author>
+        <link href="https://www.finecloud.ch/http-response-status-codes.html"/>
+        <id>https://www.finecloud.ch/http-response-status-codes.html</id>
+            <category term="statuscode"/>
+            <category term="softwareentwicklung"/>
+            <category term="rfc9110"/>
+            <category term="network"/>
+            <category term="java"/>
+            <category term="http"/>
+            <category term="dev"/>
+
+        <updated>2022-06-27T06:35:21+02:00</updated>
+            <summary>
+                <![CDATA[
+                    Die erste Ziffer des Status-Codes definiert die Klasse der Response. Die letzten zwei Ziffern haben keine Bedeutung für die Kategorisierung. Es gibt fünf unterschiedliche Response Klassen: Nachfolgend eine Zusammenstellung der häufigsten HTTP-Codes denen man im Alltag begegnet: HTTP-Statuscode Bedeutung 200 OK Der Request wurde ohne&hellip;
+                ]]>
+            </summary>
+        <content type="html">
+            <![CDATA[
+                <p>Die erste Ziffer des Status-Codes definiert die Klasse der Response. Die letzten zwei Ziffern haben keine Bedeutung für die Kategorisierung.</p>
+<p>Es gibt fünf unterschiedliche Response Klassen:</p>
+<ul>
+<li id="section-15-3.1" class="normal"><strong>1xx (Informational)</strong>: Der Request wurde entgegengenommen, der Prozess geht weiter.</li>
+<li><strong>2xx (Successful)</strong><span style="color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: inherit; font-weight: var(--font-weight-normal);">: Der Request ist angekommen und wurde korrekt interpretiert und ist damit akzeptiert.</span></li>
+<li><strong>3xx (Redirection)</strong><span style="color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: inherit; font-weight: var(--font-weight-normal);">: Weitere Schritte sind notwendig um den Request abzuschliessen.</span></li>
+<li><strong>4xx (Client Error)</strong><span style="color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: inherit; font-weight: var(--font-weight-normal);">: Der Request hat Syntaxfehler oder kann aus anderen Gründen nicht angenommen werden.</span></li>
+<li><span style="color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: inherit; font-weight: var(--font-weight-normal);"> </span><strong>5xx (Server Error)</strong><span style="color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: inherit; font-weight: var(--font-weight-normal);">: Der Server hatte ein Fehler beim Versuch den Request zu beantworten.</span></li>
+</ul>
+<p>Nachfolgend eine Zusammenstellung der häufigsten HTTP-Codes denen man im Alltag begegnet:</p>
+<table id="t14.1">
+<thead>
+<tr>
+<th>
+<p><strong>HTTP-Statuscode</strong></p>
+</th>
+<th>
+<p><strong>Bedeutung</strong></p>
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<p>200 OK</p>
+</td>
+<td>
+<p>Der Request wurde ohne Fehler verarbeitet.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p>400 Bad Request</p>
+</td>
+<td>
+<p>Der empfangene Request war fehlerhaft. Wenn du aus einem Browser zugreifst, solltest du diese Meldung nicht sehen.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p>401 Unauthorized</p>
+</td>
+<td>
+<p>Die angefragte Ressource ist nur für angemeldete Benutzer freigegeben, aber der Anfragende ist nicht angemeldet.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p>403 Forbidden</p>
+</td>
+<td>
+<p>Die Ressource ist nur für angemeldete Benutzer mit bestimmten Rechten freigegeben. Der Benutzer ist zwar angemeldet, besitzt aber nicht die notwendigen Rechte.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p>404 Not Found</p>
+</td>
+<td>
+<p>Die angefragte Ressource konnte nicht gefunden werden.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p>405 Method Not Allowed</p>
+</td>
+<td>
+<p>Die verwendete HTTP-Methode wird von dieser Ressource nicht unterstützt. Im Servlet bedeutet das, dass die do…-Methode nicht implementiert ist.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p>500 Internal Server Error</p>
+</td>
+<td>
+<p>Bei der Verarbeitung des Requests ist im Server ein Fehler aufgetreten. Diesen Fehler bekommen Sie zu sehen, wenn Ihr Servlet eine Exception wirft.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Ausführlichere Angaben zu den HTTP Status Codes findest du im <a href="https://www.rfc-editor.org/rfc/rfc9110.html#name-status-codes" rel="nofollow">RFC9110</a>.</p>
+            ]]>
+        </content>
+    </entry>
     <entry>
         <title>HTTP Methoden - RFC9110</title>
         <author>
@@ -880,34 +987,6 @@ Accept-<span class="hljs-string" style="color: #6a8759;">Encoding:</span> gzip, 
 <p><code>Files.walk(quelle.toPath()).forEach(System.out::println);</code></p>
 <p>Optional kann die Tiefe der rekursiven Auflistung limitiert werden bis zu einer bestimmten Tiefe. walk(quelle, 1) enthält nur den Inhalt des Verzeichnisses selbst, tut also dasselbe wie list. walk(quelle, 2) enthält den Inhalt der Verzeichnisses und seiner direkten Unterverzeichnisse usw.</p>
 <p>Weiter kann mit Files.find in einem Verzeichnis und dessen Unterverzeichnisse nach Dateien gesucht werden, die bestimmten Vorgaben entsprechen. Leider ist auch hier dass java.io und java.nio nicht aus einem Guss. So muss man also die Suchkriterien nicht als FileFilter angeben, sondern als BiPredicate, das als Parameter des Path-Objekt der Datei und ein Objekt vom Typ BasicFileAttributes erhält, in dem sich Informationen wie Dateigrösse und letzte Zugriffszeit finden. Das Beispiel zeigt, wie man Dateien, die grösser als 500MB sind, auflisten kann. Der grosse Nachteil von walk und find ist, dass wenn der Zugriff auf ein Verzeichnis nicht möglich ist, brechen sie mit einer Fehlermeldung ab. Es gibt keine Funktion, diesen Methoden beizubringen, bei unlesbaren Verzeichnissen einfach den Fehler zu ignorieren und weiter zu suchen. Deswegen wird häufig dennoch auf File.listFiles zurückgegriffen.</p>
-            ]]>
-        </content>
-    </entry>
-    <entry>
-        <title>Genereische Java Methoden und beschränkte Typen</title>
-        <author>
-            <name>Finecloud</name>
-        </author>
-        <link href="https://www.finecloud.ch/java-genereische-methoden-und-beschraenkte-typen.html"/>
-        <id>https://www.finecloud.ch/java-genereische-methoden-und-beschraenkte-typen.html</id>
-            <category term="softwareentwicklung"/>
-            <category term="parameterlisten"/>
-            <category term="java"/>
-            <category term="dev"/>
-            <category term="collectionlist"/>
-            <category term="collection"/>
-
-        <updated>2022-05-28T20:17:55+02:00</updated>
-            <summary>
-                <![CDATA[
-                    Eine Methode kann einen typisierten Parameter erzwingen und einen typisierten Wert zurückgeben: public List&lt;Integer&gt; parseAlleInts(List&lt;String&gt; strings){ List&lt;Integer&gt; ergebnis = new ArrayList&lt;&gt;(); for (String s : strings){ ergebnis.add(Integer.parseInt(s)); } return ergebnis; } So ist es möglich eine Liste von Strings als Paramter in eine Liste von&hellip;
-                ]]>
-            </summary>
-        <content type="html">
-            <![CDATA[
-                <p>Eine Methode kann einen typisierten Parameter erzwingen und einen typisierten Wert zurückgeben:</p>
-<p><code>public List&lt;Integer&gt; parseAlleInts(List&lt;String&gt; strings){        </code><br><code>    List&lt;Integer&gt; ergebnis = new ArrayList&lt;&gt;();</code><br><code>    for (String s : strings){</code><br><code>        ergebnis.add(Integer.parseInt(s));</code><br><code>    }</code><br><code>    return ergebnis;</code><br><code>}</code></p>
-<p>So ist es möglich eine Liste von Strings als Paramter in eine Liste von Zahlen (Integern) umzuwandeln.</p>
             ]]>
         </content>
     </entry>

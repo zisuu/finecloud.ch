@@ -1,0 +1,556 @@
+<!DOCTYPE html><html lang="de-ch"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Kubernetes auf Proxmox mit Ansible und Terraform (Teil 1) - Finecloud</title><meta name="description" content="Einleitung In ersten Teil werden wir ein cloud-init Template erstellen, welches wir dann mit Terraform nutzen um die K8S VMs zu erzeugen. Damit wir mit Terraform unsere Kubernetes Nodes deployen können, brauchen wir ein Template. Das kann man entweder bereits mit Ansible machen, sieh dir&hellip;"><meta name="generator" content="Publii Open-Source CMS for Static Site"><link rel="canonical" href="https://www.finecloud.ch/kubernetes-auf-proxmox-mit-ansible-und-terraform.html"><link rel="alternate" type="application/atom+xml" href="https://www.finecloud.ch/feed.xml"><link rel="alternate" type="application/json" href="https://www.finecloud.ch/feed.json"><meta property="og:title" content="Kubernetes auf Proxmox mit Ansible und Terraform (Teil 1)"><meta property="og:image" content="https://www.finecloud.ch/media/website/cloud.png"><meta property="og:site_name" content="Finecloud"><meta property="og:description" content="Einleitung In ersten Teil werden wir ein cloud-init Template erstellen, welches wir dann mit Terraform nutzen um die K8S VMs zu erzeugen. Damit wir mit Terraform unsere Kubernetes Nodes deployen können, brauchen wir ein Template. Das kann man entweder bereits mit Ansible machen, sieh dir&hellip;"><meta property="og:url" content="https://www.finecloud.ch/kubernetes-auf-proxmox-mit-ansible-und-terraform.html"><meta property="og:type" content="article"><link rel="stylesheet" href="https://www.finecloud.ch/assets/css/style.css?v=7c7ed2e3e90182a09465f36ea7129616"><script type="application/ld+json">{"@context":"http://schema.org","@type":"Article","mainEntityOfPage":{"@type":"WebPage","@id":"https://www.finecloud.ch/kubernetes-auf-proxmox-mit-ansible-und-terraform.html"},"headline":"Kubernetes auf Proxmox mit Ansible und Terraform (Teil 1)","datePublished":"2022-07-01T18:59","dateModified":"2022-07-01T18:59","image":{"@type":"ImageObject","url":"https://www.finecloud.ch/media/website/cloud.png","height":false,"width":false},"description":"Einleitung In ersten Teil werden wir ein cloud-init Template erstellen, welches wir dann mit Terraform nutzen um die K8S VMs zu erzeugen. Damit wir mit Terraform unsere Kubernetes Nodes deployen können, brauchen wir ein Template. Das kann man entweder bereits mit Ansible machen, sieh dir&hellip;","author":{"@type":"Person","name":"Finecloud","url":"https://www.finecloud.ch/authors/finecloud/"},"publisher":{"@type":"Organization","name":"Finecloud","logo":{"@type":"ImageObject","url":"https://www.finecloud.ch/media/website/cloud.png","height":false,"width":false}}}</script><meta name="google-site-verification" content="seFY9U12uiEq5U3_MyZiX6XWzk0AVFl9zITr2ZKsytY"></head><body><div class="site-container"><header class="top" id="js-header"><a class="logo" href="https://www.finecloud.ch/"><img src="https://www.finecloud.ch/media/website/cloud.png" alt="Finecloud" width="" height=""></a><nav class="navbar js-navbar"><button class="navbar__toggle js-toggle" aria-label="Menu" aria-haspopup="true" aria-expanded="false"><span class="navbar__toggle-box"><span class="navbar__toggle-inner">Menu</span></span></button><ul class="navbar__menu"><li><a href="https://www.finecloud.ch/" target="_self">Blog</a></li><li><a href="https://www.finecloud.ch/tags/" target="_self">Tags</a></li></ul></nav><div class="search"><div class="search__overlay js-search-overlay"><div class="search__overlay-inner"><form action="https://www.finecloud.ch/search.html" class="search__form"><input class="search__input js-search-input" type="search" name="q" placeholder="search..." aria-label="search..." autofocus="autofocus"></form><button class="search__close js-search-close" aria-label="Close">Close</button></div></div><button class="search__btn js-search-btn" aria-label="Search"><svg role="presentation" focusable="false"><use xlink:href="https://www.finecloud.ch/assets/svg/svg-map.svg#search"/></svg></button></div></header><main><article class="post"><div class="hero"><figure class="hero__image hero__image--overlay"><img src="https://www.finecloud.ch/media/website/download.jpg" srcset="https://www.finecloud.ch/media/website/responsive/download-xs.jpg 300w, https://www.finecloud.ch/media/website/responsive/download-sm.jpg 480w, https://www.finecloud.ch/media/website/responsive/download-md.jpg 768w, https://www.finecloud.ch/media/website/responsive/download-lg.jpg 1024w, https://www.finecloud.ch/media/website/responsive/download-xl.jpg 1360w, https://www.finecloud.ch/media/website/responsive/download-2xl.jpg 1600w" sizes="100vw" loading="eager" alt=""></figure><header class="hero__content"><div class="wrapper"><div class="post__meta"><time datetime="2022-07-01T18:59">Juli 1, 2022</time></div><h1>Kubernetes auf Proxmox mit Ansible und Terraform (Teil 1)</h1></div></header></div><div class="wrapper post__entry"><div class="post__toc"><h3>Table of Contents</h3><ul><li><a href="#mcetoc_1g6tb05kfaqf">Template Erstellen</a></li><li><a href="#mcetoc_1g6tb05kfaqg">Terraform IaC</a><ul><li><a href="#mcetoc_1g6tb05kfaqh">Proxmox vorbereiten für Terraform</a></li><li><a href="#mcetoc_1g6tb05kfaqi">Terraform ausführen</a></li></ul></li></ul></div><h2>Einleitung</h2><p>In ersten Teil werden wir ein cloud-init Template erstellen, welches wir dann mit Terraform nutzen um die K8S VMs zu erzeugen.</p><h2 id="mcetoc_1g6tb05kfaqf">Template Erstellen</h2><p>Damit wir mit Terraform unsere Kubernetes Nodes deployen können, brauchen wir ein Template. Das kann man entweder bereits mit Ansible machen, sieh dir <a href="https://github.com/datastrophic/kubernetes-deployment/blob/master/proxmox/README.md" rel="nofollow">diesen Blog Artikel</a> an. Was mit daran aber nicht gefällt ist folgendes:</p><blockquote><p>The playbook should be run as root on the PVE host itself.</p></blockquote><p>Echt jetzt? als root direkt auf dem Proxmox Host - d.h. zuerst noch Ansible auf Proxmox installieren? mhhh, nee danke.</p><p>Deshalb habe ich mich entschieden das Template lieber von Hand zu erstellen, da ich will den <strong>Ansible overhead nicht auf meinem Proxmox will und schon gar nicht als root ein Playboook ausführen.</strong></p><p>Logge dich mit deinem Admin User <strong>(nicht root - man arbeitet nie mit root)</strong> auf einer deiner Proxmox Hosts ein und führe folgende Befehle aus, um das Ubuntu Template für unsere K8s Nodes zu erstellen:</p><pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;">wget https://cloud-images.ubuntu.com/focal/current/focal-server-cloudimg-amd64.img -P /tmp/
+mv /tmp/focal-server-cloudimg-amd64.img /tmp/ubuntu-2004-server-amd64.qcow2
+qm create 1001 --name ubuntu-2004-cloudinit-template --memory 4096 --net0 virtio,bridge=vmbr0
+qm importdisk 1001 /tmp/ubuntu-2004-server-amd64.qcow2 <span class="hljs-built_in">local</span>-zfs
+qm <span class="hljs-built_in">set</span> 1001 --scsihw virtio-scsi-pci --scsi0 <span class="hljs-built_in">local</span>-zfs:vm-1001-disk-0
+qm <span class="hljs-built_in">set</span> 1001 --ide2 <span class="hljs-built_in">local</span>-zfs:cloudinit
+qm <span class="hljs-built_in">set</span> 1001 --boot c --bootdisk scsi0
+qm <span class="hljs-built_in">set</span> 1001 --serial0 socket --vga serial0
+qm template 1001
+</pre><h2 id="mcetoc_1g6tb05kfaqg">Terraform IaC</h2><p>Nun bereiten wir den Terraform Infrastructure-as-Code vor. Dazu erstellen wir zuerst eine neue Datei Namens <code>main.tf</code> mit dem folgenden Inhalt:</p><pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;">resource <span class="hljs-string" style="color: #6a8759;">"proxmox_vm_qemu"</span> <span class="hljs-string" style="color: #6a8759;">"control_plane"</span> {
+  <span class="hljs-attr">count</span>             = <span class="hljs-number" style="color: #6897bb;">1</span>
+  <span class="hljs-attr">name</span>              = <span class="hljs-string" style="color: #6a8759;">"control-plane-<span class="hljs-subst">${count.index}</span>.k8s.cluster"</span>
+  <span class="hljs-attr">target_node</span>       = <span class="hljs-string" style="color: #6a8759;">"<span class="hljs-subst">${var.pm_node}</span>"</span>
+
+  <span class="hljs-attr">clone</span>             = <span class="hljs-string" style="color: #6a8759;">"ubuntu-2004-cloudinit-template"</span>
+
+  <span class="hljs-attr">os_type</span>           = <span class="hljs-string" style="color: #6a8759;">"cloud-init"</span>
+  <span class="hljs-attr">cores</span>             = <span class="hljs-number" style="color: #6897bb;">4</span>
+  <span class="hljs-attr">sockets</span>           = <span class="hljs-string" style="color: #6a8759;">"1"</span>
+  <span class="hljs-attr">cpu</span>               = <span class="hljs-string" style="color: #6a8759;">"host"</span>
+  <span class="hljs-attr">memory</span>            = <span class="hljs-number" style="color: #6897bb;">2048</span>
+  <span class="hljs-attr">scsihw</span>            = <span class="hljs-string" style="color: #6a8759;">"virtio-scsi-pci"</span>
+  <span class="hljs-attr">bootdisk</span>          = <span class="hljs-string" style="color: #6a8759;">"scsi0"</span>
+
+  disk {
+    <span class="hljs-attr">size</span>            = <span class="hljs-string" style="color: #6a8759;">"20G"</span>
+    <span class="hljs-attr">type</span>            = <span class="hljs-string" style="color: #6a8759;">"scsi"</span>
+    <span class="hljs-attr">storage</span>         = <span class="hljs-string" style="color: #6a8759;">"local-lvm"</span>
+    <span class="hljs-attr">iothread</span>        = <span class="hljs-number" style="color: #6897bb;">1</span>
+  }
+
+  network {
+    <span class="hljs-attr">model</span>           = <span class="hljs-string" style="color: #6a8759;">"virtio"</span>
+    <span class="hljs-attr">bridge</span>          = <span class="hljs-string" style="color: #6a8759;">"vmbr0"</span>
+  }
+
+  <span class="hljs-comment" style="color: grey;"># cloud-init settings</span>
+  <span class="hljs-comment" style="color: grey;"># adjust the ip and gateway addresses as needed</span>
+  <span class="hljs-attr">ipconfig0</span>         = <span class="hljs-string" style="color: #6a8759;">"ip=192.168.0.11<span class="hljs-subst">${count.index}</span>/24,gw=192.168.0.1"</span>
+  <span class="hljs-attr">sshkeys</span> = file(<span class="hljs-string" style="color: #6a8759;">"<span class="hljs-subst">${var.ssh_key_file}</span>"</span>)
+}
+
+resource <span class="hljs-string" style="color: #6a8759;">"proxmox_vm_qemu"</span> <span class="hljs-string" style="color: #6a8759;">"worker_nodes"</span> {
+  <span class="hljs-attr">count</span>             = <span class="hljs-number" style="color: #6897bb;">3</span>
+  <span class="hljs-attr">name</span>              = <span class="hljs-string" style="color: #6a8759;">"worker-<span class="hljs-subst">${count.index}</span>.k8s.cluster"</span>
+  <span class="hljs-attr">target_node</span>       = <span class="hljs-string" style="color: #6a8759;">"<span class="hljs-subst">${var.pm_node}</span>"</span>
+
+  <span class="hljs-attr">clone</span>             = <span class="hljs-string" style="color: #6a8759;">"ubuntu-2004-cloudinit-template"</span>
+
+  <span class="hljs-attr">os_type</span>           = <span class="hljs-string" style="color: #6a8759;">"cloud-init"</span>
+  <span class="hljs-attr">cores</span>             = <span class="hljs-number" style="color: #6897bb;">4</span>
+  <span class="hljs-attr">sockets</span>           = <span class="hljs-string" style="color: #6a8759;">"1"</span>
+  <span class="hljs-attr">cpu</span>               = <span class="hljs-string" style="color: #6a8759;">"host"</span>
+  <span class="hljs-attr">memory</span>            = <span class="hljs-number" style="color: #6897bb;">4098</span>
+  <span class="hljs-attr">scsihw</span>            = <span class="hljs-string" style="color: #6a8759;">"virtio-scsi-pci"</span>
+  <span class="hljs-attr">bootdisk</span>          = <span class="hljs-string" style="color: #6a8759;">"scsi0"</span>
+
+  disk {
+    <span class="hljs-attr">size</span>            = <span class="hljs-string" style="color: #6a8759;">"20G"</span>
+    <span class="hljs-attr">type</span>            = <span class="hljs-string" style="color: #6a8759;">"scsi"</span>
+    <span class="hljs-attr">storage</span>         = <span class="hljs-string" style="color: #6a8759;">"local-lvm"</span>
+    <span class="hljs-attr">iothread</span>        = <span class="hljs-number" style="color: #6897bb;">1</span>
+  }
+
+  network {
+    <span class="hljs-attr">model</span>           = <span class="hljs-string" style="color: #6a8759;">"virtio"</span>
+    <span class="hljs-attr">bridge</span>          = <span class="hljs-string" style="color: #6a8759;">"vmbr0"</span>
+  }
+
+  <span class="hljs-comment" style="color: grey;"># cloud-init settings</span>
+  <span class="hljs-comment" style="color: grey;"># adjust the ip and gateway addresses as needed</span>
+  <span class="hljs-attr">ipconfig0</span>         = <span class="hljs-string" style="color: #6a8759;">"ip=192.168.0.12<span class="hljs-subst">${count.index}</span>/24,gw=192.168.0.1"</span>
+  <span class="hljs-attr">sshkeys</span> = file(<span class="hljs-string" style="color: #6a8759;">"<span class="hljs-subst">${var.ssh_key_file}</span>"</span>)
+}
+</pre><ul><li><code>clone</code> muss der eindeutige Name der Template VM sein, welche wir im letzten Schritt erstellen haben</li><li><code>ipconfig0</code> muss das Subnetz sein in welchem die VMs laufen sollen. In diesem Fall weisen wir den VMs statische IPs zu in einem realen, externen Netzwerk, sodass diese Hosts ohne NAT Routing auskommen und aus Sicht der anderen Hosts "ganz normal" aussehen.</li></ul><p>Weiter benötigen wir eine Datei mit den Variabeln, <code>variables.tf</code> mit dem Folgenden Inhalt:</p><pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;">variable <span class="hljs-string" style="color: #6a8759;">"pm_api_url"</span> {
+  default = <span class="hljs-string" style="color: #6a8759;">"https://proxmox.lab.local/api2/json"</span>
+}
+
+variable <span class="hljs-string" style="color: #6a8759;">"pm_node"</span> {
+  default = <span class="hljs-string" style="color: #6a8759;">"pve"</span>
+}
+
+<span class="hljs-comment" style="color: grey;"># variable "pm_user" {</span>
+<span class="hljs-comment" style="color: grey;">#   default = ""</span>
+<span class="hljs-comment" style="color: grey;"># }</span>
+
+<span class="hljs-comment" style="color: grey;"># variable "pm_password" {</span>
+<span class="hljs-comment" style="color: grey;">#   default = ""</span>
+<span class="hljs-comment" style="color: grey;"># }</span>
+
+variable <span class="hljs-string" style="color: #6a8759;">"ssh_key_file"</span> {
+  default = <span class="hljs-string" style="color: #6a8759;">"~/.ssh/id_rsa.pub"</span>
+}</pre><ul><li><code>pm_api_url</code> muss deine Proxmox URL sein, wenn du kein DNS und kein reverse proxy hast, muss du die IP verwenden und Port 8006.</li><li><code>pm_node</code> ist der Node deines Proxmox Clusters, auf welchem du dieses Terrafrom plan ausführen willst.</li><li><code>ssh_key_file</code> dein ssh key mit welchem du dann auf die K8S VMs verbinden kannst.</li></ul><p>Die letzte Datei welche wir noch brauchen ist die provider.tf mit diesem Inhalt:</p><pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;">terraform {
+  required_providers {
+    proxmox = {
+      <span class="hljs-built_in">source</span> = <span class="hljs-string" style="color: #6a8759;">"Telmate/proxmox"</span>
+      version = <span class="hljs-string" style="color: #6a8759;">"2.9.10"</span>
+    }
+  }
+}
+
+provider <span class="hljs-string" style="color: #6a8759;">"proxmox"</span> {
+  pm_parallel       = 1
+  pm_tls_insecure   = <span class="hljs-literal" style="color: #6897bb;">false</span>
+  pm_api_url        = var.pm_api_url
+<span class="hljs-comment" style="color: grey;">#   pm_password       = var.pm_password</span>
+<span class="hljs-comment" style="color: grey;">#   pm_user           = var.pm_user</span>
+}</pre><h3 id="mcetoc_1g6tb05kfaqh">Proxmox vorbereiten für Terraform</h3><p>Damit wir Proxmox mit Terraform steuern können, müssen wir zuerst noch ein paar Anpassungen machen. Dazu gehört folgendes:</p><ul><li>Neue Rolle erstellen für den zukünftigen Terraform-Benutzer</li><li><span style="color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: inherit; font-weight: var(--font-weight-normal);">Benutzer „terraform-prov@pve“ erstellen</span></li><li><span style="color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: inherit; font-weight: var(--font-weight-normal);">Dem Benutzer terraform-prov die Rolle TERRAFORM-PROV hinzufügen</span></li></ul><pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;">pveum role add TerraformProv -privs <span class="hljs-string" style="color: #6a8759;">"VM.Allocate VM.Clone VM.Config.CDROM VM.Config.CPU VM.Config.Cloudinit VM.Config.Disk VM.Config.HWType VM.Config.Memory VM.Config.Network VM.Config.Options VM.Monitor VM.Audit VM.PowerMgmt Datastore.AllocateSpace Datastore.Audit"</span>
+pveum user add terraform-prov@pve
+pveum aclmod / -user terraform-prov@pve -role TerraformProv
+pveum passwd terraform-prov@pve</pre><p>Wenn du dich fragst, wieso ich beim Letzten Schritt <code style="font-weight: var(--font-weight-normal);">pm_user</code><span style="color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: inherit; font-weight: var(--font-weight-normal);"> und </span><code style="font-weight: var(--font-weight-normal);">pm_password</code><span style="color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: inherit; font-weight: var(--font-weight-normal);"> auskommentiert habe: man sollte nie Secrets nie in eine Datei schreiben! Wir lösen das, indem wir die folgenden env. Variabeln definieren:</span><span class="pl-k"><br></span></p><pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-built_in">export</span> PM_USER=<span class="hljs-string" style="color: #6a8759;">"terraform-prov@pve"</span>
+<span class="hljs-built_in">export</span> PM_PASS=<span class="hljs-string" style="color: #6a8759;">"password"</span></pre><h3 id="mcetoc_1g6tb05kfaqi">Terraform ausführen</h3><p>Zuerst machen wir ein terraform init, um alle benötigten Komponenten zu installieren und das neue Terraform Repo zu initieren.</p><pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;">#~/github/homelab/terraform$ terraform init
+
+Initializing the backend...
+
+Initializing provider plugins...
+- Finding telmate/proxmox versions matching <span class="hljs-string" style="color: #6a8759;">"2.9.10"</span>...
+- Installing telmate/proxmox v2.<span class="hljs-number" style="color: #6897bb;">9</span>.<span class="hljs-number" style="color: #6897bb;">10</span>...
+- Installed telmate/proxmox v2.<span class="hljs-number" style="color: #6897bb;">9</span>.<span class="hljs-number" style="color: #6897bb;">10</span> (self-signed, key ID xxxx)
+
+Partner and community providers are signed by their developers.
+If youd like to know more about provider signing, you can read about it here:
+https://www.terraform.io/docs/cli/plugins/signing.html
+
+Terraform has created a lock file .terraform.lock.hcl to record the provider
+selections it made above. Include this file in your version control repository
+so that Terraform can guarantee to make the same selections by default when
+you run <span class="hljs-string" style="color: #6a8759;">"terraform init"</span> in the future.
+
+Terraform has been successfully initialized!
+
+You may now begin working with Terraform. Try running <span class="hljs-string" style="color: #6a8759;">"terraform plan"</span> to see
+any changes that are required for your infrastructure. All Terraform commands
+should now work.
+
+If you ever set or change modules or backend configuration for Terraform,
+rerun this command to reinitialize your working directory. If you forget, other
+commands will detect it and remind you to do so if necessary.</pre><p>Als nächster Schritt erstellen mit terraform plan, einen terraform Plan und schreiben diese in eine Datei:</p><pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;">#~/github/homelab/terraform$ terraform plan -out plan
+
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following
+symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  <span class="hljs-comment" style="color: grey;"># proxmox_vm_qemu.control_plane[0] will be created</span>
+  + resource <span class="hljs-string" style="color: #6a8759;">"proxmox_vm_qemu"</span> <span class="hljs-string" style="color: #6a8759;">"control_plane"</span> {
+      + additional_<span class="hljs-built_in">wait</span>           = 0
+      + agent                     = 0
+      + automatic_reboot          = <span class="hljs-literal" style="color: #6897bb;">true</span>
+      + balloon                   = 0
+      + bios                      = <span class="hljs-string" style="color: #6a8759;">"seabios"</span>
+      + boot                      = <span class="hljs-string" style="color: #6a8759;">"c"</span>
+      + bootdisk                  = <span class="hljs-string" style="color: #6a8759;">"scsi0"</span>
+      + <span class="hljs-built_in">clone</span>                     = <span class="hljs-string" style="color: #6a8759;">"ubuntu-2004-cloudinit-template"</span>
+      + <span class="hljs-built_in">clone</span>_<span class="hljs-built_in">wait</span>                = 0
+      + cores                     = 4
+      + cpu                       = <span class="hljs-string" style="color: #6a8759;">"host"</span>
+      + default_ipv4_address      = (known after apply)
+      + define_connection_info    = <span class="hljs-literal" style="color: #6897bb;">true</span>
+      + force_create              = <span class="hljs-literal" style="color: #6897bb;">false</span>
+      + full_<span class="hljs-built_in">clone</span>                = <span class="hljs-literal" style="color: #6897bb;">true</span>
+      + guest_agent_ready_timeout = 100
+      + hotplug                   = <span class="hljs-string" style="color: #6a8759;">"network,disk,usb"</span>
+      + id                        = (known after apply)
+      + ipconfig0                 = <span class="hljs-string" style="color: #6a8759;">"ip=192.168.0.0/24,gw=192.168.0.254"</span>
+      + kvm                       = <span class="hljs-literal" style="color: #6897bb;">true</span>
+      + memory                    = 2048
+      + name                      = <span class="hljs-string" style="color: #6a8759;">"control-plane-0.k8s.cluster"</span>
+      + nameserver                = (known after apply)
+      + numa                      = <span class="hljs-literal" style="color: #6897bb;">false</span>
+      + onboot                    = <span class="hljs-literal" style="color: #6897bb;">false</span>
+      + oncreate                  = <span class="hljs-literal" style="color: #6897bb;">true</span>
+      + os_<span class="hljs-built_in">type</span>                   = <span class="hljs-string" style="color: #6a8759;">"cloud-init"</span>
+      + preprovision              = <span class="hljs-literal" style="color: #6897bb;">true</span>
+      + reboot_required           = (known after apply)
+      + scsihw                    = <span class="hljs-string" style="color: #6a8759;">"virtio-scsi-pci"</span>
+      + searchdomain              = (known after apply)
+      + sockets                   = 1
+      + ssh_host                  = (known after apply)
+      + ssh_port                  = (known after apply)
+      + sshkeys                   = &lt;&lt;-EOT
+            ssh-rsa xxxx
+        EOT
+      + tablet                    = <span class="hljs-literal" style="color: #6897bb;">true</span>
+      + target_node               = <span class="hljs-string" style="color: #6a8759;">"pve"</span>
+      + unused_disk               = (known after apply)
+      + vcpus                     = 0
+      + vlan                      = -1
+      + vmid                      = (known after apply)
+
+      + disk {
+          + backup       = 0
+          + cache        = <span class="hljs-string" style="color: #6a8759;">"none"</span>
+          + file         = (known after apply)
+          + format       = (known after apply)
+          + iothread     = 1
+          + mbps         = 0
+          + mbps_rd      = 0
+          + mbps_rd_max  = 0
+          + mbps_wr      = 0
+          + mbps_wr_max  = 0
+          + media        = (known after apply)
+          + replicate    = 0
+          + size         = <span class="hljs-string" style="color: #6a8759;">"20G"</span>
+          + slot         = (known after apply)
+          + ssd          = 0
+          + storage      = <span class="hljs-string" style="color: #6a8759;">"local-zfs"</span>
+          + storage_<span class="hljs-built_in">type</span> = (known after apply)
+          + <span class="hljs-built_in">type</span>         = <span class="hljs-string" style="color: #6a8759;">"scsi"</span>
+          + volume       = (known after apply)
+        }
+
+      + network {
+          + bridge    = <span class="hljs-string" style="color: #6a8759;">"vmbr0"</span>
+          + firewall  = <span class="hljs-literal" style="color: #6897bb;">false</span>
+          + link_down = <span class="hljs-literal" style="color: #6897bb;">false</span>
+          + macaddr   = (known after apply)
+          + model     = <span class="hljs-string" style="color: #6a8759;">"virtio"</span>
+          + queues    = (known after apply)
+          + rate      = (known after apply)
+          + tag       = 30
+        }
+    }
+
+  <span class="hljs-comment" style="color: grey;"># proxmox_vm_qemu.worker_nodes[0] will be created</span>
+  + resource <span class="hljs-string" style="color: #6a8759;">"proxmox_vm_qemu"</span> <span class="hljs-string" style="color: #6a8759;">"worker_nodes"</span> {
+      + additional_<span class="hljs-built_in">wait</span>           = 0
+      + agent                     = 0
+      + automatic_reboot          = <span class="hljs-literal" style="color: #6897bb;">true</span>
+      + balloon                   = 0
+      + bios                      = <span class="hljs-string" style="color: #6a8759;">"seabios"</span>
+      + boot                      = <span class="hljs-string" style="color: #6a8759;">"c"</span>
+      + bootdisk                  = <span class="hljs-string" style="color: #6a8759;">"scsi0"</span>
+      + <span class="hljs-built_in">clone</span>                     = <span class="hljs-string" style="color: #6a8759;">"ubuntu-2004-cloudinit-template"</span>
+      + <span class="hljs-built_in">clone</span>_<span class="hljs-built_in">wait</span>                = 0
+      + cores                     = 4
+      + cpu                       = <span class="hljs-string" style="color: #6a8759;">"host"</span>
+      + default_ipv4_address      = (known after apply)
+      + define_connection_info    = <span class="hljs-literal" style="color: #6897bb;">true</span>
+      + force_create              = <span class="hljs-literal" style="color: #6897bb;">false</span>
+      + full_<span class="hljs-built_in">clone</span>                = <span class="hljs-literal" style="color: #6897bb;">true</span>
+      + guest_agent_ready_timeout = 100
+      + hotplug                   = <span class="hljs-string" style="color: #6a8759;">"network,disk,usb"</span>
+      + id                        = (known after apply)
+      + ipconfig0                 = <span class="hljs-string" style="color: #6a8759;">"ip=192.168.0.0/24,gw=192.168.0.254"</span>
+      + kvm                       = <span class="hljs-literal" style="color: #6897bb;">true</span>
+      + memory                    = 4098
+      + name                      = <span class="hljs-string" style="color: #6a8759;">"worker-0.k8s.cluster"</span>
+      + nameserver                = (known after apply)
+      + numa                      = <span class="hljs-literal" style="color: #6897bb;">false</span>
+      + onboot                    = <span class="hljs-literal" style="color: #6897bb;">false</span>
+      + oncreate                  = <span class="hljs-literal" style="color: #6897bb;">true</span>
+      + os_<span class="hljs-built_in">type</span>                   = <span class="hljs-string" style="color: #6a8759;">"cloud-init"</span>
+      + preprovision              = <span class="hljs-literal" style="color: #6897bb;">true</span>
+      + reboot_required           = (known after apply)
+      + scsihw                    = <span class="hljs-string" style="color: #6a8759;">"virtio-scsi-pci"</span>
+      + searchdomain              = (known after apply)
+      + sockets                   = 1
+      + ssh_host                  = (known after apply)
+      + ssh_port                  = (known after apply)
+      + sshkeys                   = &lt;&lt;-EOT
+            ssh-rsa xxx
+        EOT
+      + tablet                    = <span class="hljs-literal" style="color: #6897bb;">true</span>
+      + target_node               = <span class="hljs-string" style="color: #6a8759;">"pve"</span>
+      + unused_disk               = (known after apply)
+      + vcpus                     = 0
+      + vlan                      = -1
+      + vmid                      = (known after apply)
+
+      + disk {
+          + backup       = 0
+          + cache        = <span class="hljs-string" style="color: #6a8759;">"none"</span>
+          + file         = (known after apply)
+          + format       = (known after apply)
+          + iothread     = 1
+          + mbps         = 0
+          + mbps_rd      = 0
+          + mbps_rd_max  = 0
+          + mbps_wr      = 0
+          + mbps_wr_max  = 0
+          + media        = (known after apply)
+          + replicate    = 0
+          + size         = <span class="hljs-string" style="color: #6a8759;">"20G"</span>
+          + slot         = (known after apply)
+          + ssd          = 0
+          + storage      = <span class="hljs-string" style="color: #6a8759;">"local-zfs"</span>
+          + storage_<span class="hljs-built_in">type</span> = (known after apply)
+          + <span class="hljs-built_in">type</span>         = <span class="hljs-string" style="color: #6a8759;">"scsi"</span>
+          + volume       = (known after apply)
+        }
+
+      + network {
+          + bridge    = <span class="hljs-string" style="color: #6a8759;">"vmbr0"</span>
+          + firewall  = <span class="hljs-literal" style="color: #6897bb;">false</span>
+          + link_down = <span class="hljs-literal" style="color: #6897bb;">false</span>
+          + macaddr   = (known after apply)
+          + model     = <span class="hljs-string" style="color: #6a8759;">"virtio"</span>
+          + queues    = (known after apply)
+          + rate      = (known after apply)
+          + tag       = 30
+        }
+    }
+
+  <span class="hljs-comment" style="color: grey;"># proxmox_vm_qemu.worker_nodes[1] will be created</span>
+  + resource <span class="hljs-string" style="color: #6a8759;">"proxmox_vm_qemu"</span> <span class="hljs-string" style="color: #6a8759;">"worker_nodes"</span> {
+      + additional_<span class="hljs-built_in">wait</span>           = 0
+      + agent                     = 0
+      + automatic_reboot          = <span class="hljs-literal" style="color: #6897bb;">true</span>
+      + balloon                   = 0
+      + bios                      = <span class="hljs-string" style="color: #6a8759;">"seabios"</span>
+      + boot                      = <span class="hljs-string" style="color: #6a8759;">"c"</span>
+      + bootdisk                  = <span class="hljs-string" style="color: #6a8759;">"scsi0"</span>
+      + <span class="hljs-built_in">clone</span>                     = <span class="hljs-string" style="color: #6a8759;">"ubuntu-2004-cloudinit-template"</span>
+      + <span class="hljs-built_in">clone</span>_<span class="hljs-built_in">wait</span>                = 0
+      + cores                     = 4
+      + cpu                       = <span class="hljs-string" style="color: #6a8759;">"host"</span>
+      + default_ipv4_address      = (known after apply)
+      + define_connection_info    = <span class="hljs-literal" style="color: #6897bb;">true</span>
+      + force_create              = <span class="hljs-literal" style="color: #6897bb;">false</span>
+      + full_<span class="hljs-built_in">clone</span>                = <span class="hljs-literal" style="color: #6897bb;">true</span>
+      + guest_agent_ready_timeout = 100
+      + hotplug                   = <span class="hljs-string" style="color: #6a8759;">"network,disk,usb"</span>
+      + id                        = (known after apply)
+      + ipconfig0                 = <span class="hljs-string" style="color: #6a8759;">"ip=192.168.0.1/24,gw=192.168.0.254"</span>
+      + kvm                       = <span class="hljs-literal" style="color: #6897bb;">true</span>
+      + memory                    = 4098
+      + name                      = <span class="hljs-string" style="color: #6a8759;">"worker-1.k8s.cluster"</span>
+      + nameserver                = (known after apply)
+      + numa                      = <span class="hljs-literal" style="color: #6897bb;">false</span>
+      + onboot                    = <span class="hljs-literal" style="color: #6897bb;">false</span>
+      + oncreate                  = <span class="hljs-literal" style="color: #6897bb;">true</span>
+      + os_<span class="hljs-built_in">type</span>                   = <span class="hljs-string" style="color: #6a8759;">"cloud-init"</span>
+      + preprovision              = <span class="hljs-literal" style="color: #6897bb;">true</span>
+      + reboot_required           = (known after apply)
+      + scsihw                    = <span class="hljs-string" style="color: #6a8759;">"virtio-scsi-pci"</span>
+      + searchdomain              = (known after apply)
+      + sockets                   = 1
+      + ssh_host                  = (known after apply)
+      + ssh_port                  = (known after apply)
+      + sshkeys                   = &lt;&lt;-EOT
+            ssh-rsa xxx
+        EOT
+      + tablet                    = <span class="hljs-literal" style="color: #6897bb;">true</span>
+      + target_node               = <span class="hljs-string" style="color: #6a8759;">"pve"</span>
+      + unused_disk               = (known after apply)
+      + vcpus                     = 0
+      + vlan                      = -1
+      + vmid                      = (known after apply)
+
+      + disk {
+          + backup       = 0
+          + cache        = <span class="hljs-string" style="color: #6a8759;">"none"</span>
+          + file         = (known after apply)
+          + format       = (known after apply)
+          + iothread     = 1
+          + mbps         = 0
+          + mbps_rd      = 0
+          + mbps_rd_max  = 0
+          + mbps_wr      = 0
+          + mbps_wr_max  = 0
+          + media        = (known after apply)
+          + replicate    = 0
+          + size         = <span class="hljs-string" style="color: #6a8759;">"20G"</span>
+          + slot         = (known after apply)
+          + ssd          = 0
+          + storage      = <span class="hljs-string" style="color: #6a8759;">"local-zfs"</span>
+          + storage_<span class="hljs-built_in">type</span> = (known after apply)
+          + <span class="hljs-built_in">type</span>         = <span class="hljs-string" style="color: #6a8759;">"scsi"</span>
+          + volume       = (known after apply)
+        }
+
+      + network {
+          + bridge    = <span class="hljs-string" style="color: #6a8759;">"vmbr0"</span>
+          + firewall  = <span class="hljs-literal" style="color: #6897bb;">false</span>
+          + link_down = <span class="hljs-literal" style="color: #6897bb;">false</span>
+          + macaddr   = (known after apply)
+          + model     = <span class="hljs-string" style="color: #6a8759;">"virtio"</span>
+          + queues    = (known after apply)
+          + rate      = (known after apply)
+          + tag       = 30
+        }
+    }
+
+  <span class="hljs-comment" style="color: grey;"># proxmox_vm_qemu.worker_nodes[2] will be created</span>
+  + resource <span class="hljs-string" style="color: #6a8759;">"proxmox_vm_qemu"</span> <span class="hljs-string" style="color: #6a8759;">"worker_nodes"</span> {
+      + additional_<span class="hljs-built_in">wait</span>           = 0
+      + agent                     = 0
+      + automatic_reboot          = <span class="hljs-literal" style="color: #6897bb;">true</span>
+      + balloon                   = 0
+      + bios                      = <span class="hljs-string" style="color: #6a8759;">"seabios"</span>
+      + boot                      = <span class="hljs-string" style="color: #6a8759;">"c"</span>
+      + bootdisk                  = <span class="hljs-string" style="color: #6a8759;">"scsi0"</span>
+      + <span class="hljs-built_in">clone</span>                     = <span class="hljs-string" style="color: #6a8759;">"ubuntu-2004-cloudinit-template"</span>
+      + <span class="hljs-built_in">clone</span>_<span class="hljs-built_in">wait</span>                = 0
+      + cores                     = 4
+      + cpu                       = <span class="hljs-string" style="color: #6a8759;">"host"</span>
+      + default_ipv4_address      = (known after apply)
+      + define_connection_info    = <span class="hljs-literal" style="color: #6897bb;">true</span>
+      + force_create              = <span class="hljs-literal" style="color: #6897bb;">false</span>
+      + full_<span class="hljs-built_in">clone</span>                = <span class="hljs-literal" style="color: #6897bb;">true</span>
+      + guest_agent_ready_timeout = 100
+      + hotplug                   = <span class="hljs-string" style="color: #6a8759;">"network,disk,usb"</span>
+      + id                        = (known after apply)
+      + ipconfig0                 = <span class="hljs-string" style="color: #6a8759;">"ip=192.168.0.2/24,gw=192.168.0.254"</span>
+      + kvm                       = <span class="hljs-literal" style="color: #6897bb;">true</span>
+      + memory                    = 4098
+      + name                      = <span class="hljs-string" style="color: #6a8759;">"worker-2.k8s.cluster"</span>
+      + nameserver                = (known after apply)
+      + numa                      = <span class="hljs-literal" style="color: #6897bb;">false</span>
+      + onboot                    = <span class="hljs-literal" style="color: #6897bb;">false</span>
+      + oncreate                  = <span class="hljs-literal" style="color: #6897bb;">true</span>
+      + os_<span class="hljs-built_in">type</span>                   = <span class="hljs-string" style="color: #6a8759;">"cloud-init"</span>
+      + preprovision              = <span class="hljs-literal" style="color: #6897bb;">true</span>
+      + reboot_required           = (known after apply)
+      + scsihw                    = <span class="hljs-string" style="color: #6a8759;">"virtio-scsi-pci"</span>
+      + searchdomain              = (known after apply)
+      + sockets                   = 1
+      + ssh_host                  = (known after apply)
+      + ssh_port                  = (known after apply)
+      + sshkeys                   = &lt;&lt;-EOT
+            ssh-rsa xxx
+        EOT
+      + tablet                    = <span class="hljs-literal" style="color: #6897bb;">true</span>
+      + target_node               = <span class="hljs-string" style="color: #6a8759;">"pve"</span>
+      + unused_disk               = (known after apply)
+      + vcpus                     = 0
+      + vlan                      = -1
+      + vmid                      = (known after apply)
+
+      + disk {
+          + backup       = 0
+          + cache        = <span class="hljs-string" style="color: #6a8759;">"none"</span>
+          + file         = (known after apply)
+          + format       = (known after apply)
+          + iothread     = 1
+          + mbps         = 0
+          + mbps_rd      = 0
+          + mbps_rd_max  = 0
+          + mbps_wr      = 0
+          + mbps_wr_max  = 0
+          + media        = (known after apply)
+          + replicate    = 0
+          + size         = <span class="hljs-string" style="color: #6a8759;">"20G"</span>
+          + slot         = (known after apply)
+          + ssd          = 0
+          + storage      = <span class="hljs-string" style="color: #6a8759;">"local-zfs"</span>
+          + storage_<span class="hljs-built_in">type</span> = (known after apply)
+          + <span class="hljs-built_in">type</span>         = <span class="hljs-string" style="color: #6a8759;">"scsi"</span>
+          + volume       = (known after apply)
+        }
+
+      + network {
+          + bridge    = <span class="hljs-string" style="color: #6a8759;">"vmbr0"</span>
+          + firewall  = <span class="hljs-literal" style="color: #6897bb;">false</span>
+          + link_down = <span class="hljs-literal" style="color: #6897bb;">false</span>
+          + macaddr   = (known after apply)
+          + model     = <span class="hljs-string" style="color: #6a8759;">"virtio"</span>
+          + queues    = (known after apply)
+          + rate      = (known after apply)
+          + tag       = 30
+        }
+    }
+
+Plan: 4 to add, 0 to change, 0 to destroy.
+
+──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+Saved the plan to: plan
+
+To perform exactly these actions, run the following <span class="hljs-built_in">command</span> to apply:
+    terraform apply <span class="hljs-string" style="color: #6a8759;">"plan"</span></pre><p>Wir führen nun den Plan aus, dabei werden die Ressourcen wie geplant angelegt:</p><pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;">#~/github/homelab/terraform$ terraform apply <span class="hljs-string" style="color: #6a8759;">"plan"</span>
+proxmox_vm_qemu.worker_nodes[2]: Creating...
+proxmox_vm_qemu.worker_nodes[1]: Creating...
+proxmox_vm_qemu.worker_nodes[0]: Creating...
+proxmox_vm_qemu.control_plane[0]: Creating...
+proxmox_vm_qemu.worker_nodes[0]: Still creating... [10s elapsed]
+proxmox_vm_qemu.worker_nodes[1]: Still creating... [10s elapsed]
+proxmox_vm_qemu.worker_nodes[2]: Still creating... [10s elapsed]
+proxmox_vm_qemu.control_plane[0]: Still creating... [10s elapsed]
+proxmox_vm_qemu.worker_nodes[2]: Still creating... [20s elapsed]
+proxmox_vm_qemu.control_plane[0]: Still creating... [20s elapsed]
+proxmox_vm_qemu.worker_nodes[0]: Still creating... [20s elapsed]
+proxmox_vm_qemu.worker_nodes[1]: Still creating... [20s elapsed]
+proxmox_vm_qemu.worker_nodes[1]: Still creating... [30s elapsed]
+proxmox_vm_qemu.worker_nodes[0]: Still creating... [30s elapsed]
+proxmox_vm_qemu.control_plane[0]: Still creating... [30s elapsed]
+proxmox_vm_qemu.worker_nodes[2]: Still creating... [30s elapsed]
+proxmox_vm_qemu.worker_nodes[2]: Still creating... [40s elapsed]
+proxmox_vm_qemu.worker_nodes[0]: Still creating... [40s elapsed]
+proxmox_vm_qemu.control_plane[0]: Still creating... [40s elapsed]
+proxmox_vm_qemu.worker_nodes[1]: Still creating... [40s elapsed]
+proxmox_vm_qemu.control_plane[0]: Still creating... [50s elapsed]
+proxmox_vm_qemu.worker_nodes[0]: Still creating... [50s elapsed]
+proxmox_vm_qemu.worker_nodes[2]: Still creating... [50s elapsed]
+proxmox_vm_qemu.worker_nodes[1]: Still creating... [50s elapsed]
+proxmox_vm_qemu.worker_nodes[1]: Creation complete after 59s [id=mrprmx/qemu/105]
+proxmox_vm_qemu.control_plane[0]: Still creating... [1m0s elapsed]
+proxmox_vm_qemu.worker_nodes[2]: Still creating... [1m0s elapsed]
+proxmox_vm_qemu.worker_nodes[0]: Still creating... [1m0s elapsed]
+proxmox_vm_qemu.control_plane[0]: Still creating... [1m10s elapsed]
+proxmox_vm_qemu.worker_nodes[0]: Still creating... [1m10s elapsed]
+proxmox_vm_qemu.worker_nodes[2]: Still creating... [1m10s elapsed]
+proxmox_vm_qemu.worker_nodes[0]: Still creating... [1m20s elapsed]
+proxmox_vm_qemu.worker_nodes[2]: Still creating... [1m20s elapsed]
+proxmox_vm_qemu.control_plane[0]: Still creating... [1m20s elapsed]
+proxmox_vm_qemu.worker_nodes[0]: Still creating... [1m30s elapsed]
+proxmox_vm_qemu.control_plane[0]: Still creating... [1m30s elapsed]
+proxmox_vm_qemu.worker_nodes[2]: Still creating... [1m30s elapsed]
+proxmox_vm_qemu.control_plane[0]: Still creating... [1m40s elapsed]
+proxmox_vm_qemu.worker_nodes[2]: Still creating... [1m40s elapsed]
+proxmox_vm_qemu.worker_nodes[0]: Still creating... [1m40s elapsed]
+proxmox_vm_qemu.worker_nodes[0]: Still creating... [1m50s elapsed]
+proxmox_vm_qemu.worker_nodes[2]: Still creating... [1m50s elapsed]
+proxmox_vm_qemu.control_plane[0]: Still creating... [1m50s elapsed]
+proxmox_vm_qemu.worker_nodes[0]: Creation complete after 1m57s [id=mrprmx/qemu/106]
+proxmox_vm_qemu.worker_nodes[2]: Still creating... [2m0s elapsed]
+proxmox_vm_qemu.control_plane[0]: Still creating... [2m0s elapsed]
+proxmox_vm_qemu.worker_nodes[2]: Still creating... [2m10s elapsed]
+proxmox_vm_qemu.control_plane[0]: Still creating... [2m10s elapsed]
+proxmox_vm_qemu.control_plane[0]: Still creating... [2m20s elapsed]
+proxmox_vm_qemu.worker_nodes[2]: Still creating... [2m20s elapsed]
+proxmox_vm_qemu.worker_nodes[2]: Still creating... [2m30s elapsed]
+proxmox_vm_qemu.control_plane[0]: Still creating... [2m30s elapsed]
+proxmox_vm_qemu.worker_nodes[2]: Still creating... [2m40s elapsed]
+proxmox_vm_qemu.control_plane[0]: Still creating... [2m40s elapsed]
+proxmox_vm_qemu.worker_nodes[2]: Still creating... [2m50s elapsed]
+proxmox_vm_qemu.control_plane[0]: Still creating... [2m50s elapsed]
+proxmox_vm_qemu.worker_nodes[2]: Creation complete after 2m56s [id=mrprmx/qemu/107]
+proxmox_vm_qemu.control_plane[0]: Still creating... [3m0s elapsed]
+proxmox_vm_qemu.control_plane[0]: Still creating... [3m10s elapsed]
+proxmox_vm_qemu.control_plane[0]: Still creating... [3m20s elapsed]
+proxmox_vm_qemu.control_plane[0]: Still creating... [3m30s elapsed]
+proxmox_vm_qemu.control_plane[0]: Still creating... [3m40s elapsed]
+proxmox_vm_qemu.control_plane[0]: Still creating... [3m50s elapsed]
+proxmox_vm_qemu.control_plane[0]: Creation complete after 3m54s [id=mrprmx/qemu/108]
+
+Apply complete! Resources: 4 added, 0 changed, 0 destroyed.</pre><p> </p><p> </p><p> </p></div><footer class="wrapper post__footer"><p class="post__last-updated">This article was updated on Juli 1, 2022</p><ul class="post__tag"><li><a href="https://www.finecloud.ch/tags/ansible/">ansible</a></li><li><a href="https://www.finecloud.ch/tags/iac/">iac</a></li><li><a href="https://www.finecloud.ch/tags/k8s/">k8s</a></li><li><a href="https://www.finecloud.ch/tags/kubernetes/">kubernetes</a></li><li><a href="https://www.finecloud.ch/tags/kvm/">kvm</a></li><li><a href="https://www.finecloud.ch/tags/linux/">linux</a></li><li><a href="https://www.finecloud.ch/tags/network/">network</a></li><li><a href="https://www.finecloud.ch/tags/proxmox/">proxmox</a></li><li><a href="https://www.finecloud.ch/tags/shell/">shell</a></li><li><a href="https://www.finecloud.ch/tags/ssh/">ssh</a></li><li><a href="https://www.finecloud.ch/tags/terraform/">terraform</a></li><li><a href="https://www.finecloud.ch/tags/tools/">tools</a></li><li><a href="https://www.finecloud.ch/tags/unix/">unix</a></li><li><a href="https://www.finecloud.ch/tags/virtualization/">virtualization</a></li></ul><div class="post__share"></div></footer></article><nav class="post__nav"><div class="post__nav-inner"><div class="post__nav-prev"><svg width="1.041em" height="0.416em" aria-hidden="true"><use xlink:href="https://www.finecloud.ch/assets/svg/svg-map.svg#arrow-prev"/></svg> <a href="https://www.finecloud.ch/die-java-db.html" class="post__nav-link" rel="prev"><span>Previous</span> Java und DBs</a></div></div></nav><div class="post__related related"><div class="wrapper"><h2 class="h5 related__title">You should also read:</h2><article class="related__item"><div class="feed__meta"><time datetime="2022-06-09T09:27" class="feed__date">Juni 9, 2022</time></div><h3 class="h1"><a href="https://www.finecloud.ch/proxmox-ve-72-installation.html">Proxmox VE 7.2 Installation</a></h3></article><article class="related__item"><div class="feed__meta"><time datetime="2022-06-08T15:44" class="feed__date">Juni 8, 2022</time></div><h3 class="h1"><a href="https://www.finecloud.ch/proxmox-ve-intro.html">Proxmox VE 7.2 Übersicht</a></h3></article></div></div></main><footer class="footer"><div class="footer__copyright"><p>Powered by Publii</p></div><button onclick="backToTopFunction()" id="backToTop" class="footer__bttop" aria-label="Back to top" title="Back to top"><svg><use xlink:href="https://www.finecloud.ch/assets/svg/svg-map.svg#toparrow"/></svg></button></footer></div><script>window.publiiThemeMenuConfig = {    
+        mobileMenuMode: 'sidebar',
+        animationSpeed: 300,
+        submenuWidth: 'auto',
+        doubleClickTime: 500,
+        mobileMenuExpandableSubmenus: true, 
+        relatedContainerForOverlayMenuSelector: '.top',
+   };</script><script defer="defer" src="https://www.finecloud.ch/assets/js/scripts.min.js?v=6ca8b60e6534a3888de1205e82df8528"></script><script>var images = document.querySelectorAll('img[loading]');
+
+        for (var i = 0; i < images.length; i++) {
+            if (images[i].complete) {
+                images[i].classList.add('is-loaded');
+            } else {
+                images[i].addEventListener('load', function () {
+                    this.classList.add('is-loaded');
+                }, false);
+            }
+        }</script></body></html>

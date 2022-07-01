@@ -3,7 +3,7 @@
     <title>Finecloud</title>
     <link href="https://www.finecloud.ch/feed.xml" rel="self" />
     <link href="https://www.finecloud.ch" />
-    <updated>2022-07-01T18:59:01+02:00</updated>
+    <updated>2022-07-01T21:57:04+02:00</updated>
     <author>
         <name>Finecloud</name>
     </author>
@@ -31,7 +31,7 @@
             <category term="iac"/>
             <category term="ansible"/>
 
-        <updated>2022-07-01T18:59:01+02:00</updated>
+        <updated>2022-07-01T21:57:04+02:00</updated>
             <summary>
                 <![CDATA[
                     Einleitung In ersten Teil werden wir ein cloud-init Template erstellen, welches wir dann mit Terraform nutzen um die K8S VMs zu erzeugen. Damit wir mit Terraform unsere Kubernetes Nodes deployen können, brauchen wir ein Template. Das kann man entweder bereits mit Ansible machen, sieh dir&hellip;
@@ -42,6 +42,7 @@
                 <div class="post__toc">
 <h3>Table of Contents</h3>
 <ul>
+<li><a href="#mcetoc_1g6tl57b7ar2">Einleitung</a></li>
 <li><a href="#mcetoc_1g6tb05kfaqf">Template Erstellen</a></li>
 <li><a href="#mcetoc_1g6tb05kfaqg">Terraform IaC</a>
 <ul>
@@ -51,7 +52,7 @@
 </li>
 </ul>
 </div>
-<h2>Einleitung</h2>
+<h2 id="mcetoc_1g6tl57b7ar2">Einleitung</h2>
 <p>In ersten Teil werden wir ein cloud-init Template erstellen, welches wir dann mit Terraform nutzen um die K8S VMs zu erzeugen.</p>
 <h2 id="mcetoc_1g6tb05kfaqf">Template Erstellen</h2>
 <p>Damit wir mit Terraform unsere Kubernetes Nodes deployen können, brauchen wir ein Template. Das kann man entweder bereits mit Ansible machen, sieh dir <a href="https://github.com/datastrophic/kubernetes-deployment/blob/master/proxmox/README.md" rel="nofollow">diesen Blog Artikel</a> an. Was mit daran aber nicht gefällt ist folgendes:</p>
@@ -142,6 +143,7 @@ resource <span class="hljs-string" style="color: #6a8759;">"proxmox_vm_qemu"</sp
 <ul>
 <li><code>clone</code> muss der eindeutige Name der Template VM sein, welche wir im letzten Schritt erstellen haben</li>
 <li><code>ipconfig0</code> muss das Subnetz sein in welchem die VMs laufen sollen. In diesem Fall weisen wir den VMs statische IPs zu in einem realen, externen Netzwerk, sodass diese Hosts ohne NAT Routing auskommen und aus Sicht der anderen Hosts "ganz normal" aussehen.</li>
+<li><span class="hljs-attr"><code>storage</code> musst du evt. anpassen, je nachdem was du bei dir für ein Dateisystem hast. Bei ZFS musst du local-zfs angeben usw.</span></li>
 </ul>
 <p>Weiter benötigen wir eine Datei mit den Variabeln, <code>variables.tf</code> mit dem Folgenden Inhalt:</p>
 <pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;">variable <span class="hljs-string" style="color: #6a8759;">"pm_api_url"</span> {
@@ -186,7 +188,7 @@ provider <span class="hljs-string" style="color: #6a8759;">"proxmox"</span> {
 <span class="hljs-comment" style="color: grey;">#   pm_user           = var.pm_user</span>
 }</pre>
 <h3 id="mcetoc_1g6tb05kfaqh">Proxmox vorbereiten für Terraform</h3>
-<p>Damit wir Proxmox mit Terraform steuern können, müssen wir zuerst noch ein paar Anpassungen machen. Dazu gehört folgendes:</p>
+<p>Damit wir Proxmox mit Terraform steuern können, müssen wir zuerst noch ein paar Anpassungen machen. Dazu gehört folgendes (direkt auf dem Poxmox Host via CLI ausführen):</p>
 <ul>
 <li>Neue Rolle erstellen für den zukünftigen Terraform-Benutzer</li>
 <li><span style="color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: inherit; font-weight: var(--font-weight-normal);">Benutzer „terraform-prov@pve“ erstellen</span></li>
@@ -196,11 +198,11 @@ provider <span class="hljs-string" style="color: #6a8759;">"proxmox"</span> {
 pveum user add terraform-prov@pve
 pveum aclmod / -user terraform-prov@pve -role TerraformProv
 pveum passwd terraform-prov@pve</pre>
-<p>Wenn du dich fragst, wieso ich beim Letzten Schritt <code style="font-weight: var(--font-weight-normal);">pm_user</code><span style="color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: inherit; font-weight: var(--font-weight-normal);"> und </span><code style="font-weight: var(--font-weight-normal);">pm_password</code><span style="color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: inherit; font-weight: var(--font-weight-normal);"> auskommentiert habe: man sollte nie Secrets nie in eine Datei schreiben! Wir lösen das, indem wir die folgenden env. Variabeln definieren:</span><span class="pl-k"><br></span></p>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-built_in">export</span> PM_USER=<span class="hljs-string" style="color: #6a8759;">"terraform-prov@pve"</span>
-<span class="hljs-built_in">export</span> PM_PASS=<span class="hljs-string" style="color: #6a8759;">"password"</span></pre>
 <h3 id="mcetoc_1g6tb05kfaqi">Terraform ausführen</h3>
-<p>Zuerst machen wir ein terraform init, um alle benötigten Komponenten zu installieren und das neue Terraform Repo zu initieren.</p>
+<p>Wenn du dich fragst, wieso ich beim Letzten Schritt <code style="font-weight: var(--font-weight-normal);">pm_user</code><span style="color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: inherit; font-weight: var(--font-weight-normal);"> und </span><code style="font-weight: var(--font-weight-normal);">pm_password</code><span style="color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: inherit; font-weight: var(--font-weight-normal);"> auskommentiert habe: man sollte nie Secrets nie in eine Datei schreiben! Wir lösen das, indem wir die folgenden env. Variabeln definieren (lokal auf deinem Gerät ausführen, auf welchem du Terraform verwenden willst):</span><span class="pl-k"><br></span></p>
+<pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-built_in">#~/github/homelab/terraform$ export</span> PM_USER=<span class="hljs-string" style="color: #6a8759;">"terraform-prov@pve"</span>
+<span class="hljs-built_in">#~/github/homelab/terraform$ export</span> PM_PASS=<span class="hljs-string" style="color: #6a8759;">"password"</span></pre>
+<p>Zuerst machen wir ein terraform init, um alle benötigten Komponenten zu installieren und das neue Terraform Repo zu initieren<span style="color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: inherit; font-weight: var(--font-weight-normal);"> (lokal auf deinem Gerät ausführen, auf welchem du Terraform verwenden willst):</span></p>
 <pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;">#~/github/homelab/terraform$ terraform init
 
 Initializing the backend...
@@ -228,7 +230,7 @@ should now work.
 If you ever set or change modules or backend configuration for Terraform,
 rerun this command to reinitialize your working directory. If you forget, other
 commands will detect it and remind you to do so if necessary.</pre>
-<p>Als nächster Schritt erstellen mit terraform plan, einen terraform Plan und schreiben diese in eine Datei:</p>
+<p>Als nächster Schritt erstellen mit terraform plan, einen terraform Plan und schreiben diese in eine Datei,<span style="color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: inherit; font-weight: var(--font-weight-normal);"> (lokal auf deinem Gerät ausführen, auf welchem du Terraform verwenden willst)</span>:</p>
 <pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;">#~/github/homelab/terraform$ terraform plan -out plan
 
 Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following
@@ -565,7 +567,7 @@ Saved the plan to: plan
 
 To perform exactly these actions, run the following <span class="hljs-built_in">command</span> to apply:
     terraform apply <span class="hljs-string" style="color: #6a8759;">"plan"</span></pre>
-<p>Wir führen nun den Plan aus, dabei werden die Ressourcen wie geplant angelegt:</p>
+<p>Wir führen nun den Plan aus, dabei werden die Ressourcen wie geplant angelegt, <span style="color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: inherit; font-weight: var(--font-weight-normal);"> (lokal auf deinem Gerät ausführen, auf welchem du Terraform verwenden willst)</span>:</p>
 <pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;">#~/github/homelab/terraform$ terraform apply <span class="hljs-string" style="color: #6a8759;">"plan"</span>
 proxmox_vm_qemu.worker_nodes[2]: Creating...
 proxmox_vm_qemu.worker_nodes[1]: Creating...

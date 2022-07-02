@@ -81,6 +81,18 @@
 <lastmod>2022-05-25T20:38:17+02:00</lastmod>
 </url>
 <url>
+<loc>https://www.finecloud.ch/kubernetes-auf-proxmox-mit-ansible-und-terraform-teil-2.html</loc>
+<lastmod>2022-07-02T17:34:53+02:00</lastmod>
+<image:image>
+<image:loc>https://www.finecloud.ch/media/posts/44/Screenshot-2022-07-02-at-17.03.04.png</image:loc>
+<image:title><![CDATA[]]></image:title>
+</image:image>
+<image:image>
+<image:loc>https://www.finecloud.ch/media/posts/44/Screenshot-2022-07-02-at-17.25.57.png</image:loc>
+<image:title><![CDATA[]]></image:title>
+</image:image>
+</url>
+<url>
 <loc>https://www.finecloud.ch/kubernetes-auf-proxmox-mit-ansible-und-terraform.html</loc>
 <lastmod>2022-07-01T21:57:04+02:00</lastmod>
 </url>
@@ -90,7 +102,7 @@
 </url>
 <url>
 <loc>https://www.finecloud.ch/lambda-ausdruecke.html</loc>
-<lastmod>2022-06-20T07:13:28+02:00</lastmod>
+<lastmod>2022-07-02T07:39:20+02:00</lastmod>
 </url>
 <url>
 <loc>https://www.finecloud.ch/lambda-funktionale-interfaces.html</loc>

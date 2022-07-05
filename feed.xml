@@ -3,7 +3,7 @@
     <title>Finecloud</title>
     <link href="https://www.finecloud.ch/feed.xml" rel="self" />
     <link href="https://www.finecloud.ch" />
-    <updated>2022-07-05T14:38:13+02:00</updated>
+    <updated>2022-07-05T14:44:19+02:00</updated>
     <author>
         <name>Finecloud</name>
     </author>
@@ -232,7 +232,7 @@
             <category term="calico"/>
             <category term="ansible"/>
 
-        <updated>2022-07-02T17:34:53+02:00</updated>
+        <updated>2022-07-05T14:44:19+02:00</updated>
             <summary>
                 <![CDATA[
                     Weiter musst du die IPs deiner VMs in dieser Datei nachtragen: ansible/inventory.yaml Vor der Bereitstellung von Kubernetes selbst müssen die Cluster-Knoten zusätzlich konfiguriert und Software installiert werden: Es gibt ein dediziertes Playbook zum Bootstrapping der Knoten mit allen erforderlichen Konfigurationen und Abhängigkeiten, die unter ansible/bootstrap.yaml&hellip;
@@ -256,7 +256,7 @@
 <li><a href="#kubernetes-dashboard">Kubernetes Dashboard</a></li>
 </ul>
 </div>
-<p>Dieser Post wurde aus dem Original (<a href="https://datastrophic.io/kubernetes-homelab-with-proxmox-kubeadm-calico-openebs-and-metallb/)">https://datastrophic.io/kubernetes-homelab-with-proxmox-kubeadm-calico-openebs-and-metallb/)</a> auf Deutsch übersetzt und leicht angepasst.</p>
+<p>Dieser Post wurde aus dem Original (<a href="https://datastrophic.io/kubernetes-homelab-with-proxmox-kubeadm-calico-openebs-and-metallb/">https://datastrophic.io/kubernetes-homelab-with-proxmox-kubeadm-calico-openebs-and-metallb/</a>)auf Deutsch übersetzt und leicht angepasst.</p>
 <h2 id="mcetoc_1g6umq8onb0g">Einleitung</h2>
 <p>Nachdem wir im ersten Teil mit Terraform die VMs für unseren K8s Cluster deployed haben, werden wir nun mit Ansible die folgenden K8s Komponenten in den worker Nodes und dem Controller installieren:</p>
 <ul dir="auto">

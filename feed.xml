@@ -3,12 +3,73 @@
     <title>Finecloud</title>
     <link href="https://www.finecloud.ch/feed.xml" rel="self" />
     <link href="https://www.finecloud.ch" />
-    <updated>2022-07-05T14:44:19+02:00</updated>
+    <updated>2022-07-07T09:04:56+02:00</updated>
     <author>
         <name>Finecloud</name>
     </author>
     <id>https://www.finecloud.ch</id>
 
+    <entry>
+        <title>JVM und JDK unter der Haube</title>
+        <author>
+            <name>Finecloud</name>
+        </author>
+        <link href="https://www.finecloud.ch/jvm-und-jdk-unter-der-haube.html"/>
+        <id>https://www.finecloud.ch/jvm-und-jdk-unter-der-haube.html</id>
+            <category term="softwareentwicklung"/>
+            <category term="java"/>
+            <category term="dev"/>
+            <category term="classloader"/>
+
+        <updated>2022-07-07T09:04:56+02:00</updated>
+            <summary>
+                <![CDATA[
+                    Woher lädt Java eigentlich seine JDK Klassen? Beim Start einer Applikation kann mit -cp ein Klassenpfad angegeben werden, in welchem sich Klassen befinden, die man verwenden möchte. Das ist das normale Vorgehen, wie man Klassen integriert. Doch woher hat das JDK seine eigenen Klassen? Um&hellip;
+                ]]>
+            </summary>
+        <content type="html">
+            <![CDATA[
+                <div class="post__toc">
+<h3>Table of Contents</h3>
+<ul>
+<li><a href="#mcetoc_1g7bnagbudlj">Woher lädt Java eigentlich seine JDK Klassen?</a></li>
+<li><a href="#mcetoc_1g7bnagbudlk">Kann man durch eine eigene java.lang.Integer Klasse die Integer JDK Klasse ersetzen?</a></li>
+<li><a href="#mcetoc_1g7bnagbudll">Garbage Collection</a></li>
+<li><a href="#mcetoc_1g7bnagbudlm">Speicherlecks</a></li>
+<li><a href="#mcetoc_1g7bnagbudln">Weiche und schwache Referenzen</a></li>
+</ul>
+</div>
+<h2 id="mcetoc_1g7bnagbudlj">Woher lädt Java eigentlich seine JDK Klassen?</h2>
+<p>Beim Start einer Applikation kann mit -cp ein Klassenpfad angegeben werden, in welchem sich Klassen befinden, die man verwenden möchte. Das ist das normale Vorgehen, wie man Klassen integriert. Doch woher hat das JDK seine eigenen Klassen?</p>
+<p>Um das zu verstehen müssen wir uns zuerst mit dem Classloader befassen. Classloader sind selbst Java-Objekte mit denen man interagieren kann. Es gibt grundsätzlich mindestens drei Classloader:</p>
+<figure class="post__image"><img loading="lazy"  src="https://www.finecloud.ch/media/posts/46/classloader.png" sizes="100vw" srcset="https://www.finecloud.ch/media/posts/46/responsive/classloader-xs.png 300w ,https://www.finecloud.ch/media/posts/46/responsive/classloader-sm.png 480w ,https://www.finecloud.ch/media/posts/46/responsive/classloader-md.png 768w ,https://www.finecloud.ch/media/posts/46/responsive/classloader-lg.png 1024w ,https://www.finecloud.ch/media/posts/46/responsive/classloader-xl.png 1360w ,https://www.finecloud.ch/media/posts/46/responsive/classloader-2xl.png 1600w"  alt="" width="311" height="391"></figure>
+<ul>
+<li><em>Bootstrap-Classloader</em>: lädt die JDK-Klassen</li>
+<li><em>Extension-Classloader</em>: lädt Klassen, die in Javas Erweiterungsverzeichnis liegen. In diesem selten genutzten Verzeichnis können Erweiterungen des JDKs abgelegt werden, die jeder Anwendung zur Verfügung stehen, ohne dass sie sie in den eigenen Klassenpfad aufnehmen müsste. Der Default ist das Erweiterungsverzeichnis im Java-Installationsverzeichnis unter lib/ext zu finden.</li>
+<li><em>System-Classpath-Classloader</em>: Der Classloader der Anwendung. Er lädt die Klassen welche mit -cp im angegebenen Verzeichnis liegen.</li>
+</ul>
+<h2 id="mcetoc_1g7bnagbudlk">Kann man durch eine eigene java.lang.Integer Klasse die Integer JDK Klasse ersetzen?</h2>
+<p>Diese drei Klassloader stehen in einer hierarchischen Beziehung miteinander. Wenn man nun in seiner Applikation Klassen lädt, geschieht das immer mit dem System-Classpath-Classloader. Im ersten Schritt fragt jeder Classloader bei seinem übergeordneten Classsloader nach, ob dieser die Klasse laden kann. Diese Reihenfolge ist extrem wichtig, denn sie privilegiert die JDK Klassen. Eine Klasse, die dem Bootstrap-Classloader bekannt ist, kann deshalb niemals durch eine andere Klasse desselben Namens verdrängt werden. Etwas komplizierter ist das bei den Serverlet-Container.</p>
+<h2 id="mcetoc_1g7bnagbudll">Garbage Collection</h2>
+<p>Jedes erzeugte Java-Objekt belegt Speicher und der JVM steht nur eine begrenzte Speichermenge zur Verfügung. Es muss also eine Möglichkeit geben, Objekte wieder aus dem Speicher zu entfernen, wenn diese nicht mehr benötigt werden. Ansonsten wird jede Java-Anwendung irgendwann mit einem <em>OutOfMemoryError</em> beendet. Dieser Mechanismus nennt sich Garbage Collection.</p>
+<p>Andere systemnähere Programmiersprachen haben keinen solchen Mechanismus und überlassen diese Aufgabe dem Entwickler selbst. Viele moderne Sprachen bieten mittlerweile eine automatische Garbage Collection an, aber Java war eine der ersten mit diesem Feature.</p>
+<p>Welche Objekte nicht mehr verwendet werden, findet der Garbage Collector heraus, indem er Referenzen untersucht. Dazu geht er von den Garbage Collection Roots aus und folgt allen Referenzen von diesen Objekten aus. Alle Objekte, die von einer Root referenziert werden, werden als noch aktiv markiert. Objekte, die von diesen Objekten aus referenziert werden, werden ebenfalls markiert usw. Garbage Collection Roots können Class-Objekte, lebende Threads, Lokale Variablen und Parameter, Monitor-Objekte, JNI-Variablen und spezielle JVM-Objekte sein. Rekursiv werden so alle Objekte markiert, die von einer Garbage Collection Root direkt oder indirekt erreichbar sind. Anschliessend werden alle Objekte die nicht von einer Root aus erreichbar sind aus dem Speichern entfernt. Dieses Vorgehen nennt sich <em>Mark and Sweep Collection</em>. Die echten Abläufe der Garbage Collection sind noch etwas komplexer als hier beschrieben.</p>
+<h2 id="mcetoc_1g7bnagbudlm">Speicherlecks</h2>
+<p>Speicherlecks in Java kommen fast immer daher, dass man Objekte mit einer der Garbage Collection Roots verbinden und nicht wieder von dort entfernen. Am häufigsten passiert das mit statischen Variablen. Es ist leicht zu vergessen, dass ihr Inhalt nicht von selbst aus dem Speicher entfernt wird, im Unterschied zu Instanzvariablen. So kann man unbeabsichtigt viel Speicher belegen, indem man ein grosses Objekt in einer statischen Variablen hält, obwohl es bereits nicht mehr benötigt wird. Dabei handelt es sich aber nicht um ein Speicherleck, denn der belegte Speicher bleibt konstant und wächst mit der Zeit nicht mehr an. Ein echtes Speicherleck kann dadurch entstehen, dass man eine Collection in einem statischen Feld hält, der immer weiter Objekte hinzugefügt werden:</p>
+<pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">public</span> class <span class="hljs-title" style="color: #ffc66d;">Speicherleck</span><span class="hljs-params">()</span></span>{
+    <span class="hljs-keyword" style="color: #cc7832;">private</span> <span class="hljs-keyword" style="color: #cc7832;">static</span> <span class="hljs-keyword" style="color: #cc7832;">final</span> Map&lt;String, Speicherleck&gt; cache = <span class="hljs-keyword" style="color: #cc7832;">new</span> HashMap&lt;&gt;();
+    <span class="hljs-keyword" style="color: #cc7832;">private</span> String name;
+
+    <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">public</span> <span class="hljs-title" style="color: #ffc66d;">Speicherleck</span><span class="hljs-params">(String name)</span></span>{
+        <span class="hljs-keyword" style="color: #cc7832;">this</span>.name = name;
+        cache.put(name, <span class="hljs-keyword" style="color: #cc7832;">this</span>);
+    }
+}</pre>
+<p>Jede Instanz der Klasse Speicherleck, die jemals erzeugt wird, wird in der statischen map cache gespeichert, aber nie wieder von dort entfernt. Das führt dazu, dass keine Instanz von Speicherleck jemals vom Garbage Collector entsorg werden kann, denn alle Instanzen werden von einem statischen Feld referenziert. Es kann natürlich sein, dass Sie diese Objekte wirklich noch brauchen, aber häufiger handelt es sich bei solchen Konstrukten um einen Fehler.</p>
+<p>Weitere Quellen für Speicherlecks in Java sind ThreadLocals, Variablen, die direkt mit einem Thread verbunden sind. Die genauen Mechanismen, wie es zu einem Speicherleck kommen kann, sind sehr ähnlich wie bei statischen Feldern: Solange der Thread lebendig ist, kann der Inhalt eines ThreadLocal nicht aus dem Speicher entfernt werden. Eine wachsende Collection dort hat deshalb denselben zerstörerischen Effekt wie in einem Statischen Feld.</p>
+            ]]>
+        </content>
+    </entry>
     <entry>
         <title>GUIs mit JavaFX</title>
         <author>
@@ -841,7 +902,7 @@ EOF
         </author>
         <link href="https://www.finecloud.ch/kubernetes-auf-proxmox-mit-ansible-und-terraform.html"/>
         <id>https://www.finecloud.ch/kubernetes-auf-proxmox-mit-ansible-und-terraform.html</id>
-            <category term="virtualization"/>
+            <category term="virtualisierung"/>
             <category term="unix"/>
             <category term="tools"/>
             <category term="terraform"/>
@@ -2069,79 +2130,6 @@ Accept-<span class="hljs-string" style="color: #6a8759;">Encoding:</span> gzip, 
 <p>Um zu überprüfen, ob der Server wirklich funktioniert, kann man nun die Administrationskonsole unter <a href="http://localhost:8080/manager">http://localhost:8080/manager</a> aufrufen. Nun sollte eine Loginmaske erscheinen, in welchem wir den zuvor definieren User und PW eingeben. Nach der Anmeldung sollte man die Tomcat-Manager-Anwendung zu sehen bekommen:</p>
 <figure class="post__image"><img loading="lazy"  src="https://www.finecloud.ch/media/posts/36/Screenshot-2022-06-21-at-10.59.45.png" sizes="100vw" srcset="https://www.finecloud.ch/media/posts/36/responsive/Screenshot-2022-06-21-at-10.59.45-xs.png 300w ,https://www.finecloud.ch/media/posts/36/responsive/Screenshot-2022-06-21-at-10.59.45-sm.png 480w ,https://www.finecloud.ch/media/posts/36/responsive/Screenshot-2022-06-21-at-10.59.45-md.png 768w ,https://www.finecloud.ch/media/posts/36/responsive/Screenshot-2022-06-21-at-10.59.45-lg.png 1024w ,https://www.finecloud.ch/media/posts/36/responsive/Screenshot-2022-06-21-at-10.59.45-xl.png 1360w ,https://www.finecloud.ch/media/posts/36/responsive/Screenshot-2022-06-21-at-10.59.45-2xl.png 1600w"  alt="" width="1912" height="926"></figure>
 <p>Wenn man diese Ansicht zu sehen bekommt kann man sicher sein, das die Installation erfolgreich war und der Tomcat Server funktioniert.</p>
-            ]]>
-        </content>
-    </entry>
-    <entry>
-        <title>Tabby Config-Sync auf Nextcloud einrichten</title>
-        <author>
-            <name>Finecloud</name>
-        </author>
-        <link href="https://www.finecloud.ch/tabby.html"/>
-        <id>https://www.finecloud.ch/tabby.html</id>
-            <category term="unix"/>
-            <category term="tools"/>
-            <category term="tabby"/>
-            <category term="ssh"/>
-            <category term="shell"/>
-            <category term="nextcloud"/>
-            <category term="linux"/>
-            <category term="container"/>
-
-        <updated>2022-06-17T06:44:36+02:00</updated>
-            <summary>
-                <![CDATA[
-                    A terminal for the modern age Tabby ist ein anpassbares, Platform-Übergreifendes Terminal App für die Arbeit mit Lokalen Shells sowie Serial, SSH und Telnet Verbindungen. Aus diesen Gründen ist Tabby viel praktischer und moderner als Putty: Link zum App: https://tabby.sh/ Link zum Projekt auf GitHub:&hellip;
-                ]]>
-            </summary>
-        <content type="html">
-            <![CDATA[
-                <h3>A terminal for the modern age</h3>
-<p><a href="https://tabby.sh/" rel="nofollow">Tabby</a> ist ein anpassbares, Platform-Übergreifendes Terminal App für die Arbeit mit Lokalen Shells sowie Serial, SSH und Telnet Verbindungen.</p>
-<figure class="post__image"><img loading="lazy"  src="https://www.finecloud.ch/media/posts/33/readme-terminal.png" sizes="100vw" srcset="https://www.finecloud.ch/media/posts/33/responsive/readme-terminal-xs.png 300w ,https://www.finecloud.ch/media/posts/33/responsive/readme-terminal-sm.png 480w ,https://www.finecloud.ch/media/posts/33/responsive/readme-terminal-md.png 768w ,https://www.finecloud.ch/media/posts/33/responsive/readme-terminal-lg.png 1024w ,https://www.finecloud.ch/media/posts/33/responsive/readme-terminal-xl.png 1360w ,https://www.finecloud.ch/media/posts/33/responsive/readme-terminal-2xl.png 1600w"  alt="" width="2724" height="1810"></figure>
-<p>Aus diesen Gründen ist Tabby viel praktischer und moderner als <a href="https://www.putty.org/" target="_blank" rel="nofollow noopener noreferrer">Putty</a>:</p>
-<ul>
-<li>Läuft auf Windows, Mac und Linux</li>
-<li>Integrierter SSH-Client mit Verbindungsmanager</li>
-<li>Integriertes serielles Terminal</li>
-<li>Unterstützung für PowerShell, PS Core, WSL, Git-Bash, Cygwin, Cmder und CMD</li>
-<li>Volle Unicode-Unterstützung, einschließlich Zeichen mit doppelter Breite</li>
-<li>Dateiübertragung von/zu SSH-Sitzungen über SFTP und Zmodem</li>
-<li>Thematisierung und Farbschemata</li>
-<li>Vollständig konfigurierbare Shortcuts und Multi-Chord-Shortcuts</li>
-<li>Erinnert sich an Ihre Registerkarten und geteilten Fenster</li>
-<li>Shell-Funktionen wie unter Windows, einschließlich Tab-Vervollständigung</li>
-<li>Integrierter verschlüsselter Container für SSH-Secrets und -Konfiguration</li>
-</ul>
-<p>Link zum App: <a href="https://tabby.sh/">https://tabby.sh/</a></p>
-<p>Link zum Projekt auf GitHub: <a href="https://github.com/eugeny/tabby">https://github.com/eugeny/tabby</a> </p>
-<h3>Tabby Config Sync mit Nextcloud</h3>
-<p class="msg msg--warning">Achtung: So schön das alles klingt, der WebDav Sync mit Nextcloud scheint nicht zu funktionieren. Beim Anlegen der Konfigdatei via WebDav erscheint ein unspezifischer Fehler. Solange das Problem noch nicht behoben ist, muss man wohl mit alternativen auskommen wie FTPS oder manuelles kopieren der Datei auf einen Nextcloud-Share.</p>
-<p>Doch was bringt das alles ohne Config Sync zwischen deinen einzelnen Geräten, Windows, MacOS und Linux. Dafür kannst du entweder den Server von Tabby verwenden, oder andere 3rd Party Backends. Noch toller ist aber, dass du deine eigene Nextcloud mittels DAV Protokoll verwenden kannst, um die Konfiguration zwischen deinen Geräten zu synchronisieren:</p>
-<h5>Vorbereitungen auf Nextcloud</h5>
-<ol>
-<li>Aus Sicherheitsgründen empfehle ich für den ConfigSync einen separaten Benutzer Account explizit nur für diesen ConfigSync zu erstellen.</li>
-<li>Melde dich mit dem neuen Benutzer an deiner Nextcloud an und erstelle einen neuen leeren Ordner "TabbyConfigSync".</li>
-<li>Optional kannst du unter den Security Einstellungen des Benutzers noch ein App Passwort generieren - damit kannst du den Zugriff auf das DAV Protokoll beschränken. Mit dem App Passwort ist eine Anmeldung am Nextcloud WebInterface nicht möglich.</li>
-</ol>
-<h5>Einstellungen in der Tabby App</h5>
-<ol>
-<li>Installiere das Tabby Plugin "cloud-settings-sync" Quelle: <a href="https://tabby-cloud.tranit.co/">https://tabby-cloud.tranit.co/</a> <br><figure class="post__image"><img loading="lazy"  src="https://www.finecloud.ch/media/posts/33/Screenshot-2022-06-14-at-22.13.16.png" sizes="100vw" srcset="https://www.finecloud.ch/media/posts/33/responsive/Screenshot-2022-06-14-at-22.13.16-xs.png 300w ,https://www.finecloud.ch/media/posts/33/responsive/Screenshot-2022-06-14-at-22.13.16-sm.png 480w ,https://www.finecloud.ch/media/posts/33/responsive/Screenshot-2022-06-14-at-22.13.16-md.png 768w ,https://www.finecloud.ch/media/posts/33/responsive/Screenshot-2022-06-14-at-22.13.16-lg.png 1024w ,https://www.finecloud.ch/media/posts/33/responsive/Screenshot-2022-06-14-at-22.13.16-xl.png 1360w ,https://www.finecloud.ch/media/posts/33/responsive/Screenshot-2022-06-14-at-22.13.16-2xl.png 1600w"  alt="" width="1754" height="1094"></figure></li>
-<li>Klicke auf "Get" um das Plugin zu installieren:<br><figure class="post__image"><img loading="lazy"  src="https://www.finecloud.ch/media/posts/33/Screenshot-2022-06-14-at-22.15.00.png" sizes="100vw" srcset="https://www.finecloud.ch/media/posts/33/responsive/Screenshot-2022-06-14-at-22.15.00-xs.png 300w ,https://www.finecloud.ch/media/posts/33/responsive/Screenshot-2022-06-14-at-22.15.00-sm.png 480w ,https://www.finecloud.ch/media/posts/33/responsive/Screenshot-2022-06-14-at-22.15.00-md.png 768w ,https://www.finecloud.ch/media/posts/33/responsive/Screenshot-2022-06-14-at-22.15.00-lg.png 1024w ,https://www.finecloud.ch/media/posts/33/responsive/Screenshot-2022-06-14-at-22.15.00-xl.png 1360w ,https://www.finecloud.ch/media/posts/33/responsive/Screenshot-2022-06-14-at-22.15.00-2xl.png 1600w"  alt="" width="1754" height="1094"></figure></li>
-<li>Beende die App und starte sie neu, damit das Plugin aktiv wird</li>
-<li>Nun ist ein neuer Reiter in den Einstellungen "Settings Sync", gib hier die folgenden Einstellungen an:
-<ul>
-<li>URL: <a href="https://nextcloud.domain.com">https://nextcloud.domain.com</a></li>
-<li>User: useraccount</li>
-<li>Password: dein App-Passwort</li>
-<li>Port: 443</li>
-<li>Pfad: /remote.php/dav/files/useraccount/TabbyConfigSync<br><figure class="post__image post__image--wide"><img loading="lazy"  src="https://www.finecloud.ch/media/posts/33/Screenshot-2022-06-14-at-22.57.05.png" sizes="100vw" srcset="https://www.finecloud.ch/media/posts/33/responsive/Screenshot-2022-06-14-at-22.57.05-xs.png 300w ,https://www.finecloud.ch/media/posts/33/responsive/Screenshot-2022-06-14-at-22.57.05-sm.png 480w ,https://www.finecloud.ch/media/posts/33/responsive/Screenshot-2022-06-14-at-22.57.05-md.png 768w ,https://www.finecloud.ch/media/posts/33/responsive/Screenshot-2022-06-14-at-22.57.05-lg.png 1024w ,https://www.finecloud.ch/media/posts/33/responsive/Screenshot-2022-06-14-at-22.57.05-xl.png 1360w ,https://www.finecloud.ch/media/posts/33/responsive/Screenshot-2022-06-14-at-22.57.05-2xl.png 1600w"  alt="" width="1913" height="693"></figure></li>
-<li>Klicke anschliessend auf den Button "Test Connection"</li>
-</ul>
-</li>
-<li>Sofern deine Einstellungen korrekt sind, Klicke auf "Save This Setting". Nun kannst du nun auf der rechten Seite noch den Sync aktivieren.</li>
-<li>Richte diese Konfiguration auf allen deinen Geräten so ein und deine Config ist auf allen Geräten immer aktuell.</li>
-</ol>
             ]]>
         </content>
     </entry>

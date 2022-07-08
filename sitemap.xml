@@ -9,6 +9,10 @@
 <lastmod>2022-06-20T07:08:53+02:00</lastmod>
 </url>
 <url>
+<loc>https://www.finecloud.ch/citrix-adc-backup-mit-ansible.html</loc>
+<lastmod>2022-07-08T16:13:45+02:00</lastmod>
+</url>
+<url>
 <loc>https://www.finecloud.ch/dateien-und-verzeichnisse-unter-java.html</loc>
 <lastmod>2022-06-06T23:13:08+02:00</lastmod>
 </url>
@@ -177,6 +181,9 @@
 <loc>https://www.finecloud.ch/page/5/</loc>
 </url>
 <url>
+<loc>https://www.finecloud.ch/page/6/</loc>
+</url>
+<url>
 <loc>https://www.finecloud.ch/parallele-streams.html</loc>
 <lastmod>2022-06-20T07:10:36+02:00</lastmod>
 </url>
@@ -231,6 +238,10 @@
 <image:loc>https://www.finecloud.ch/media/posts/39/Screenshot-2022-06-25-at-08.21.47.png</image:loc>
 <image:title><![CDATA[]]></image:title>
 </image:image>
+</url>
+<url>
+<loc>https://www.finecloud.ch/unterschiede-zwischen-proxmox-containers-und-docker.html</loc>
+<lastmod>2022-07-08T16:43:37+02:00</lastmod>
 </url>
 <url>
 <loc>https://www.finecloud.ch/utility-methoden-von-java-arrays.html</loc>

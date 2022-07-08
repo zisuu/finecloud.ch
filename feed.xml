@@ -3,12 +3,184 @@
     <title>Finecloud</title>
     <link href="https://www.finecloud.ch/feed.xml" rel="self" />
     <link href="https://www.finecloud.ch" />
-    <updated>2022-07-07T09:04:56+02:00</updated>
+    <updated>2022-07-08T16:43:37+02:00</updated>
     <author>
         <name>Finecloud</name>
     </author>
     <id>https://www.finecloud.ch</id>
 
+    <entry>
+        <title>Unterschiede zwischen Proxmox Containers und Docker</title>
+        <author>
+            <name>Finecloud</name>
+        </author>
+        <link href="https://www.finecloud.ch/unterschiede-zwischen-proxmox-containers-und-docker.html"/>
+        <id>https://www.finecloud.ch/unterschiede-zwischen-proxmox-containers-und-docker.html</id>
+            <category term="virtualisierung"/>
+            <category term="proxmox"/>
+            <category term="lxd"/>
+            <category term="lxc"/>
+            <category term="linux"/>
+            <category term="kvm"/>
+            <category term="docker"/>
+            <category term="container"/>
+
+        <updated>2022-07-08T16:43:37+02:00</updated>
+            <summary>
+                <![CDATA[
+                    LXC LXC ist ein Userspace Interface zur Eindämmung des Linux-Kernels und kann verwendet werden für Systemvirtualisierung. Durch eine mächtige API und einfache Tools ermöglicht es Linux Benutzern einfache Erstellung und Verwaltung von System Container. LXC ermöglicht ein komplettes OS in einem Container zu betreiben. LXD&hellip;
+                ]]>
+            </summary>
+        <content type="html">
+            <![CDATA[
+                <div class="post__toc">
+<h3>Table of Contents</h3>
+<ul>
+<li><a href="#mcetoc_1g7f40muo25">LXC</a></li>
+<li><a href="#mcetoc_1g7f40muo26">LXD</a></li>
+<li><a href="#mcetoc_1g7f40muo27">Proxmox Containers</a></li>
+<li><a href="#mcetoc_1g7f40muo28">Docker</a></li>
+</ul>
+</div>
+<h2 id="mcetoc_1g7f40muo25">LXC</h2>
+<p>LXC ist ein Userspace Interface zur Eindämmung des Linux-Kernels und kann verwendet werden für Systemvirtualisierung. Durch eine mächtige API und einfache Tools ermöglicht es Linux Benutzern einfache Erstellung und Verwaltung von System Container. LXC ermöglicht ein komplettes OS in einem Container zu betreiben.</p>
+<h2 id="mcetoc_1g7f40muo26">LXD</h2>
+<p>LXD ist auf LXC Aufgebaut und bietet neue und bessere Benutzererfahrung. Unter der Haube verwendet LXD LXC durch liblxc und dessen Go binding für das Erstellen und Verwalten von Container. Es ist im Grunde eine Alternative zu den Tools und dem Verteilungsvorlagensystem von LXC mit den zusätzlichen Funktionen, die sich aus der Steuerbarkeit über das Netzwerk ergeben.</p>
+<h2 id="mcetoc_1g7f40muo27">Proxmox Containers</h2>
+<p>Als Proxmox Container werden Container bezeichnet, die mit dem Proxmox Container Toolkit (pct) erstellt und verwaltet werden. Sie zielen auch auf die Systemvirtualisierung ab und verwenden LXC als Grundlage des Containerangebots. Das Proxmox Container Toolkit (pct) ist eng mit Proxmox VE gekoppelt. Das bedeutet, dass es Cluster-Setups kennt und dieselben Netzwerk- und Speicherressourcen wie virtuelle QEMU-Maschinen (VMs) verwenden kann. Sie können sogar die Proxmox VE-Firewall verwenden, Backups erstellen und wiederherstellen oder Container mit dem HA-Framework verwalten. Mit der Proxmox VE API lässt sich alles über das Netzwerk steuern.</p>
+<h2 id="mcetoc_1g7f40muo28">Docker</h2>
+<p>Docker zielt darauf ab, eine einzelne Anwendung in einer isolierten, in sich geschlossenen Umgebung zu laufen. Diese werden im Allgemeinen als „Anwendungscontainer“ und nicht als „Systemcontainer“ bezeichnet. Sie verwalten eine Docker-Instanz über den Host mithilfe der Docker Engine-Befehlszeilenschnittstelle. Es wird nicht empfohlen, Docker direkt auf Ihrem Proxmox VE-Host auszuführen. <strong>Wenn man also einen Anwendungscontainer ausführen möchte mit z.B. Docker-Images, sollte man diese am besten in einer Proxmox Qemu-VM ausführen.</strong></p>
+            ]]>
+        </content>
+    </entry>
+    <entry>
+        <title>Citrix ADC (NetScaler) Backup mit Ansible</title>
+        <author>
+            <name>Finecloud</name>
+        </author>
+        <link href="https://www.finecloud.ch/citrix-adc-backup-mit-ansible.html"/>
+        <id>https://www.finecloud.ch/citrix-adc-backup-mit-ansible.html</id>
+            <category term="tools"/>
+            <category term="ssh"/>
+            <category term="infrastructure as code"/>
+            <category term="iac"/>
+            <category term="citrix netscaler"/>
+            <category term="citrix adc"/>
+            <category term="ansible"/>
+
+        <updated>2022-07-08T16:13:45+02:00</updated>
+            <summary>
+                <![CDATA[
+                    Beschreibung Citrix ADC, bis vor einer Weile noch als Citrix NetScaler bekannt ist eine Netzwerk Appliance welche als Access Gateway und Proxy verwendet werden kann. In diesem Artikel werden wir ein kleines Ansible Playbook schreiben, mit welchem man einen Citrix ADC sichern kann. Als erster&hellip;
+                ]]>
+            </summary>
+        <content type="html">
+            <![CDATA[
+                <div class="post__toc">
+<h3>Table of Contents</h3>
+<ul>
+<li><a href="#mcetoc_1g7f244jrl8">Beschreibung</a></li>
+<li><a href="#mcetoc_1g7f244jrl9">Ansible Config</a></li>
+<li><a href="#mcetoc_1g7f244jrla">Inventar</a></li>
+<li><a href="#mcetoc_1g7f244jrlb">Playbook</a></li>
+<li><a href="#mcetoc_1g7f244jrlc">Rolle citrix_adc</a></li>
+<li><a href="#mcetoc_1g7f244jrld">Secrets</a></li>
+<li><a href="#mcetoc_1g7f244jrle">Run</a></li>
+</ul>
+</div>
+<h2 id="mcetoc_1g7f244jrl8">Beschreibung</h2>
+<p>Citrix ADC, bis vor einer Weile noch als Citrix NetScaler bekannt ist eine Netzwerk Appliance welche als Access Gateway und Proxy verwendet werden kann. In diesem Artikel werden wir ein kleines Ansible Playbook schreiben, mit welchem man einen Citrix ADC sichern kann.</p>
+<h2 id="mcetoc_1g7f244jrl9">Ansible Config</h2>
+<p>Als erster Schritt definieren wir die Ansible Konfiguration: <code>ansible.cfg</code></p>
+<pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-section" style="color: #ffc66d;">[defaults]</span>
+<span class="hljs-attr">interpreter_python</span>=auto_silent
+<span class="hljs-section" style="color: #ffc66d;">
+[ssh_connection]</span>
+<span class="hljs-comment" style="color: grey;"># allows new host keys once</span>
+<span class="hljs-attr">ssh_args</span> = -o StrictHostKeyChecking=accept-new</pre>
+<p>Dabei ist wichtig das du deine Secrets mit dem <span class="hljs-attr"><code>vault_password_file</code> verschlüsselst.</span></p>
+<h2 id="mcetoc_1g7f244jrla">Inventar</h2>
+<p>Nun erstellen wir uns eine Datei <code>inventory.yaml </code>mit dem folgenden Inhalt:</p>
+<pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-meta" style="color: #bbb529;">---</span>
+<span class="hljs-comment" style="color: grey;"># yamllint disable rule:line-length</span>
+
+<span class="hljs-attr">all:</span>
+<span class="hljs-attr">  hosts:</span>
+<span class="hljs-attr">  children:</span>
+<span class="hljs-attr">    citrix_adc:</span>
+<span class="hljs-attr">      hosts:</span>
+        netscaler01
+        netscaler02</pre>
+<p>die Hosts müssen dabei natürlich den FQDN Namen deiner ADCs entsprechen.</p>
+<h2 id="mcetoc_1g7f244jrlb">Playbook</h2>
+<p>Auch das Playbook selbst ist nicht sehr spannend, von hier aus werden wir dann die Rolle mit dem eigentlich spannenden Inhalt anstossen: <code>playbook.yaml</code></p>
+<pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-meta" style="color: #bbb529;">---</span>
+
+<span class="hljs-attr">- hosts:</span> citrix_adc
+<span class="hljs-attr">  gather_facts:</span> <span class="hljs-literal" style="color: #6897bb;">false</span>
+<span class="hljs-attr">  roles:</span>
+<span class="hljs-bullet" style="color: #6897bb;">    -</span> citrix_adc</pre>
+<h2 id="mcetoc_1g7f244jrlc">Rolle citrix_adc</h2>
+<p>Nun kommt der Spannende Inhalt, wir erstellen nun folgende Ordnerstruktur und main.yaml Dateien:</p>
+<pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;">└── roles
+    └── citrix_adc
+        ├── tasks
+        │   └── main.yaml
+        └── vars
+            └── main.yaml</pre>
+<p>der Inhalt der <code>task/main.yaml</code> Datei ist wiefolgt:</p>
+<pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-meta" style="color: #bbb529;">---</span>
+<span class="hljs-comment" style="color: grey;"># yamllint disable rule:line-length</span>
+
+<span class="hljs-attr">- name:</span> Delete all old backups from local
+<span class="hljs-attr">  delegate_to:</span> localhost
+<span class="hljs-attr">  file:</span>
+<span class="hljs-attr">    path:</span> <span class="hljs-string" style="color: #6a8759;">"<span class="hljs-template-variable" style="color: #629755;">{{ dest_path }}</span>/<span class="hljs-template-variable" style="color: #629755;">{{ inventory_hostname }}</span>"</span>
+<span class="hljs-attr">    state:</span> absent
+
+<span class="hljs-attr">- name:</span> Generate new Citrix ADC system backup
+<span class="hljs-attr">  delegate_to:</span> localhost
+<span class="hljs-attr">  command:</span> ssh -l backuper {{ inventory_hostname }} <span class="hljs-string" style="color: #6a8759;">"create system backup -level full <span class="hljs-template-variable" style="color: #629755;">{{ backup_file }}</span>"</span>
+<span class="hljs-attr">  register:</span> command_result
+<span class="hljs-attr">  failed_when:</span> <span class="hljs-string" style="color: #6a8759;">"'Resource already exists' in command_result.stdout"</span>
+
+<span class="hljs-attr">- name:</span> Create new empty directory
+<span class="hljs-attr">  delegate_to:</span> localhost
+<span class="hljs-attr">  file:</span>
+<span class="hljs-attr">    path:</span> <span class="hljs-string" style="color: #6a8759;">"<span class="hljs-template-variable" style="color: #629755;">{{ dest_path }}</span>/<span class="hljs-template-variable" style="color: #629755;">{{ inventory_hostname }}</span>"</span>
+<span class="hljs-attr">    state:</span> directory
+<span class="hljs-attr">    mode:</span> <span class="hljs-string" style="color: #6a8759;">'0755'</span>
+
+<span class="hljs-attr">- name:</span> Download backup file from Citrix ADC to local folder
+<span class="hljs-attr">  delegate_to:</span> localhost
+<span class="hljs-attr">  command:</span> /bin/scp backuper@{{ inventory_hostname }}:/var/ns_sys_backup/{{ backup_file }}.tgz {{ dest_path }}/{{ inventory_hostname }}/{{ backup_file }}.tgz
+
+<span class="hljs-attr">- name:</span> delete backup from ADC
+<span class="hljs-attr">  delegate_to:</span> localhost
+<span class="hljs-attr">  command:</span> ssh -l backuper {{ inventory_hostname }} <span class="hljs-string" style="color: #6a8759;">"rm backup <span class="hljs-template-variable" style="color: #629755;">{{ backup_file }}</span>.tgz"</span></pre>
+<p>der Inhalt der <code>vars/main.yaml</code> Datei ist wiefolgt:</p>
+<pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-meta" style="color: #bbb529;">---</span>
+<span class="hljs-comment" style="color: grey;"># yamllint disable rule:line-length</span>
+
+<span class="hljs-attr">dest_path:</span> <span class="hljs-string" style="color: #6a8759;">"/var/git/ndcb-data"</span>
+<span class="hljs-attr">backup_file:</span> <span class="hljs-string" style="color: #6a8759;">"backup_full_<span class="hljs-template-variable" style="color: #629755;">{{ inventory_hostname }}</span>_<span class="hljs-template-variable" style="color: #629755;">{{ lookup('pipe','date +%Y-%m-%d-%H') }}</span>"<br></span></pre>
+<h2 id="mcetoc_1g7f244jrld">Secrets</h2>
+<p>Was noch fehlt sind die Secrets. Wir werden jedoch in diesem Fall gar keine Secrets verwenden, sondern direkt mit SSH-Key Authentifizieren. Dazu mussst du auf deinem Gerät einen neues SSH-Key Pair generieren und anschliessend wie folgt auf den Citrix ADCs als <em>authorized keys</em> erlauben:</p>
+<ol>
+<li>Auf ADCs einloggen und unter diesem Pfad dein PublicKey eintragen: /nsconfig/ssh/authorized_keys :
+<pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;">ssh-rsa AAAAB3NzaC1.....</pre>
+</li>
+<li>Anschliessend kannst du den Citrix ADC Host neustarten (z.b. wenn er nur im Seconday Mode ist), noch einfacher ist, wenn du einfach den sshd Service neustartest, was auf dem Citrix ADC relativ brachial ist:
+<pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-built_in">kill</span> -HUP `cat /var/run/sshd.pid`</pre>
+</li>
+</ol>
+<h2 id="mcetoc_1g7f244jrle">Run</h2>
+<p>Das Playbook kann nun wiefolgt ausgeführt werden:</p>
+<pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;">ansible-playbook playbook.yaml -i inventory.yaml</pre>
+<p> </p>
+            ]]>
+        </content>
+    </entry>
     <entry>
         <title>JVM und JDK unter der Haube</title>
         <author>
@@ -1860,276 +2032,6 @@ Accept-<span class="hljs-string" style="color: #6a8759;">Encoding:</span> gzip, 
 <p>Wenn du die Extension installiert hast, kannst du anschliessend direkt aus VSCode in deinem Markdown File ein TOC generieren lassen:</p>
 <figure class="AnimatedImagePlayer-animatedImage"><img loading="lazy"  style="display: block; opacity: 1;" src="https://github.com/huntertran/markdown-toc/raw/master/img/insert-toc.gif" data-is-external-image="true"  alt="Insert TOC" data-target="animated-image.replacedImage"></figure>
 <p>Viel Spass damit!</p>
-            ]]>
-        </content>
-    </entry>
-    <entry>
-        <title>Java Serverlet mit Tomcat und Maven in VSCode</title>
-        <author>
-            <name>Finecloud</name>
-        </author>
-        <link href="https://www.finecloud.ch/java-serverlet-entwickeln-mit-vscode.html"/>
-        <id>https://www.finecloud.ch/java-serverlet-entwickeln-mit-vscode.html</id>
-            <category term="vscode"/>
-            <category term="tomcat"/>
-            <category term="softwareentwicklung"/>
-            <category term="servlet"/>
-            <category term="network"/>
-            <category term="maven"/>
-            <category term="java"/>
-            <category term="dev"/>
-
-        <updated>2022-06-25T09:54:05+02:00</updated>
-            <summary>
-                <![CDATA[
-                    In diesem Artikel ist beschrieben, wie man Apache Tomcat direkt in VSCode nutzen kann. Voraussetzung ist, dass du auf deinem Gerät bereits eine Java JRE und Apache Maven installiert hast. Weiter brauchen wir in VSCode das Extension Pack for Java, du kannst dire in VSCode&hellip;
-                ]]>
-            </summary>
-        <content type="html">
-            <![CDATA[
-                <p>In <a href="https://www.finecloud.ch/java-serverlet-entwickeln-mit-vscode.html" rel="nofollow">diesem Artikel</a> ist beschrieben, wie man Apache Tomcat direkt in VSCode nutzen kann.<a href="https://www.finecloud.ch/java-serverlet-entwickeln-mit-vscode.html" rel="nofollow"></a></p>
-<p>Voraussetzung ist, dass du auf deinem Gerät bereits eine Java JRE und Apache Maven installiert hast. Weiter brauchen wir in VSCode das <em>Extension Pack for Java</em>, du kannst dire in VSCode installieren, wenn du  <em>CTRL + SHIFT + X</em> und dann <code>vscode:extension/vscjava.vscode-java-pack</code> eingibst.</p>
-<h2>Maven Projekt anlegen</h2>
-<p>Als erster Schritt legen wir ein neues Maven Projekt an:</p>
-<ul>
-<li>Aus VSCode mit <em>Strg+Shift+P</em>, dann</li>
-<li>Wählen Sie <code>Maven: Create Maven-Procekt</code></li>
-<li>Wählen Sie <code>maven-archetype-quickstart</code></li>
-<li>Wählen Sie die aktuelle Vision wie <code>1.4</code></li>
-<li>Geben Sie Ihre Gruppen-ID wie <code>com.testservlet</code> ein</li>
-<li>Geben Sie Ihre Artefakt-ID wie <code>servlet</code> ein</li>
-<li>Suchen Sie Ihren Zielordner, den Sie zuvor erstellt haben, und generieren Sie dort das Projekt.</li>
-</ul>
-<h2>Task File anlegen</h2>
-<p>Wir müssen nun ein tasks file konfigurieren das besagt wie das Maven Projekt zu kompilieren ist.</p>
-<ul>
-<li>Aus VSCode mit <em>Strg+Shift+P</em>, dann</li>
-<li><code style="font-weight: var(--font-weight-normal);">Tasks: Configure task</code></li>
-<li><code style="font-weight: var(--font-weight-normal);">Create tasks.json from template</code></li>
-<li><code style="font-weight: var(--font-weight-normal);">maven: executes common maven command</code></li>
-</ul>
-<p>Anschliessen wir ein leeres default <strong>tasks.json</strong> file generiert. Das passen wir nun so an:</p>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;">{
-    <span class="hljs-attr">"version"</span>: <span class="hljs-string" style="color: #6a8759;">"2.0.0"</span>,
-    <span class="hljs-attr">"tasks"</span>: [
-        {
-            <span class="hljs-attr">"label"</span>: <span class="hljs-string" style="color: #6a8759;">"compile"</span>,
-            <span class="hljs-attr">"type"</span>: <span class="hljs-string" style="color: #6a8759;">"shell"</span>,
-            <span class="hljs-attr">"command"</span>: <span class="hljs-string" style="color: #6a8759;">"mvn -B compile"</span>,
-            <span class="hljs-attr">"group"</span>: <span class="hljs-string" style="color: #6a8759;">"build"</span>
-        },
-        {
-            <span class="hljs-attr">"label"</span>: <span class="hljs-string" style="color: #6a8759;">"test"</span>,
-            <span class="hljs-attr">"type"</span>: <span class="hljs-string" style="color: #6a8759;">"shell"</span>,
-            <span class="hljs-attr">"command"</span>: <span class="hljs-string" style="color: #6a8759;">"mvn -B test"</span>,
-            <span class="hljs-attr">"group"</span>: <span class="hljs-string" style="color: #6a8759;">"test"</span>
-        }
-    ]
-}
-</pre>
-<p>Nun kompilieren wir unser maven Projekt, dazu in VSCode in der top bar auf <code>Terminal</code>, <code>Run Build Task</code><em> </em>und dann <code>compile</code>.</p>
-<h2>Dependencies hinzufügen</h2>
-<p>Bevor wir loslegen können, müssen wir für unser Servlet noch wesentliche Dependencies deklarieren, ansonsten kann das Servlet nicht erstellt werden. Dazu fügen wir im <code>pom.xml </code>File folgenden Inhalt hinzu:</p>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-attribute" style="color: #6a8759;">&lt;dependency&gt;</span>
-    <span class="hljs-attribute" style="color: #6a8759;">&lt;groupId&gt;</span>javax.servlet<span class="hljs-attribute" style="color: #6a8759;">&lt;/groupId&gt;</span>
-    <span class="hljs-attribute" style="color: #6a8759;">&lt;artifactId&gt;</span>javax.servlet-api<span class="hljs-attribute" style="color: #6a8759;">&lt;/artifactId&gt;</span>
-    <span class="hljs-attribute" style="color: #6a8759;">&lt;version&gt;</span>4.0.1<span class="hljs-attribute" style="color: #6a8759;">&lt;/version&gt;</span>
-    <span class="hljs-attribute" style="color: #6a8759;">&lt;scope&gt;</span>provided<span class="hljs-attribute" style="color: #6a8759;">&lt;/scope&gt;</span>
-<span class="hljs-attribute" style="color: #6a8759;">&lt;/dependency&gt;</span>
-<span class="hljs-attribute" style="color: #6a8759;">&lt;dependency&gt;</span>
-     <span class="hljs-attribute" style="color: #6a8759;">&lt;groupId&gt;</span>javax.servlet<span class="hljs-attribute" style="color: #6a8759;">&lt;/groupId&gt;</span>
-     <span class="hljs-attribute" style="color: #6a8759;">&lt;artifactId&gt;</span>jstl<span class="hljs-attribute" style="color: #6a8759;">&lt;/artifactId&gt;</span>
-     <span class="hljs-attribute" style="color: #6a8759;">&lt;version&gt;</span>1.2<span class="hljs-attribute" style="color: #6a8759;">&lt;/version&gt;</span>
-<span class="hljs-attribute" style="color: #6a8759;">&lt;/dependency&gt;</span>
-<span class="hljs-attribute" style="color: #6a8759;">&lt;dependency&gt;</span>
-    <span class="hljs-attribute" style="color: #6a8759;">&lt;groupId&gt;</span>javax<span class="hljs-attribute" style="color: #6a8759;">&lt;/groupId&gt;</span>
-    <span class="hljs-attribute" style="color: #6a8759;">&lt;artifactId&gt;</span>javaee-web-api<span class="hljs-attribute" style="color: #6a8759;">&lt;/artifactId&gt;</span>
-    <span class="hljs-attribute" style="color: #6a8759;">&lt;version&gt;</span>8.0<span class="hljs-attribute" style="color: #6a8759;">&lt;/version&gt;</span>
-    <span class="hljs-attribute" style="color: #6a8759;">&lt;scope&gt;</span>provided<span class="hljs-attribute" style="color: #6a8759;">&lt;/scope&gt;</span>
-<span class="hljs-attribute" style="color: #6a8759;">&lt;/dependency&gt;</span></pre>
-<h2>Servlet erstellen</h2>
-<p>Wir löschen die default Klasse App.java und erstellen folgende neue NewServlet.java Klasse unter diesem Pfad: <code>src\main\java\com\myservlet\NewServlet.java</code></p>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-keyword" style="color: #cc7832;">package</span> com.myservlet;
-
-<span class="hljs-keyword" style="color: #cc7832;">import</span> java.io.IOException;
-<span class="hljs-keyword" style="color: #cc7832;">import</span> java.io.PrintWriter;
-<span class="hljs-keyword" style="color: #cc7832;">import</span> javax.servlet.ServletException;
-<span class="hljs-keyword" style="color: #cc7832;">import</span> javax.servlet.annotation.WebServlet;
-<span class="hljs-keyword" style="color: #cc7832;">import</span> javax.servlet.http.HttpServlet;
-<span class="hljs-keyword" style="color: #cc7832;">import</span> javax.servlet.http.HttpServletRequest;
-<span class="hljs-keyword" style="color: #cc7832;">import</span> javax.servlet.http.HttpServletResponse;
-
-<span class="hljs-comment" style="color: grey;">/**
- * NewServlet
- */</span>
-<span class="hljs-meta" style="color: #bbb529;">@WebServlet</span>(urlPatterns = <span class="hljs-string" style="color: #6a8759;">"/mambo.do"</span>)
-<span class="hljs-keyword" style="color: #cc7832;">public</span> <span class="hljs-class"><span class="hljs-keyword" style="color: #cc7832;">class</span> <span class="hljs-title" style="color: #ffc66d;">NewServlet</span> <span class="hljs-keyword" style="color: #cc7832;">extends</span> <span class="hljs-title" style="color: #ffc66d;">HttpServlet</span> </span>{
-
-    <span class="hljs-comment" style="color: grey;">/**
-     * Processes requests for both HTTP &lt;code&gt;GET&lt;/code&gt; and &lt;code&gt;POST&lt;/code&gt;
-     * methods.
-     *
-     * <span class="hljs-doctag">@param</span> request servlet request
-     * <span class="hljs-doctag">@param</span> response servlet response
-     * <span class="hljs-doctag">@throws</span> ServletException if a servlet-specific error occurs
-     * <span class="hljs-doctag">@throws</span> IOException if an I/O error occurs
-     */</span>
-    <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">protected</span> <span class="hljs-keyword" style="color: #cc7832;">void</span> <span class="hljs-title" style="color: #ffc66d;">processRequest</span><span class="hljs-params">(HttpServletRequest request, HttpServletResponse response)</span>
-            <span class="hljs-keyword" style="color: #cc7832;">throws</span> ServletException, IOException </span>{
-        response.setContentType(<span class="hljs-string" style="color: #6a8759;">"text/html;charset=UTF-8"</span>);
-        <span class="hljs-keyword" style="color: #cc7832;">try</span> ( PrintWriter out = response.getWriter()) {
-            <span class="hljs-comment" style="color: grey;">/* TODO output your page here. You may use following sample code. */</span>
-            out.println(<span class="hljs-string" style="color: #6a8759;">"&lt;!DOCTYPE html&gt;"</span>);
-            out.println(<span class="hljs-string" style="color: #6a8759;">"&lt;html&gt;"</span>);
-            out.println(<span class="hljs-string" style="color: #6a8759;">"&lt;head&gt;"</span>);
-            out.println(<span class="hljs-string" style="color: #6a8759;">"&lt;title&gt;Servlet NewServlet&lt;/title&gt;"</span>);            
-            out.println(<span class="hljs-string" style="color: #6a8759;">"&lt;/head&gt;"</span>);
-            out.println(<span class="hljs-string" style="color: #6a8759;">"&lt;body&gt;"</span>);
-            out.println(<span class="hljs-string" style="color: #6a8759;">"&lt;h1&gt;Servlet NewServlet at "</span> + request.getContextPath() + <span class="hljs-string" style="color: #6a8759;">"&lt;/h1&gt;"</span>);
-            out.println(<span class="hljs-string" style="color: #6a8759;">"&lt;/body&gt;"</span>);
-            out.println(<span class="hljs-string" style="color: #6a8759;">"&lt;/html&gt;"</span>);
-        }
-    }
-
-    <span class="hljs-comment" style="color: grey;">// &lt;editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code."&gt;</span>
-    <span class="hljs-comment" style="color: grey;">/**
-     * Handles the HTTP &lt;code&gt;GET&lt;/code&gt; method.
-     *
-     * <span class="hljs-doctag">@param</span> request servlet request
-     * <span class="hljs-doctag">@param</span> response servlet response
-     * <span class="hljs-doctag">@throws</span> ServletException if a servlet-specific error occurs
-     * <span class="hljs-doctag">@throws</span> IOException if an I/O error occurs
-     */</span>
-    <span class="hljs-meta" style="color: #bbb529;">@Override</span>
-    <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">protected</span> <span class="hljs-keyword" style="color: #cc7832;">void</span> <span class="hljs-title" style="color: #ffc66d;">doGet</span><span class="hljs-params">(HttpServletRequest request, HttpServletResponse response)</span>
-            <span class="hljs-keyword" style="color: #cc7832;">throws</span> ServletException, IOException </span>{
-        processRequest(request, response);
-    }
-
-    <span class="hljs-comment" style="color: grey;">/**
-     * Handles the HTTP &lt;code&gt;POST&lt;/code&gt; method.
-     *
-     * <span class="hljs-doctag">@param</span> request servlet request
-     * <span class="hljs-doctag">@param</span> response servlet response
-     * <span class="hljs-doctag">@throws</span> ServletException if a servlet-specific error occurs
-     * <span class="hljs-doctag">@throws</span> IOException if an I/O error occurs
-     */</span>
-    <span class="hljs-meta" style="color: #bbb529;">@Override</span>
-    <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">protected</span> <span class="hljs-keyword" style="color: #cc7832;">void</span> <span class="hljs-title" style="color: #ffc66d;">doPost</span><span class="hljs-params">(HttpServletRequest request, HttpServletResponse response)</span>
-            <span class="hljs-keyword" style="color: #cc7832;">throws</span> ServletException, IOException </span>{
-        processRequest(request, response);
-    }
-
-    <span class="hljs-comment" style="color: grey;">/**
-     * Returns a short description of the servlet.
-     *
-     * <span class="hljs-doctag">@return</span> a String containing servlet description
-     */</span>
-    <span class="hljs-meta" style="color: #bbb529;">@Override</span>
-    <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">public</span> String <span class="hljs-title" style="color: #ffc66d;">getServletInfo</span><span class="hljs-params">()</span> </span>{
-        <span class="hljs-keyword" style="color: #cc7832;">return</span> <span class="hljs-string" style="color: #6a8759;">"Short description"</span>;
-    }<span class="hljs-comment" style="color: grey;">// &lt;/editor-fold&gt;</span>
-
-}
-
-</pre>
-<h2>web.xml File anlegen</h2>
-<ul>
-<li>Erstelle unter dem Pfad "src/main/" den Ordner webapp (wenn nicht bereits vorhanden).</li>
-<li>Erstelle unter dem Pfad "src/main/webapp" den Ordner "WEB-INF" und die Datei web.xml mit dem folgenden Inhalt:</li>
-</ul>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;">&lt;web-<span class="hljs-keyword" style="color: #cc7832;">app</span> xmlns=<span class="hljs-string" style="color: #6a8759;">"http://java.sun.com/xml/ns/javaee"</span> xmlns:xsi=<span class="hljs-string" style="color: #6a8759;">"http://www.w3.org/2001/XMLSchema-instance"</span>
-    xsi:schemaLocation=<span class="hljs-string" style="color: #6a8759;">"http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"</span>
-    <span class="hljs-keyword" style="color: #cc7832;">version</span>=<span class="hljs-string" style="color: #6a8759;">"3.0"</span>&gt;
-    &lt;<span class="hljs-keyword" style="color: #cc7832;">display</span>-name&gt;To <span class="hljs-keyword" style="color: #cc7832;">do</span> <span class="hljs-keyword" style="color: #cc7832;">List</span>&lt;/<span class="hljs-keyword" style="color: #cc7832;">display</span>-name&gt;
-    &lt;welcome-<span class="hljs-keyword" style="color: #cc7832;">file</span>-<span class="hljs-keyword" style="color: #cc7832;">list</span>&gt;
-        &lt;welcome-<span class="hljs-keyword" style="color: #cc7832;">file</span>&gt;mambo.<span class="hljs-keyword" style="color: #cc7832;">do</span>&lt;/welcome-<span class="hljs-keyword" style="color: #cc7832;">file</span>&gt;
-    &lt;/welcome-<span class="hljs-keyword" style="color: #cc7832;">file</span>-<span class="hljs-keyword" style="color: #cc7832;">list</span>&gt;
-&lt;/web-<span class="hljs-keyword" style="color: #cc7832;">app</span>&gt;
-</pre>
-<h2>war File erstellen</h2>
-<p>Bevor wir die war Datei erstellen können, müssen wir sicherstellen, dass in der pom.xml Datei nicht ein jar erstellt wird, sondern ein war:</p>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;"> <span class="hljs-attribute" style="color: #6a8759;">&lt;groupId&gt;</span>com.myservlet<span class="hljs-attribute" style="color: #6a8759;">&lt;/groupId&gt;</span>
- <span class="hljs-attribute" style="color: #6a8759;">&lt;artifactId&gt;</span>servlet<span class="hljs-attribute" style="color: #6a8759;">&lt;/artifactId&gt;</span>
- <span class="hljs-attribute" style="color: #6a8759;">&lt;version&gt;</span>1.0-SNAPSHOT<span class="hljs-attribute" style="color: #6a8759;">&lt;/version&gt;</span>
- <span class="hljs-attribute" style="color: #6a8759;">&lt;packaging&gt;</span>war<span class="hljs-attribute" style="color: #6a8759;">&lt;/packaging&gt;</span></pre>
-<p>Nun können wir die war Datei kompilieren, dazu im Menu von VSCode auf Terminal -&gt; Run Build Task -&gt; compile klicken. Nachdem die war Datei kompiliert wurde, muss auf der Konsole, im Projektverzeichnis noch   </p>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;"># mvn clean package</pre>
-<p>ausgeführt werden. Sofern die war Datei nun erfolgreich erstellt wurde, können wir diese nun auf den Tomcat deployen.</p>
-<h2>War File auf lokalen Tomcat deployen</h2>
-<p>In <a href="https://www.finecloud.ch/java-serverlets.html" rel="nofollow">diesem Artikel</a> steht, wie du ein Tomcat direkt in VSCode verwenden kannst.</p>
-<p>Starte den Tomcat Server, und mache ein Rechtsklick auf den Server und wähle "Add Deployment", wähle "File". Anschliessend lade das zuvor erstellte war File hoch. Das war File wird in der Regel im Projektordner unter "target" abgelegt. Bei der Frage "Do you want to edit optional deployment parameters", wähle "no". Nun musst du noch mit einem Rechtsklick auf den Server "Publish Server (Full)" auswählen, damit die war Datei aktiv wird.</p>
-<p>Endlich kannst du in deinem Browser unter dieser URL dein servlet aufrufen: <a href="http://localhost:8080/servlet-1.0-SNAPSHOT/">http://localhost:8080/servlet-1.0-SNAPSHOT/</a></p>
-<p>Alternativ kannst du mit Rechtsklick auf den Server "Server Actions", "Show in Browser" auswählen.</p>
-<p> </p>
-<p> </p>
-            ]]>
-        </content>
-    </entry>
-    <entry>
-        <title>Java Serverlet Container installieren</title>
-        <author>
-            <name>Finecloud</name>
-        </author>
-        <link href="https://www.finecloud.ch/java-serverlets.html"/>
-        <id>https://www.finecloud.ch/java-serverlets.html</id>
-            <category term="vscode"/>
-            <category term="tomcat"/>
-            <category term="softwareentwicklung"/>
-            <category term="socket"/>
-            <category term="servlet"/>
-            <category term="network"/>
-            <category term="java.io"/>
-            <category term="java"/>
-            <category term="dev"/>
-
-        <updated>2022-06-27T09:22:53+02:00</updated>
-            <summary>
-                <![CDATA[
-                    Einleitung Das Serverlet-Framework Jakarta EE ermöglicht die Entwicklung von Anwendungen für eine grosse Anzahl paralleler Benutzer die über einen Web-Browser zugreifen. Dazu ist besonders die Serverlet-API von JEE von Interesse. Diese API-Klasse wartet auf eingehende Netzwerkverbindungen und reagiert mit einer entsprechenden Antwort. Für die übertragenen&hellip;
-                ]]>
-            </summary>
-        <content type="html">
-            <![CDATA[
-                <div class="post__toc">
-<h3>Table of Contents</h3>
-<ul>
-<li><a href="#mcetoc_1g62lllju8df">Einleitung</a></li>
-<li><a href="#mcetoc_1g62lllju8dg">Serverlet-Container installieren</a>
-<ul>
-<li><a href="#mcetoc_1g62lllju8dh">Option 1: Manuelle Installation des Tomcat-Servers auf dem eigenen Gerät</a></li>
-<li><a href="#mcetoc_1g62lllju8di">Option 2: Installation des Tomcat-Servers via VSCode</a></li>
-<li><a href="#mcetoc_1g62lllju8dj">(Option 3: Tomcat Docker Image)</a></li>
-</ul>
-</li>
-<li><a href="#mcetoc_1g62lllju8dk">Tomcat mit VSCode einrichten</a></li>
-</ul>
-</div>
-<h2 id="mcetoc_1g62lllju8de"></h2>
-<h2 id="mcetoc_1g62lllju8df">Einleitung</h2>
-<p>Das Serverlet-Framework Jakarta EE ermöglicht die Entwicklung von Anwendungen für eine grosse Anzahl paralleler Benutzer die über einen Web-Browser zugreifen. Dazu ist besonders die Serverlet-API von JEE von Interesse.</p>
-<p>Diese API-Klasse wartet auf eingehende Netzwerkverbindungen und reagiert mit einer entsprechenden Antwort. Für die übertragenen Daten wird fast immer das HTTP (Hypertext Transfer Protocol) verwendet.</p>
-<p>Die Hauptaufgabe eines Serverlets ist von einem Serverprozess aufgerufen zu werden, um in eine Netzwerkverbindung einen Datenstrom zu schreiben, den es auf irgendeine Weise erzeugt hat. Damit ein Serverlet ausgeführt werden kann, braucht es den Serverlet-Container. Das ist ein Programm, das man fertig installiert. Dieses Programm stellt anschliessend ein oder mehrere Serverlets zur Verfügung, die vom Container aufgerufen werden. Ein Serverlet verfügt nicht über eine main-Methode und ist allein nicht funktionsfähig, es kann also auch nicht einfach von der Kommandozeile aus ausgerufen werden.</p>
-<p>Die Aufgaben des Containers sind alle Aufgaben, die nicht mit der Logik der Anwendung zu tun haben. Beispielsweise die Verwaltung der Netzwerkverbindungen, Benutzerberechtigungen und des Speichers. Dazu kann das Serverlet auf die Schnittstellen des Containers zugreifen. Das ermöglicht dem Entwickler sich auf die Anwendung zu konzentrieren. Der Hauptvorteil von Serverlets ist, das diese bereits out-of-the-Box sicherer, performanter und stabiler sind, als wenn man diese Funktionen und Methoden selbst noch neu entwickeln müsste.</p>
-<h2 id="mcetoc_1g62lllju8dg">Serverlet-Container installieren</h2>
-<p>Es gibt eine Vielzahl von Serverlet-Containern. Nicht alle eigenen sich für jeden Anwendungsfall. Wir werden Testeshalber den Apache Tomcat verwenden. Dieser Server, wie auch alle anderen Serverlet-Container sind selbst ein Java-Programm und dadurch unabhängig vom Betriebssystem. <strong>Die Anweisungen hier gelten nur für eine Testumgebung und sind nicht für den produktiven Einsatz als Webserver gedacht.</strong></p>
-<h3 id="mcetoc_1g62lllju8dh">Option 1: Manuelle Installation des Tomcat-Servers auf dem eigenen Gerät</h3>
-<p>Wer sich den manuellen overhead der Installation des Tomcat-Servers antun will, der kann die aktuellste Version des Tomcat hier heruntergeladen werden: <a href="https://tomcat.apache.org/download-90.cgi">https://tomcat.apache.org/download-90.cgi</a></p>
-<p>Die Installationsanweisungen befinden sich hier: <a href="https://tomcat.apache.org/tomcat-9.0-doc/setup.html">https://tomcat.apache.org/tomcat-9.0-doc/setup.html</a></p>
-<p>Da ich mich nicht mit manuellen Installationen herumschlagen will, ist Option 2 mein Favorit.</p>
-<h3 id="mcetoc_1g62lllju8di">Option 2: Installation des Tomcat-Servers via VSCode</h3>
-<p>Falls man für die Entwicklung in der IDE VSCode arbeitet, kann man dort direkt Tomcat als AddOn installieren und muss sich so garnicht mit der Installation des Tomcat befassen. Link zum Add-On: <a href="https://marketplace.visualstudio.com/items?itemName=redhat.vscode-community-server-connector">https://marketplace.visualstudio.com/items?itemName=redhat.vscode-community-server-connector</a></p>
-<h3 id="mcetoc_1g62lllju8dj">(Option 3: Tomcat Docker Image)</h3>
-<p>Fortgeschrittene Java Entwickler können theoretisch auch direkt das Docker Tomcat Image nutzen. Da ich jedoch Java sowie Tomcat Anfänger bin, verzichte ich vorerst auf den Docker Container, und werde Option 2 weiter erläutern.</p>
-<h2 id="mcetoc_1g62lllju8dk">Tomcat mit VSCode einrichten</h2>
-<p>Nach der Installation erscheint links im Explorer von VSCode ein neuer Tab "SERVERS", wenn man diesen öffnet erscheint der "Cummunity Server Connector". Mit rechtsklick darauf kann man einen neuen Server erstellen. Wir beantworten "Download Server?" mit Yes. und wählen "Apache Tomcat 9.0.41" als nächstes müssen wir die Lizenz akzeptieren. That's it. Nun sollte ein Apache Tomcat aufgelistet sein.</p>
-<p>Es fehlt lediglich ein Benutzer, der die Administrationskonsole des Servers bedienen darf. Einen solchen Nutzer sollte aber eingerichtet werden, damit man die Administrationskonsole verwalten kann. Dazu öffnen wir folgende Datei (gilt nur für MacOS):  <span class="s1">/Users/&lt;deinuser&gt;/.rsp/redhat-community-server-connector/runtimes/installations/tomcat-9.0.41/apache-tomcat-9.0.41/conf/t</span><span class="s1">omcat-users.xml und fügen folgende Zeile hinzu:</span></p>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;">&lt;<span class="hljs-literal" style="color: #6897bb;">user</span> username=<span class="hljs-string" style="color: #6a8759;">"tomcat"</span> password=<span class="hljs-string" style="color: #6a8759;">"tomcat"</span> roles=<span class="hljs-string" style="color: #6a8759;">"manager,manager-gui"</span>/&gt;</pre>
-<p>Natürlich sollte ein anderes Kennwort verwendet werden, idealerweise lässt man eines generieren. Der Server ist jetzt fertig konfiguriert. Der Server kann nun mit einem Rechtsklick auf dem TomCat Server gestartet werden.</p>
-<h2>Installation verifizieren</h2>
-<p>Um zu überprüfen, ob der Server wirklich funktioniert, kann man nun die Administrationskonsole unter <a href="http://localhost:8080/manager">http://localhost:8080/manager</a> aufrufen. Nun sollte eine Loginmaske erscheinen, in welchem wir den zuvor definieren User und PW eingeben. Nach der Anmeldung sollte man die Tomcat-Manager-Anwendung zu sehen bekommen:</p>
-<figure class="post__image"><img loading="lazy"  src="https://www.finecloud.ch/media/posts/36/Screenshot-2022-06-21-at-10.59.45.png" sizes="100vw" srcset="https://www.finecloud.ch/media/posts/36/responsive/Screenshot-2022-06-21-at-10.59.45-xs.png 300w ,https://www.finecloud.ch/media/posts/36/responsive/Screenshot-2022-06-21-at-10.59.45-sm.png 480w ,https://www.finecloud.ch/media/posts/36/responsive/Screenshot-2022-06-21-at-10.59.45-md.png 768w ,https://www.finecloud.ch/media/posts/36/responsive/Screenshot-2022-06-21-at-10.59.45-lg.png 1024w ,https://www.finecloud.ch/media/posts/36/responsive/Screenshot-2022-06-21-at-10.59.45-xl.png 1360w ,https://www.finecloud.ch/media/posts/36/responsive/Screenshot-2022-06-21-at-10.59.45-2xl.png 1600w"  alt="" width="1912" height="926"></figure>
-<p>Wenn man diese Ansicht zu sehen bekommt kann man sicher sein, das die Installation erfolgreich war und der Tomcat Server funktioniert.</p>
             ]]>
         </content>
     </entry>

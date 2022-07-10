@@ -3,12 +3,61 @@
     <title>Finecloud</title>
     <link href="https://www.finecloud.ch/feed.xml" rel="self" />
     <link href="https://www.finecloud.ch" />
-    <updated>2022-07-09T15:53:17+02:00</updated>
+    <updated>2022-07-10T06:31:08+02:00</updated>
     <author>
         <name>Finecloud</name>
     </author>
     <id>https://www.finecloud.ch</id>
 
+    <entry>
+        <title>Java Access-Modifier</title>
+        <author>
+            <name>Finecloud</name>
+        </author>
+        <link href="https://www.finecloud.ch/java-access-modifier.html"/>
+        <id>https://www.finecloud.ch/java-access-modifier.html</id>
+            <category term="softwareentwicklung"/>
+            <category term="java basics"/>
+            <category term="java"/>
+            <category term="dev"/>
+            <category term="access modifier"/>
+
+        <updated>2022-07-10T06:31:08+02:00</updated>
+            <summary>
+                <![CDATA[
+                    Sobald ein Feld sichtbar ist, bedeutet das auch, das es gelesen und beschrieben werden kann. Die Access-Modifier steuern, von wo auf Felder und Methoden eines Objekts zugegriffen werden kann: Modifier Wer darf zugreifen? public Auf public-Objekte/Felder und Methoden darf ohne Einschränkungen von überall aus zugegriffen&hellip;
+                ]]>
+            </summary>
+        <content type="html">
+            <![CDATA[
+                <p>Sobald ein Feld sichtbar ist, bedeutet das auch, das es gelesen und beschrieben werden kann. Die Access-Modifier steuern, von wo auf Felder und Methoden eines Objekts zugegriffen werden kann:</p>
+<table style="border-collapse: collapse; width: 100%; height: 309.391px;" border="1">
+<tbody>
+<tr style="height: 50.3594px;">
+<td style="width: 24.4301%; height: 50.3594px;"><strong>Modifier</strong></td>
+<td style="width: 75.5699%; height: 50.3594px;"><strong>Wer darf zugreifen?</strong></td>
+</tr>
+<tr style="height: 107.953px;">
+<td style="width: 24.4301%; height: 107.953px;">public</td>
+<td style="width: 75.5699%; height: 107.953px;">Auf <em>public-Objekte/Felder und Methoden </em>darf ohne Einschränkungen von überall aus zugegriffen werden.</td>
+</tr>
+<tr style="height: 50.3594px;">
+<td style="width: 24.4301%; height: 50.3594px;">protected</td>
+<td style="width: 75.5699%; height: 50.3594px;">Zugriff ist erlaubt für Klassen, die im gleichen Package liegen, sowie für Klassen, die von dieser Klasse erben.</td>
+</tr>
+<tr style="height: 50.3594px;">
+<td style="width: 24.4301%; height: 50.3594px;">- (nur Package)</td>
+<td style="width: 75.5699%; height: 50.3594px;">Wenn keinen Access-Modifier definiert wird, dann ist das Feld oder die Methode für alle Klassen sichtbar, die im gleichen Package liegen.<br>Dies ist aber kein Schutz gegen Zugriffe von ausserhalb auf Ihre Klasse: Packages in Java sind offen, d. h. jeder kann eine weitere Klasse in Ihrem Package deklarieren und von dort auf diese Felder zugreifen.</td>
+</tr>
+<tr style="height: 50.3594px;">
+<td style="width: 24.4301%; height: 50.3594px;">private</td>
+<td style="width: 75.5699%; height: 50.3594px;">Nur die Klasse selbst darf auf <em>private</em>-Felder zugreifen. Wie alle Access-Modifier wirkt auch <em>private</em> auf Klassenebene. Das bedeutet, dass ein Objekt auf <em>private</em>-Member eines anderen Objekts des gleichen Typs zugreifen kann.</td>
+</tr>
+</tbody>
+</table>
+            ]]>
+        </content>
+    </entry>
     <entry>
         <title>Java Namenskonventionen</title>
         <author>
@@ -1966,99 +2015,6 @@ Apply complete! Resources: 4 added, 0 changed, 0 destroyed.</pre>
 </tbody>
 </table>
 <p>Ausführlichere Angaben zu den HTTP Status Codes findest du im <a href="https://www.rfc-editor.org/rfc/rfc9110.html#name-status-codes" rel="nofollow">RFC9110</a>.</p>
-            ]]>
-        </content>
-    </entry>
-    <entry>
-        <title>HTTP Methoden - RFC9110</title>
-        <author>
-            <name>Finecloud</name>
-        </author>
-        <link href="https://www.finecloud.ch/http-methoden-rfc9110.html"/>
-        <id>https://www.finecloud.ch/http-methoden-rfc9110.html</id>
-            <category term="softwareentwicklung"/>
-            <category term="servlet"/>
-            <category term="rfc9110"/>
-            <category term="java"/>
-            <category term="http"/>
-            <category term="dev"/>
-
-        <updated>2022-06-25T10:55:55+02:00</updated>
-            <summary>
-                <![CDATA[
-                    Was geschieht eigentlich wenn ich eine Webseite aufrufe? Wir überspringen den Ersten Teil mit DNS und gehen davon aus, dass die URL bereits im DNS Cache ist. Um diese Frage zu beantworten, müssen wir uns mit den Grundlagen des HTTP-Protokolls befassen. Der Aufruf der Webseite&hellip;
-                ]]>
-            </summary>
-        <content type="html">
-            <![CDATA[
-                <h2>Was geschieht eigentlich wenn ich eine Webseite aufrufe?</h2>
-<p>Wir überspringen den Ersten Teil mit DNS und gehen davon aus, dass die URL bereits im DNS Cache ist. Um diese Frage zu beantworten, müssen wir uns mit den Grundlagen des HTTP-Protokolls befassen.</p>
-<h3>Der Standard HTTP-Request</h3>
-<p>Der Aufruf der Webseite beginnt im Browser. Dieser öffnet eine Netzwerkverbindung zur eingegebenen Adresse. Für diesen Schritt ist aber noch nicht die gesamte URL relevant, nur Servername (oder die IP-Adresse) und Port werden benötigt. Über diese Netzwerkverbindung wird ein HTTP-Request gesendet. HTTP ist ein textbasiertes Protokoll, deswegen kann man einfach einsehen, wie dieser Request aussieht:</p>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;">GET <span class="hljs-regexp">/servlet-1.0-SNAPSHOT/</span> HTTP/<span class="hljs-number" style="color: #6897bb;">1.1</span>
-<span class="hljs-string" style="color: #6a8759;">Host:</span> <span class="hljs-string" style="color: #6a8759;">localhost:</span><span class="hljs-number" style="color: #6897bb;">8080</span>
-User-<span class="hljs-string" style="color: #6a8759;">Agent:</span> Mozilla<span class="hljs-regexp">/5.0 (Macintosh; Intel Mac OS X 10.15; rv:101.0) Gecko/</span><span class="hljs-number" style="color: #6897bb;">20100101</span> Firefox/<span class="hljs-number" style="color: #6897bb;">101.0</span>
-<span class="hljs-string" style="color: #6a8759;">Accept:</span> text<span class="hljs-regexp">/html,application/</span>xhtml+xml,application<span class="hljs-regexp">/xml;q=0.9,image/</span>avif,image<span class="hljs-regexp">/webp,*/</span>*;q=<span class="hljs-number" style="color: #6897bb;">0.8</span>
-Accept-<span class="hljs-string" style="color: #6a8759;">Language:</span> en-US,en;q=<span class="hljs-number" style="color: #6897bb;">0.5</span>
-Accept-<span class="hljs-string" style="color: #6a8759;">Encoding:</span> gzip, deflate, br
-<span class="hljs-string" style="color: #6a8759;">Connection:</span> keep-alive</pre>
-<p>Die erste Zeile des Requests enthält die wichtigsten Informationen:</p>
-<ul>
-<li>die relative Adresse der angesprochenen Ressource auf dem Server: /servlet-1.0-SNAPSHOT. Anhand dieses Pfades bestimmt der Server, welche Datei er ausliefern oder welches Servlet er ansprechen soll.</li>
-<li>was mit dieser Ressource passieren soll. GET bedeutet, sie soll an den Anfragenden gesendet werden.</li>
-<li>die verwendete Version des HTTP-Protokolls: HTTP/1.1. Diese Information ist für  eine funktionierende Kommunikation zwischen Client und Server wesentlich.</li>
-</ul>
-<p>Alle weiteren Zeilen des Requests sind sogenannte Header. Sie transportieren zusätzliche Informationen, die der Server bei seiner Arbeit berücksichtigen sollte, aber nicht unbedingt muss. So enthält zum Beispiel der Header Accept-Language die Vorliebe des Benutzers, in welcher Sprache er den angefragten Inhalt sehen möchte. Der Server kann diese Information aber ignorieren und den Inhalt in einer völlig anderen Sprache zurückliefern.<br><br>In den Headern werden auch Cookies übertragen, kleine Textstücke, die ein Server im Browser hinterlegen kann und die bei weiteren Anfragen an denselben Server vom Browser an den Server zurückgesendet werden. Cookies sind die verbreitete Möglichkeit für den Server, zu bestimmen, ob zwei Anfragen vom selben Client stammen. Das HTTP-Protokoll ist zustandslos, jede Anfrage ist völlig unabhängig von allen anderen Anfragen. Wenn der Server also Informationen zwischen zwei Requests speichern muss, dann geschieht das üblicherweise durch Cookies. Im Servlet-Container werden diese durch das Session-Objekt abgebildet.</p>
-<h3>Weitere HTTP-Methoden</h3>
-<p>Alle server müssen zwingend die GET und HEAD Methoden unterstützen, alle anderen Methoden sind Optional:</p>
-<table id="table-4" class="left" style="width: 100%; height: 539.625px;">
-<thead>
-<tr style="height: 79.1562px;">
-<th class="text-left" style="width: 20.6007%; height: 79.1562px;"><strong>Method Name</strong></th>
-<th class="text-left" style="width: 79.2568%; height: 79.1562px;"><strong>Description</strong></th>
-</tr>
-</thead>
-<tbody>
-<tr style="height: 50.3594px;">
-<td class="text-left" style="width: 20.6007%; height: 50.3594px;">GET</td>
-<td class="text-left" style="width: 79.2568%; height: 50.3594px;">Transfer a current representation of the target resource.</td>
-</tr>
-<tr style="height: 50.3594px;">
-<td class="text-left" style="width: 20.6007%; height: 50.3594px;">HEAD</td>
-<td class="text-left" style="width: 79.2568%; height: 50.3594px;">Same as GET, but do not transfer the response content.</td>
-</tr>
-<tr style="height: 50.3594px;">
-<td class="text-left" style="width: 20.6007%; height: 50.3594px;">POST</td>
-<td class="text-left" style="width: 79.2568%; height: 50.3594px;">Perform resource-specific processing on the request content.</td>
-</tr>
-<tr style="height: 79.1562px;">
-<td class="text-left" style="width: 20.6007%; height: 79.1562px;">PUT</td>
-<td class="text-left" style="width: 79.2568%; height: 79.1562px;">Replace all current representations of the target resource with the request content.</td>
-</tr>
-<tr style="height: 50.3594px;">
-<td class="text-left" style="width: 20.6007%; height: 50.3594px;">DELETE</td>
-<td class="text-left" style="width: 79.2568%; height: 50.3594px;">Remove all current representations of the target resource.</td>
-</tr>
-<tr style="height: 50.3594px;">
-<td class="text-left" style="width: 20.6007%; height: 50.3594px;">CONNECT</td>
-<td class="text-left" style="width: 79.2568%; height: 50.3594px;">Establish a tunnel to the server identified by the target resource.</td>
-</tr>
-<tr style="height: 50.3594px;">
-<td class="text-left" style="width: 20.6007%; height: 50.3594px;">OPTIONS</td>
-<td class="text-left" style="width: 79.2568%; height: 50.3594px;">Describe the communication options for the target resource.</td>
-</tr>
-<tr style="height: 79.1562px;">
-<td class="text-left" style="width: 20.6007%; height: 79.1562px;">TRACE</td>
-<td class="text-left" style="width: 79.2568%; height: 79.1562px;">Perform a message loop-back test along the path to the target resource.</td>
-</tr>
-</tbody>
-</table>
-<p>Quelle: <a href="https://www.rfc-editor.org/rfc/rfc9110.html#name-methods" rel="nofollow">RFC9110</a></p>
-<p>Von diesen Methoden sind GET, HEAD und POST die mit grossem Abstand häufiger verwendeten. Die meisten Anwendungen kommen ohne PUT und DELETE aus, und wenn diese Methoden doch verwendet werden, dann nur unter starken Sicherheitsvorkehrungen. Es bedarf nicht viel Fantasie, das Missbrauchspotenzial zu erkennen, wenn jeder Dateien auf Ihrem Server anlegen und löschen könnte.</p>
-<h3>Verarbeitung im Servlet-Container</h3>
-<p>Der Servlet-Container empfängt diesen HTTP-Request und erzeugt daraus ein Objekt der Klasse <em>HttpServletRequest</em>. Durch dieses Objekt sind alle Daten zugänglich, die im Request gesendet wurden.</p>
-<p>Als Nächstes ermittelt der Servlet-Container anhand der Adresse in der ersten Request-Zeile, an welche Anwendung und welche Ressource der Request adressiert ist. Die Anwendung wird durch den ersten Teil der Adresse identifiziert, der Teil /servlet-1.0-SNAPSHOT, identifiziert die Ressource. Das kann ein Servlet sein, dessen <em>urlPatterns-Attribut</em> passt, oder bei einem GET-Request eine statische Ressource dieses Namens, die im Wurzelverzeichnis des WARs liegt.<br><br>Unter /servlet-1.0-SNAPSHOT antwortet ein Servlet. Falls noch keine Instanz dieses Servlets erzeugt wurde, erzeugt der Container nun eine. Es wird nicht für jeden Request eine neue Servlet-Instanz erzeugt, deshalb sollten man niemals Daten, die zu einem Request gehören, in Instanzvariablen speichern, denn diese könnten in einem anderen Request weiterverwendet werden.<br><br>Nun endlich so weit: Das Servlet wird aufgerufen.</p>
-<p id="table.of.methods"></p>
             ]]>
         </content>
     </entry>

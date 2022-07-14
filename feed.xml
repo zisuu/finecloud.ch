@@ -3,7 +3,7 @@
     <title>Finecloud</title>
     <link href="https://www.finecloud.ch/feed.xml" rel="self" />
     <link href="https://www.finecloud.ch" />
-    <updated>2022-07-14T05:36:55+02:00</updated>
+    <updated>2022-07-14T05:55:53+02:00</updated>
     <author>
         <name>Finecloud</name>
     </author>
@@ -22,7 +22,7 @@
             <category term="java"/>
             <category term="dev"/>
 
-        <updated>2022-07-14T05:36:55+02:00</updated>
+        <updated>2022-07-14T05:55:53+02:00</updated>
             <summary>
                 <![CDATA[
                     Was ist Regex? Regex steht für Regular expressions und ist eine Technik, Technologie und Sprache an und für sich, die verwendet werden kann zum Ausdrücken von Textmustern mit Symbolen. Und diese Symbole sind selbst Text. Damit lassen wir verschiedene Textteile und Zeichen andere Textfolgen darstellen. In&hellip;
@@ -37,6 +37,8 @@
 <li><a href="#mcetoc_1g7qsl72t8b">Einfaches Beispiel</a></li>
 <li><a href="#mcetoc_1g7qsl72t8c">Negieren</a></li>
 <li><a href="#mcetoc_1g7qsl72t8d">Anzahl Buchstaben</a></li>
+<li><a href="#mcetoc_1g7tdih5q2e">Anzahl Zahlen</a></li>
+<li><a href="#mcetoc_1g7tdih5q2f">Buchstaben und Zahlenfolge</a></li>
 </ul>
 </div>
 <h2 id="mcetoc_1g7qsl72t8a">Was ist Regex?</h2>
@@ -79,14 +81,14 @@
 }</pre>
 <p>Der reine Regex Pattern besteht nur aus einem \ (Backslash). Damit wir diesen in Java nutzen können, müssen wir jedoch den Backslash mit einem zweiten Backslash escapen, damit Java den Backslash nicht als Java, sondern als Regex Pattern erkennen kann.</p>
 <p class="msg msg--highlight ">Der Regex-Pattern für Buchstaben (\w) wertet nicht nur Buchstaben von a bis z als Valid, sondern auch Zahlen und '_' (underscore).</p>
-<h2>Anzahl Zahlen</h2>
+<h2 id="mcetoc_1g7tdih5q2e">Anzahl Zahlen</h2>
 <p>Dasselbe geht auch, wenn wir einen Pattern für die Anzahl Zahlen definieren:</p>
 <pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-keyword" style="color: #cc7832;">public</span> <span class="hljs-class"><span class="hljs-keyword" style="color: #cc7832;">class</span> <span class="hljs-title" style="color: #ffc66d;">RegexPractice</span> </span>{
     <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">public</span> <span class="hljs-keyword" style="color: #cc7832;">static</span> <span class="hljs-keyword" style="color: #cc7832;">void</span> <span class="hljs-title" style="color: #ffc66d;">main</span><span class="hljs-params">(String[] args)</span> </span>{
         System.out.println(<span class="hljs-string" style="color: #6a8759;">"521"</span>.matches(<span class="hljs-string" style="color: #6a8759;">"\\d\\d\\d"</span>));
     }
 }</pre>
-<h2>Buchstaben und Zahlenfolge</h2>
+<h2 id="mcetoc_1g7tdih5q2f">Buchstaben und Zahlenfolge</h2>
 <p>Was wenn wir nun eine Sammlung von Nummern auf das folgende Format prüfen müssen: <em>523-231-4444</em> (alle Zahlen sind erlaubt). Wir könnten dazu einfach aus Faulheit folgenden Pattern definieren:</p>
 <pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-keyword" style="color: #cc7832;">public</span> <span class="hljs-class"><span class="hljs-keyword" style="color: #cc7832;">class</span> <span class="hljs-title" style="color: #ffc66d;">RegexPractice</span> </span>{
     <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">public</span> <span class="hljs-keyword" style="color: #cc7832;">static</span> <span class="hljs-keyword" style="color: #cc7832;">void</span> <span class="hljs-title" style="color: #ffc66d;">main</span><span class="hljs-params">(String[] args)</span> </span>{

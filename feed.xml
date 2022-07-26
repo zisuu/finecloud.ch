@@ -3,12 +3,133 @@
     <title>Finecloud</title>
     <link href="https://www.finecloud.ch/feed.xml" rel="self" />
     <link href="https://www.finecloud.ch" />
-    <updated>2022-07-24T18:00:23+02:00</updated>
+    <updated>2022-07-26T07:56:34+02:00</updated>
     <author>
         <name>Finecloud</name>
     </author>
     <id>https://www.finecloud.ch</id>
 
+    <entry>
+        <title>Imperativ vs. Deklarativ</title>
+        <author>
+            <name>Finecloud</name>
+        </author>
+        <link href="https://www.finecloud.ch/imperativ-vs-deklarativ.html"/>
+        <id>https://www.finecloud.ch/imperativ-vs-deklarativ.html</id>
+            <category term="tools"/>
+            <category term="terraform"/>
+            <category term="pulumi"/>
+            <category term="infrastructure as code"/>
+            <category term="imperativ"/>
+            <category term="iac"/>
+            <category term="deklarativ"/>
+            <category term="ansible"/>
+
+        <updated>2022-07-26T07:56:34+02:00</updated>
+            <summary>
+                <![CDATA[
+                    Immer wieder stösst man im Bereich Infrastructure as Code (IaC) auf die Begriffe imperativ und deklarativ. Doch was bedeuten diese Begriffe? Ist Terraform wirklich deklarativ und Ansible nicht? Diese beiden Begriffe sind nicht einfach Buzzwords, sondern wesentliche Design-Patterns von IaC. Beim deklarativen Ansatz definiert der&hellip;
+                ]]>
+            </summary>
+        <content type="html">
+            <![CDATA[
+                <div class="post__toc">
+<h3>Table of Contents</h3>
+<ul>
+<li><a href="#mcetoc_1g8sg1qh415e">Glossar: Imperativ / Deklarativ</a></li>
+<li><a href="#mcetoc_1g8sg1qh415f">Erwartung und Vorurteil</a></li>
+<li><a href="#mcetoc_1g8sg1qh415g">Der Irrtum</a></li>
+<li><a href="#mcetoc_1g8sg1qh415h">Meine Ansicht</a></li>
+</ul>
+</div>
+<p>Immer wieder stösst man im Bereich Infrastructure as Code (IaC) auf die Begriffe imperativ und deklarativ. Doch was bedeuten diese Begriffe? Ist Terraform wirklich deklarativ und Ansible nicht? Diese beiden Begriffe sind nicht einfach Buzzwords, sondern wesentliche Design-Patterns von IaC.</p>
+<h2 id="mcetoc_1g8sg1qh415e">Glossar: Imperativ / Deklarativ</h2>
+<div class="page" title="Page 8">
+<div class="layoutArea">
+<div class="column">
+<p>Beim deklarativen Ansatz definiert der Entwickler den Endzustand und lässt das IaC Tool ermitteln, wie dieser Zustand erreicht werden soll. Im Gegensatz dazu definiert beim imperativen Ansatz der Entwickler den Prozess, mit welchem vom Ist-Zustand aus der Soll-Zustand erreicht wird. <strong>Der Hauptunterschied ist, dass imperative Programme einen Control-Flow haben und deklarative nicht.</strong> Das lässt sich einfach herausfinden indem man die IaC Anweisungen. Verfügen diese über Error-Checks und Überprüfungen ob etwas korrekt ausgeführt wurde, dann handelt es sich um einen Control-Flow.</p>
+<p>Ein einfaches Beispiel einer imperativen Anweisung:</p>
+<pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-keyword" style="color: #cc7832;">if</span> cluster_exists:
+  echo <span class="hljs-string" style="color: #6a8759;">"you already created that cluster"</span>
+<span class="hljs-keyword" style="color: #cc7832;">else</span>:
+  echo <span class="hljs-string" style="color: #6a8759;">"I'm creating a cluster for you"</span></pre>
+<p>Auf der anderen Seite verfügt der deklarative Ansatz über keinen Control-Flow, das braucht es dort gar nicht, weil sich Terraform selbst um die Logik und den Control-Flow kümmert, deshalb muss sich der Anwender keine Gedanken darüber machen wie der Soll zustand erreicht wird, er muss nur definieren wie der Soll Zustand am Ende sein soll.</p>
+<p>Ein einfaches Beispiel einer deklarativen Anweisung:</p>
+<pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;">terraform {
+  required_providers {
+    aws = {
+      source  = <span class="hljs-string" style="color: #6a8759;">"hashicorp/aws"</span>
+      version = <span class="hljs-string" style="color: #6a8759;">"~&gt; 4.16"</span>
+    }
+  }
+
+  required_version = <span class="hljs-string" style="color: #6a8759;">"&gt;= 1.2.0"</span>
+}
+
+provider <span class="hljs-string" style="color: #6a8759;">"aws"</span> {
+  region  = <span class="hljs-string" style="color: #6a8759;">"us-west-2"</span>
+}
+
+resource <span class="hljs-string" style="color: #6a8759;">"aws_instance"</span> <span class="hljs-string" style="color: #6a8759;">"app_server"</span> {
+  ami           = <span class="hljs-string" style="color: #6a8759;">"ami-830c94e3"</span>
+  instance_type = <span class="hljs-string" style="color: #6a8759;">"t2.micro"</span>
+
+  tags = {
+    Name = <span class="hljs-string" style="color: #6a8759;">"ExampleAppServerInstance"</span>
+  }
+}
+</pre>
+<p>Der deklarative Ansatz reduziert den Code Umfang erheblich und vermindert damit auch die Fehleranfälligkeit. Zudem muss man sich nicht selbst mit dauern ändernden Cloud APIs herumschlagen.</p>
+<h2 id="mcetoc_1g8sg1qh415f">Erwartung und Vorurteil</h2>
+<p>Die meisten Leute mit denen man über IaC spricht haben die Tendenz zu glauben das ein IaC Tool deklarativ sein muss. Was sehr komisch ist, sind aussagen wie:</p>
+<blockquote>
+<p>Terraform ist deklarativ, Pulumi, Ansible und AWS CDK nicht, deshalb ist Terraform besser als die anderen.</p>
+</blockquote>
+<p>Leute mit solchen Aussagen verraten das sie keine Ahnung haben wovon sie sprechen.</p>
+<h2 id="mcetoc_1g8sg1qh415g">Der Irrtum</h2>
+<p>Das Hauptproblem in der ganzen imperativ vs. deklarativ Debatte besteht darin, das die meisten Leute meinen, wenn man eine Configurations-Sprache, wie zum Beispiel die DSL Sprachen von Terraform, HCL verwendet das automatisch etwas deklarativ macht.</p>
+<p>IaC Tools wie Terraform, Ansible, Pulumi, AWS CDK usw. machen sich alle DAG zu nutzen. DAG steht für <a href="https://www.bigdata-insider.de/was-ist-ein-directed-acyclic-graph-dag-a-1075296/" target="_blank" rel="nofollow noopener noreferrer">Directed acyclic graph:</a></p>
+<blockquote>
+<p>Ein Directed Acyclic Graph (DAG) ist eine abstrakte Struktur, die aus Knoten und Kanten besteht. Die Kanten bilden die Verbindungen zwischen den Knoten und besitzen eine Richtung. Schleifen sind in der Struktur ausgeschlossen. Folgt man der Richtung der Kanten, gelangt man von einem Startpunkt (Startknoten) zu einem Zielknoten und niemals zurück an den Ausgangsknoten. Es entsteht eine topologische Ordnung. Mit DAGs lassen sich beispielsweise kausale Zusammenhänge gut darstellen.  </p>
+</blockquote>
+<p>Pulumi, und Terraform erstellen nicht nur ein DAG, sondern ermöglichen es auch, das erstellte Diagramm zu untersuchen! Pulumi verfügt über den Pulumi-Stack-Graph-Befehl und Terraform über den Terraform-Graph-Befehl.<br><br>Dieses Diagramm wird erstellt, wenn man ein Terraform- oder Pulumi-Programm erstellt, und <strong>wird dann von den Engines des jeweiligen Tools ausgeführt, die dieses Diagramm bei jeder Tool-Instanziierung idempotent ausführen.</strong></p>
+<p>Idempotent bedeutet, dass man dieselben Ergebnisse erwarten kann, wenn man immer wieder dasselbe ausführt. <strong>Jedes Infrastruktur als Code-Tool ist (wenn man es korrekt einsetzt) deklarativ und idempotent.</strong> Konfigurationsmanagement-Tools sind im Allgemeinen idempotent, aber nicht unbedingt deklarativ.</p>
+<p>Wieso glauben aber so viele Leute das Pulumi, Ansible und CDK imperativ sind? Die Antwort ist, das die meisten Leute dabei nicht an das eigentliche Tool denken, sondern nur an die Sprache welche verwendet wird. Konfigurationssprachen machen deklarative Zustände leicht verständlich, da Sie keine Bedingungen in Konfigurationssprachen verwenden können, ohne eine Templating Sprache zu verwenden, oder grosse Änderungen an einer DSL vorzunehmen.<br><br>Mit Ansible, Pulumi und AWS CDK kann man jedoch Bedingungen nach Herzenslust verwenden, da sie imperative Sprachen als primäre Authoring-Erfahrung verwenden.</p>
+<p>Nehmen wir das folgende Snippet von Ansible code als Beispiel:</p>
+<pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;">  - name: Set super_group variable for RedHat
+    set_fact:
+      super_group: wheel
+    when: ansible_os_family == <span class="hljs-string" style="color: #6a8759;">"RedHat"</span>  
+<span class="hljs-attr">  - name:</span> Set super_group variable for Debian
+<span class="hljs-attr">    set_fact:</span>
+<span class="hljs-attr">      super_group:</span> sudo
+<span class="hljs-attr">    when:</span> ansible_os_family == <span class="hljs-string" style="color: #6a8759;">"Debian"</span>
+<span class="hljs-attr">  - name:</span> Add local linux user {{ username }}
+    user:
+      name: <span class="hljs-string" style="color: #6a8759;">"<span class="hljs-template-variable" style="color: #629755;">{{ username }}</span>"</span>
+      groups: <span class="hljs-string" style="color: #6a8759;">"<span class="hljs-template-variable" style="color: #629755;">{{ super_group }}</span>"</span>
+      append: <span class="hljs-literal" style="color: #6897bb;">true</span>
+      password_lock: <span class="hljs-literal" style="color: #6897bb;">true</span>
+      shell: /bin/bash
+      create_home: <span class="hljs-literal" style="color: #6897bb;">true</span>
+      generate_ssh_key: <span class="hljs-literal" style="color: #6897bb;">true</span>
+      state: present</pre>
+<p>Hier kann man sehen, das eine <em>when</em> Bedingung definiert ist und dort entschieden wird, ob die Variable <em><span class="hljs-attr">super_group:</span> sudo </em>oder<em> wheel</em> gesetzt wird, oder garnicht. Anschliessend wird ein neuer Linux User erstellt. Es handelt sich in offensichtlich insgesamt um eine imperative Operation, zuerst wird anhand der OS Family eine Variable gesetzt und dann der Benutzer erstellt. Aber damit nicht genug: das Resultat, dieser imerpativen Operation <strong>ist deklarativ.</strong> Damit versuchen wir den Irrtum nun aufzulösen: <strong>Pulumi und Ansible und wie die Tools alle heissen sind als solches, (als Tool) alle deklarativ. Die Sprache jedoch, in welcher man die Infrastruktur beschreibt wird bei Pulumi und Ansible in einer imperativen Form geschrieben.</strong></p>
+<h2>Das Problem mit imperativen Anweisungen</h2>
+<p>Das Problem bei manchen Ansible Playbooks ist, dass diese nicht idempotent geschrieben wurden. Was bitte schön ist <span style="color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: inherit; font-weight: var(--font-weight-normal);">Idempotenz? </span><span style="color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: inherit; font-weight: var(--font-weight-normal);">Idempotenz bezeichnet die Unveränderbarkeit des Ergebnisses bei einer mehrfachen Verknüpfung oder Funktionsanwendung. Idempotenz ist erreicht, wenn ein IaC-Task nach wiederholtem Ausführen immer dasselbe Resultat erzeugt. Erst durch idempotente Tasks wird ein Gesamtautomatisierungsprozess auch für mehrere Ausführungen robust und zuverlässig.</span></p>
+<p><span style="color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: inherit; font-weight: var(--font-weight-normal);">Wenn man unsorgfältige Ansible Tasks verfasst, kann das dazu führen, dass diese bei wiederholtem ausführen nicht dieselben Resultate erzeugen, im Vergleich zu Terraform, wo dies aufgrund der strikten DSL nicht passieren kann.</span></p>
+<h2>Das Problem mit deklarativen Anweisungen</h2>
+<p>Im Gegensatz dazu gibt es bei Terraform keine wirklich ausgereifte Möglichkeit den Control-Flow zu bearbeiten. Es gibt zwar mechanismen wie das count argument oder ein for_each, das führt dann aber beispielsweise zu folgendem Code:</p>
+<pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;">count = var.enabled ? <span class="hljs-number" style="color: #6897bb;">1</span> : length([some list of resources or datasources])</pre>
+<p>Diese Anweisung ist nichts anderes als die <span class="hljs-attr"><em>when</em> oder <em>state</em> Anweisung im oberen Ansible Beispielcode. Nur ist dieser Code hier deutlich schwerer lesbar und wenige verständlich.</span></p>
+<h2 id="mcetoc_1g8sg1qh415h">Meine Ansicht</h2>
+<p>Anstatt imperativ und deklarativ mit falsch, richtig, besser oder schlechter zu bewerten, sollten wir uns bewusst werden, das wir in den meisten Fällen im IaC Bereich immer mit beidem zu tun haben. Je nach Tool oder Configurations Sprache direkter oder indirekter. Letztendlich erlauben Tools wie Ansible und Pulumi aus meiner Sicht höchste flexibilität und Anpassbarkeit des Control-Flows. Tools wie Terraform hingegen sind ungeeignet für mofizierungen des Control-Flows. Deshalb macht es meiner Meinung nach am meisten Sinn, das Tool oder die Konfigurations-Sprache zu verwenden, welche für den jeweiligen Use-Case am besten geeignet ist. Grundsätzlich lässt sich jede Aufgabe mit entweder dem imperativen oder deklarativen Ansatz lösen. Es gibt aber Aufgaben, die deutlich einfacher mit dem einen oder dem anderen Ansatz gelöst werden können. Es gilt daher situativ zu entscheiden, welcher Ansatz sich für welche Aufgaben am besten eignet und diese dann geschickt zu kombinieren. Beispielsweise kann man Terraform einsetzen, um Basis-VMs direkt von einem Template ausgehend zu erstellen. Nachfolgend kann man dann z.b. je nach OS Familie Ansible einsetzen, um Software-Installationen und Konfigurationen auf dem VMs vorzunehmen.</p>
+</div>
+</div>
+</div>
+            ]]>
+        </content>
+    </entry>
     <entry>
         <title>Monitor Proxmox mit Grafana und Prometheus</title>
         <author>
@@ -951,629 +1072,6 @@ Line number Code: 4234</pre>
 <p>Im Paket javafx.scene.shape findet man eine ganze Reihe geometrischer Formen wie Kreise (Klasse Circle), Pfade (Klasse Path), Rechtecke (Klasse Rectangle), Ellipsen (Klasse Ellipse) und einfachen Text (Klasse Text).</p>
 <h3 id="mcetoc_1g775qiifdbl">Diagramme</h3>
 <p>Im JavaFX-SDK sind verschiedene Diagrammformen enthalten (Paket javafx.scene.chart). Diese reichen von einfachen Balkendiagrammen (BarChart) und Tortendiagrammen (PieChart) über Liniendiagramme (LineChart) bis hin zu spezielleren Diagrammformen wie BubbleChart, ScatterChart und AreaChart.</p>
-            ]]>
-        </content>
-    </entry>
-    <entry>
-        <title>Kubernetes auf Proxmox mit Ansible und Terraform (Teil 2)</title>
-        <author>
-            <name>Finecloud</name>
-        </author>
-        <link href="https://www.finecloud.ch/kubernetes-auf-proxmox-mit-ansible-und-terraform-teil-2.html"/>
-        <id>https://www.finecloud.ch/kubernetes-auf-proxmox-mit-ansible-und-terraform-teil-2.html</id>
-            <category term="terraform"/>
-            <category term="proxmox"/>
-            <category term="openebs"/>
-            <category term="minio"/>
-            <category term="metallb"/>
-            <category term="kubernetes"/>
-            <category term="kubeadm"/>
-            <category term="k8s"/>
-            <category term="istio"/>
-            <category term="containerd"/>
-            <category term="container"/>
-            <category term="calico"/>
-            <category term="ansible"/>
-
-        <updated>2022-07-05T14:44:19+02:00</updated>
-            <summary>
-                <![CDATA[
-                    Dieser Post wurde aus dem Original (https://datastrophic.io/kubernetes-homelab-with-proxmox-kubeadm-calico-openebs-and-metallb/)auf Deutsch übersetzt und leicht angepasst. Nachdem wir im ersten Teil mit Terraform die VMs für unseren K8s Cluster deployed haben, werden wir nun mit Ansible die folgenden K8s Komponenten in den worker Nodes und dem Controller installieren: Die&hellip;
-                ]]>
-            </summary>
-        <content type="html">
-            <![CDATA[
-                <div class="post__toc">
-<h3>Table of Contents</h3>
-<ul>
-<li><a href="#mcetoc_1g6umq8onb0g">Einleitung</a></li>
-<li><a href="#mcetoc_1g6umq8onb0h">Voraussetzungen</a></li>
-<li><a href="#mcetoc_1g6umq8onb0i">Vorbereitungen</a></li>
-<li><a href="#mcetoc_1g6uqq0ncb8i">Notwendige Software</a>
-<ul>
-<li><a href="#mcetoc_1g6uqq0ncb8j">Volume Provisioning mit OpenEBS</a></li>
-<li><a href="#mcetoc_1g6uqq0ncb8k">LoadBalancer mit MetalLB</a></li>
-</ul>
-</li>
-<li><a href="#mcetoc_1g6uqq0ncb8l">Installation überprüfen</a></li>
-<li><a href="#kubernetes-dashboard">Kubernetes Dashboard</a></li>
-</ul>
-</div>
-<p>Dieser Post wurde aus dem Original (<a href="https://datastrophic.io/kubernetes-homelab-with-proxmox-kubeadm-calico-openebs-and-metallb/">https://datastrophic.io/kubernetes-homelab-with-proxmox-kubeadm-calico-openebs-and-metallb/</a>)auf Deutsch übersetzt und leicht angepasst.</p>
-<h2 id="mcetoc_1g6umq8onb0g">Einleitung</h2>
-<p>Nachdem wir im ersten Teil mit Terraform die VMs für unseren K8s Cluster deployed haben, werden wir nun mit Ansible die folgenden K8s Komponenten in den worker Nodes und dem Controller installieren:</p>
-<ul dir="auto">
-<li><code>kubeadm</code> für das Kubernetes Cluster bootstrapping</li>
-<li><code>containerd</code> als container runtime</li>
-<li><code>Calico</code> für das Pod networking</li>
-<li><code>MetalLB</code>  verwenden wir als <code>LoadBalancer</code> service type</li>
-<li><code>OpenEBS</code> für das Volume provisioning</li>
-<li><code>Istio</code> für ingress und traffic management</li>
-</ul>
-<p>Die Kubernetes-Distribution der Wahl ist in diesem Fall Vanilla Open Source Kubernetes, das mit dem kubeadm-Tool für Cluster-Bootstrapping geliefert wird. Vanilla Kubernetes hat einen grösseren Fussabdruck im Vergleich zu k3s und eignet sich deshalb nicht gut für Umgebungen mit eingeschränkten Ressourcen. Es ist jedoch herstellerunabhängig und vollständig Open-Source, hat keine Modifikationen und sowohl die API-Änderungen als auch die Tools haben die gleiche Release-Kadenz, sodass das Risiko von Inkompatibilitäten oder Verzögerungen geringer ist.</p>
-<h2 id="mcetoc_1g6umq8onb0h">Voraussetzungen</h2>
-<ul>
-<li>Cluster VMs sollten bereits provisioniert und erreichbar sein via SSH</li>
-<li>empfohlen ist Ubuntu 20.04 als Cluster OS zu verwenden</li>
-<li>der Benutzer (in unserem Fall <em>ubuntu</em>) sollte Superuser Berechtigungen haben auf den Cluster Nodes</li>
-<li>Ansible ist lokal bei dir installiert</li>
-</ul>
-<h2 id="mcetoc_1g6umq8onb0i">Vorbereitungen</h2>
-<p class="msg--info msg">Lade dir die Terraform und Ansible Files von <a href="https://github.com/datastrophic/kubernetes-deployment/tree/master/proxmox/" rel="nofollow">diesem Git Repo</a> herunter.</p>
-<p>Die Variablen in  <code>ansible/group_vars/all</code> sollten noch überprüft werden:</p>
-<div>
-<ul>
-<li><code>pod_subnet</code></li>
-<li><code>service_subnet</code></li>
-<li><code>dns</code></li>
-<li><code>metallb_address_range</code></li>
-</ul>
-</div>
-<p>Weiter musst du die IPs deiner VMs in dieser Datei nachtragen: <code>ansible/inventory.yaml</code></p>
-<p>Vor der Bereitstellung von Kubernetes selbst müssen die Cluster-Knoten zusätzlich konfiguriert und Software installiert werden:</p>
-<ul>
-<li>Knoten müssen Swap deaktiviert, iptables aktiviert haben und Weiterleitung und überbrückten Datenverkehr gemäss Bootstrapping-Clustern mit kubeadm zulassen.</li>
-<li>Auf den Knoten muss die Containerlaufzeit installiert sein. Die gängigste Containerlaufzeit, die in verschiedenen Cloud- und Anbieter-Kubernetes-Distributionen verwendet wird, ist containerd, also werden wir sie verwenden.</li>
-<li>Weitere Informationen darüber, warum wir Docker nicht verwenden werden, findest du in <a href="https://kubernetes.io/blog/2020/12/02/dont-panic-kubernetes-and-docker/" rel="nofollow">Don’t Panic: Kubernetes and Docker</a>.</li>
-<li>Auf Knoten müssen die folgenden Pakete installiert sein: kubelet, kubectl und kubeadm. Diese können über den Standard-Paketmanager wie apt installiert werden.</li>
-</ul>
-<p>Es gibt ein dediziertes Playbook zum Bootstrapping der Knoten mit allen erforderlichen Konfigurationen und Abhängigkeiten, die unter ansible/bootstrap.yaml verfügbar sind. Überprüfe die Standardeinstellungen und führe das Playbook wie folgt aus:</p>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-section" style="color: #ffc66d;">#~$ ansible-playbook -i ansible/inventory.yaml ansible/bootstrap.yaml -u ubuntu</span>
-[<span class="hljs-symbol" style="color: #6897bb;">WARNING</span>]: <span class="hljs-link" style="color: #629755;">Invalid characters were found in group names but not replaced, use -vvvv to see details</span>
-
-PLAY [Bootstrapping hosts] <span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-emphasis" style="font-style: italic;">***</span>
-
-TASK [Gathering Facts] <span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span>**
-ok: [control-plane-0.k8s.cluster]
-ok: [worker-1.k8s.cluster]
-ok: [worker-0.k8s.cluster]
-ok: [worker-2.k8s.cluster]
-
-TASK [commons : install common packages] <span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-emphasis" style="font-style: italic;">***</span>*
-changed: [control-plane-0.k8s.cluster]
-changed: [worker-2.k8s.cluster]
-changed: [worker-1.k8s.cluster]
-changed: [worker-0.k8s.cluster]
-
-TASK [commons : disable swap] <span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span>
-changed: [worker-2.k8s.cluster]
-changed: [worker-1.k8s.cluster]
-changed: [worker-0.k8s.cluster]
-changed: [control-plane-0.k8s.cluster]
-
-TASK [commons : disable swap in fstab] <span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span>*
-ok: [worker-2.k8s.cluster]
-ok: [control-plane-0.k8s.cluster]
-ok: [worker-0.k8s.cluster]
-ok: [worker-1.k8s.cluster]
-
-TASK [commons : enable br_netfilter] <span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-emphasis" style="font-style: italic;">***</span>
-changed: [control-plane-0.k8s.cluster]
-changed: [worker-0.k8s.cluster]
-changed: [worker-2.k8s.cluster]
-changed: [worker-1.k8s.cluster]
-
-TASK [commons : ensure iptables enabled] <span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-emphasis" style="font-style: italic;">***</span>*
-changed: [worker-1.k8s.cluster]
-changed: [control-plane-0.k8s.cluster]
-changed: [worker-0.k8s.cluster]
-changed: [worker-2.k8s.cluster]
-
-TASK [commons : enable port forward] <span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-emphasis" style="font-style: italic;">***</span>
-changed: [worker-0.k8s.cluster]
-changed: [worker-2.k8s.cluster]
-changed: [worker-1.k8s.cluster]
-changed: [control-plane-0.k8s.cluster]
-
-TASK [container-runtime : create config and data dirs] <span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span>
-changed: [worker-2.k8s.cluster] =&gt; (item=/etc/containerd)
-changed: [control-plane-0.k8s.cluster] =&gt; (item=/etc/containerd)
-changed: [worker-1.k8s.cluster] =&gt; (item=/etc/containerd)
-changed: [worker-0.k8s.cluster] =&gt; (item=/etc/containerd)
-changed: [control-plane-0.k8s.cluster] =&gt; (item=/tmp/containerd)
-changed: [worker-2.k8s.cluster] =&gt; (item=/tmp/containerd)
-changed: [worker-1.k8s.cluster] =&gt; (item=/tmp/containerd)
-changed: [worker-0.k8s.cluster] =&gt; (item=/tmp/containerd)
-
-TASK [container-runtime : download and install runc] <span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span>**
-changed: [worker-1.k8s.cluster]
-changed: [worker-2.k8s.cluster]
-changed: [control-plane-0.k8s.cluster]
-changed: [worker-0.k8s.cluster]
-
-TASK [container-runtime : download and install crictl] <span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span>
-changed: [worker-1.k8s.cluster]
-changed: [control-plane-0.k8s.cluster]
-changed: [worker-2.k8s.cluster]
-changed: [worker-0.k8s.cluster]
-
-TASK [container-runtime : download containerd] <span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-emphasis" style="font-style: italic;">***</span>
-changed: [worker-0.k8s.cluster]
-changed: [worker-1.k8s.cluster]
-changed: [control-plane-0.k8s.cluster]
-changed: [worker-2.k8s.cluster]
-
-TASK [container-runtime : copy containerd binaries] <span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-emphasis" style="font-style: italic;">***</span>
-changed: [control-plane-0.k8s.cluster]
-changed: [worker-1.k8s.cluster]
-changed: [worker-0.k8s.cluster]
-changed: [worker-2.k8s.cluster]
-
-TASK [container-runtime : copy containerd config] <span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span>
-changed: [control-plane-0.k8s.cluster]
-changed: [worker-0.k8s.cluster]
-changed: [worker-2.k8s.cluster]
-changed: [worker-1.k8s.cluster]
-
-TASK [container-runtime : create containerd systemd service] <span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-emphasis" style="font-style: italic;">***</span>*
-changed: [control-plane-0.k8s.cluster]
-changed: [worker-0.k8s.cluster]
-changed: [worker-1.k8s.cluster]
-changed: [worker-2.k8s.cluster]
-
-TASK [container-runtime : reload systemd] <span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-emphasis" style="font-style: italic;">***</span>
-ok: [worker-1.k8s.cluster]
-ok: [worker-0.k8s.cluster]
-ok: [worker-2.k8s.cluster]
-ok: [control-plane-0.k8s.cluster]
-
-TASK [container-runtime : enable containerd systemd service] <span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-emphasis" style="font-style: italic;">***</span>*
-changed: [control-plane-0.k8s.cluster]
-changed: [worker-0.k8s.cluster]
-changed: [worker-2.k8s.cluster]
-changed: [worker-1.k8s.cluster]
-
-TASK [container-runtime : start containerd service] <span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-emphasis" style="font-style: italic;">***</span>
-changed: [worker-0.k8s.cluster]
-changed: [control-plane-0.k8s.cluster]
-changed: [worker-2.k8s.cluster]
-changed: [worker-1.k8s.cluster]
-
-TASK [kubernetes-packages : adding Kubernetes repository apt key] <span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-emphasis" style="font-style: italic;">***</span>*
-changed: [worker-0.k8s.cluster]
-changed: [worker-2.k8s.cluster]
-changed: [worker-1.k8s.cluster]
-changed: [control-plane-0.k8s.cluster]
-
-TASK [kubernetes-packages : adding Kubernetes deb repository] <span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-emphasis" style="font-style: italic;">***</span>
-changed: [worker-1.k8s.cluster]
-changed: [worker-0.k8s.cluster]
-changed: [worker-2.k8s.cluster]
-changed: [control-plane-0.k8s.cluster]
-
-TASK [kubernetes-packages : installing Kubernetes packages] <span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span>
-changed: [control-plane-0.k8s.cluster]
-changed: [worker-2.k8s.cluster]
-changed: [worker-0.k8s.cluster]
-changed: [worker-1.k8s.cluster]
-
-TASK [kubernetes-packages : hold kubeadm, kubectl, kubelet] <span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span>
-changed: [worker-0.k8s.cluster] =&gt; (item=kubeadm)
-changed: [worker-1.k8s.cluster] =&gt; (item=kubeadm)
-changed: [control-plane-0.k8s.cluster] =&gt; (item=kubeadm)
-changed: [worker-2.k8s.cluster] =&gt; (item=kubeadm)
-changed: [worker-0.k8s.cluster] =&gt; (item=kubectl)
-changed: [worker-1.k8s.cluster] =&gt; (item=kubectl)
-changed: [worker-2.k8s.cluster] =&gt; (item=kubectl)
-changed: [control-plane-0.k8s.cluster] =&gt; (item=kubectl)
-changed: [worker-0.k8s.cluster] =&gt; (item=kubelet)
-changed: [worker-1.k8s.cluster] =&gt; (item=kubelet)
-changed: [worker-2.k8s.cluster] =&gt; (item=kubelet)
-changed: [control-plane-0.k8s.cluster] =&gt; (item=kubelet)
-
-PLAY RECAP <span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-emphasis" style="font-style: italic;">***</span>*
-control-plane-0.k8s.cluster : ok=21  changed=18  unreachable=0  failed=0  skipped=0  rescued=0  ignored=0 
-worker-0.k8s.cluster    : ok=21  changed=18  unreachable=0  failed=0  skipped=0  rescued=0  ignored=0 
-worker-1.k8s.cluster    : ok=21  changed=18  unreachable=0  failed=0  skipped=0  rescued=0  ignored=0 
-worker-2.k8s.cluster    : ok=21  changed=18  unreachable=0  failed=0  skipped=0  rescued=0  ignored=0 </pre>
-<p>Sobald alle Voraussetzungen erfüllt sind, können wir kubeadm für das Cluster-Bootstrapping verwenden. Die Installation des Kubernetes-Clusters besteht aus zwei Hauptschritten: Bootstrapping der Steuerungsebene und Joining zu den Worker-Knoten. Wir können dies tun, indem wir das Playbook ansible/kubernetes-install.yaml ausführen:</p>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-section" style="color: #ffc66d;">#~$ ansible-playbook -i ansible/inventory.yaml ansible/kubernetes-install.yaml -u ubuntu</span>
-[<span class="hljs-symbol" style="color: #6897bb;">WARNING</span>]: <span class="hljs-link" style="color: #629755;">Invalid characters were found in group names but not replaced, use -vvvv to see details</span>
-
-PLAY [Bootstrap Kubernetes Control Plane] <span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-emphasis" style="font-style: italic;">***</span>
-
-TASK [Gathering Facts] <span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span>**
-ok: [control-plane-0.k8s.cluster]
-
-TASK [kubeadm-init : copy kubeadm init config] <span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-emphasis" style="font-style: italic;">***</span>
-changed: [control-plane-0.k8s.cluster]
-
-TASK [kubeadm-init : running kubeadm init] <span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span>**
-changed: [control-plane-0.k8s.cluster]
-
-TASK [calico : copy Calico manifests] <span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span>**
-changed: [control-plane-0.k8s.cluster]
-
-TASK [calico : install Calico] <span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-emphasis" style="font-style: italic;">***</span>*
-changed: [control-plane-0.k8s.cluster]
-
-PLAY [Retrieve join token and certificate hash] <span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span>**
-
-TASK [Gathering Facts] <span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span>**
-ok: [control-plane-0.k8s.cluster]
-
-TASK [kubeadm-join-config : create local dir for token and cert hash] <span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span>
-changed: [control-plane-0.k8s.cluster -&gt; localhost]
-
-TASK [kubeadm-join-config : kubeadm token generate] <span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-emphasis" style="font-style: italic;">***</span>
-changed: [control-plane-0.k8s.cluster]
-
-TASK [kubeadm-join-config : generate cert hash] <span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span>**
-changed: [control-plane-0.k8s.cluster]
-
-TASK [kubeadm-join-config : persist token locally] <span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-emphasis" style="font-style: italic;">***</span>*
-changed: [control-plane-0.k8s.cluster -&gt; localhost]
-
-TASK [kubeadm-join-config : persist cert hash locally] <span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span>
-changed: [control-plane-0.k8s.cluster -&gt; localhost]
-
-PLAY [Join Kubernetes worker nodes] <span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-emphasis" style="font-style: italic;">***</span>*
-
-TASK [Gathering Facts] <span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span>**
-ok: [worker-1.k8s.cluster]
-ok: [worker-2.k8s.cluster]
-ok: [worker-0.k8s.cluster]
-
-TASK [kubeadm-join : copy kubeadm join config] <span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-emphasis" style="font-style: italic;">***</span>
-changed: [worker-0.k8s.cluster]
-changed: [worker-1.k8s.cluster]
-changed: [worker-2.k8s.cluster]
-
-TASK [kubeadm-join : running kubeadm join] <span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span>**
-changed: [worker-1.k8s.cluster]
-changed: [worker-2.k8s.cluster]
-changed: [worker-0.k8s.cluster]
-
-PLAY [Copy kubeconfig from remote] <span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span>
-
-TASK [Gathering Facts] <span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span>**
-ok: [control-plane-0.k8s.cluster]
-
-TASK [fetching] <span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-emphasis" style="font-style: italic;">***</span>*
-changed: [control-plane-0.k8s.cluster]
-
-PLAY RECAP <span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-emphasis" style="font-style: italic;">***</span>*
-control-plane-0.k8s.cluster : ok=13  changed=10  unreachable=0  failed=0  skipped=0  rescued=0  ignored=0 
-worker-0.k8s.cluster    : ok=3  changed=2  unreachable=0  failed=0  skipped=0  rescued=0  ignored=0 
-worker-1.k8s.cluster    : ok=3  changed=2  unreachable=0  failed=0  skipped=0  rescued=0  ignored=0 
-worker-2.k8s.cluster    : ok=3  changed=2  unreachable=0  failed=0  skipped=0  rescued=0  ignored=0 </pre>
-<p>Das Playbook führt kubeadm init auf den Knoten der Steuerungsebene aus und verwendet eine deklarative Clusterkonfiguration, die die bevorzugte Methode zum Konfigurieren von kubeadm ist. Die Konfigurationsvorlage ist unter ansible/roles/kubeadm-init/templates/kubeadm.yaml verfügbar. Sobald der Bootstrap der Steuerungsebene abgeschlossen ist, ruft Ansible ein Token und einen Zertifikat-Hash ab, die für die Authentifizierung der Worker-Knoten beim API-Server erforderlich sind, und führt kubeadm join auf den Worker-Knoten aus.<br><br>Das Playbook stellt Calico für die Clusternetzwerke bereit. Die Wahl von Calico ist motiviert, weil es die am weitesten verbreitete Netzwerk- und Sicherheitslösung für Kubernetes ist (zum Zeitpunkt des Schreibens).<br><br>Sobald die Playbook-Ausführung abgeschlossen ist, wird eine kubeconfig-Datei admin.conf in das aktuelle Verzeichnis geholt. Um zu überprüfen, ob der Cluster gebootet und verbunden ist, führe Folgendes aus:</p>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-comment" style="color: grey;">#~$  kubectl --kubeconfig=admin.conf get nodes</span>
-NAME                          STATUS   ROLES                  AGE     VERSION
-control-plane-0.k8s.cluster   Ready    control-plane,master   3m30s   v1.21.6
-worker-0                      Ready    &lt;none&gt;                 2m54s   v1.21.6
-worker-1                      Ready    &lt;none&gt;                 2m55s   v1.21.6
-worker-2                      Ready    &lt;none&gt;                 2m55s   v1.21.6</pre>
-<blockquote>
-<p>es ist empfohlen die Location der admin.conf Datei als env. Variabel zu exportieren, damit man die Datei nicht jedesmal mit --kubeconfig mitgeben muss:</p>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;">export KUBECONFIG=<span class="hljs-variable" style="color: #629755;">$(pwd)</span>/<span class="hljs-literal" style="color: #6897bb;">admin</span>.conf</pre>
-</blockquote>
-<h2 id="mcetoc_1g6uqq0ncb8i">Notwendige Software</h2>
-<p>Wenn der Kubernetes-Cluster eingerichtet und ausgeführt wird, können wir jetzt Container darauf bereitstellen und ausführen. Ein paar wesentliche Teile des voll funktionsfähigen Clusters fehlen jedoch noch: die dynamische Volume-Bereitstellung und die Unterstützung für Dienste welche einen LoadBalancer benötigen.</p>
-<h3 id="mcetoc_1g6uqq0ncb8j">Volume Provisioning mit OpenEBS</h3>
-<p>Die Volume Provisioner-Lösung ist sowohl in Situationen nützlich, in denen Anwendungen von Drittanbietern eine Standard-StorageClass zum Bereitstellen von PersistentVolumes benötigen, als auch in Situationen, in denen eine Datenreplikation für Hochverfügbarkeitsgarantien erforderlich ist.<br><br>Die Verwendung von OpenEBS für das Home-Lab-Setup erscheint vernünftig, da es lokale Engines für die Bereitstellung von PersistentVolumes bereitstellt, die direkt von den lokalen Festplatten auf Hosts unterstützt werden. Wenn eine Datenreplikation erforderlich ist, verfügt OpenEBS über mehrere Replicated Engines, deren Leistung jedoch unterschiedlich ist.<br><br>Um eine minimale Installation mit hostlokalen PersistentVolumes bereitzustellen, bietet OpenEBS eine „Lite“-Version:</p>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-comment" style="color: grey;">#~$ kubectl apply -f https://openebs.github.io/charts/openebs-operator-lite.yaml</span>
-namespace/openebs created
-serviceaccount/openebs-maya-operator created
-clusterrole.rbac.authorization.k8s.io/openebs-maya-operator created
-clusterrolebinding.rbac.authorization.k8s.io/openebs-maya-operator created
-customresourcedefinition.apiextensions.k8s.io/blockdevices.openebs.io created
-customresourcedefinition.apiextensions.k8s.io/blockdeviceclaims.openebs.io created
-configmap/openebs-ndm-config created
-daemonset.apps/openebs-ndm created
-deployment.apps/openebs-ndm-operator created
-deployment.apps/openebs-ndm-cluster-exporter created
-service/openebs-ndm-cluster-exporter-service created
-daemonset.apps/openebs-ndm-node-exporter created
-service/openebs-ndm-node-exporter-service created
-deployment.apps/openebs-localpv-provisioner created</pre>
-<p>Sobald der Operator installiert ist, erstellen wir eine StorageClass und setzen diese als Standard. Das ermöglicht die Verwendung von OpenEBS für die Volume-Bereitstellung, ohne dass jedes Mal die StorageClass für PersistentVolumes angegeben werden muss:</p>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;">#~$ kubectl apply <span class="hljs-_">-f</span> https://openebs.github.io/charts/openebs-operator-lite.yaml
-namespace/openebs created
-serviceaccount/openebs-maya-operator created
-clusterrole.rbac.authorization.k8s.io/openebs-maya-operator created
-clusterrolebinding.rbac.authorization.k8s.io/openebs-maya-operator created
-customresourcedefinition.apiextensions.k8s.io/blockdevices.openebs.io created
-customresourcedefinition.apiextensions.k8s.io/blockdeviceclaims.openebs.io created
-configmap/openebs-ndm-config created
-daemonset.apps/openebs-ndm created
-deployment.apps/openebs-ndm-operator created
-deployment.apps/openebs-ndm-cluster-exporter created
-service/openebs-ndm-cluster-exporter-service created
-daemonset.apps/openebs-ndm-node-exporter created
-service/openebs-ndm-node-exporter-service created
-deployment.apps/openebs-localpv-provisioner created
-Dave@ChuckNorris[08:37:02]~/github/homelab$ kubectl apply <span class="hljs-_">-f</span> - &lt;&lt;EOF
-apiVersion: storage.k8s.io/v1
-kind: StorageClass
-metadata:
-  name: openebs-hostpath
-  annotations:
-    storageclass.kubernetes.io/is-default-class: <span class="hljs-string" style="color: #6a8759;">"true"</span>
-    openebs.io/cas-type: <span class="hljs-built_in">local</span>
-    cas.openebs.io/config: |
-      - name: StorageType
-        value: <span class="hljs-string" style="color: #6a8759;">"hostpath"</span>
-      - name: BasePath
-        value: <span class="hljs-string" style="color: #6a8759;">"/var/openebs/local/"</span>
-provisioner: openebs.io/<span class="hljs-built_in">local</span>
-volumeBindingMode: WaitForFirstConsumer
-reclaimPolicy: Delete
-EOF
-storageclass.storage.k8s.io/openebs-hostpath created</pre>
-<h3 id="mcetoc_1g6uqq0ncb8k">LoadBalancer mit MetalLB</h3>
-<p>Eine letzte fehlende Funktionalität im bereitgestellten Cluster ist die Möglichkeit, Dienste vom Typ LoadBalancer für das lokale Netzwerk verfügbar zu machen. Bei der Ausführung in der Cloud wird diese Funktionalität von den Kubernetes-Integrationen mit Cloud-Anbietern bereitgestellt, und entsprechende netzwerkseitige Load Balancer werden über den Infrastrukturanbieter bereitgestellt. Bei der Ausführung auf Bare Metal ist eine solche Integration in Kubernetes standardmässig nicht verfügbar.<br><br>MetalLB ist die am weitesten verbreitete Lösung für den NetzwerkLB.<br><br>Die MetalLB-Installation wird über eine ConfigMap konfiguriert und kann mehrere Adresspools enthalten:</p>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-attr">apiVersion:</span> v1
-<span class="hljs-attr">kind:</span> ConfigMap
-<span class="hljs-attr">metadata:</span>
-<span class="hljs-attr">  namespace:</span> metallb-system
-<span class="hljs-attr">  name:</span> config
-<span class="hljs-attr">data:</span>
-<span class="hljs-attr">  config:</span> <span class="hljs-string" style="color: #6a8759;">|
-</span><span class="hljs-attr">    address-pools:</span>
-<span class="hljs-attr">    - name:</span> default
-<span class="hljs-attr">      protocol:</span> layer2
-<span class="hljs-attr">      addresses:</span>
-<span class="hljs-bullet" style="color: #6897bb;">      -</span> <span class="hljs-string" style="color: #6a8759;">"<span class="hljs-template-variable" style="color: #629755;">{{ lab.metallb_address_range }}</span>"</span> </pre>
-<p>Die obere Vorlage ist Teil des Ansible-Playbooks <code>ansible/metallb.yaml</code>, das die MetalLB installiert und konfiguriert, um Adressen aus der in <code>group_vars</code> angegebenen Variable <code>lab.metallb_address_range</code> zuzuweisen. Der Adressbereich muss für die Zielumgebung relevant sein (Teil des reservierten statischen Adressbereichs, der im Abschnitt zum Bereitstellungslayout beschrieben ist, damit die Adressen zugewiesen werden können. Um MetalLB zu installieren, führe Folgendes aus:</p>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;">#~$ ansible-playbook -i ansible/inventory.yaml ansible/metallb.yaml -u ubuntu
-[<span class="hljs-symbol" style="color: #6897bb;">WARNING</span>]: <span class="hljs-link" style="color: #629755;">Invalid characters were found in group names but not replaced, use -vvvv to see details</span>
-
-PLAY [Install MetalLB] <span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span>
-
-TASK [Gathering Facts] <span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span>
-ok: [control-plane-0.k8s.cluster]
-
-TASK [metallb : copy MetalLB manifests] <span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-emphasis" style="font-style: italic;">***</span>
-changed: [control-plane-0.k8s.cluster]
-
-TASK [metallb : copy MetalLB config] <span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span>*
-changed: [control-plane-0.k8s.cluster]
-
-TASK [metallb : create namespace] <span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-emphasis" style="font-style: italic;">***</span>*
-changed: [control-plane-0.k8s.cluster]
-
-TASK [metallb : install MetalLB config] <span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-emphasis" style="font-style: italic;">***</span>
-changed: [control-plane-0.k8s.cluster]
-
-TASK [metallb : install MetalLB] <span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span>
-changed: [control-plane-0.k8s.cluster]
-
-PLAY RECAP <span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span><span class="hljs-strong" style="font-weight: bold;">*****</span>**
-control-plane-0.k8s.cluster : ok=6    changed=5    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0  </pre>
-<h2 id="mcetoc_1g6uqq0ncb8l">Installation überprüfen</h2>
-<p>Um die Installation zu überprüfen, erstellen wir eine MinIO-Bereitstellung mit einem PersistentVolume für die Speicherung und stellen die Bereitstellung dem lokalen Netzwerk über den LoadBalancer-Diensttyp zur Verfügung. Das Beispiel basiert auf den Kubernetes-Speicherbeispielen.</p>
-<ol>
-<li>Erstellen ein PersistentVolumeClaim:<br>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;">#~$ kubectl apply <span class="hljs-_">-f</span> - &lt;&lt;EOF
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: minio-pv-claim
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 1Gi
-EOF
-persistentvolumeclaim/minio-pv-claim created</pre>
-</li>
-<li>Erstelle ein Deployment:<br>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;">#~$ kubectl apply <span class="hljs-_">-f</span> - &lt;&lt;EOF
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: minio-deployment
-spec:
-  selector:
-    matchLabels:
-      app: minio
-  strategy:
-    <span class="hljs-built_in">type</span>: Recreate
-  template:
-    metadata:
-      labels:
-        app: minio
-    spec:
-      volumes:
-      - name: storage
-EOF       mountPath: <span class="hljs-string" style="color: #6a8759;">"/storage"</span>Ytim
-deployment.apps/minio-deployment created</pre>
-</li>
-<li>Überprüfe ob der PersistentVolumeClaim an das PersistentVolume gebunden ist und dies erstellt wurde:<br>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;">#~$ kubectl get pvc
-NAME             STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS       AGE
-minio-pv-claim   Bound    pvc-8cb55047-43b6-4ab8<span class="hljs-_">-a</span>8cb-20dc1ecf1979   1Gi        RWO            openebs-hostpath   3m4s</pre>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;">#~$ kubectl get pv
-NAME                                       CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS   CLAIM                    STORAGECLASS       REASON   AGE
-pvc-8cb55047-43b6-4ab8<span class="hljs-_">-a</span>8cb-20dc1ecf1979   1Gi        RWO            Delete           Bound    default/minio-pv-claim   openebs-hostpath            28s</pre>
-</li>
-<li>Überprüfe, ob das Deployment erfolgreich war:<br>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;">#~$ kubectl describe deployment minio-deployment
-Name:               minio-deployment
-Namespace:          default
-CreationTimestamp:  Sat, 02 Jul 2022 08:54:36 +0200
-Labels:             &lt;none&gt;
-Annotations:        deployment.kubernetes.io/revision: 1
-Selector:           app=minio
-Replicas:           1 desired | 1 updated | 1 total | 1 available | 0 unavailable
-StrategyType:       Recreate
-M<span class="hljs-keyword" style="color: #cc7832;">in</span>ReadySeconds:    0
-Pod Template:
-  Labels:  app=minio
-  Containers:
-   minio:
-    Image:       minio/minio:latest
-    Ports:       9000/TCP, 9001/TCP
-    Host Ports:  9000/TCP, 9001/TCP
-    Args:
-      server
-      /storage
-      --console-address
-      :9001
-    Environment:
-      MINIO_ACCESS_KEY:  minio
-      MINIO_SECRET_KEY:  minio123
-    Mounts:
-      /storage from storage (rw)
-  Volumes:
-   storage:
-    Type:       PersistentVolumeClaim (a reference to a PersistentVolumeClaim <span class="hljs-keyword" style="color: #cc7832;">in</span> the same namespace)
-    ClaimName:  minio-pv-claim
-    ReadOnly:   <span class="hljs-literal" style="color: #6897bb;">false</span>
-Conditions:
-  Type           Status  Reason
-  ----           ------  ------
-  Available      True    MinimumReplicasAvailable
-  Progressing    True    NewReplicaSetAvailable
-OldReplicaSets:  &lt;none&gt;
-NewReplicaSet:   minio-deployment-59659f9655 (1/1 replicas created)
-Events:
-  Type    Reason             Age   From                   Message
-  ----    ------             ----  ----                   -------
-  Normal  ScalingReplicaSet  56s   deployment-controller  Scaled up replica <span class="hljs-built_in">set</span> minio-deployment-59659f9655 to 1</pre>
-</li>
-<li>Stelle das Deployment via Service vom Typ LoadBalancer zur Verfügung:<br>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;">#~$ kubectl apply <span class="hljs-_">-f</span> - &lt;&lt;EOF
-apiVersion: v1
-kind: Service
-metadata:
-  name: minio
-spec:
-  ports:
-  - name: http
-    port: 9000
-    protocol: TCP
-    targetPort: 9000
-  - name: http-ui
-    port: 9001
-    protocol: TCP
-    targetPort: 9001
-  selector:
-    app: minio
-  <span class="hljs-built_in">type</span>: LoadBalancer
-EOF</pre>
-</li>
-<li>Überprüfe, ob der Service erstellt wurde und eine Externe IP erhalten hat:<br>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;">#~$ kubectl get service minio
-NAME    TYPE           CLUSTER-IP      EXTERNAL-IP      PORT(S)                         AGE
-minio   LoadBalancer   10.97.129.247   192.168.30.150   9000:31713/TCP,9001:32327/TCP   10s</pre>
-</li>
-</ol>
-<p>Die externe IP Adresse sollte in dem Anfangs definierten lokalen Subnetz Range sein. Du kannst nun via Browser die MinIO Konsole öffnen (in meinem Fall war die URL: <a href="http://192.168.30.150:9001/login">http://192.168.30.150:9001/login</a>) und dich mit Benutzer <em>minio</em> und Passwort <em>minio123</em> einloggen. Erstelle anschliessend ein Test Bucket, damit wir später auch überprüfen können ob die Daten persistent im Volume gespeichert werden:</p>
-<figure class="post__image"><img loading="lazy"  src="https://www.finecloud.ch/media/posts/44/Screenshot-2022-07-02-at-17.03.04.png" sizes="100vw" srcset="https://www.finecloud.ch/media/posts/44/responsive/Screenshot-2022-07-02-at-17.03.04-xs.png 300w ,https://www.finecloud.ch/media/posts/44/responsive/Screenshot-2022-07-02-at-17.03.04-sm.png 480w ,https://www.finecloud.ch/media/posts/44/responsive/Screenshot-2022-07-02-at-17.03.04-md.png 768w ,https://www.finecloud.ch/media/posts/44/responsive/Screenshot-2022-07-02-at-17.03.04-lg.png 1024w ,https://www.finecloud.ch/media/posts/44/responsive/Screenshot-2022-07-02-at-17.03.04-xl.png 1360w ,https://www.finecloud.ch/media/posts/44/responsive/Screenshot-2022-07-02-at-17.03.04-2xl.png 1600w"  alt="" width="680" height="637"></figure>
-<p>Nun können wir direkt überprüfen, ob das Test-Bucket (testsetsetsgsdgfsdgagbadfg) im PersistentVolume gespeichert wurde:</p>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;">#~$ kubectl <span class="hljs-built_in">exec</span> deploy/minio-deployment -- bash -c <span class="hljs-string" style="color: #6a8759;">"ls -la /storage"</span>
-drwxrwxrwx 4 root root 4096 Jul  2 06:59 .
-drwxr-xr-x 1 root root 4096 Jul  2 06:54 ..
-drwxr-xr-x 8 root root 4096 Jul  2 06:54 .minio.sys
-drwxr-xr-x 5 root root 4096 Jul  2 15:06 testsetsetsgsdgfsdgagbadfg</pre>
-<p>Damit können wir sicher sein, dass die Daten im Testbucket im PersistentVolume landen.</p>
-<p>Als letzter Schritt werden wir das Kubernetes Dashboard deployen, damit kann man den Gesamten K8s Cluster als WebUI bedienen.</p>
-<h2 id="kubernetes-dashboard">Kubernetes Dashboard</h2>
-<p>Das Kubernetes-Dashboard ist die unverzichtbare Mindestlösung für die Beobachtbarkeit. Das Kubernetes-Dashboard verfügt über eine entsprechende Installationsanleitung, und hier konzentrieren wir uns auf die entsprechenden RBAC-Berechtigungen für den verwendeten ServiceAccount.<br><br>Zuerst installieren wir das Kubernetes Dashboard:</p>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;">#~$ kubectl apply <span class="hljs-_">-f</span> https://raw.githubusercontent.com/kubernetes/dashboard/v2.4.0/aio/deploy/recommended.yaml
-namespace/kubernetes-dashboard created
-serviceaccount/kubernetes-dashboard created
-service/kubernetes-dashboard created
-secret/kubernetes-dashboard-certs created
-secret/kubernetes-dashboard-csrf created
-secret/kubernetes-dashboard-key-holder created
-configmap/kubernetes-dashboard-settings created
-role.rbac.authorization.k8s.io/kubernetes-dashboard created
-clusterrole.rbac.authorization.k8s.io/kubernetes-dashboard created
-rolebinding.rbac.authorization.k8s.io/kubernetes-dashboard created
-clusterrolebinding.rbac.authorization.k8s.io/kubernetes-dashboard created
-deployment.apps/kubernetes-dashboard created
-service/dashboard-metrics-scraper created
-deployment.apps/dashboard-metrics-scraper created</pre>
-<p>Während das Kubernetes-Dashboard das Erstellen neuer Ressourcen und das Bearbeiten vorhandener Ressourcen ermöglicht, ist die Verwendung im schreibgeschützten Modus sicherer und würde keine Sicherheitsrisiken mit sich bringen, falls jemand Zugriff auf die Benutzeroberfläche erhält. Der Sichtbarkeitsbereich des Dashboards wird über RBAC der darauf zugreifenden Benutzer gesteuert.<br><br>Der konservativste Ansatz wäre, eine Aggregated ClusterRole basierend auf der Standard-Viewer-Rolle zu verwenden und sie bei Bedarf mit zusätzlichen Regeln zu erweitern:</p>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;">kubectl apply <span class="hljs-_">-f</span> - &lt;&lt;EOF
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRole
-metadata:
-  name: dashboard-viewer
-aggregationRule:
-  clusterRoleSelectors:
-  - matchLabels:
-      rbac.authorization.k8s.io/aggregate-to-view: <span class="hljs-string" style="color: #6a8759;">"true"</span>
-  - matchLabels:
-      rbac.homelab.k8s.io/aggregate-to-view: <span class="hljs-string" style="color: #6a8759;">"true"</span>
-rules: []
-
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRole
-metadata:
-  name: dashboard-extended-view
-  labels:
-    rbac.homelab.k8s.io/aggregate-to-view: <span class="hljs-string" style="color: #6a8759;">"true"</span>
-rules:
-- apiGroups:
-  - <span class="hljs-string" style="color: #6a8759;">""</span>
-  resources:
-  - nodes
-  - extensions
-  - apps
-  - batch
-  - storage
-  - networking
-  verbs:
-  - get
-  - list
-  - watch
-EOF</pre>
-<p>Die ClusterRole bietet erweiterte Anzeigeberechtigungen, erlaubt aber immer noch nicht das Anzeigen von Secrets und Ressourcen aus der API-Gruppe rbac.authorization.k8s.io. Wir erstellen uns nun ein dedizierter ServiceAccount und binden den Account an die erstellte ClusterRole:</p>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;">kubectl apply <span class="hljs-_">-f</span> - &lt;&lt;EOF
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: dashboard-viewer
-  namespace: kubernetes-dashboard
-
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRoleBinding
-metadata:
-  name: dashboard-viewer
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-  name: dashboard-viewer
-subjects:
-- kind: ServiceAccount
-  name: dashboard-viewer
-  namespace: kubernetes-dashboard
-EOF
-</pre>
-<p>Auf das Dashboard kann entweder über den kubectl-Proxy oder über die Portweiterleitung zugegriffen werden:</p>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;">kubectl -n kubernetes-dashboard port-forward service/kubernetes-dashboard 8443:443</pre>
-<p>Das Dashboard kann nun unter dieser URL erreicht werden: <a href="https://localhost:8443/">https://localhost:8443/</a> :</p>
-<figure class="post__image"><img loading="lazy"  src="https://www.finecloud.ch/media/posts/44/Screenshot-2022-07-02-at-17.25.57.png" sizes="100vw" srcset="https://www.finecloud.ch/media/posts/44/responsive/Screenshot-2022-07-02-at-17.25.57-xs.png 300w ,https://www.finecloud.ch/media/posts/44/responsive/Screenshot-2022-07-02-at-17.25.57-sm.png 480w ,https://www.finecloud.ch/media/posts/44/responsive/Screenshot-2022-07-02-at-17.25.57-md.png 768w ,https://www.finecloud.ch/media/posts/44/responsive/Screenshot-2022-07-02-at-17.25.57-lg.png 1024w ,https://www.finecloud.ch/media/posts/44/responsive/Screenshot-2022-07-02-at-17.25.57-xl.png 1360w ,https://www.finecloud.ch/media/posts/44/responsive/Screenshot-2022-07-02-at-17.25.57-2xl.png 1600w"  alt="" width="1474" height="380"></figure>
-<p>Um das ServiceAccount-Token für den Zugriff auf das Dashboard zu ermitteln, führen wir Folgendes aus:</p>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;">kubectl -n kubernetes-dashboard get secret $(kubectl -n kubernetes-dashboard get sa/dashboard-viewer -o jsonpath=<span class="hljs-string" style="color: #6a8759;">"{.secrets[0].name}"</span>) -o go-template=<span class="hljs-string" style="color: #6a8759;">"{{.data.token | base64decode}}"</span></pre>
-<p> </p>
             ]]>
         </content>
     </entry>

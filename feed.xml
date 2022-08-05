@@ -3,7 +3,7 @@
     <title>Finecloud</title>
     <link href="https://www.finecloud.ch/feed.xml" rel="self" />
     <link href="https://www.finecloud.ch" />
-    <updated>2022-08-05T13:00:19+02:00</updated>
+    <updated>2022-08-05T13:07:13+02:00</updated>
     <author>
         <name>Finecloud</name>
     </author>
@@ -24,10 +24,10 @@
             <category term="iac"/>
             <category term="bash"/>
 
-        <updated>2022-08-05T13:00:19+02:00</updated>
+        <updated>2022-08-05T13:07:13+02:00</updated>
             <summary>
                 <![CDATA[
-                    Beschreibung ShellCheck ist ein Tool, das Warnungen und Vorschläge für Bash/Sh-Shell-Skripte liefert. Das Tool kann verwendet werden für statische Code Analyse. Idealerweise wird das Tool in einer CI Pipeline integriert. Hier ein Beispiel: name: Shellcheck on: pull_request: push: branches: - main jobs: shellcheck: name: Github&hellip;
+                    Beschreibung ShellCheck ist ein Tool, das Warnungen und Vorschläge für Bash/Sh-Shell-Skripte liefert. Das Tool kann verwendet werden für statische Code Analyse. Idealerweise wird das Tool in einer CI Pipeline integriert. Hier ein Beispiel einer Github Action Pipeline: name: Shellcheck on: pull_request: push: branches: - main&hellip;
                 ]]>
             </summary>
         <content type="html">
@@ -35,7 +35,7 @@
                 <h2>Beschreibung</h2>
 <p><a href="https://www.shellcheck.net/" target="_blank" rel="nofollow noopener noreferrer">ShellCheck</a> ist ein Tool, das Warnungen und Vorschläge für Bash/Sh-Shell-Skripte liefert. Das Tool kann verwendet werden für statische Code Analyse.</p>
 <h2>CI Pipeline</h2>
-<p>Idealerweise wird das Tool in einer CI Pipeline integriert. Hier ein Beispiel:</p>
+<p>Idealerweise wird das Tool in einer CI Pipeline integriert. Hier ein Beispiel einer Github Action Pipeline:</p>
 <p><code>name: Shellcheck</code><br><br><code>on:</code><br><code>  pull_request:</code><br><code>  push:</code><br><code>    branches:</code><br><code>      - main</code><br><br><code>jobs:</code><br><code>  shellcheck:</code><br><code>    name: Github Actions</code><br><code>    runs-on: ubuntu-latest</code><br><code>    steps:</code><br><code>    - uses: actions/checkout@v3</code><br><code>    - name: Run Shellcheck</code><br><code>      uses: ludeeus/action-shellcheck@master</code><br><code>      with:</code><br><code>        check_together: 'yes'</code><br><code>      env:</code><br><code>        SHELLCHECK_OPTS: --shell bash</code></p>
 <h2>IDE VSCode</h2>
 <p>Zudem gibt es auch die Möglichkeit ShellChek direkt in der IDE VSCode zu integrieren: </p>

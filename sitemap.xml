@@ -86,7 +86,7 @@
 </url>
 <url>
 <loc>https://www.finecloud.ch/imperativ-vs-deklarativ.html</loc>
-<lastmod>2022-07-26T07:56:34+02:00</lastmod>
+<lastmod>2022-07-26T07:59:36+02:00</lastmod>
 </url>
 <url>
 <loc>https://www.finecloud.ch/java-access-modifier.html</loc>
@@ -252,6 +252,14 @@
 <image:image>
 <image:loc>https://www.finecloud.ch/media/posts/22/Screenshot-2022-06-06-at-23.00.20.png</image:loc>
 <image:title><![CDATA[Architektur]]></image:title>
+</image:image>
+</url>
+<url>
+<loc>https://www.finecloud.ch/shellcheck.html</loc>
+<lastmod>2022-08-05T13:00:19+02:00</lastmod>
+<image:image>
+<image:loc>https://www.finecloud.ch/media/posts/54//shellcheck.gif</image:loc>
+<image:title><![CDATA[ShellChek]]></image:title>
 </image:image>
 </url>
 <url>

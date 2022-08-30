@@ -3,7 +3,7 @@
     <title>Finecloud</title>
     <link href="https://www.finecloud.ch/feed.xml" rel="self" />
     <link href="https://www.finecloud.ch" />
-    <updated>2022-08-30T16:28:31+02:00</updated>
+    <updated>2022-08-30T18:55:35+02:00</updated>
     <author>
         <name>Finecloud</name>
     </author>
@@ -25,7 +25,7 @@
             <category term="java"/>
             <category term="dev"/>
 
-        <updated>2022-08-30T16:28:31+02:00</updated>
+        <updated>2022-08-30T18:55:35+02:00</updated>
             <summary>
                 <![CDATA[
                     Local date Now Let's start with the basics, we just want to represent the date today and print that local date now: public class TimeTest { public static void main(String[] args) { LocalDate now = LocalDate.now(); System.out.println(now); } } output: 2022-08-29 Process finished with exit&hellip;
@@ -53,6 +53,8 @@
 <li><a href="#mcetoc_1gbmuqcgbb6">Measuring how much time elapsed</a></li>
 <li><a href="#mcetoc_1gbmuqcgbb7">Instant</a></li>
 <li><a href="#mcetoc_1gbmvuoobba">Time Zones</a></li>
+<li><a href="#mcetoc_1gbnqrvhujl">Temporal Adjuster</a></li>
+<li><a href="#mcetoc_1gbnqrvhujm">Immutability</a></li>
 </ul>
 </div>
 <h2 id="mcetoc_1gbmeuk7f4r">Local date</h2>
@@ -140,13 +142,13 @@
 <p><code>2022-12-25T11:00Z</code><br><br><code>Process finished with exit code 0</code></p>
 <p>And this is finally the information we want to store in the database, if the database does not support TimeZones.</p>
 <p><strong>If you have a greenfield approach, or if you can control the database as much as your want, you should go ahead and store the Date, Time and TimeZone information all together in the database.</strong></p>
-<h2>Temporal Adjuster</h2>
+<h2 id="mcetoc_1gbnqrvhujl">Temporal Adjuster</h2>
 <p>This is a weird name as long as you don't know what it is for. This class allows us to make adjustments to time. What does that mean? It means warping time in ways that humans might say in English, like for example, the Friday after next, or the next Thursday and things like that. So let's say you wanted to figure out the next Tuesday from that date on <em>d1:</em></p>
 <p><code>System.out.println(ld1.with(TemporalAdjusters.next(DayOfWeek.TUESDAY)));</code></p>
 <p>output:</p>
 <p><code>2000-01-04</code><br><br><code>Process finished with exit code 0</code></p>
 <p>So basically, what this means is from the date that we're specifying here the <em>d1</em>, whatever that date is, create another date that starts at that same point in time <em>d1</em> and then generate a new date, which would represent the next and then whatever day of the week in this particular case. There are a lot more methods on the TermporalAdjusters like <em>lastDayOfYear, lastDayOfMonth, firstInMonth</em> only to name a few.</p>
-<h2>Immutability</h2>
+<h2 id="mcetoc_1gbnqrvhujm">Immutability</h2>
 <p>All of these new daytime classes <em>LocalDate, LocalTime, LocalDate, TimeZone, DateTime,</em> et cetera are all designed to be immutable. Immutable is a term that you'll hear from time to time in software development, and it just means that you can't change the properties of that object after it has been created. This is considered to be a very desirable trait of objects frequently in programming, especially when you deal with functional programming styles.</p>
 <p>So the <em>DateTime</em> API just embraces the immutable pattern throughout, but that comes with some consequences. That means that when we create an instance of a local data or time or any of these other classes, and we want to change some property of one of those objects, we can't just make a change. Instead, what we can do is we can basically clone an object and change things in the clone as it's being cloned.</p>
 <p><code>System.out.println(ld1.withMonth(3).withDayOfMonth(15));</code></p>

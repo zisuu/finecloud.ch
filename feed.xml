@@ -3,12 +3,99 @@
     <title>Finecloud</title>
     <link href="https://www.finecloud.ch/feed.xml" rel="self" />
     <link href="https://www.finecloud.ch" />
-    <updated>2022-08-30T18:55:35+02:00</updated>
+    <updated>2022-09-03T21:19:40+02:00</updated>
     <author>
         <name>Finecloud</name>
     </author>
     <id>https://www.finecloud.ch</id>
 
+    <entry>
+        <title>Infrastructure as Software</title>
+        <author>
+            <name>Finecloud</name>
+        </author>
+        <link href="https://www.finecloud.ch/infrastructure-as-software.html"/>
+        <id>https://www.finecloud.ch/infrastructure-as-software.html</id>
+            <category term="terraform"/>
+            <category term="kubernetes"/>
+            <category term="k8s"/>
+            <category term="infrastructure as software"/>
+            <category term="infrastructure as data"/>
+            <category term="infrastructure as code"/>
+            <category term="ias"/>
+            <category term="gitops"/>
+            <category term="git"/>
+            <category term="flux"/>
+            <category term="docker"/>
+            <category term="argo"/>
+
+        <updated>2022-09-03T21:19:40+02:00</updated>
+            <summary>
+                <![CDATA[
+                    Summary This post is my summary (for my own sake) of the original full length post: https://www.justingarrison.com/blog/2022-06-01-infrastructure-as-software/ Writing your infrastructure in a DSL or any other general purpose coding language like Ansible, Pulumi, Terraform is not Infrastructure as Software. Any managed service to deploy infrastructure&hellip;
+                ]]>
+            </summary>
+        <content type="html">
+            <![CDATA[
+                <div class="post__toc">
+<h3>Table of Contents</h3>
+<ul>
+<li><a href="#mcetoc_1gc2cjg0h1a1">Summary</a></li>
+<li><a href="#mcetoc_1gc2ckge01a3">What is not IaS</a></li>
+<li><a href="#mcetoc_1gc2cl9vm1a5">Downsides of IaC</a></li>
+<li><a href="#mcetoc_1gc0s4fdi128">Downsides of IaD</a></li>
+<li><a href="#mcetoc_1gc0s4fdi129">Downsides of managed services</a></li>
+<li><a href="#mcetoc_1gc0s4fdi12a">So why IaS?</a></li>
+<li><a href="#mcetoc_1gc2ci10e19t">Examples of IaS</a>
+<ul>
+<li><a href="#mcetoc_1gc2ci10e19u">Kubernetes controllers</a></li>
+<li><a href="#mcetoc_1gc2ci10e19v">GitOps</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<h2 id="mcetoc_1gc2cjg0h1a1">Summary</h2>
+<p>This post is my summary (for my own sake) of the original full length post:<a href="https://www.justingarrison.com/blog/2022-06-01-infrastructure-as-software/"> https://www.justingarrison.com/blog/2022-06-01-infrastructure-as-software/</a></p>
+<h2 id="mcetoc_1gc2ckge01a3">What is not IaS</h2>
+<p>Writing your infrastructure in a DSL or any other general purpose coding language like Ansible, Pulumi, Terraform is not Infrastructure as Software. Any managed service to deploy infrastructure without acting like a one-time shoot action (AWS CloudFormation) is also not IaS. Also not ment is Infrastructure as Data (IaD).</p>
+<h2 id="mcetoc_1gc2cl9vm1a5">Downsides of IaC</h2>
+<h2 id="mcetoc_1gc0s4fdi125"></h2>
+<p>The big benefit of IaC is that your developers can write code that creates infrastructure and you can use coding practices to create libraries other people can share. But lets look the downsides of Infrastructure as code:</p>
+<ul>
+<li>Writing an application with (for example) Java and also IaC in (for example) Java: if you want to upgrade your Java version, you need to upgrade both! Another maintenance tasks which can cause conflicts.</li>
+<li>What if you need to transition the IaC and the hole infrastructure to a new team or person which doesn't know anything like (for example) Java? They will for sure rewrite the hole IaC stuff in a language they know or even worse they will do everything manually by hand.</li>
+<li>Writing IaC in different languages means you can't reuse or integrate modules together. One is in Java, one in Ansible, one in Terraform's HCL.</li>
+</ul>
+<h2 id="mcetoc_1gc0s4fdi128">Downsides of IaD</h2>
+<p>The goal if IaD is separating your declarative requirements from the implementation code. With Terrafrom I can roll out IaC like this:</p>
+<p><code>terraform apply</code></p>
+<p>or I can separate the requirements in variables (which represents the unique data) apart from the generic IaC-code:</p>
+<p><code>terraform apply -vars-file data.tfvars</code></p>
+<p>The challenge with IaD is, what it relies on general purpose infrastructure reconcilers. In other words you fall back to combining your data with some form of automation or templating your data into something that can be compiled. Examples for k8s are helm charts and kustomize.</p>
+<h2 id="mcetoc_1gc0s4fdi129">Downsides of managed services</h2>
+<p>The problem with managed services is, that its only a one-way sync automation. It requires you to send data it can deploy, but when things change those services are ignorant and do not correct the differences between your desired state and the actual state in your production. Well there are a few mechanisms to detect drifts, but they always require manual interaction.</p>
+<h2 id="mcetoc_1gc0s4fdi12a">So why IaS?</h2>
+<p>The big deal of IaS is that it allows you to continually reconcile state and sync state into the stack. It manages your infrastructure continuously. <strong>The main difference between IaC or IaD to IaS is that IaS is a continually running process, your code is always in action. IaS reads your data, stores it, reads the infrastructure state, stores it, and then checks if the two matches. It's a two-way sync automation that knows how to imperatively get from one state to another.</strong></p>
+<h2 id="mcetoc_1gc2ci10e19t">Examples of IaS</h2>
+<p>Two famous examples of IaS are:</p>
+<ul>
+<li>Kubernetes controllers</li>
+<li>GitOps</li>
+</ul>
+<h3 id="mcetoc_1gc2ci10e19u">Kubernetes controllers</h3>
+<p>Kubernetes controllers ares used as example in Cloud Native Infrastructure. The idea of this is to use K8s CRDs + a controller to manage infrastructure. Examples are<a href="https://crossplane.io/"> crossplane</a>, <a href="https://github.com/aws-controllers-k8s/community">AWS Controllers for Kubernetes (ACK)</a>, and GitOps. It’s also been used for managing state of applications in Kubernetes with <a href="https://kubernetes.io/docs/concepts/extend-kubernetes/operator/">operators</a>.</p>
+<h3 id="mcetoc_1gc2ci10e19v">GitOps</h3>
+<p>GitOps is a idea for using a general purpose reconciler to manage more resources. Let's have a look a the GitOps principles:</p>
+<ol>
+<li><strong>Declarative</strong>: A system managed by GitOps must have its desired state expressed declaratively</li>
+<li><strong>Versioned and Immutable</strong>: Desired state is store in a way that enforces immutability, versioning and retains a complete version history</li>
+<li><strong>Pulled Automatically</strong>: Software agents automatically pull the desired state declarations from the source</li>
+<li><strong>Continuously Reconciled</strong>: Software agents continuously observe actual system state and attempt to apply the desired state</li>
+</ol>
+<p>There are multiple options for controllers that implement GitOps. <a href="https://fluxcd.io/" rel="nofollow">Flux</a> and <a href="https://argoproj.github.io/" rel="nofollow">Argo</a> are the two most popular GitOps controllers known so far.</p>
+            ]]>
+        </content>
+    </entry>
     <entry>
         <title>Java basics: Dates and Time</title>
         <author>
@@ -1231,15 +1318,16 @@ Process finished with exit code <span class="hljs-number" style="color: #6897bb;
             <category term="declarative"/>
             <category term="ansible"/>
 
-        <updated>2022-07-26T07:59:36+02:00</updated>
+        <updated>2022-09-03T07:15:03+02:00</updated>
             <summary>
                 <![CDATA[
-                    Immer wieder stösst man im Bereich Infrastructure as Code (IaC) auf die Begriffe imperativ und deklarativ. Doch was bedeuten diese Begriffe? Ist Terraform wirklich deklarativ und Ansible nicht? Diese beiden Begriffe sind nicht einfach Buzzwords, sondern wesentliche Design-Patterns von IaC. Beim deklarativen Ansatz definiert der&hellip;
+                    Dieser Beitrag ist meine Zusammenfassung (in meinem eigenen Interesse) des ursprünglichen Beitrags in voller Länge: https://leebriggs.co.uk/blog/2022/07/20/nobody-knows-what-declarative-is Immer wieder stösst man im Bereich Infrastructure as Code (IaC) auf die Begriffe imperativ und deklarativ. Doch was bedeuten diese Begriffe? Ist Terraform wirklich deklarativ und Ansible nicht? Diese&hellip;
                 ]]>
             </summary>
         <content type="html">
             <![CDATA[
-                <div class="post__toc">
+                <p>Dieser Beitrag ist meine Zusammenfassung (in meinem eigenen Interesse) des ursprünglichen Beitrags in voller Länge: <a href="https://leebriggs.co.uk/blog/2022/07/20/nobody-knows-what-declarative-is">https://leebriggs.co.uk/blog/2022/07/20/nobody-knows-what-declarative-is</a></p>
+<div class="post__toc">
 <h3>Table of Contents</h3>
 <ul>
 <li><a href="#mcetoc_1g8sg1qh415e">Glossar: Imperativ / Deklarativ</a></li>
@@ -1593,144 +1681,6 @@ Line number Code: 4234</pre>
             System.out.format(<span class="hljs-string" style="color: #6a8759;">"Line number Code: %s\n"</span>, mat.group(<span class="hljs-string" style="color: #6a8759;">"lineNumber"</span>));
         }</pre>
 <p> </p>
-            ]]>
-        </content>
-    </entry>
-    <entry>
-        <title>Einstieg in Regex mit Java</title>
-        <author>
-            <name>Finecloud</name>
-        </author>
-        <link href="https://www.finecloud.ch/einstieg-in-regex-mit-java.html"/>
-        <id>https://www.finecloud.ch/einstieg-in-regex-mit-java.html</id>
-            <category term="software development"/>
-            <category term="regex"/>
-            <category term="java basics"/>
-            <category term="java"/>
-            <category term="dev"/>
-
-        <updated>2022-07-14T05:55:53+02:00</updated>
-            <summary>
-                <![CDATA[
-                    Was ist Regex? Regex steht für Regular expressions und ist eine Technik, Technologie und Sprache an und für sich, die verwendet werden kann zum Ausdrücken von Textmustern mit Symbolen. Und diese Symbole sind selbst Text. Damit lassen wir verschiedene Textteile und Zeichen andere Textfolgen darstellen. In&hellip;
-                ]]>
-            </summary>
-        <content type="html">
-            <![CDATA[
-                <div class="post__toc">
-<h3>Table of Contents</h3>
-<ul>
-<li><a href="#mcetoc_1g7qsl72t8a">Was ist Regex?</a></li>
-<li><a href="#mcetoc_1g7qsl72t8b">Einfaches Beispiel</a></li>
-<li><a href="#mcetoc_1g7qsl72t8c">Negieren</a></li>
-<li><a href="#mcetoc_1g7qsl72t8d">Anzahl Buchstaben</a></li>
-<li><a href="#mcetoc_1g7tdih5q2e">Anzahl Zahlen</a></li>
-<li><a href="#mcetoc_1g7tdih5q2f">Buchstaben und Zahlenfolge</a></li>
-</ul>
-</div>
-<h2 id="mcetoc_1g7qsl72t8a">Was ist Regex?</h2>
-<p>Regex steht für Regular expressions und  ist eine Technik, Technologie und Sprache an und für sich, die verwendet werden kann zum Ausdrücken von Textmustern mit Symbolen. Und diese Symbole sind selbst Text. Damit lassen wir verschiedene Textteile und Zeichen andere Textfolgen darstellen.</p>
-<h2 id="mcetoc_1g7qsl72t8b">Einfaches Beispiel</h2>
-<p>In Java kann Regex Beispielsweise bei Strings angewendet werden, dazu verwenden wir die Methode <em>String.matches. </em>Das einfachste Beispiel, ist wenn wir mit Regex in einem String nach einem String suchen:</p>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-keyword" style="color: #cc7832;">public</span> <span class="hljs-class"><span class="hljs-keyword" style="color: #cc7832;">class</span> <span class="hljs-title" style="color: #ffc66d;">RegexPractice</span> </span>{
-    <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">public</span> <span class="hljs-keyword" style="color: #cc7832;">static</span> <span class="hljs-keyword" style="color: #cc7832;">void</span> <span class="hljs-title" style="color: #ffc66d;">main</span><span class="hljs-params">(String[] args)</span> </span>{
-        System.out.println(<span class="hljs-string" style="color: #6a8759;">"cat"</span>.matches(<span class="hljs-string" style="color: #6a8759;">"cat"</span>));
-    }
-}</pre>
-<p>Der Output ist ein Boolean Wert, in diesem Fall <em>true. </em>Was aber wenn wir nun eines der beiden cat gross schreiben? Der Boolean wird <em>false</em> sein, ausser wir passen den Regex Pattern so an, dass er Gross- und Kleinbuchstaben berücksichtigt:</p>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-keyword" style="color: #cc7832;">public</span> <span class="hljs-class"><span class="hljs-keyword" style="color: #cc7832;">class</span> <span class="hljs-title" style="color: #ffc66d;">RegexPractice</span> </span>{
-    <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">public</span> <span class="hljs-keyword" style="color: #cc7832;">static</span> <span class="hljs-keyword" style="color: #cc7832;">void</span> <span class="hljs-title" style="color: #ffc66d;">main</span><span class="hljs-params">(String[] args)</span> </span>{
-        System.out.println(<span class="hljs-string" style="color: #6a8759;">"Cat"</span>.matches(<span class="hljs-string" style="color: #6a8759;">"[Cc]at"</span>));
-    }
-}
-</pre>
-<p>mit den eckigen Klammern [ ] kann eine OR Verknüpfung zwischen Zeichen definiert werden.</p>
-<p>Wenn wir ein Pattern wollen, um zu prüfen ob das Wort mit einem Buchstaben von a bis f startet könnten wir entweder alle Buchstaben in der eckigen Klammer ausschreiben. Dafür gibt es glücklicherweise eine schönere Möglichkeit, wir können Ranges angeben:</p>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-keyword" style="color: #cc7832;">public</span> <span class="hljs-class"><span class="hljs-keyword" style="color: #cc7832;">class</span> <span class="hljs-title" style="color: #ffc66d;">RegexPractice</span> </span>{
-    <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">public</span> <span class="hljs-keyword" style="color: #cc7832;">static</span> <span class="hljs-keyword" style="color: #cc7832;">void</span> <span class="hljs-title" style="color: #ffc66d;">main</span><span class="hljs-params">(String[] args)</span> </span>{
-        System.out.println(<span class="hljs-string" style="color: #6a8759;">"Fat"</span>.matches(<span class="hljs-string" style="color: #6a8759;">"[a-fA-F]at"</span>));
-    }
-}</pre>
-<h2 id="mcetoc_1g7qsl72t8c">Negieren</h2>
-<p>Was wenn wir einen Pattern wollen der prüft ob etwas <strong>nicht</strong> zutrifft. Zum Beispiel ob der Erste Buchstaben des Wortes nicht ein Buchstabe von a bis f ist:</p>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-keyword" style="color: #cc7832;">public</span> <span class="hljs-class"><span class="hljs-keyword" style="color: #cc7832;">class</span> <span class="hljs-title" style="color: #ffc66d;">RegexPractice</span> </span>{
-    <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">public</span> <span class="hljs-keyword" style="color: #cc7832;">static</span> <span class="hljs-keyword" style="color: #cc7832;">void</span> <span class="hljs-title" style="color: #ffc66d;">main</span><span class="hljs-params">(String[] args)</span> </span>{
-        System.out.println(<span class="hljs-string" style="color: #6a8759;">"Fat"</span>.matches(<span class="hljs-string" style="color: #6a8759;">"[^a-fA-F]at"</span>));
-    }
-}</pre>
-<p>Das Ergebnis ist nun <em>false</em>. Das Zeichen am Anfang nennt sich "Caret".</p>
-<h2 id="mcetoc_1g7qsl72t8d">Anzahl Buchstaben</h2>
-<p>Wenn wir nun ein Pattern suchen, der prüft ob unser String aus nur drei latinischen Buchstaben besteht: </p>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-keyword" style="color: #cc7832;">public</span> <span class="hljs-class"><span class="hljs-keyword" style="color: #cc7832;">class</span> <span class="hljs-title" style="color: #ffc66d;">RegexPractice</span> </span>{
-    <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">public</span> <span class="hljs-keyword" style="color: #cc7832;">static</span> <span class="hljs-keyword" style="color: #cc7832;">void</span> <span class="hljs-title" style="color: #ffc66d;">main</span><span class="hljs-params">(String[] args)</span> </span>{
-        System.out.println(<span class="hljs-string" style="color: #6a8759;">"Fat"</span>.matches(<span class="hljs-string" style="color: #6a8759;">"\\w\\w\\w"</span>));
-    }
-}</pre>
-<p>Der reine Regex Pattern besteht nur aus einem \ (Backslash). Damit wir diesen in Java nutzen können, müssen wir jedoch den Backslash mit einem zweiten Backslash escapen, damit Java den Backslash nicht als Java, sondern als Regex Pattern erkennen kann.</p>
-<p class="msg msg--highlight ">Der Regex-Pattern für Buchstaben (\w) wertet nicht nur Buchstaben von a bis z als Valid, sondern auch Zahlen und '_' (underscore).</p>
-<h2 id="mcetoc_1g7tdih5q2e">Anzahl Zahlen</h2>
-<p>Dasselbe geht auch, wenn wir einen Pattern für die Anzahl Zahlen definieren:</p>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-keyword" style="color: #cc7832;">public</span> <span class="hljs-class"><span class="hljs-keyword" style="color: #cc7832;">class</span> <span class="hljs-title" style="color: #ffc66d;">RegexPractice</span> </span>{
-    <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">public</span> <span class="hljs-keyword" style="color: #cc7832;">static</span> <span class="hljs-keyword" style="color: #cc7832;">void</span> <span class="hljs-title" style="color: #ffc66d;">main</span><span class="hljs-params">(String[] args)</span> </span>{
-        System.out.println(<span class="hljs-string" style="color: #6a8759;">"521"</span>.matches(<span class="hljs-string" style="color: #6a8759;">"\\d\\d\\d"</span>));
-    }
-}</pre>
-<h2 id="mcetoc_1g7tdih5q2f">Buchstaben und Zahlenfolge</h2>
-<p>Was wenn wir nun eine Sammlung von Nummern auf das folgende Format prüfen müssen: <em>523-231-4444</em> (alle Zahlen sind erlaubt). Wir könnten dazu einfach aus Faulheit folgenden Pattern definieren:</p>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-keyword" style="color: #cc7832;">public</span> <span class="hljs-class"><span class="hljs-keyword" style="color: #cc7832;">class</span> <span class="hljs-title" style="color: #ffc66d;">RegexPractice</span> </span>{
-    <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">public</span> <span class="hljs-keyword" style="color: #cc7832;">static</span> <span class="hljs-keyword" style="color: #cc7832;">void</span> <span class="hljs-title" style="color: #ffc66d;">main</span><span class="hljs-params">(String[] args)</span> </span>{
-        System.out.println(<span class="hljs-string" style="color: #6a8759;">"523-231-4444"</span>.matches(<span class="hljs-string" style="color: #6a8759;">"\d\d\d-\d\d\d-\d\d\d\d"</span>));
-    }
-}</pre>
-<p>Das ist ein Valider Pattern der die Problemstellung löst. Allerdings geht das schöner und einfacher mit dem Quantifier { }:</p>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-keyword" style="color: #cc7832;">public</span> <span class="hljs-class"><span class="hljs-keyword" style="color: #cc7832;">class</span> <span class="hljs-title" style="color: #ffc66d;">RegexPractice</span> </span>{
-    <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">public</span> <span class="hljs-keyword" style="color: #cc7832;">static</span> <span class="hljs-keyword" style="color: #cc7832;">void</span> <span class="hljs-title" style="color: #ffc66d;">main</span><span class="hljs-params">(String[] args)</span> </span>{
-        System.out.println(<span class="hljs-string" style="color: #6a8759;">"523-231-4444"</span>.matches(<span class="hljs-string" style="color: #6a8759;">"\d{3}-\d{3}-\d{4}"</span>));
-    }
-}</pre>
-<p>Viel besser oder? Was wenn wir nun nicht nur die Bindestriche, sondern auch z.B. Punkte als Trennzeichen akzeptieren wollen? Dann können wir eine Or Verknüpfung machen anhand des oberen Beispiels:</p>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-keyword" style="color: #cc7832;">public</span> <span class="hljs-class"><span class="hljs-keyword" style="color: #cc7832;">class</span> <span class="hljs-title" style="color: #ffc66d;">RegexPractice</span> </span>{
-    <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">public</span> <span class="hljs-keyword" style="color: #cc7832;">static</span> <span class="hljs-keyword" style="color: #cc7832;">void</span> <span class="hljs-title" style="color: #ffc66d;">main</span><span class="hljs-params">(String[] args)</span> </span>{
-        System.out.println(<span class="hljs-string" style="color: #6a8759;">"523-231.4444"</span>.matches(<span class="hljs-string" style="color: #6a8759;">"\d{3}[-.]\d{3}[-.]\d{4}"</span>));
-    }
-}</pre>
-<p>Was ist nun wenn wir Leerzeichen (523-231.4444) zwischen den Nummern als Valid behandeln wollen? Theoretisch können wir nun in der Or Verknüpfung (in den eckigen Klammern) einfach ein Leerzeichen einfügen. Das funktioniert, ist aber Optisch nicht ideal, da das Leerzeichen schnell übersehen wird. Expliziter geht das mit \s als Regex Zeichen für einen Leerschlag:</p>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-keyword" style="color: #cc7832;">public</span> <span class="hljs-class"><span class="hljs-keyword" style="color: #cc7832;">class</span> <span class="hljs-title" style="color: #ffc66d;">RegexPractice</span> </span>{
-    <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">public</span> <span class="hljs-keyword" style="color: #cc7832;">static</span> <span class="hljs-keyword" style="color: #cc7832;">void</span> <span class="hljs-title" style="color: #ffc66d;">main</span><span class="hljs-params">(String[] args)</span> </span>{
-        System.out.println(<span class="hljs-string" style="color: #6a8759;">"523 231.4444"</span>.matches(<span class="hljs-string" style="color: #6a8759;">"\\d{3}[-.\\s]\\d{3}[-.\\s]\\d{4}"</span>));
-    }
-}</pre>
-<p>Wenn mehr als ein Leerschlag, Bindestrich oder Punkt erlaubt ist, kann hinter der "Or"-Klammer einfach ein Plus angefügt werden:</p>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-keyword" style="color: #cc7832;">public</span> <span class="hljs-class"><span class="hljs-keyword" style="color: #cc7832;">class</span> <span class="hljs-title" style="color: #ffc66d;">RegexPractice</span> </span>{
-    <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">public</span> <span class="hljs-keyword" style="color: #cc7832;">static</span> <span class="hljs-keyword" style="color: #cc7832;">void</span> <span class="hljs-title" style="color: #ffc66d;">main</span><span class="hljs-params">(String[] args)</span> </span>{
-        System.out.println(<span class="hljs-string" style="color: #6a8759;">"523 ..231  4444"</span>.matches(<span class="hljs-string" style="color: #6a8759;">"\\d{3}[-.\\s]+\\d{3}[-.\\s]+\\d{4}"</span>));
-    }
-}</pre>
-<p>Was wenn keines, eines oder mehrere dieser "Or"-Verknüpften Zeichen erlaubt sein sollen? Wir verwenden '*' anstelle von '+':</p>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-keyword" style="color: #cc7832;">public</span> <span class="hljs-class"><span class="hljs-keyword" style="color: #cc7832;">class</span> <span class="hljs-title" style="color: #ffc66d;">RegexPractice</span> </span>{
-    <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">public</span> <span class="hljs-keyword" style="color: #cc7832;">static</span> <span class="hljs-keyword" style="color: #cc7832;">void</span> <span class="hljs-title" style="color: #ffc66d;">main</span><span class="hljs-params">(String[] args)</span> </span>{
-        System.out.println(<span class="hljs-string" style="color: #6a8759;">"523231 .4444"</span>.matches(<span class="hljs-string" style="color: #6a8759;">"\\d{3}[-.\\s]*\\d{3}[-.\\s]*\\d{4}"</span>));
-    }
-}</pre>
-<p>Was ist nun wenn wir genau nur eines oder keines dieser Zeichen erlauben wollen? Wir verwenden '?' anstelle von '*':</p>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-keyword" style="color: #cc7832;">public</span> <span class="hljs-class"><span class="hljs-keyword" style="color: #cc7832;">class</span> <span class="hljs-title" style="color: #ffc66d;">RegexPractice</span> </span>{
-    <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">public</span> <span class="hljs-keyword" style="color: #cc7832;">static</span> <span class="hljs-keyword" style="color: #cc7832;">void</span> <span class="hljs-title" style="color: #ffc66d;">main</span><span class="hljs-params">(String[] args)</span> </span>{
-        System.out.println(<span class="hljs-string" style="color: #6a8759;">"523231-4444"</span>.matches(<span class="hljs-string" style="color: #6a8759;">"\\d{3}[-.\\s]?\\d{3}[-.\\s]?\\d{4}"</span>));
-    }
-}</pre>
-<p>Was, wenn wir in der letzten Zahlenfolge nur 3 oder 4 Zeichen erlauben wollen? </p>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-keyword" style="color: #cc7832;">public</span> <span class="hljs-class"><span class="hljs-keyword" style="color: #cc7832;">class</span> <span class="hljs-title" style="color: #ffc66d;">RegexPractice</span> </span>{
-    <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">public</span> <span class="hljs-keyword" style="color: #cc7832;">static</span> <span class="hljs-keyword" style="color: #cc7832;">void</span> <span class="hljs-title" style="color: #ffc66d;">main</span><span class="hljs-params">(String[] args)</span> </span>{
-        System.out.println(<span class="hljs-string" style="color: #6a8759;">"523231-4444"</span>.matches(<span class="hljs-string" style="color: #6a8759;">"\\d{3}[-.\\s]?\\d{3}[-.\\s]?\\d{3,4}"</span>));
-    }
-}</pre>
-<p>Wenn wir mindestens drei Stellen brauchen, aber es auch unbeschränkt mehr sein dürfen, können wir die zweite Zahl nach dem Komma einfach weglassen. Was wir weiter optimieren können ist, dass wir die Wiederholungen von Regex Statements zusammenfassen und nur einmal deklarieren. Dazu löschen wir eines der beiden "\d{3}[-.\s]?" Statements und setzen es im runde Klammern, gefolgt von Spitzen klammern, in der wir die Anzahl Wiederholungen angeben, in diesem Fall 2:</p>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-keyword" style="color: #cc7832;">public</span> <span class="hljs-class"><span class="hljs-keyword" style="color: #cc7832;">class</span> <span class="hljs-title" style="color: #ffc66d;">RegexPractice</span> </span>{
-    <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">public</span> <span class="hljs-keyword" style="color: #cc7832;">static</span> <span class="hljs-keyword" style="color: #cc7832;">void</span> <span class="hljs-title" style="color: #ffc66d;">main</span><span class="hljs-params">(String[] args)</span> </span>{
-        System.out.println(<span class="hljs-string" style="color: #6a8759;">"523 231 4444"</span>.matches(<span class="hljs-string" style="color: #6a8759;">"(\\d{3}[-.\\s]?){2}\\d{3,}"</span>));
-    }
-}</pre>
-<p>Genial, oder?</p>
             ]]>
         </content>
     </entry>

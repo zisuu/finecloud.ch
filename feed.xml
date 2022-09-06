@@ -3,14 +3,14 @@
     <title>Finecloud</title>
     <link href="https://www.finecloud.ch/feed.xml" rel="self" />
     <link href="https://www.finecloud.ch" />
-    <updated>2022-09-06T14:25:22+02:00</updated>
+    <updated>2022-09-06T16:49:01+02:00</updated>
     <author>
         <name>Finecloud</name>
     </author>
     <id>https://www.finecloud.ch</id>
 
     <entry>
-        <title>Java working with a database</title>
+        <title>Java working with databases</title>
         <author>
             <name>Finecloud</name>
         </author>
@@ -27,7 +27,7 @@
             <category term="dev"/>
             <category term="database"/>
 
-        <updated>2022-09-06T14:25:22+02:00</updated>
+        <updated>2022-09-06T16:49:01+02:00</updated>
             <summary>
                 <![CDATA[
                     Introduction In this Post I will describe how you can easily learn, test and play around with Java interacting with SQL Databases. This post is a summary of my Java learning course I'm taking on udemy. The post is not intended to be spread around&hellip;
@@ -1502,7 +1502,13 @@ FAILURE: Build failed with an exception.</pre>
     }
 }
 </pre>
-<p> </p>
+<h2>Speeding up SQL queries</h2>
+<p>They're one or two really basic things that we can do when working with a database to vastly improve the performance of that database. Let's say we have an example SQL query which takes about 2s to complete. So here's the problem. Two seconds might seem like it's pretty fast considering that we're iterating over a big number of rows. But in actuality, that is really quite slow for a database. If this database with all records were being used in an application or on the web or something like that, and we had lots of users who were all trying to do the equivalent of this more or less simultaneously, those two seconds start to add up pretty quickly. And keep in mind every time the computer has to take two and a half seconds to go find one record, that's time that the processor in that computer isn't available to do other things right. So this is actually pretty bad.<br><br>If re needed record is towards the end of the database, the database essentially had to perform what's called a full table scan, meaning just that it had to scan through every single record in the table in order to find that record.<br><br>What could we improve? Java allows us to work with sets and hash maps. And one of the nice things about the hash map or even just maps in general, is the fact that when we store a key and a value pair in a map, the hash map implementation of the map interface has the ability to analyze the key that we're inserting into that key value pair entry and generate a hash code for that key. The hash map will then use that hash code to determine where in a table that entry should go. So the next time you try to retrieve a value out of the hash map using that key, the hash map doesn't have to iterate over every single entry in that map. Instead, it takes your key that you provided. It regenerates a hash code for it, and then it uses that hash code to determine an index into a table where your record exists or where your entry exists. And then it can much more efficiently go straight to that entry. Or at least it can get super super close if there happened to be collisions where other entries yield the same index. But it can cut down a lot on the amount of scanning that has to be done to find your entry.</p>
+<p>With SQL databases you can actually to the same thing, you can create indexes. Lets add an index for a row called "ID" and "EMAIL":</p>
+<p><code>CREATE INDEX ID_IDX ON PEOPLE(ID);</code></p>
+<p><code>CREATE INDEX EMAIL_IDX ON PEOPLE(EMAIL);</code></p>
+<p>This allows us to speed up a single SQL query from 4-5s down to a millisecond. So it's a huge speed boost.</p>
+<p>Now you may be thinking, well then we should probably just generate indexes on every single column, in every database table every time. No better not. Why? These indexes come at a cost. So we don't necessarily just want to automatically generate indexes on every single column in every single table. The key to figuring this out is to understand how our database applications will be utilized. So we have to ask ourselves questions like in what ways are our users most likely to search for and query data? For example, if we have an application that allows people to enter an ID to look up some kind of data or record, well, then you know, you're certainly going to have to be querying the database by ID for those particular records. And since you know that for certain, you'll definitely want to have an index generated on that particular column and any other columns that users are likely to specifically search by or grouping by.<br><br>So any of these key types of columns where you're going to search by or group by or sorting on any of those types of columns, you will likely want to have an index generated on them.<br><br><strong>But here's the cost: When you have indexes generated on columns in a table and then you insert records into the table, inserts and updates can take longer now because now every time you do an insert or potentially even an update, the database will certainly have to do its analysis and re indexing, potentially on inserts. And it may have to do it on updates, particularly if you modified a column that has an index on it.</strong></p>
             ]]>
         </content>
     </entry>

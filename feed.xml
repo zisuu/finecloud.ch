@@ -3,7 +3,7 @@
     <title>Finecloud</title>
     <link href="https://www.finecloud.ch/feed.xml" rel="self" />
     <link href="https://www.finecloud.ch" />
-    <updated>2022-09-06T14:20:53+02:00</updated>
+    <updated>2022-09-06T14:25:22+02:00</updated>
     <author>
         <name>Finecloud</name>
     </author>
@@ -27,7 +27,7 @@
             <category term="dev"/>
             <category term="database"/>
 
-        <updated>2022-09-06T14:20:53+02:00</updated>
+        <updated>2022-09-06T14:25:22+02:00</updated>
             <summary>
                 <![CDATA[
                     Introduction In this Post I will describe how you can easily learn, test and play around with Java interacting with SQL Databases. This post is a summary of my Java learning course I'm taking on udemy. The post is not intended to be spread around&hellip;
@@ -59,6 +59,7 @@
 </ul>
 </li>
 <li><a href="#mcetoc_1gc8r84pi1ab">Making it reusable</a></li>
+<li><a href="#mcetoc_1gc9c3hup1b5">Improve the SQL statement calls</a></li>
 </ul>
 </div>
 <h2 id="mcetoc_1gbnqrj4jjf">Introduction</h2>
@@ -962,7 +963,7 @@ FAILURE: Build failed with an exception.</pre>
     }
 }
 </pre>
-<h3>Improve the SQL statement calls</h3>
+<h2 id="mcetoc_1gc9c3hup1b5">Improve the SQL statement calls</h2>
 <p>We had to pepper this class with these extra getter and setter methods to provider the SQL statements. But there are frameworks that enable us to do this kind of thing in a better way. We're going to give our <em>CRUDRepository</em> the ability to get the SQL queries without having to implement these abstract methods.<br><br>We can do this by using the Reflection API of Java. The Reflection API is pretty much only used by frameworks, but it just so happens that as we are creating this <em>CRUDRepository</em> functionality, we are basically creating a poor man's framework. So let's go a bit further down this rabbit hole and dig into the Reflection API a little bit.<br><br>This is the big picture: Instead of having to override and implement these various scatter methods to return the SQL, a more modern way of doing the equivalent to this with a lot of modern frameworks would be to actually make use of an annotation so we could have an annotation so we could introduce and create our own annotation. In that annotation, we could specify the SQL that we want, and then our <em>CRUDRepository</em> could dynamically, at runtime, learn the SQL that it needs from the annotation and thereby we would no longer need these methods.</p>
 <p>The Reflection API allows us to write Java code to that allows us to analyze our Java code. This allows us to analyse our code in runtime and to things with it.</p>
 <p>annotation/Id.java</p>

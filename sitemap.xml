@@ -97,6 +97,10 @@
 <lastmod>2022-07-10T06:31:08+02:00</lastmod>
 </url>
 <url>
+<loc>https://www.finecloud.ch/java-and-databases-use-sql-joins.html</loc>
+<lastmod>2022-09-13T11:41:52+02:00</lastmod>
+</url>
+<url>
 <loc>https://www.finecloud.ch/java-basics-dates-and-time.html</loc>
 <lastmod>2022-08-30T18:55:35+02:00</lastmod>
 </url>
@@ -166,7 +170,7 @@
 </url>
 <url>
 <loc>https://www.finecloud.ch/java-working-with-a-database.html</loc>
-<lastmod>2022-09-06T16:49:01+02:00</lastmod>
+<lastmod>2022-09-10T06:42:36+02:00</lastmod>
 <image:image>
 <image:loc>https://www.finecloud.ch/media/posts/61/Screenshot-2022-08-31-at-13.41.45.png</image:loc>
 <image:title><![CDATA[]]></image:title>
@@ -276,6 +280,9 @@
 </url>
 <url>
 <loc>https://www.finecloud.ch/page/8/</loc>
+</url>
+<url>
+<loc>https://www.finecloud.ch/page/9/</loc>
 </url>
 <url>
 <loc>https://www.finecloud.ch/parallele-streams.html</loc>

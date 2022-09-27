@@ -3,12 +3,120 @@
     <title>Finecloud</title>
     <link href="https://www.finecloud.ch/feed.xml" rel="self" />
     <link href="https://www.finecloud.ch" />
-    <updated>2022-09-23T07:41:59+02:00</updated>
+    <updated>2022-09-27T17:49:41+02:00</updated>
     <author>
         <name>Finecloud</name>
     </author>
     <id>https://www.finecloud.ch</id>
 
+    <entry>
+        <title>Handling Exceptions in Web UI</title>
+        <author>
+            <name>Finecloud</name>
+        </author>
+        <link href="https://www.finecloud.ch/handling-exceptions-in-webui.html"/>
+        <id>https://www.finecloud.ch/handling-exceptions-in-webui.html</id>
+            <category term="whitelabel error page"/>
+            <category term="try catch"/>
+            <category term="tomcat"/>
+            <category term="thymeleaf"/>
+            <category term="spring-framework"/>
+            <category term="spring"/>
+            <category term="software development"/>
+            <category term="java basics"/>
+            <category term="java"/>
+            <category term="http"/>
+            <category term="gui"/>
+            <category term="exceptions"/>
+            <category term="exception"/>
+            <category term="dev"/>
+            <category term="database"/>
+            <category term="api"/>
+
+        <updated>2022-09-27T17:49:41+02:00</updated>
+            <summary>
+                <![CDATA[
+                    The Issue There is nothing worse than presenting a Java Stacktrace in a WebUI, full of technical Details about your Server environment of the Web App itself: So how can we avoid this? You don't want to share this informations with the users, it would&hellip;
+                ]]>
+            </summary>
+        <content type="html">
+            <![CDATA[
+                <div class="post__toc">
+<h3>Table of Contents</h3>
+<ul>
+<li><a href="#mcetoc_1gdv9jdoksv">The Issue</a></li>
+<li><a href="#mcetoc_1gdv9jdokt0">Custom Error Page</a></li>
+<li><a href="#mcetoc_1gdv9jdokt1">Error Controller</a></li>
+</ul>
+</div>
+<h2 id="mcetoc_1gdv9jdoksv">The Issue</h2>
+<p>There is nothing worse than presenting a Java Stacktrace in a WebUI, full of technical Details about your Server environment of the Web App itself:</p>
+<figure class="post__image"><img loading="lazy"  src="https://www.finecloud.ch/media/posts/66//Screenshot-2022-09-27-at-10.37.26.png" sizes="100vw" srcset="https://www.finecloud.ch/media/posts/66//responsive/Screenshot-2022-09-27-at-10.37.26-xs.png 300w ,https://www.finecloud.ch/media/posts/66//responsive/Screenshot-2022-09-27-at-10.37.26-sm.png 480w ,https://www.finecloud.ch/media/posts/66//responsive/Screenshot-2022-09-27-at-10.37.26-md.png 768w ,https://www.finecloud.ch/media/posts/66//responsive/Screenshot-2022-09-27-at-10.37.26-lg.png 1024w ,https://www.finecloud.ch/media/posts/66//responsive/Screenshot-2022-09-27-at-10.37.26-xl.png 1360w ,https://www.finecloud.ch/media/posts/66//responsive/Screenshot-2022-09-27-at-10.37.26-2xl.png 1600w"  alt="" width="1077" height="1032"></figure>
+<p>So how can we avoid this? You don't want to share this informations with the users, it would scare them and they wouldn't understand it.</p>
+<p>What is happing here, is that the Page will try to redirect to the /error Page. This Page does not exist as real HTML Page. This is just a generated default page out of the box. This is generated in code. But we can create our own error page to avoid this.</p>
+<h2 id="mcetoc_1gdv9jdokt0">Custom Error Page</h2>
+<p>Let's create a new HTML Page under <em>resources/templates/error.html</em>:</p>
+<pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-meta" style="color: #bbb529;">&lt;!DOCTYPE html&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string" style="color: #6a8759;">"en"</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">head</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string" style="color: #6a8759;">"UTF-8"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">title</span>&gt;</span>Error Page<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">title</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">head</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">body</span>&gt;</span>
+Something went horribly, terribly wrong. Please try again.
+<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">html</span>&gt;</span></pre>
+<p>To use this Page, because it's under the templates folder it needs a controller in order to work.</p>
+<h2 id="mcetoc_1gdv9jdokt1">Error Controller</h2>
+<p>So we need to create an error Controller for this. Let's create a new Java Class called ErrorController.java with this content:</p>
+<pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-keyword" style="color: #cc7832;">package</span> ch.finecloud.peopledbweb.web.controller;
+
+<span class="hljs-keyword" style="color: #cc7832;">import</span> org.springframework.stereotype.Controller;
+<span class="hljs-keyword" style="color: #cc7832;">import</span> org.springframework.web.bind.annotation.GetMapping;
+<span class="hljs-keyword" style="color: #cc7832;">import</span> org.springframework.web.bind.annotation.RequestMapping;
+
+<span class="hljs-meta" style="color: #bbb529;">@Controller</span>
+<span class="hljs-meta" style="color: #bbb529;">@RequestMapping</span>(<span class="hljs-string" style="color: #6a8759;">"error"</span>)
+<span class="hljs-keyword" style="color: #cc7832;">public</span> <span class="hljs-class"><span class="hljs-keyword" style="color: #cc7832;">class</span> <span class="hljs-title" style="color: #ffc66d;">ErrorController</span> </span>{
+
+    <span class="hljs-meta" style="color: #bbb529;">@GetMapping</span>
+    <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">public</span> String <span class="hljs-title" style="color: #ffc66d;">getErrorPage</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-keyword" style="color: #cc7832;">return</span> <span class="hljs-string" style="color: #6a8759;">"error"</span>;
+    }
+}
+</pre>
+<p>If a User now again hits an error, this will be shown:</p>
+<figure class="post__image"><img loading="lazy"  src="https://www.finecloud.ch/media/posts/66/Screenshot-2022-09-27-at-13.08.06-2.png" sizes="100vw" srcset="https://www.finecloud.ch/media/posts/66/responsive/Screenshot-2022-09-27-at-13.08.06-2-xs.png 300w ,https://www.finecloud.ch/media/posts/66/responsive/Screenshot-2022-09-27-at-13.08.06-2-sm.png 480w ,https://www.finecloud.ch/media/posts/66/responsive/Screenshot-2022-09-27-at-13.08.06-2-md.png 768w ,https://www.finecloud.ch/media/posts/66/responsive/Screenshot-2022-09-27-at-13.08.06-2-lg.png 1024w ,https://www.finecloud.ch/media/posts/66/responsive/Screenshot-2022-09-27-at-13.08.06-2-xl.png 1360w ,https://www.finecloud.ch/media/posts/66/responsive/Screenshot-2022-09-27-at-13.08.06-2-2xl.png 1600w"  alt="" width="413" height="131"></figure>
+<p>Much better, isn't it? But we can do even better. If we know what kind of error could be thrown, we can provide a more accurate error page. In our current case we need to add a specific try catch block in the save method, which can catch StorageExceptions:</p>
+<pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;">    <span class="hljs-meta" style="color: #bbb529;">@PostMapping</span>
+    <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">public</span> String <span class="hljs-title" style="color: #ffc66d;">savePerson</span><span class="hljs-params">(Model model, @Valid Person person, Errors errors, @RequestParam(<span class="hljs-string" style="color: #6a8759;">"photoFilename"</span>)</span> MultipartFile photoFile) <span class="hljs-keyword" style="color: #cc7832;">throws</span> IOException </span>{
+        log.info(person);
+        log.info(<span class="hljs-string" style="color: #6a8759;">"Filename: "</span> + photoFile.getOriginalFilename());
+        log.info(<span class="hljs-string" style="color: #6a8759;">"File size: "</span> + photoFile.getSize());
+        log.info(<span class="hljs-string" style="color: #6a8759;">"Errors: "</span> + errors);
+        <span class="hljs-keyword" style="color: #cc7832;">if</span> (!errors.hasErrors()) {
+            <span class="hljs-keyword" style="color: #cc7832;">try</span> {
+                fileStorageRepository.save(photoFile.getOriginalFilename(), photoFile.getInputStream());
+                personRepository.save(person);
+                <span class="hljs-keyword" style="color: #cc7832;">return</span> <span class="hljs-string" style="color: #6a8759;">"redirect:people"</span>;
+            } <span class="hljs-keyword" style="color: #cc7832;">catch</span> (StorageException e) {
+                model.addAttribute(<span class="hljs-string" style="color: #6a8759;">"errorMsg"</span>, <span class="hljs-string" style="color: #6a8759;">"System is currently unable to accept photo files at this time."</span>);
+                <span class="hljs-keyword" style="color: #cc7832;">return</span> <span class="hljs-string" style="color: #6a8759;">"people"</span>;
+            }
+        }
+        <span class="hljs-keyword" style="color: #cc7832;">return</span> <span class="hljs-string" style="color: #6a8759;">"people"</span>;
+    }</pre>
+<p>Now let's add this custom error Message to the people.html page like so:</p>
+<pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string" style="color: #6a8759;">"alert alert-danger"</span> <span class="hljs-attr">role</span>=<span class="hljs-string" style="color: #6a8759;">"alert"</span> <span class="hljs-attr">th:text</span>=<span class="hljs-string" style="color: #6a8759;">"${errorMsg}"</span> <span class="hljs-attr">th:if</span>=<span class="hljs-string" style="color: #6a8759;">"${errorMsg}"</span>&gt;</span>
+    A simple danger alert-check it out!
+<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">div</span>&gt;</span></pre>
+<p>The final result looks like this:</p>
+<figure class="post__image"><img loading="lazy"  src="https://www.finecloud.ch/media/posts/66/Screenshot-2022-09-27-at-13.35.45.png" sizes="100vw" srcset="https://www.finecloud.ch/media/posts/66/responsive/Screenshot-2022-09-27-at-13.35.45-xs.png 300w ,https://www.finecloud.ch/media/posts/66/responsive/Screenshot-2022-09-27-at-13.35.45-sm.png 480w ,https://www.finecloud.ch/media/posts/66/responsive/Screenshot-2022-09-27-at-13.35.45-md.png 768w ,https://www.finecloud.ch/media/posts/66/responsive/Screenshot-2022-09-27-at-13.35.45-lg.png 1024w ,https://www.finecloud.ch/media/posts/66/responsive/Screenshot-2022-09-27-at-13.35.45-xl.png 1360w ,https://www.finecloud.ch/media/posts/66/responsive/Screenshot-2022-09-27-at-13.35.45-2xl.png 1600w"  alt="" width="2312" height="1560"></figure>
+<p>The User will be redirected back to the people page with the provided values. The Error Message will be displayed in the middle of the page.</p>
+<p> </p>
+            ]]>
+        </content>
+    </entry>
     <entry>
         <title>Getting stared with the Spring Framework</title>
         <author>
@@ -3417,60 +3525,6 @@ Process finished with exit code <span class="hljs-number" style="color: #6897bb;
 <p>Anschliessend wirst du nochmals zurück auf den vorherigen Data Source Dialog redirected. Gib dort nochmals deine Client ID und Client Secret ein und klicke danach auf Save &amp; Test. Nun sollte die Meldung kommen "<em>Data source is working</em>".</p>
 <p>Nun kannst du in Tab Dashboards noch die Dashboards importieren welche du dann unter Browse anschauen kannst:</p>
 <figure class="post__image"><img loading="lazy"  src="https://www.finecloud.ch/media/posts/55/strava-2.png" sizes="100vw" srcset="https://www.finecloud.ch/media/posts/55/responsive/strava-2-xs.png 300w ,https://www.finecloud.ch/media/posts/55/responsive/strava-2-sm.png 480w ,https://www.finecloud.ch/media/posts/55/responsive/strava-2-md.png 768w ,https://www.finecloud.ch/media/posts/55/responsive/strava-2-lg.png 1024w ,https://www.finecloud.ch/media/posts/55/responsive/strava-2-xl.png 1360w ,https://www.finecloud.ch/media/posts/55/responsive/strava-2-2xl.png 1600w"  alt="" width="2557" height="1341"></figure>
-            ]]>
-        </content>
-    </entry>
-    <entry>
-        <title>ShellCheck</title>
-        <author>
-            <name>Finecloud</name>
-        </author>
-        <link href="https://www.finecloud.ch/shellcheck.html"/>
-        <id>https://www.finecloud.ch/shellcheck.html</id>
-            <category term="vscode"/>
-            <category term="tools"/>
-            <category term="shell"/>
-            <category term="linux"/>
-            <category term="infrastructure as code"/>
-            <category term="iac"/>
-            <category term="bash"/>
-
-        <updated>2022-08-05T19:22:39+02:00</updated>
-            <summary>
-                <![CDATA[
-                    Beschreibung ShellCheck ist ein Tool, das Warnungen und Vorschläge für Bash/Sh-Shell-Skripte liefert. Das Tool kann verwendet werden für statische Code Analyse. Idealerweise wird das Tool in einer CI Pipeline integriert. Hier ein Beispiel einer Github Action Pipeline: name: Shellcheck on: pull_request: push: branches: - main&hellip;
-                ]]>
-            </summary>
-        <content type="html">
-            <![CDATA[
-                <h2>Beschreibung</h2>
-<p><a href="https://www.shellcheck.net/" target="_blank" rel="nofollow noopener noreferrer">ShellCheck</a> ist ein Tool, das Warnungen und Vorschläge für Bash/Sh-Shell-Skripte liefert. Das Tool kann verwendet werden für statische Code Analyse.</p>
-<h2>CI Pipeline</h2>
-<p>Idealerweise wird das Tool in einer CI Pipeline integriert. Hier ein Beispiel einer Github Action Pipeline:<code></code></p>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-attribute" style="color: #6a8759;">name</span>: Shellcheck
-
-<span class="less"><span class="hljs-attribute" style="color: #6a8759;">on</span>:
-  <span class="hljs-attribute" style="color: #6a8759;">pull_request</span>:
-  <span class="hljs-attribute" style="color: #6a8759;">push</span>:
-    <span class="hljs-attribute" style="color: #6a8759;">branches</span>:
-      - main
-
-<span class="hljs-attribute" style="color: #6a8759;">jobs</span>:
-  <span class="hljs-attribute" style="color: #6a8759;">shellcheck</span>:
-    <span class="hljs-attribute" style="color: #6a8759;">name</span>: Github Actions
-    <span class="hljs-attribute" style="color: #6a8759;">runs-on</span>: ubuntu-latest
-    <span class="hljs-attribute" style="color: #6a8759;">steps</span>:
-    - <span class="hljs-attribute" style="color: #6a8759;">uses</span>: actions/checkout<span class="hljs-variable" style="color: #629755;">@v3</span>
-    - <span class="hljs-attribute" style="color: #6a8759;">name</span>: Run Shellcheck
-      <span class="hljs-attribute" style="color: #6a8759;">uses</span>: ludeeus/action-shellcheck<span class="hljs-variable" style="color: #629755;">@master</span>
-      <span class="hljs-attribute" style="color: #6a8759;">with</span>:
-        <span class="hljs-attribute" style="color: #6a8759;">check_together</span>: <span class="hljs-string" style="color: #6a8759;">'yes'</span>
-      <span class="hljs-attribute" style="color: #6a8759;">env</span>:
-        <span class="hljs-attribute" style="color: #6a8759;">SHELLCHECK_OPTS</span>: --shell bash</span></pre>
-<h2>IDE VSCode</h2>
-<p>Zudem gibt es auch die Möglichkeit ShellChek direkt in der IDE VSCode zu integrieren: </p>
-<figure class="post__image"><img loading="lazy"  src="https://www.finecloud.ch/media/posts/54//shellcheck.gif" alt="ShellChek" width="1920" height="948"></figure>
-<p>Hier gehts zum Marketplace-Item für VSCode: <a href="https://marketplace.visualstudio.com/items?itemName=timonwong.shellcheck">https://marketplace.visualstudio.com/items?itemName=timonwong.shellcheck</a></p>
             ]]>
         </content>
     </entry>

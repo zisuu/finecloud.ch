@@ -3,7 +3,7 @@
     <title>Finecloud</title>
     <link href="https://www.finecloud.ch/feed.xml" rel="self" />
     <link href="https://www.finecloud.ch" />
-    <updated>2022-10-13T07:44:16+02:00</updated>
+    <updated>2022-10-13T07:47:07+02:00</updated>
     <author>
         <name>Finecloud</name>
     </author>
@@ -23,15 +23,15 @@
             <category term="backup"/>
             <category term="android"/>
 
-        <updated>2022-10-13T07:44:16+02:00</updated>
+        <updated>2022-10-13T07:47:07+02:00</updated>
             <summary>
                 <![CDATA[
-                    Did you know that Threema allows to Backup directly from your Threema App to a custom Threeema Safe? You can for example use your Nextcloud to keep your Threema Backups safe. I recommend to create a new Nextcloud User Account only for the purpose of&hellip;
+                    Did you know that Threema allows you, to Backup your Threema App to a custom Threeema Safe Server? You can for example use your Nextcloud to keep your Threema Backups safe. I recommend to create a new Nextcloud User Account only for the purpose of&hellip;
                 ]]>
             </summary>
         <content type="html">
             <![CDATA[
-                <p>Did you know that Threema allows to Backup directly from your Threema App to a custom Threeema Safe? You can for example use your Nextcloud to keep your Threema Backups safe.</p>
+                <p>Did you know that Threema allows you, to Backup your Threema App to a custom Threeema Safe Server? You can for example use your Nextcloud to keep your Threema Backups safe.</p>
 <h2>Configure Nextcloud</h2>
 <p>I recommend to create a new Nextcloud User Account only for the purpose of the Threema backup. If this account gets in wrong hands, all other Nextcloud Files are still save. You can share your Threema Backup Folder with your regular Nextcloud User Account if you want to have direct access to your Threema Backups.</p>
 <ol>

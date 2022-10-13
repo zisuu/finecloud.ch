@@ -3,12 +3,62 @@
     <title>Finecloud</title>
     <link href="https://www.finecloud.ch/feed.xml" rel="self" />
     <link href="https://www.finecloud.ch" />
-    <updated>2022-09-27T17:49:41+02:00</updated>
+    <updated>2022-10-13T07:44:16+02:00</updated>
     <author>
         <name>Finecloud</name>
     </author>
     <id>https://www.finecloud.ch</id>
 
+    <entry>
+        <title>Threema Safe Backup to Nextcloud</title>
+        <author>
+            <name>Finecloud</name>
+        </author>
+        <link href="https://www.finecloud.ch/threema-backup-to-nextcloud.html"/>
+        <id>https://www.finecloud.ch/threema-backup-to-nextcloud.html</id>
+            <category term="tools"/>
+            <category term="threema-safe"/>
+            <category term="threema"/>
+            <category term="nextcloud"/>
+            <category term="backup"/>
+            <category term="android"/>
+
+        <updated>2022-10-13T07:44:16+02:00</updated>
+            <summary>
+                <![CDATA[
+                    Did you know that Threema allows to Backup directly from your Threema App to a custom Threeema Safe? You can for example use your Nextcloud to keep your Threema Backups safe. I recommend to create a new Nextcloud User Account only for the purpose of&hellip;
+                ]]>
+            </summary>
+        <content type="html">
+            <![CDATA[
+                <p>Did you know that Threema allows to Backup directly from your Threema App to a custom Threeema Safe? You can for example use your Nextcloud to keep your Threema Backups safe.</p>
+<h2>Configure Nextcloud</h2>
+<p>I recommend to create a new Nextcloud User Account only for the purpose of the Threema backup. If this account gets in wrong hands, all other Nextcloud Files are still save. You can share your Threema Backup Folder with your regular Nextcloud User Account if you want to have direct access to your Threema Backups.</p>
+<ol>
+<li>Create a new Nextcloud User, e.g. threma-safe and generate a complex Password with your favorite Password Tool.</li>
+<li>Sign in with the newly created Nextcloud User and delete the example files. Create a new Folder  "threma-safe" with a subfolder "backups".</li>
+<li>In the "threma-safe" subfolder create a config file (no File-ending!) with the following content:
+<pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;">   {
+   <span class="hljs-attr">"maxBackupBytes"</span>: <span class="hljs-number" style="color: #6897bb;">52428800</span>,
+   <span class="hljs-attr">"retentionDays"</span>: <span class="hljs-number" style="color: #6897bb;">180</span>
+    }</pre>
+</li>
+<li>If you have 2FA active (as I do) you need to generate a App Password to be able to Backup your Threeema Safe to Nextcloud. Go to <em>Settings -&gt; Security -&gt; Devices &amp; sessions</em> and enter a App name like "threema-safe" and click Create new app password, save the generated password in your favorite Password Tool.</li>
+</ol>
+<h2>Configure Threema Ap</h2>
+<ol>
+<li>Open your App, on the menu select "Backups"</li>
+<li>Enable Threema Safe</li>
+<li>Choose Expert settings, uncheck "use default server"</li>
+<li>provide your Nextcloud WebDAV URL: <a href="https://yourserver.domain.com/remote.php/dav/files/threema-safe/threema-safe/">https://yourserver.domain.com/remote.php/dav/files/threema-safe/threema-safe/</a></li>
+<li>Press "Ok"</li>
+<li>Generate and enter a strong Password to protect your Threema Safe backup and click "Next". Your first Backup should now be generated.</li>
+</ol>
+<h2>Verify</h2>
+<p>You show now see a newly generated backup in your threema-safe folder. To share your Backups with your personal Nextcloud User, you can now select the threema-safe folder in Nextcloud and press the "share" icon, add your Username and you're done. Happy backing!<br><br></p>
+            ]]>
+        </content>
+    </entry>
     <entry>
         <title>Handling Exceptions in Web UI</title>
         <author>
@@ -3444,87 +3494,6 @@ Process finished with exit code <span class="hljs-number" style="color: #6897bb;
 <p tabindex="-1" role="button" data-purpose="transcript-cue">But please, don't put every line wrapped in some defensive if block. You got to try to find a balance.</p>
 </div>
 </div>
-            ]]>
-        </content>
-    </entry>
-    <entry>
-        <title>Visualisiere deine Strava Aktivitäten mit Grafana</title>
-        <author>
-            <name>Finecloud</name>
-        </author>
-        <link href="https://www.finecloud.ch/visualisiere-deine-strava-aktivitaeten-mit-grafana.html"/>
-        <id>https://www.finecloud.ch/visualisiere-deine-strava-aktivitaeten-mit-grafana.html</id>
-            <category term="strava"/>
-            <category term="grafana"/>
-            <category term="api"/>
-
-        <updated>2022-08-09T08:41:05+02:00</updated>
-            <summary>
-                <![CDATA[
-                    Was ist Strava Strava ist das soziale Netzwerk für Sportler. Du kannst deine Sport Aktivitäten aufzeichnen und diese wird deinem Strava-Feed hinzugefügt - zusammen mit jenen, die deine Freunde und Followers mit dir teilen. Auf diese Weise könnt ihr eure Wettkampf- und Trainingsaktivitäten gegenseitig verfolgen,&hellip;
-                ]]>
-            </summary>
-        <content type="html">
-            <![CDATA[
-                <div class="post__toc">
-<h3>Table of Contents</h3>
-<ul>
-<li><a href="#mcetoc_1ga0fla9lcj">Was ist Strava</a></li>
-<li><a href="#mcetoc_1ga0fla9lck">Was ist Grafana</a></li>
-<li><a href="#mcetoc_1ga0fla9lcl">Wieso das ganze?</a></li>
-<li><a href="#mcetoc_1ga0fla9lcm">Features</a></li>
-<li><a href="#mcetoc_1ga0fla9lcn">Voraussetzungen</a></li>
-<li><a href="#mcetoc_1ga0fla9lco">Setup</a>
-<ul>
-<li><a href="#mcetoc_1ga0fla9lcp">Strava Plugin</a></li>
-</ul>
-</li>
-</ul>
-</div>
-<h2 id="mcetoc_1ga0fla9lcj">Was ist Strava</h2>
-<p><a href="https://www.strava.com/" target="_blank" rel="nofollow noopener noreferrer">Strava</a> ist <strong>das</strong> soziale Netzwerk für Sportler. Du kannst deine Sport Aktivitäten aufzeichnen und diese wird deinem Strava-Feed hinzugefügt - zusammen mit jenen, die deine Freunde und Followers mit dir teilen. Auf diese Weise könnt ihr eure Wettkampf- und Trainingsaktivitäten gegenseitig verfolgen, kommentieren und bei tollen Leistungen Kudos geben.</p>
-<h2 id="mcetoc_1ga0fla9lck">Was ist Grafana</h2>
-<p>Mit der Open-Source-Software von <a href="https://grafana.com" target="_blank" rel="nofollow noopener noreferrer">Grafana</a> kann man Metriken, Protokolle und Ablaufverfolgungen, visualisieren, warnen und untersuchen. Grafana OSS stellt Tools zur Verfügung, mit denen man seine <em>time-series database</em> (TSDB) in aufschlussreiche Diagramme und Visualisierungen umwandeln kann.</p>
-<h2 id="mcetoc_1ga0fla9lcl">Wieso das ganze?</h2>
-<p>Weil man's kann. Natürlich hast du bereits bei Gramin wie auch Strava und anderen Portalen gute Dashboards um deine Trainings zu analysieren. Ich finde dieser Anwendungsfall aber doppelt interessant, da ich bei diesem Vorhaben mit Grafana vertrauter machen kann und zudem interessante Daten analysieren kann, welche ich selbst generiert habe.</p>
-<h2 id="mcetoc_1ga0fla9lcm">Features</h2>
-<p>Das <a href="http://192.168.100.13:3000/plugins/grafana-strava-datasource" target="_blank" rel="nofollow noopener noreferrer">Grafana Plugin für Strava</a> ermöglicht dir folgendes:</p>
-<ul>
-<li>Abfrage von Aktivitätsstatistiken und Darstellung als Zeitreihendaten</li>
-<li>Tabellenformat</li>
-<li>Anzeigen der Aktivitäten auf der ganzen Welt mit dem Worldmap-Panel</li>
-<li>Visualisierung und Analyse von Aktivitätsdaten wie Herzfrequenz, Geschwindigkeit/Tempo, Leistung, etc.</li>
-<li>Unterstützung von Template-Variablen</li>
-</ul>
-<h2 id="mcetoc_1ga0fla9lcn">Voraussetzungen</h2>
-<ol>
-<li>Du hast bereits eine fertig installierte Grafana Instanz. Falls du Grafana noch installieren musst, kannst du <a href="https://www.finecloud.ch/monitor-proxmox-mit-grafana-und-prometheus.html#mcetoc_1g8oet5nkph" target="_blank" rel="nofollow noopener noreferrer">hier</a> nachlesen wie das geht.</li>
-<li>Du hast das <a href="http://192.168.100.13:3000/plugins/grafana-strava-datasource" target="_blank" rel="nofollow noopener noreferrer">Grafana Plugin für Strava</a> bereits installiert</li>
-</ol>
-<h2 id="mcetoc_1ga0fla9lco">Setup Strava Plugin</h2>
-<p>Bevor wir Daten von Strava anziehen könnnen, musst du auf strava.com mit deinem Account einloggen und dir ein API App Secret erstellen:</p>
-<ol>
-<li>Nachdem du dich auf <a href="https://www.strava.com/settings/api">https://www.strava.com/settings/api</a> eingeloggt hast, erstelle eine App.</li>
-<li>Du solltest nun die Seite "Meine API-Anwendung" sehen. Hier die Erklärung der Begriffe:
-<ul>
-<li>Category: Die Kategorie für deine Anwendung</li>
-<li>Club: Zeigt an, ob du einen Club mit deiner Anwendung verknüpft hast</li>
-<li>Client ID: Deine Anmelde-ID</li>
-<li>Client Secret: Dein Kundengeheimnis (bitte behandle es vertraulich)</li>
-<li>Authorization Token: Dein Autorisierungs-Token, der sich alle sechs Stunden ändert (bitte behandeln Sie dies vertraulich)</li>
-<li>Your Refresh-Token: Das Token, das du verwenden kannst, um ein neues Autorisierungs-Token zu erhalten (bitte vertraulich behandeln)</li>
-<li>Rate limits: Dein aktuelles Ratenlimit</li>
-<li>Authorization Callback Domain: Ändern auf die exakte Grafana URL oder IP von welcher aus du Grafana verwendets, dass wird warscheinlich eine interne URL/IP sein. Füge die URL aber ohne Ports hinzu, also z.b. 192.168.0.10</li>
-</ul>
-</li>
-</ol>
-<p>Nun wechseln wir zurück in unser Grafana und erstellen eine neue Strava Data Source:</p>
-<figure class="post__image"><img loading="lazy"  src="https://www.finecloud.ch/media/posts/55/strava.png" sizes="100vw" srcset="https://www.finecloud.ch/media/posts/55/responsive/strava-xs.png 300w ,https://www.finecloud.ch/media/posts/55/responsive/strava-sm.png 480w ,https://www.finecloud.ch/media/posts/55/responsive/strava-md.png 768w ,https://www.finecloud.ch/media/posts/55/responsive/strava-lg.png 1024w ,https://www.finecloud.ch/media/posts/55/responsive/strava-xl.png 1360w ,https://www.finecloud.ch/media/posts/55/responsive/strava-2xl.png 1600w"  alt="" width="1835" height="723"></figure>
-<p>Wichtig ist das nun zuerst Connect with Strava angewählt wird, damit die OAuth stattfinden kann:</p>
-<figure class="post__image"><img loading="lazy"  src="https://www.finecloud.ch/media/posts/55/config_2.png" sizes="100vw" srcset="https://www.finecloud.ch/media/posts/55/responsive/config_2-xs.png 300w ,https://www.finecloud.ch/media/posts/55/responsive/config_2-sm.png 480w ,https://www.finecloud.ch/media/posts/55/responsive/config_2-md.png 768w ,https://www.finecloud.ch/media/posts/55/responsive/config_2-lg.png 1024w ,https://www.finecloud.ch/media/posts/55/responsive/config_2-xl.png 1360w ,https://www.finecloud.ch/media/posts/55/responsive/config_2-2xl.png 1600w"  alt="" width="1686" height="947"></figure>
-<p>Anschliessend wirst du nochmals zurück auf den vorherigen Data Source Dialog redirected. Gib dort nochmals deine Client ID und Client Secret ein und klicke danach auf Save &amp; Test. Nun sollte die Meldung kommen "<em>Data source is working</em>".</p>
-<p>Nun kannst du in Tab Dashboards noch die Dashboards importieren welche du dann unter Browse anschauen kannst:</p>
-<figure class="post__image"><img loading="lazy"  src="https://www.finecloud.ch/media/posts/55/strava-2.png" sizes="100vw" srcset="https://www.finecloud.ch/media/posts/55/responsive/strava-2-xs.png 300w ,https://www.finecloud.ch/media/posts/55/responsive/strava-2-sm.png 480w ,https://www.finecloud.ch/media/posts/55/responsive/strava-2-md.png 768w ,https://www.finecloud.ch/media/posts/55/responsive/strava-2-lg.png 1024w ,https://www.finecloud.ch/media/posts/55/responsive/strava-2-xl.png 1360w ,https://www.finecloud.ch/media/posts/55/responsive/strava-2-2xl.png 1600w"  alt="" width="2557" height="1341"></figure>
             ]]>
         </content>
     </entry>

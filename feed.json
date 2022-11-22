@@ -12,7 +12,7 @@
         {
             "id": "https://www.finecloud.ch/take-care-of-your-ssh-keys.html",
             "url": "https://www.finecloud.ch/take-care-of-your-ssh-keys.html",
-            "title": "Take care of your SSH Keys",
+            "title": "Take care of your SSH identities",
             "summary": "Did you know that your ssh Client sends the server all your public keys, one by one, until the server accepts one, when you try to authenticate via public key? Don't believe me? Try it out yourself: ssh whoami.filippo.io Someone could use this to find&hellip;",
             "content_html": "<p>Did you know that your ssh Client sends the server all your public keys, one by one, until the server accepts one, when you try to authenticate via public key?</p>\n<p>Don't believe me? Try it out yourself: </p>\n<pre><code>ssh whoami.filippo.io</code></pre>\n<p>Someone could use this to find out which public keys you have installed on your Client. You don't what this, don't you? So how can we avoid the leak of our Clients Public Keys? There is an easy fix, just add this at the end of your <code>~/.ssh/config</code> file:</p>\n<pre><code>Host *</code><br><code>    PubkeyAuthentication no</code><br><code>    IdentitiesOnly yes</code></pre>\n<p>Also make sure you don't use just one key for all connections. I hope don't use one password for all your logins - so why should you use one key for all your logins?</p>\n<p>It is recommended to use one specific key for each host:</p>\n<pre><code>Host github.com</code><br><code>    PubkeyAuthentication yes</code><br><code>    IdentityFile ~/.ssh/github_id_ed25519</code></pre>\n<p> </p>",
             "author": {
@@ -28,7 +28,7 @@
                    "bash"
             ],
             "date_published": "2022-11-22T13:59:20+01:00",
-            "date_modified": "2022-11-22T14:10:16+01:00"
+            "date_modified": "2022-11-22T15:37:51+01:00"
         },
         {
             "id": "https://www.finecloud.ch/opnsense-backup-to-nextcloud.html",

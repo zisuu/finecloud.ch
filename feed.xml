@@ -3,14 +3,14 @@
     <title>Finecloud</title>
     <link href="https://www.finecloud.ch/feed.xml" rel="self" />
     <link href="https://www.finecloud.ch" />
-    <updated>2022-11-22T14:10:16+01:00</updated>
+    <updated>2022-11-22T15:37:51+01:00</updated>
     <author>
         <name>Finecloud</name>
     </author>
     <id>https://www.finecloud.ch</id>
 
     <entry>
-        <title>Take care of your SSH Keys</title>
+        <title>Take care of your SSH identities</title>
         <author>
             <name>Finecloud</name>
         </author>
@@ -24,7 +24,7 @@
             <category term="linux"/>
             <category term="bash"/>
 
-        <updated>2022-11-22T14:10:16+01:00</updated>
+        <updated>2022-11-22T15:37:51+01:00</updated>
             <summary>
                 <![CDATA[
                     Did you know that your ssh Client sends the server all your public keys, one by one, until the server accepts one, when you try to authenticate via public key? Don't believe me? Try it out yourself: ssh whoami.filippo.io Someone could use this to find&hellip;

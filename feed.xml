@@ -3,7 +3,7 @@
     <title>Finecloud</title>
     <link href="https://www.finecloud.ch/feed.xml" rel="self" />
     <link href="https://www.finecloud.ch" />
-    <updated>2022-12-23T06:11:09+01:00</updated>
+    <updated>2022-12-23T06:30:35+01:00</updated>
     <author>
         <name>Finecloud</name>
     </author>
@@ -27,7 +27,7 @@
             <category term="git"/>
             <category term="dev"/>
 
-        <updated>2022-12-23T06:11:09+01:00</updated>
+        <updated>2022-12-23T06:30:35+01:00</updated>
             <summary>
                 <![CDATA[
                     Requirements and Preparation Unfortunately Heroku currently only Supports Tomcat version 9.x. As a consequence you're not able to use the Java Jakarta Servlets, since they are only supported with Tomcat version 10.x. As a consequence you need to replace all your Jakarta Servlet imports with&hellip;
@@ -108,7 +108,9 @@ http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"</span>&gt;</span></pre>
 <h3 id="mcetoc_1gkum5rlmdg"><br>Build the App</h3>
 <p>Browse to the root folder of your Java Application:<br><code>mvn clean package</code><br><br>next run:<br><code>java -jar target/dependency/webapp-runner.jar target/*.war</code><br><br>That’s it. Your application should start up on port 8080. If this works as expected, your ready to deploy your App to Heroku.</p>
 <h3 id="mcetoc_1gkum5rlmdh">Deploy to Heroku</h3>
-<p>Create a Procfile in the root folder of your Application:<br><code>echo "web: java $JAVA_OPTS -jar target/dependency/webapp-runner.jar --port $PORT target/*.war" &gt; Procfile</code><br><br><br>Commit your changes to Git:<br><br><code>git init</code><br><code>git add .</code><br><code>git commit -m "Ready to deploy"</code><br><br><br>Create the app and deploy your code:<br><br><code>heroku create</code><br><code>git push heroku main</code><br><br><br>Your web app should now be up and running on Heroku. Open it in your browser with:<br><br><code>heroku open</code><br><br></p>
+<p>Create a Procfile in the root folder of your Application:<br><code>echo 'web: java $JAVA_OPTS -jar target/dependency/webapp-runner.jar --port $PORT target/*.war' &gt; Procfile</code></p>
+<p>We also need to declare the Java version to Heroku:<br><code>echo 'java.runtime.version=17' &gt; system.properties</code><br><br></p>
+<p>Commit your changes to Git:<br><br><code>git init</code><br><code>git add .</code><br><code>git commit -m "Ready to deploy"</code><br><br><br>Create the app and deploy your code:<br><br><code>heroku create</code><code>--region eu</code><code></code><br><code>git push heroku main</code><br><br><br>Your web app should now be up and running on Heroku. Open it in your browser with:<br><br><code>heroku open</code><br><br></p>
             ]]>
         </content>
     </entry>

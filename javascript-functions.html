@@ -1,0 +1,114 @@
+<!DOCTYPE html><html lang="de-ch"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>JavaScript functions - Finecloud</title><meta name="description" content="Function Expression A function expression starts with the keyword function followed by the function arguments in parentheses and the function body in curly braces: const square = function(x) { return x * x; }; console.log(square(4)); // &gt;&gt; 16 Function Scope Each function deﬁnes a scope&hellip;"><meta name="generator" content="Publii Open-Source CMS for Static Site"><link rel="canonical" href="https://www.finecloud.ch/javascript-functions.html"><link rel="alternate" type="application/atom+xml" href="https://www.finecloud.ch/feed.xml"><link rel="alternate" type="application/json" href="https://www.finecloud.ch/feed.json"><meta property="og:title" content="JavaScript functions"><meta property="og:site_name" content="Finecloud"><meta property="og:description" content="Function Expression A function expression starts with the keyword function followed by the function arguments in parentheses and the function body in curly braces: const square = function(x) { return x * x; }; console.log(square(4)); // &gt;&gt; 16 Function Scope Each function deﬁnes a scope&hellip;"><meta property="og:url" content="https://www.finecloud.ch/javascript-functions.html"><meta property="og:type" content="article"><link rel="shortcut icon" href="https://www.finecloud.ch/media/website/finecloud.png" type="image/png"><link rel="stylesheet" href="https://www.finecloud.ch/assets/css/style.css?v=39da73365516a098a9b73b721fc970e2"><script type="application/ld+json">{"@context":"http://schema.org","@type":"Article","mainEntityOfPage":{"@type":"WebPage","@id":"https://www.finecloud.ch/javascript-functions.html"},"headline":"JavaScript functions","datePublished":"2023-01-17T15:46","dateModified":"2023-01-17T19:41","description":"Function Expression A function expression starts with the keyword function followed by the function arguments in parentheses and the function body in curly braces: const square = function(x) { return x * x; }; console.log(square(4)); // &gt;&gt; 16 Function Scope Each function deﬁnes a scope&hellip;","author":{"@type":"Person","name":"Finecloud","url":"https://www.finecloud.ch/authors/finecloud/"},"publisher":{"@type":"Organization","name":"Finecloud"}}</script><meta name="google-site-verification" content="seFY9U12uiEq5U3_MyZiX6XWzk0AVFl9zITr2ZKsytY"></head><body><div class="site-container"><header class="top" id="js-header"><a class="logo" href="https://www.finecloud.ch/">Finecloud</a><nav class="navbar js-navbar"><button class="navbar__toggle js-toggle" aria-label="Menu" aria-haspopup="true" aria-expanded="false"><span class="navbar__toggle-box"><span class="navbar__toggle-inner">Menu</span></span></button><ul class="navbar__menu"><li><a href="https://www.finecloud.ch/" target="_self">Blog</a></li><li><a href="https://www.finecloud.ch/tags/" target="_self">Tags</a></li></ul></nav><div class="search"><div class="search__overlay js-search-overlay"><div class="search__overlay-inner"><form action="https://www.finecloud.ch/search.html" class="search__form"><input class="search__input js-search-input" type="search" name="q" placeholder="search..." aria-label="search..." autofocus="autofocus"></form><button class="search__close js-search-close" aria-label="Close">Close</button></div></div><button class="search__btn js-search-btn" aria-label="Search"><svg role="presentation" focusable="false"><use xlink:href="https://www.finecloud.ch/assets/svg/svg-map.svg#search"/></svg></button></div></header><main><article class="post"><div class="hero"><figure class="hero__image hero__image--overlay"><img src="https://www.finecloud.ch/media/website/download.jpg" srcset="https://www.finecloud.ch/media/website/responsive/download-xs.jpg 300w, https://www.finecloud.ch/media/website/responsive/download-sm.jpg 480w, https://www.finecloud.ch/media/website/responsive/download-md.jpg 768w, https://www.finecloud.ch/media/website/responsive/download-lg.jpg 1024w, https://www.finecloud.ch/media/website/responsive/download-xl.jpg 1360w, https://www.finecloud.ch/media/website/responsive/download-2xl.jpg 1600w" sizes="100vw" loading="eager" alt=""></figure><header class="hero__content"><div class="wrapper"><div class="post__meta"><time datetime="2023-01-17T15:46">Januar 17, 2023</time></div><h1>JavaScript functions</h1></div></header></div><div class="wrapper post__entry"><div class="post__toc"><h3>Table of Contents</h3><ul><li><a href="#mcetoc_1gn00tl6e8l">Function Expression</a></li><li><a href="#mcetoc_1gn018lrv9b">Function Scope</a></li><li><a href="#mcetoc_1gn018lrv9c">Lexical Scope</a></li><li><a href="#mcetoc_1gn02tcrha3">Nested Scope</a></li><li><a href="#mcetoc_1gn02tcrha4">Functions are Objects</a></li><li><a href="#mcetoc_1gn036mefbt">Closure</a></li><li><a href="#mcetoc_1gn036mefbu">Function Declaration</a></li><li><a href="#mcetoc_1gn0ggrqvcq">Function Declarations are Hoisted</a></li></ul></div><h2 id="mcetoc_1gn00tl6e8l">Function Expression</h2><p>A function expression starts with the keyword function followed by the function arguments in parentheses and the function body in curly braces:</p><pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-keyword" style="color: #cc7832;">const</span> square = <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span>(<span class="hljs-params">x</span>) </span>{
+  <span class="hljs-keyword" style="color: #cc7832;">return</span> x * x;
+};
+
+<span class="hljs-built_in">console</span>.log(square(<span class="hljs-number" style="color: #6897bb;">4</span>));  <span class="hljs-comment" style="color: grey;">// &gt;&gt; 16</span>
+</pre><h2 id="mcetoc_1gn018lrv9b">Function Scope</h2><ul><li>Each function deﬁnes a scope</li><li>Local variables of a function are not visible outside of the function</li></ul><pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-keyword" style="color: #cc7832;">const</span> a = <span class="hljs-string" style="color: #6a8759;">"Hello "</span>;          <span class="hljs-comment" style="color: grey;">// a has global scope</span>
+
+<span class="hljs-keyword" style="color: #cc7832;">const</span> f = <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span>(<span class="hljs-params">b</span>) </span>{      <span class="hljs-comment" style="color: grey;">// b is local to f</span>
+  <span class="hljs-keyword" style="color: #cc7832;">const</span> c = <span class="hljs-string" style="color: #6a8759;">"!"</span>;             <span class="hljs-comment" style="color: grey;">// c is local to f</span>
+  <span class="hljs-built_in">console</span>.log(a+b+c);
+};
+
+f(<span class="hljs-string" style="color: #6a8759;">"World"</span>);                 <span class="hljs-comment" style="color: grey;">// &gt;&gt; Hello World!</span>
+<span class="hljs-built_in">console</span>.log(<span class="hljs-keyword" style="color: #cc7832;">typeof</span> b);      <span class="hljs-comment" style="color: grey;">// &gt;&gt; undefined</span>
+<span class="hljs-built_in">console</span>.log(<span class="hljs-keyword" style="color: #cc7832;">typeof</span> c);      <span class="hljs-comment" style="color: grey;">// &gt;&gt; undefined</span></pre><h2 id="mcetoc_1gn018lrv9c">Lexical Scope</h2><p>Variables have lexical (static) scope, i.e., the scope of a variable is determined by the code context of the variable:</p><pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-keyword" style="color: #cc7832;">const</span> a = <span class="hljs-number" style="color: #6897bb;">2</span>;
+
+<span class="hljs-keyword" style="color: #cc7832;">const</span> f = <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span>(<span class="hljs-params">b</span>) </span>{
+  <span class="hljs-keyword" style="color: #cc7832;">return</span> a+b;
+};
+
+<span class="hljs-built_in">console</span>.log(f(<span class="hljs-number" style="color: #6897bb;">7</span>));      <span class="hljs-comment" style="color: grey;">// &gt;&gt; 9</span>
+
+<span class="hljs-keyword" style="color: #cc7832;">const</span> g = <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span>() </span>{
+  <span class="hljs-keyword" style="color: #cc7832;">const</span> a = <span class="hljs-number" style="color: #6897bb;">5</span>;          <span class="hljs-comment" style="color: grey;">// a is hiding the global variable inside g</span>
+  <span class="hljs-keyword" style="color: #cc7832;">return</span> f(<span class="hljs-number" style="color: #6897bb;">7</span>);          <span class="hljs-comment" style="color: grey;">// but the global variable is used inside f</span>
+};
+<span class="hljs-built_in">console</span>.log(g());       <span class="hljs-comment" style="color: grey;">// &gt;&gt; 9</span>
+</pre><h2 id="mcetoc_1gn02tcrha3">Nested Scope</h2><ul><li>Blocks and functions can be created inside other blocks and functions</li><li>Each local scope can access the variables from the surrounding scopes</li></ul><pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-keyword" style="color: #cc7832;">const</span> a = <span class="hljs-number" style="color: #6897bb;">2</span>;
+
+<span class="hljs-keyword" style="color: #cc7832;">const</span> f = <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span>(<span class="hljs-params">b</span>) </span>{
+  <span class="hljs-keyword" style="color: #cc7832;">let</span> x = <span class="hljs-number" style="color: #6897bb;">1</span>;
+
+  <span class="hljs-keyword" style="color: #cc7832;">const</span> g = <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span>() </span>{    <span class="hljs-comment" style="color: grey;">// g has access to the local variables of f and to</span>
+    x *= a;                 <span class="hljs-comment" style="color: grey;">// the variables of the global scope</span>
+  };
+
+  <span class="hljs-keyword" style="color: #cc7832;">while</span> (x &lt; b) g();
+  <span class="hljs-keyword" style="color: #cc7832;">return</span> x;
+};
+<span class="hljs-built_in">console</span>.log(f(<span class="hljs-number" style="color: #6897bb;">100</span>))        <span class="hljs-comment" style="color: grey;">// &gt;&gt; 128</span>
+</pre><h2 id="mcetoc_1gn02tcrha4">Functions are Objects</h2><p>Functions are objects, hence they can be used as arguments and return values of other functions (higher-order functions)</p><pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-comment" style="color: grey;">// Function as argument</span>
+<span class="hljs-keyword" style="color: #cc7832;">const</span> repeat = <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span>(<span class="hljs-params">action, n</span>) </span>{
+  <span class="hljs-keyword" style="color: #cc7832;">for</span> (<span class="hljs-keyword" style="color: #cc7832;">let</span> i = <span class="hljs-number" style="color: #6897bb;">0</span>; i &lt; n; i++) action();
+};
+
+<span class="hljs-keyword" style="color: #cc7832;">const</span> sayHello = <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span>() </span>{
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string" style="color: #6a8759;">"Hello"</span>);
+}
+repeat(sayHello, <span class="hljs-number" style="color: #6897bb;">3</span>);                   <span class="hljs-comment" style="color: grey;">// &gt;&gt; Hello Hello Hello</span>
+
+<span class="hljs-comment" style="color: grey;">// Function as return value</span>
+<span class="hljs-keyword" style="color: #cc7832;">const</span> formatter = <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span>(<span class="hljs-params">prefix, suffix</span>) </span>{
+  <span class="hljs-keyword" style="color: #cc7832;">return</span> <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span>(<span class="hljs-params">s</span>) </span>{
+    <span class="hljs-keyword" style="color: #cc7832;">return</span> prefix+s+suffix;
+  }
+};
+
+<span class="hljs-keyword" style="color: #cc7832;">const</span> format = formatter(<span class="hljs-string" style="color: #6a8759;">"'"</span>, <span class="hljs-string" style="color: #6a8759;">"!'"</span>);
+<span class="hljs-built_in">console</span>.log(format(<span class="hljs-string" style="color: #6a8759;">"Hello World"</span>));    <span class="hljs-comment" style="color: grey;">// &gt;&gt; 'Hello World!'</span>
+</pre><h2 id="mcetoc_1gn036mefbt">Closure</h2><p>A function that references a speciﬁc instance of a local variable in an enclosing function is called a closure:</p><pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-keyword" style="color: #cc7832;">const</span> counter = <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span>(<span class="hljs-params">init</span>) </span>{
+  <span class="hljs-keyword" style="color: #cc7832;">let</span> val = <span class="hljs-built_in">Number</span>(init);
+  <span class="hljs-keyword" style="color: #cc7832;">return</span> <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span>() </span>{
+    <span class="hljs-keyword" style="color: #cc7832;">return</span> ++val;
+  };
+};
+
+<span class="hljs-keyword" style="color: #cc7832;">const</span> countA = counter(<span class="hljs-number" style="color: #6897bb;">12</span>);    <span class="hljs-comment" style="color: grey;">// countA references a specific instance of val</span>
+<span class="hljs-built_in">console</span>.log(countA());         <span class="hljs-comment" style="color: grey;">// &gt;&gt; 13</span>
+<span class="hljs-built_in">console</span>.log(countA());         <span class="hljs-comment" style="color: grey;">// &gt;&gt; 14</span>
+
+<span class="hljs-keyword" style="color: #cc7832;">const</span> countB = counter(<span class="hljs-string" style="color: #6a8759;">"6"</span>);   <span class="hljs-comment" style="color: grey;">// countB references another instance of val</span>
+<span class="hljs-built_in">console</span>.log(countB());         <span class="hljs-comment" style="color: grey;">// &gt;&gt; 7</span>
+<span class="hljs-built_in">console</span>.log(countA());         <span class="hljs-comment" style="color: grey;">// &gt;&gt; 15</span>
+</pre><h2 id="mcetoc_1gn036mefbu">Function Declaration</h2><p>A function declaration deﬁnes a variable which points to the given function:</p><pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-comment" style="color: grey;">// Declare f to be a function</span>
+<span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span> <span class="hljs-title" style="color: #ffc66d;">f</span>() </span>{
+  <span class="hljs-keyword" style="color: #cc7832;">return</span> <span class="hljs-string" style="color: #6a8759;">"I'm a chicken"</span>;
+}
+
+<span class="hljs-built_in">console</span>.log(f());      <span class="hljs-comment" style="color: grey;">// &gt;&gt; I'm a chicken</span>
+
+<span class="hljs-comment" style="color: grey;">// The variable f can be reassigned</span>
+f = <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span>() </span>{
+  <span class="hljs-keyword" style="color: #cc7832;">return</span> <span class="hljs-string" style="color: #6a8759;">"I'm a fox"</span>;
+}
+
+<span class="hljs-built_in">console</span>.log(f());      <span class="hljs-comment" style="color: grey;">// &gt;&gt; I'm a fox</span>
+</pre><h2 id="mcetoc_1gn0ggrqvcq">Function Declarations are Hoisted</h2><p>Function declarations are not part of the regular top-to-bottom ﬂow of control:</p><pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-comment" style="color: grey;">// The function f can be used before it is declared</span>
+<span class="hljs-built_in">console</span>.log(f(<span class="hljs-number" style="color: #6897bb;">4</span>));     <span class="hljs-comment" style="color: grey;">// &gt;&gt; 48</span>
+
+<span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span> <span class="hljs-title" style="color: #ffc66d;">f</span>(<span class="hljs-params">a</span>) </span>{
+  <span class="hljs-keyword" style="color: #cc7832;">return</span> g() * a;
+};
+
+<span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span> <span class="hljs-title" style="color: #ffc66d;">g</span>() </span>{
+  <span class="hljs-keyword" style="color: #cc7832;">return</span> <span class="hljs-number" style="color: #6897bb;">12</span>;
+}
+</pre><p> </p></div><footer class="wrapper post__footer"><p class="post__last-updated">This article was updated on Januar 17, 2023</p><ul class="post__tag"><li><a href="https://www.finecloud.ch/tags/dev/">dev</a></li><li><a href="https://www.finecloud.ch/tags/javascript/">javascript</a></li><li><a href="https://www.finecloud.ch/tags/softwareentwicklung/">software development</a></li></ul><div class="post__share"></div></footer></article><nav class="post__nav"><div class="post__nav-inner"><div class="post__nav-prev"><svg width="1.041em" height="0.416em" aria-hidden="true"><use xlink:href="https://www.finecloud.ch/assets/svg/svg-map.svg#arrow-prev"/></svg> <a href="https://www.finecloud.ch/javascript-basics.html" class="post__nav-link" rel="prev"><span>Previous</span> JavaScript basics</a></div></div></nav><div class="post__related related"><div class="wrapper"><h2 class="h5 related__title">You should also read:</h2><article class="related__item"><div class="feed__meta"><time datetime="2023-01-17T14:53" class="feed__date">Januar 17, 2023</time></div><h3 class="h1"><a href="https://www.finecloud.ch/javascript-basics.html">JavaScript basics</a></h3></article></div></div></main><footer class="footer"><div class="footer__copyright"><p>Powered by Publii</p></div><button onclick="backToTopFunction()" id="backToTop" class="footer__bttop" aria-label="Back to top" title="Back to top"><svg><use xlink:href="https://www.finecloud.ch/assets/svg/svg-map.svg#toparrow"/></svg></button></footer></div><script>window.publiiThemeMenuConfig = {    
+        mobileMenuMode: 'sidebar',
+        animationSpeed: 300,
+        submenuWidth: 'auto',
+        doubleClickTime: 500,
+        mobileMenuExpandableSubmenus: true, 
+        relatedContainerForOverlayMenuSelector: '.top',
+   };</script><script defer="defer" src="https://www.finecloud.ch/assets/js/scripts.min.js?v=6ca8b60e6534a3888de1205e82df8528"></script><script>var images = document.querySelectorAll('img[loading]');
+
+        for (var i = 0; i < images.length; i++) {
+            if (images[i].complete) {
+                images[i].classList.add('is-loaded');
+            } else {
+                images[i].addEventListener('load', function () {
+                    this.classList.add('is-loaded');
+                }, false);
+            }
+        }</script></body></html>

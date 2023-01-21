@@ -3,12 +3,221 @@
     <title>Finecloud</title>
     <link href="https://www.finecloud.ch/feed.xml" rel="self" />
     <link href="https://www.finecloud.ch" />
-    <updated>2023-01-17T20:13:15+01:00</updated>
+    <updated>2023-01-21T13:27:07+01:00</updated>
     <author>
         <name>Finecloud</name>
     </author>
     <id>https://www.finecloud.ch</id>
 
+    <entry>
+        <title>JavaScript objects</title>
+        <author>
+            <name>Finecloud</name>
+        </author>
+        <link href="https://www.finecloud.ch/javascript-objects.html"/>
+        <id>https://www.finecloud.ch/javascript-objects.html</id>
+            <category term="software development"/>
+            <category term="javascript"/>
+            <category term="dev"/>
+
+        <updated>2023-01-21T13:17:35+01:00</updated>
+            <summary>
+                <![CDATA[
+                    Object An object is a collection of properties A property has a name and a value An object can be seen as associative array (map) where the keys in the array are the names of the object’s properties // Create object as literal const bob&hellip;
+                ]]>
+            </summary>
+        <content type="html">
+            <![CDATA[
+                <div class="post__toc">
+<h3>Table of Contents</h3>
+<ul>
+<li><a href="#mcetoc_1gn0ic8ssj0">Object</a></li>
+<li><a href="#mcetoc_1gn0ic8ssj1">Object Properties</a></li>
+<li><a href="#mcetoc_1gna43tov6">Object Methods</a></li>
+<li><a href="#mcetoc_1gna43tov7">Object Constructor</a></li>
+<li><a href="#mcetoc_1gna43tov8">Altering Objects</a></li>
+</ul>
+</div>
+<h2 id="mcetoc_1gn0ic8ssj0">Object</h2>
+<ul>
+<li>An object is a collection of properties</li>
+<li>A property has a name and a value</li>
+<li>An object can be seen as associative array (map) where the keys in the array are the names of the object’s properties</li>
+</ul>
+<pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-comment" style="color: grey;">// Create object as literal</span>
+<span class="hljs-keyword" style="color: #cc7832;">const</span> bob = {
+  name: <span class="hljs-string" style="color: #6a8759;">"Bob"</span>,
+  age: <span class="hljs-number" style="color: #6897bb;">25</span>
+};
+
+<span class="hljs-comment" style="color: grey;">// Access properties</span>
+<span class="hljs-built_in">console</span>.log(bob.name);               <span class="hljs-comment" style="color: grey;">// &gt;&gt; Bob</span>
+bob.age = bob.age+<span class="hljs-number" style="color: #6897bb;">1</span>;
+bob.age++;
+<span class="hljs-built_in">console</span>.log(bob.age);                <span class="hljs-comment" style="color: grey;">// &gt;&gt; 27</span>
+</pre>
+<h2 id="mcetoc_1gn0ic8ssj1">Object Properties</h2>
+<ul>
+<li>Properties can dynamically be added to an object</li>
+<li>Properties can be accessed using the dot or index operator</li>
+<li>Property names that are not valid variable names have to be put in quotes</li>
+</ul>
+<pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-keyword" style="color: #cc7832;">const</span> bob = {name: <span class="hljs-string" style="color: #6a8759;">"Bob"</span>, age: <span class="hljs-number" style="color: #6897bb;">25</span>};
+
+<span class="hljs-comment" style="color: grey;">// Add new properties</span>
+bob.hairColor = <span class="hljs-string" style="color: #6a8759;">"black"</span>;
+<span class="hljs-built_in">console</span>.log(bob.hairColor);          <span class="hljs-comment" style="color: grey;">// &gt;&gt; black</span>
+<span class="hljs-built_in">console</span>.log(bob.lastname);           <span class="hljs-comment" style="color: grey;">// &gt;&gt; undefined</span>
+
+<span class="hljs-comment" style="color: grey;">// Access properties using the dot or index operator</span>
+<span class="hljs-built_in">console</span>.log(bob.name);               <span class="hljs-comment" style="color: grey;">// &gt;&gt; Bob</span>
+<span class="hljs-built_in">console</span>.log(bob[<span class="hljs-string" style="color: #6a8759;">"name"</span>]);            <span class="hljs-comment" style="color: grey;">// &gt;&gt; Bob</span>
+
+<span class="hljs-comment" style="color: grey;">// Property with quoted name</span>
+<span class="hljs-keyword" style="color: #cc7832;">const</span> alice = {
+  name: <span class="hljs-string" style="color: #6a8759;">"Alice"</span>,
+  <span class="hljs-string" style="color: #6a8759;">"year of birth"</span>: <span class="hljs-number" style="color: #6897bb;">1991</span>
+};
+<span class="hljs-built_in">console</span>.log(alice[<span class="hljs-string" style="color: #6a8759;">"year of birth"</span>]); <span class="hljs-comment" style="color: grey;">// &gt;&gt; 1991</span>
+</pre>
+<h2 id="mcetoc_1gna43tov6">Object Methods</h2>
+<ul>
+<li>An object property that points to a function value is called method</li>
+<li>Within the method body, the this reference points to the object the method is called on</li>
+</ul>
+<pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-keyword" style="color: #cc7832;">const</span> bob = {name: <span class="hljs-string" style="color: #6a8759;">"Bob"</span>};
+
+<span class="hljs-comment" style="color: grey;">// Add method to object</span>
+bob.speak = <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span>(<span class="hljs-params">phrase</span>) </span>{
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-keyword" style="color: #cc7832;">this</span>.name+<span class="hljs-string" style="color: #6a8759;">" says: "</span>+phrase);
+};
+bob.speak(<span class="hljs-string" style="color: #6a8759;">"What's up?"</span>);        <span class="hljs-comment" style="color: grey;">// &gt;&gt; Bob says: What's up?</span>
+<span class="hljs-built_in">console</span>.log(bob.speak);         <span class="hljs-comment" style="color: grey;">// &gt;&gt; [Function]</span>
+
+<span class="hljs-comment" style="color: grey;">// Object literal with method</span>
+<span class="hljs-keyword" style="color: #cc7832;">const</span> alice = {
+  name: <span class="hljs-string" style="color: #6a8759;">"Alice"</span>,
+  speak: <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span>(<span class="hljs-params">phrase</span>) </span>{
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-keyword" style="color: #cc7832;">this</span>.name+<span class="hljs-string" style="color: #6a8759;">" says: "</span>+phrase);
+  }
+};
+alice.speak(<span class="hljs-string" style="color: #6a8759;">"Great!"</span>);          <span class="hljs-comment" style="color: grey;">// &gt;&gt; Alice says: Great!</span>
+</pre>
+<h2 id="mcetoc_1gna43tov7">Object Constructor</h2>
+<ul>
+<li>A constructor function is a normal function, but treated as constructor when called with the new operator</li>
+<li>The this reference points to the new object</li>
+</ul>
+<pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-comment" style="color: grey;">// Constructor function</span>
+<span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span> <span class="hljs-title" style="color: #ffc66d;">Person</span>(<span class="hljs-params">name, age</span>) </span>{
+  <span class="hljs-keyword" style="color: #cc7832;">this</span>.name = name;
+  <span class="hljs-keyword" style="color: #cc7832;">this</span>.age = age;
+  <span class="hljs-keyword" style="color: #cc7832;">this</span>.speak = <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span>(<span class="hljs-params">phrase</span>) </span>{
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-keyword" style="color: #cc7832;">this</span>.name+<span class="hljs-string" style="color: #6a8759;">" says: "</span>+phrase);
+  }
+}
+
+<span class="hljs-comment" style="color: grey;">// Create objects</span>
+<span class="hljs-keyword" style="color: #cc7832;">const</span> alice = <span class="hljs-keyword" style="color: #cc7832;">new</span> Person(<span class="hljs-string" style="color: #6a8759;">"Alice"</span>, <span class="hljs-number" style="color: #6897bb;">19</span>);
+<span class="hljs-keyword" style="color: #cc7832;">const</span> bob = <span class="hljs-keyword" style="color: #cc7832;">new</span> Person(<span class="hljs-string" style="color: #6a8759;">"Bob"</span>, <span class="hljs-number" style="color: #6897bb;">25</span>);
+
+<span class="hljs-built_in">console</span>.log(alice.name);    <span class="hljs-comment" style="color: grey;">// Alice</span>
+bob.speak(<span class="hljs-string" style="color: #6a8759;">"I'm Bob"</span>);       <span class="hljs-comment" style="color: grey;">// &gt;&gt; Bob says: I'm Bob</span>
+</pre>
+<h2 id="mcetoc_1gna43tov8">Altering Objects</h2>
+<p>Objects can always be altered even if they were created using a constructor function:</p>
+<pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span> <span class="hljs-title" style="color: #ffc66d;">Person</span>(<span class="hljs-params">name, age</span>) </span>{
+    <span class="hljs-keyword" style="color: #cc7832;">this</span>.name = name;
+    <span class="hljs-keyword" style="color: #cc7832;">this</span>.age = age;
+    <span class="hljs-keyword" style="color: #cc7832;">this</span>.speak = <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span> (<span class="hljs-params">phrase</span>) </span>{
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-keyword" style="color: #cc7832;">this</span>.name + <span class="hljs-string" style="color: #6a8759;">" says: "</span> + phrase);
+    }
+    <span class="hljs-keyword" style="color: #cc7832;">this</span>.sleep = <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span> () </span>{
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string" style="color: #6a8759;">"CHRRRZ Z Z z z..."</span>);
+    };
+}
+
+<span class="hljs-keyword" style="color: #cc7832;">const</span> bob = <span class="hljs-keyword" style="color: #cc7832;">new</span> Person(<span class="hljs-string" style="color: #6a8759;">"Bob"</span>, <span class="hljs-number" style="color: #6897bb;">25</span>);
+
+<span class="hljs-comment" style="color: grey;">// Alter bob</span>
+bob.speak = <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span> () </span>{
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string" style="color: #6a8759;">"Sorry, I prefer writing"</span>);
+}
+bob.write = <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span> (<span class="hljs-params">phrase</span>) </span>{
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-keyword" style="color: #cc7832;">this</span>.name + <span class="hljs-string" style="color: #6a8759;">" writes: "</span> + phrase);
+}
+<span class="hljs-keyword" style="color: #cc7832;">delete</span> bob.sleep;
+
+bob.speak(<span class="hljs-string" style="color: #6a8759;">"Bla bla"</span>);    <span class="hljs-comment" style="color: grey;">// &gt;&gt; Sorry, I prefer writing</span>
+bob.write(<span class="hljs-string" style="color: #6a8759;">"Bla bla"</span>);   <span class="hljs-comment" style="color: grey;">// &gt;&gt; Bob writes: Bla bla</span>
+bob.sleep();             <span class="hljs-comment" style="color: grey;">// ! TypeError: bob.sleep is not a function !</span>
+
+<span class="hljs-comment" style="color: grey;">// bob is still a Person</span>
+<span class="hljs-built_in">console</span>.log(bob <span class="hljs-keyword" style="color: #cc7832;">instanceof</span> Person);  <span class="hljs-comment" style="color: grey;">// &gt;&gt; true</span></pre>
+<p> </p>
+<p> </p>
+<p> </p>
+<p> </p>
+<p> </p>
+<p> </p>
+<p> </p>
+<p> </p>
+<p> </p>
+            ]]>
+        </content>
+    </entry>
+    <entry>
+        <title>Difference between heap and stack</title>
+        <author>
+            <name>Finecloud</name>
+        </author>
+        <link href="https://www.finecloud.ch/difference-between-heap-and-stack.html"/>
+        <id>https://www.finecloud.ch/difference-between-heap-and-stack.html</id>
+            <category term="software development"/>
+            <category term="dev"/>
+
+        <updated>2023-01-21T13:27:07+01:00</updated>
+            <summary>
+                <![CDATA[
+                    In this Post I try to explain the difference between the heap and the stack. It's just a very high level amateur explanation, there is a lot more to read and learn about this Topics. This Drawing helps me a lot to understand the basic&hellip;
+                ]]>
+            </summary>
+        <content type="html">
+            <![CDATA[
+                <div class="post__toc">
+<h3>Table of Contents</h3>
+<ul>
+<li><a href="#mcetoc_1gna4n2a12f">Overview</a></li>
+<li><a href="#mcetoc_1gna4n2a12g">Key Difference Between Stack and Heap Memory</a></li>
+<li><a href="#what-is-a-stack">What is a Stack?</a></li>
+<li><a href="#what-is-heap">What is Heap?</a></li>
+</ul>
+</div>
+<p>In this Post I try to explain the difference between the heap and the stack. It's just a very high level amateur explanation, there is a lot more to read and learn about this Topics.</p>
+<h2 id="mcetoc_1gna4n2a12f">Overview</h2>
+<p>This Drawing helps me a lot to understand the basic difference between the heap and the stack and as well how they interact together.</p>
+<figure class="post__image"><img loading="lazy"  src="https://www.finecloud.ch/media/posts/75/HeapAndStack-2.png" alt="" width="721" height="361" sizes="100vw" srcset="https://www.finecloud.ch/media/posts/75/responsive/HeapAndStack-2-xs.png 300w ,https://www.finecloud.ch/media/posts/75/responsive/HeapAndStack-2-sm.png 480w ,https://www.finecloud.ch/media/posts/75/responsive/HeapAndStack-2-md.png 768w ,https://www.finecloud.ch/media/posts/75/responsive/HeapAndStack-2-lg.png 1024w ,https://www.finecloud.ch/media/posts/75/responsive/HeapAndStack-2-xl.png 1360w ,https://www.finecloud.ch/media/posts/75/responsive/HeapAndStack-2-2xl.png 1600w"></figure>
+<p>The Heap is unstructured, this means that the Objects are laying somewhere around in the memory.</p>
+<h2 id="mcetoc_1gna4n2a12g">Key Difference Between Stack and Heap Memory</h2>
+<ul>
+<li>Stack is a linear data structure whereas Heap is a hierarchical data structure.</li>
+<li>Stack memory will never become fragmented whereas Heap memory can become fragmented as blocks of memory are first allocated and then freed.</li>
+<li>Stack accesses local variables only while Heap allows you to access variables globally.</li>
+<li>Stack variables can’t be resized whereas Heap variables can be resized.</li>
+<li>Stack memory is allocated in a contiguous block whereas Heap memory is allocated in any random order.</li>
+<li>Stack doesn’t require to de-allocate variables whereas in Heap de-allocation is needed.</li>
+<li>Stack allocation and deallocation are done by compiler instructions whereas Heap allocation and deallocation is done by the programmer.</li>
+</ul>
+<h2 id="what-is-a-stack">What is a Stack?</h2>
+<p>A stack is a special area of computer’s memory which stores temporary variables created by a function. In stack, variables are declared, stored and initialized during runtime.</p>
+<p>It is a temporary storage memory. When the computing task is complete, the memory of the variable will be automatically erased. The stack section mostly contains methods, local variable, and reference variables.</p>
+<h2 id="what-is-heap">What is Heap?</h2>
+<p>The heap is a memory used by programming languages to store global variables. By default, all global variable are stored in heap memory space. It supports Dynamic memory allocation.</p>
+<p>The heap is not managed automatically for you and is not as tightly managed by the CPU. It is more like a free-floating region of memory.</p>
+<p> </p>
+            ]]>
+        </content>
+    </entry>
     <entry>
         <title>JavaScript arrays</title>
         <author>
@@ -1238,605 +1447,6 @@ http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"</span>&gt;</span></pre>
 </ol>
 <h2>Verify</h2>
 <p>You show now see a newly generated backup in your threema-safe folder. To share your backups with your personal Nextcloud user, you can now select the threema-safe folder in Nextcloud and press the "share" icon, add your username and you're done. Happy backing!<br><br></p>
-            ]]>
-        </content>
-    </entry>
-    <entry>
-        <title>Handling Exceptions in Web UI</title>
-        <author>
-            <name>Finecloud</name>
-        </author>
-        <link href="https://www.finecloud.ch/handling-exceptions-in-webui.html"/>
-        <id>https://www.finecloud.ch/handling-exceptions-in-webui.html</id>
-            <category term="whitelabel error page"/>
-            <category term="try catch"/>
-            <category term="tomcat"/>
-            <category term="thymeleaf"/>
-            <category term="spring-framework"/>
-            <category term="spring"/>
-            <category term="software development"/>
-            <category term="java basics"/>
-            <category term="java"/>
-            <category term="http"/>
-            <category term="gui"/>
-            <category term="exceptions"/>
-            <category term="exception"/>
-            <category term="dev"/>
-            <category term="database"/>
-            <category term="api"/>
-
-        <updated>2022-09-27T17:49:41+02:00</updated>
-            <summary>
-                <![CDATA[
-                    The Issue There is nothing worse than presenting a Java Stacktrace in a WebUI, full of technical Details about your Server environment of the Web App itself: So how can we avoid this? You don't want to share this informations with the users, it would&hellip;
-                ]]>
-            </summary>
-        <content type="html">
-            <![CDATA[
-                <div class="post__toc">
-<h3>Table of Contents</h3>
-<ul>
-<li><a href="#mcetoc_1gdv9jdoksv">The Issue</a></li>
-<li><a href="#mcetoc_1gdv9jdokt0">Custom Error Page</a></li>
-<li><a href="#mcetoc_1gdv9jdokt1">Error Controller</a></li>
-</ul>
-</div>
-<h2 id="mcetoc_1gdv9jdoksv">The Issue</h2>
-<p>There is nothing worse than presenting a Java Stacktrace in a WebUI, full of technical Details about your Server environment of the Web App itself:</p>
-<figure class="post__image"><img loading="lazy"  src="https://www.finecloud.ch/media/posts/66//Screenshot-2022-09-27-at-10.37.26.png" alt="" width="1077" height="1032" sizes="100vw" srcset="https://www.finecloud.ch/media/posts/66//responsive/Screenshot-2022-09-27-at-10.37.26-xs.png 300w ,https://www.finecloud.ch/media/posts/66//responsive/Screenshot-2022-09-27-at-10.37.26-sm.png 480w ,https://www.finecloud.ch/media/posts/66//responsive/Screenshot-2022-09-27-at-10.37.26-md.png 768w ,https://www.finecloud.ch/media/posts/66//responsive/Screenshot-2022-09-27-at-10.37.26-lg.png 1024w ,https://www.finecloud.ch/media/posts/66//responsive/Screenshot-2022-09-27-at-10.37.26-xl.png 1360w ,https://www.finecloud.ch/media/posts/66//responsive/Screenshot-2022-09-27-at-10.37.26-2xl.png 1600w"></figure>
-<p>So how can we avoid this? You don't want to share this informations with the users, it would scare them and they wouldn't understand it.</p>
-<p>What is happing here, is that the Page will try to redirect to the /error Page. This Page does not exist as real HTML Page. This is just a generated default page out of the box. This is generated in code. But we can create our own error page to avoid this.</p>
-<h2 id="mcetoc_1gdv9jdokt0">Custom Error Page</h2>
-<p>Let's create a new HTML Page under <em>resources/templates/error.html</em>:</p>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-meta" style="color: #bbb529;">&lt;!DOCTYPE html&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string" style="color: #6a8759;">"en"</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">head</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string" style="color: #6a8759;">"UTF-8"</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">title</span>&gt;</span>Error Page<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">title</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">head</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">body</span>&gt;</span>
-Something went horribly, terribly wrong. Please try again.
-<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">body</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">html</span>&gt;</span></pre>
-<p>To use this Page, because it's under the templates folder it needs a controller in order to work.</p>
-<h2 id="mcetoc_1gdv9jdokt1">Error Controller</h2>
-<p>So we need to create an error Controller for this. Let's create a new Java Class called ErrorController.java with this content:</p>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-keyword" style="color: #cc7832;">package</span> ch.finecloud.peopledbweb.web.controller;
-
-<span class="hljs-keyword" style="color: #cc7832;">import</span> org.springframework.stereotype.Controller;
-<span class="hljs-keyword" style="color: #cc7832;">import</span> org.springframework.web.bind.annotation.GetMapping;
-<span class="hljs-keyword" style="color: #cc7832;">import</span> org.springframework.web.bind.annotation.RequestMapping;
-
-<span class="hljs-meta" style="color: #bbb529;">@Controller</span>
-<span class="hljs-meta" style="color: #bbb529;">@RequestMapping</span>(<span class="hljs-string" style="color: #6a8759;">"error"</span>)
-<span class="hljs-keyword" style="color: #cc7832;">public</span> <span class="hljs-class"><span class="hljs-keyword" style="color: #cc7832;">class</span> <span class="hljs-title" style="color: #ffc66d;">ErrorController</span> </span>{
-
-    <span class="hljs-meta" style="color: #bbb529;">@GetMapping</span>
-    <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">public</span> String <span class="hljs-title" style="color: #ffc66d;">getErrorPage</span><span class="hljs-params">()</span> </span>{
-        <span class="hljs-keyword" style="color: #cc7832;">return</span> <span class="hljs-string" style="color: #6a8759;">"error"</span>;
-    }
-}
-</pre>
-<p>If a User now again hits an error, this will be shown:</p>
-<figure class="post__image"><img loading="lazy"  src="https://www.finecloud.ch/media/posts/66/Screenshot-2022-09-27-at-13.08.06-2.png" alt="" width="413" height="131" sizes="100vw" srcset="https://www.finecloud.ch/media/posts/66/responsive/Screenshot-2022-09-27-at-13.08.06-2-xs.png 300w ,https://www.finecloud.ch/media/posts/66/responsive/Screenshot-2022-09-27-at-13.08.06-2-sm.png 480w ,https://www.finecloud.ch/media/posts/66/responsive/Screenshot-2022-09-27-at-13.08.06-2-md.png 768w ,https://www.finecloud.ch/media/posts/66/responsive/Screenshot-2022-09-27-at-13.08.06-2-lg.png 1024w ,https://www.finecloud.ch/media/posts/66/responsive/Screenshot-2022-09-27-at-13.08.06-2-xl.png 1360w ,https://www.finecloud.ch/media/posts/66/responsive/Screenshot-2022-09-27-at-13.08.06-2-2xl.png 1600w"></figure>
-<p>Much better, isn't it? But we can do even better. If we know what kind of error could be thrown, we can provide a more accurate error page. In our current case we need to add a specific try catch block in the save method, which can catch StorageExceptions:</p>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;">    <span class="hljs-meta" style="color: #bbb529;">@PostMapping</span>
-    <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">public</span> String <span class="hljs-title" style="color: #ffc66d;">savePerson</span><span class="hljs-params">(Model model, @Valid Person person, Errors errors, @RequestParam(<span class="hljs-string" style="color: #6a8759;">"photoFilename"</span>)</span> MultipartFile photoFile) <span class="hljs-keyword" style="color: #cc7832;">throws</span> IOException </span>{
-        log.info(person);
-        log.info(<span class="hljs-string" style="color: #6a8759;">"Filename: "</span> + photoFile.getOriginalFilename());
-        log.info(<span class="hljs-string" style="color: #6a8759;">"File size: "</span> + photoFile.getSize());
-        log.info(<span class="hljs-string" style="color: #6a8759;">"Errors: "</span> + errors);
-        <span class="hljs-keyword" style="color: #cc7832;">if</span> (!errors.hasErrors()) {
-            <span class="hljs-keyword" style="color: #cc7832;">try</span> {
-                fileStorageRepository.save(photoFile.getOriginalFilename(), photoFile.getInputStream());
-                personRepository.save(person);
-                <span class="hljs-keyword" style="color: #cc7832;">return</span> <span class="hljs-string" style="color: #6a8759;">"redirect:people"</span>;
-            } <span class="hljs-keyword" style="color: #cc7832;">catch</span> (StorageException e) {
-                model.addAttribute(<span class="hljs-string" style="color: #6a8759;">"errorMsg"</span>, <span class="hljs-string" style="color: #6a8759;">"System is currently unable to accept photo files at this time."</span>);
-                <span class="hljs-keyword" style="color: #cc7832;">return</span> <span class="hljs-string" style="color: #6a8759;">"people"</span>;
-            }
-        }
-        <span class="hljs-keyword" style="color: #cc7832;">return</span> <span class="hljs-string" style="color: #6a8759;">"people"</span>;
-    }</pre>
-<p>Now let's add this custom error Message to the people.html page like so:</p>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string" style="color: #6a8759;">"alert alert-danger"</span> <span class="hljs-attr">role</span>=<span class="hljs-string" style="color: #6a8759;">"alert"</span> <span class="hljs-attr">th:text</span>=<span class="hljs-string" style="color: #6a8759;">"${errorMsg}"</span> <span class="hljs-attr">th:if</span>=<span class="hljs-string" style="color: #6a8759;">"${errorMsg}"</span>&gt;</span>
-    A simple danger alert-check it out!
-<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">div</span>&gt;</span></pre>
-<p>The final result looks like this:</p>
-<figure class="post__image"><img loading="lazy"  src="https://www.finecloud.ch/media/posts/66/Screenshot-2022-09-27-at-13.35.45.png" alt="" width="2312" height="1560" sizes="100vw" srcset="https://www.finecloud.ch/media/posts/66/responsive/Screenshot-2022-09-27-at-13.35.45-xs.png 300w ,https://www.finecloud.ch/media/posts/66/responsive/Screenshot-2022-09-27-at-13.35.45-sm.png 480w ,https://www.finecloud.ch/media/posts/66/responsive/Screenshot-2022-09-27-at-13.35.45-md.png 768w ,https://www.finecloud.ch/media/posts/66/responsive/Screenshot-2022-09-27-at-13.35.45-lg.png 1024w ,https://www.finecloud.ch/media/posts/66/responsive/Screenshot-2022-09-27-at-13.35.45-xl.png 1360w ,https://www.finecloud.ch/media/posts/66/responsive/Screenshot-2022-09-27-at-13.35.45-2xl.png 1600w"></figure>
-<p>The User will be redirected back to the people page with the provided values. The Error Message will be displayed in the middle of the page.</p>
-<p> </p>
-            ]]>
-        </content>
-    </entry>
-    <entry>
-        <title>Getting stared with the Spring Framework</title>
-        <author>
-            <name>Finecloud</name>
-        </author>
-        <link href="https://www.finecloud.ch/getting-stared-with-spring-framework.html"/>
-        <id>https://www.finecloud.ch/getting-stared-with-spring-framework.html</id>
-            <category term="tomcat"/>
-            <category term="thymeleaf"/>
-            <category term="sql"/>
-            <category term="spring-framework"/>
-            <category term="spring"/>
-            <category term="software development"/>
-            <category term="java"/>
-            <category term="http"/>
-            <category term="gui"/>
-            <category term="dev"/>
-            <category term="database"/>
-
-        <updated>2022-09-23T07:41:59+02:00</updated>
-            <summary>
-                <![CDATA[
-                    What is the Spring Framework Spring is the world's most popular Java framework and makes programming Java quicker, easier, and safer for everybody. Spring’s focus on speed, simplicity, and productivity. You can select and generate your Spring Package online: https://start.spring.io/ Lets make a Gradle Project,&hellip;
-                ]]>
-            </summary>
-        <content type="html">
-            <![CDATA[
-                <div class="post__toc">
-<h3>Table of Contents</h3>
-<ul>
-<li><a href="#mcetoc_1gd9vb6re8m">What is the Spring Framework</a></li>
-<li><a href="#mcetoc_1gd9vb6re8n">What can Spring do</a></li>
-<li><a href="#mcetoc_1gd9vb6re8o">Getting started</a></li>
-<li><a href="#mcetoc_1gd9vsqc28s">Display dynamic content</a></li>
-<li><a href="#mcetoc_1gdfedk589b">Add some Bootstrap</a></li>
-<li><a href="#mcetoc_1gdk6qb94kk">Formatting Dates and Numbers</a></li>
-<li><a href="#mcetoc_1gdk6qb94kl">Introducing Spring Data</a></li>
-<li><a href="#mcetoc_1gdkdrmqkla">Saving a Person</a></li>
-</ul>
-</div>
-<h2 id="mcetoc_1gd9vb6re8m">What is the Spring Framework</h2>
-<p>Spring is the world's most popular Java framework and makes programming Java quicker, easier, and safer for everybody. Spring’s focus on speed, simplicity, and productivity.</p>
-<h2 id="mcetoc_1gd9vb6re8n">What can Spring do</h2>
-<ul>
-<li><strong>Microservices</strong>: Quickly deliver production‑grade features with independently evolvable microservices.</li>
-<li><strong>Reactive</strong>: Spring's asynchronous, nonblocking architecture means you can get more from your computing resources.</li>
-<li><strong>Cloud</strong>: Your code, any cloud—we’ve got you covered. Connect and scale your services, whatever your platform.</li>
-<li><strong>Web apps</strong>: Frameworks for fast, secure, and responsive web applications connected to any data store.</li>
-<li><strong>Serverless</strong>: The ultimate flexibility. Scale up on demand and scale to zero when there’s no demand.</li>
-<li><strong>Event Driven</strong>: Integrate with your enterprise. React to business events. Act on your streaming data in realtime.</li>
-<li><strong>Batch</strong>: Automated tasks. Offline processing of data at a time to suit you.</li>
-</ul>
-<h2 id="mcetoc_1gd9vb6re8o">Getting started</h2>
-<p>You can select and generate your Spring Package online: <a href="https://start.spring.io/">https://start.spring.io/</a></p>
-<p>Lets make a Gradle Project, use Java v17 and add those dependencies:</p>
-<ul>
-<li>Spring Boot DevTools Developer Tools</li>
-<li>Lombok Developer Tools</li>
-<li>Spring Web Web</li>
-<li>Thymeleaf Template Engines</li>
-<li>Spring Data JPA SQL</li>
-<li>H2 Database SQL</li>
-<li>Validation I/O</li>
-</ul>
-<p>Click "Generate" and unzip the file to your IDE Projects and open it with your preferred IDE.</p>
-<p>In the IDE run the <code>PeopledbWebApplication.java</code> Class and open your browser, go to <a href="http://localhost:8080/">http://localhost:8080/</a> you should get a page like this:</p>
-<figure class="post__image"><img loading="lazy"  src="https://www.finecloud.ch/media/posts/65/Screenshot-2022-09-19-at-06.18.30.png" alt="" width="1140" height="354" sizes="100vw" srcset="https://www.finecloud.ch/media/posts/65/responsive/Screenshot-2022-09-19-at-06.18.30-xs.png 300w ,https://www.finecloud.ch/media/posts/65/responsive/Screenshot-2022-09-19-at-06.18.30-sm.png 480w ,https://www.finecloud.ch/media/posts/65/responsive/Screenshot-2022-09-19-at-06.18.30-md.png 768w ,https://www.finecloud.ch/media/posts/65/responsive/Screenshot-2022-09-19-at-06.18.30-lg.png 1024w ,https://www.finecloud.ch/media/posts/65/responsive/Screenshot-2022-09-19-at-06.18.30-xl.png 1360w ,https://www.finecloud.ch/media/posts/65/responsive/Screenshot-2022-09-19-at-06.18.30-2xl.png 1600w"></figure>
-<p>Go back to your IDE and create a new index.html File in the Folder <em>/src/main/resources/static/index.html</em> with this content:</p>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;"><span class="xml"><span class="hljs-meta" style="color: #bbb529;">&lt;!DOCTYPE html&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string" style="color: #6a8759;">"en"</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">head</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string" style="color: #6a8759;">"UTF-8"</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">title</span>&gt;</span>Hello<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">title</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">head</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">body</span>&gt;</span>
-Hello World
-<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">body</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">html</span>&gt;</span></span></pre>
-<p>Rebuild your Project in the IDE and reopen your page on <a href="http://localhost:8080/">http://localhost:8080/</a> and you should see this now:</p>
-<figure class="post__image"><img loading="lazy"  src="https://www.finecloud.ch/media/posts/65/Screenshot-2022-09-19-at-06.22.16.png" alt="" width="1140" height="354" sizes="100vw" srcset="https://www.finecloud.ch/media/posts/65/responsive/Screenshot-2022-09-19-at-06.22.16-xs.png 300w ,https://www.finecloud.ch/media/posts/65/responsive/Screenshot-2022-09-19-at-06.22.16-sm.png 480w ,https://www.finecloud.ch/media/posts/65/responsive/Screenshot-2022-09-19-at-06.22.16-md.png 768w ,https://www.finecloud.ch/media/posts/65/responsive/Screenshot-2022-09-19-at-06.22.16-lg.png 1024w ,https://www.finecloud.ch/media/posts/65/responsive/Screenshot-2022-09-19-at-06.22.16-xl.png 1360w ,https://www.finecloud.ch/media/posts/65/responsive/Screenshot-2022-09-19-at-06.22.16-2xl.png 1600w"></figure>
-<p>Congratulations you just generated your first Spring Web App.</p>
-<h2 id="mcetoc_1gd9vsqc28s">Display dynamic content</h2>
-<p>Let's create a new package called web.controller and lets create a Java class called PeopleController with this content:</p>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-keyword" style="color: #cc7832;">package</span> ch.finecloud.peopledbweb.web.controller;
-
-<span class="hljs-keyword" style="color: #cc7832;">import</span> ch.finecloud.peopledbweb.biz.model.Person;
-<span class="hljs-keyword" style="color: #cc7832;">import</span> org.springframework.stereotype.Controller;
-<span class="hljs-keyword" style="color: #cc7832;">import</span> org.springframework.ui.Model;
-<span class="hljs-keyword" style="color: #cc7832;">import</span> org.springframework.web.bind.annotation.GetMapping;
-<span class="hljs-keyword" style="color: #cc7832;">import</span> org.springframework.web.bind.annotation.RequestMapping;
-
-<span class="hljs-keyword" style="color: #cc7832;">import</span> java.math.BigDecimal;
-<span class="hljs-keyword" style="color: #cc7832;">import</span> java.time.LocalDate;
-<span class="hljs-keyword" style="color: #cc7832;">import</span> java.util.List;
-
-<span class="hljs-meta" style="color: #bbb529;">@Controller</span>
-<span class="hljs-meta" style="color: #bbb529;">@RequestMapping</span>(<span class="hljs-string" style="color: #6a8759;">"/people"</span>)
-<span class="hljs-keyword" style="color: #cc7832;">public</span> <span class="hljs-class"><span class="hljs-keyword" style="color: #cc7832;">class</span> <span class="hljs-title" style="color: #ffc66d;">PeopleController</span> </span>{
-
-    <span class="hljs-meta" style="color: #bbb529;">@GetMapping</span>
-    <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">public</span> String <span class="hljs-title" style="color: #ffc66d;">getPeople</span><span class="hljs-params">(Model model)</span> </span>{
-        List&lt;Person&gt; people = List.of(
-                <span class="hljs-keyword" style="color: #cc7832;">new</span> Person(<span class="hljs-number" style="color: #6897bb;">10l</span>, <span class="hljs-string" style="color: #6a8759;">"Jake"</span>, <span class="hljs-string" style="color: #6a8759;">"Snake"</span>, LocalDate.of(<span class="hljs-number" style="color: #6897bb;">1950</span>, <span class="hljs-number" style="color: #6897bb;">1</span>, <span class="hljs-number" style="color: #6897bb;">8</span>), <span class="hljs-keyword" style="color: #cc7832;">new</span> BigDecimal(<span class="hljs-number" style="color: #6897bb;">50000</span>)),
-                <span class="hljs-keyword" style="color: #cc7832;">new</span> Person(<span class="hljs-number" style="color: #6897bb;">20l</span>, <span class="hljs-string" style="color: #6a8759;">"Sara"</span>, <span class="hljs-string" style="color: #6a8759;">"Smith"</span>, LocalDate.of(<span class="hljs-number" style="color: #6897bb;">1960</span>, <span class="hljs-number" style="color: #6897bb;">2</span>, <span class="hljs-number" style="color: #6897bb;">7</span>), <span class="hljs-keyword" style="color: #cc7832;">new</span> BigDecimal(<span class="hljs-number" style="color: #6897bb;">60000</span>)),
-                <span class="hljs-keyword" style="color: #cc7832;">new</span> Person(<span class="hljs-number" style="color: #6897bb;">30l</span>, <span class="hljs-string" style="color: #6a8759;">"Johnny"</span>, <span class="hljs-string" style="color: #6a8759;">"Jackson"</span>, LocalDate.of(<span class="hljs-number" style="color: #6897bb;">1970</span>, <span class="hljs-number" style="color: #6897bb;">3</span>, <span class="hljs-number" style="color: #6897bb;">6</span>), <span class="hljs-keyword" style="color: #cc7832;">new</span> BigDecimal(<span class="hljs-number" style="color: #6897bb;">70000</span>)),
-                <span class="hljs-keyword" style="color: #cc7832;">new</span> Person(<span class="hljs-number" style="color: #6897bb;">40l</span>, <span class="hljs-string" style="color: #6a8759;">"Bonny"</span>, <span class="hljs-string" style="color: #6a8759;">"Norris"</span>, LocalDate.of(<span class="hljs-number" style="color: #6897bb;">1980</span>, <span class="hljs-number" style="color: #6897bb;">4</span>, <span class="hljs-number" style="color: #6897bb;">5</span>), <span class="hljs-keyword" style="color: #cc7832;">new</span> BigDecimal(<span class="hljs-number" style="color: #6897bb;">80000</span>))
-        );
-        model.addAttribute(<span class="hljs-string" style="color: #6a8759;">"people"</span>, people);
-        <span class="hljs-keyword" style="color: #cc7832;">return</span> <span class="hljs-string" style="color: #6a8759;">"people"</span>;
-    }
-}
-</pre>
-<p>We're going to create a new HTML file under the resources/templates folder. We call it people.html:</p>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;"><span class="xml"><span class="hljs-meta" style="color: #bbb529;">&lt;!DOCTYPE html&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string" style="color: #6a8759;">"en"</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">head</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string" style="color: #6a8759;">"UTF-8"</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">title</span>&gt;</span>People<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">title</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">head</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">body</span>&gt;</span>
-here are some people
-<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">body</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">html</span>&gt;</span></span></pre>
-<p>If we not open our browser to <a href="http://localhost:8080/people">http://localhost:8080/people</a> we will see that html file loaded. What is the difference between putting an HTML file under static versus under templates? The basic idea is: if you have HTML content that is dynamic and controlled from our Java code, then you need to put that HTML under templates. This will allow us to feed some dynamically generated content into this page and make a more interesting web page. Essentially, whereas static web pages we put under the static folder here are not capable of being fed data from our Java code directly.<br><br>Let's actually put sort of put a little bit of something dynamic in here. Let's make another package under the main  package, and call this one biz.model with a Java Class Person with the following content: </p>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-keyword" style="color: #cc7832;">package</span> ch.finecloud.peopledbweb.biz.model;
-
-<span class="hljs-keyword" style="color: #cc7832;">import</span> lombok.AllArgsConstructor;
-<span class="hljs-keyword" style="color: #cc7832;">import</span> lombok.Data;
-
-<span class="hljs-keyword" style="color: #cc7832;">import</span> java.math.BigDecimal;
-<span class="hljs-keyword" style="color: #cc7832;">import</span> java.time.LocalDate;
-
-<span class="hljs-meta" style="color: #bbb529;">@Data</span>
-<span class="hljs-meta" style="color: #bbb529;">@AllArgsConstructor</span>
-<span class="hljs-keyword" style="color: #cc7832;">public</span> <span class="hljs-class"><span class="hljs-keyword" style="color: #cc7832;">class</span> <span class="hljs-title" style="color: #ffc66d;">Person</span> </span>{
-    <span class="hljs-keyword" style="color: #cc7832;">private</span> Long id;
-    <span class="hljs-keyword" style="color: #cc7832;">private</span> String firstName;
-    <span class="hljs-keyword" style="color: #cc7832;">private</span> String lastName;
-    <span class="hljs-keyword" style="color: #cc7832;">private</span> LocalDate dob;
-    <span class="hljs-keyword" style="color: #cc7832;">private</span> BigDecimal salary;
-
-}
-</pre>
-<p>Normally we would create or generate getters and setters and all that good stuff in that Java Class. However, now that we're using the spring framework with spring boot and we got all this cool added functionality here, we can do something a little more interesting. We're going to use a special annotation from a library called Lombok, and the annotation we will use is called @Data. This annotation will will allow the Lombok Library to scan this class, find these fields and generate getters and setters and a constructor and an equals and a hash code and a two string method, all for us whenever we need it.</p>
-<p>Next we also need to change our people.html file like so:</p>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;"><span class="xml"><span class="hljs-meta" style="color: #bbb529;">&lt;!DOCTYPE html&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string" style="color: #6a8759;">"en"</span> <span class="hljs-attr">xmlns:th</span>=<span class="hljs-string" style="color: #6a8759;">"http://www.thymeleaf.org"</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">head</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string" style="color: #6a8759;">"UTF-8"</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">title</span>&gt;</span>People<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">title</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">head</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">body</span>&gt;</span>
-here are some people:
-<span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">ol</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">li</span> <span class="hljs-attr">th:each</span>=<span class="hljs-string" style="color: #6a8759;">"person: $</span></span></span><span class="hljs-template-variable" style="color: #629755;">{people}</span><span class="xml"><span class="hljs-tag"><span class="hljs-string" style="color: #6a8759;">"</span> <span class="hljs-attr">th:text</span>=<span class="hljs-string" style="color: #6a8759;">"$</span></span></span><span class="hljs-template-variable" style="color: #629755;">{person}</span><span class="xml"><span class="hljs-tag"><span class="hljs-string" style="color: #6a8759;">"</span>&gt;</span>My Junk Person<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">li</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">ol</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">body</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">html</span>&gt;</span></span></pre>
-<p>If we now rebuild our Project and refresh our people page we receive this dynamic content:</p>
-<figure class="post__image"><img loading="lazy"  src="https://www.finecloud.ch/media/posts/65/Screenshot-2022-09-20-at-08.58.49.png" alt="" width="1304" height="480" sizes="100vw" srcset="https://www.finecloud.ch/media/posts/65/responsive/Screenshot-2022-09-20-at-08.58.49-xs.png 300w ,https://www.finecloud.ch/media/posts/65/responsive/Screenshot-2022-09-20-at-08.58.49-sm.png 480w ,https://www.finecloud.ch/media/posts/65/responsive/Screenshot-2022-09-20-at-08.58.49-md.png 768w ,https://www.finecloud.ch/media/posts/65/responsive/Screenshot-2022-09-20-at-08.58.49-lg.png 1024w ,https://www.finecloud.ch/media/posts/65/responsive/Screenshot-2022-09-20-at-08.58.49-xl.png 1360w ,https://www.finecloud.ch/media/posts/65/responsive/Screenshot-2022-09-20-at-08.58.49-2xl.png 1600w"></figure>
-<h2 id="mcetoc_1gdfedk589b">Add some Bootstrap</h2>
-<p>Let's make the Table more beautiful by using the bootstrap css framework:</p>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;"><span class="xml"><span class="hljs-meta" style="color: #bbb529;">&lt;!DOCTYPE html&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string" style="color: #6a8759;">"en"</span> <span class="hljs-attr">xmlns:th</span>=<span class="hljs-string" style="color: #6a8759;">"http://www.thymeleaf.org"</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">head</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string" style="color: #6a8759;">"UTF-8"</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">meta</span> <span class="hljs-attr">name</span>=<span class="hljs-string" style="color: #6a8759;">"viewport"</span> <span class="hljs-attr">content</span>=<span class="hljs-string" style="color: #6a8759;">"width=device-width, initial-scale=1"</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">title</span>&gt;</span>People<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">title</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">link</span> <span class="hljs-attr">href</span>=<span class="hljs-string" style="color: #6a8759;">"https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css"</span> <span class="hljs-attr">rel</span>=<span class="hljs-string" style="color: #6a8759;">"stylesheet"</span> <span class="hljs-attr">integrity</span>=<span class="hljs-string" style="color: #6a8759;">"sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT"</span> <span class="hljs-attr">crossorigin</span>=<span class="hljs-string" style="color: #6a8759;">"anonymous"</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string" style="color: #6a8759;">"https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"</span> <span class="hljs-attr">integrity</span>=<span class="hljs-string" style="color: #6a8759;">"sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"</span> <span class="hljs-attr">crossorigin</span>=<span class="hljs-string" style="color: #6a8759;">"anonymous"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">script</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">head</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">body</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string" style="color: #6a8759;">"col-8 mx-auto"</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">table</span> <span class="hljs-attr">class</span>=<span class="hljs-string" style="color: #6a8759;">"table"</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">thead</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">tr</span>&gt;</span>
-            <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">th</span> <span class="hljs-attr">scope</span>=<span class="hljs-string" style="color: #6a8759;">"col"</span>&gt;</span>ID<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">th</span>&gt;</span>
-            <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">th</span> <span class="hljs-attr">scope</span>=<span class="hljs-string" style="color: #6a8759;">"col"</span>&gt;</span>Last Name<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">th</span>&gt;</span>
-            <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">th</span> <span class="hljs-attr">scope</span>=<span class="hljs-string" style="color: #6a8759;">"col"</span>&gt;</span>First Name<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">th</span>&gt;</span>
-            <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">th</span> <span class="hljs-attr">scope</span>=<span class="hljs-string" style="color: #6a8759;">"col"</span>&gt;</span>DOB<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">th</span>&gt;</span>
-            <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">th</span> <span class="hljs-attr">scope</span>=<span class="hljs-string" style="color: #6a8759;">"col"</span>&gt;</span>Salary<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">th</span>&gt;</span>
-        <span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">tr</span>&gt;</span>
-        <span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">thead</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">tbody</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">tr</span> <span class="hljs-attr">th:each</span>=<span class="hljs-string" style="color: #6a8759;">"person : $</span></span></span><span class="hljs-template-variable" style="color: #629755;">{people}</span><span class="xml"><span class="hljs-tag"><span class="hljs-string" style="color: #6a8759;">"</span>&gt;</span>
-            <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">th</span> <span class="hljs-attr">scope</span>=<span class="hljs-string" style="color: #6a8759;">"row"</span> <span class="hljs-attr">th:text</span>=<span class="hljs-string" style="color: #6a8759;">"$</span></span></span><span class="hljs-template-variable" style="color: #629755;">{person.id}</span><span class="xml"><span class="hljs-tag"><span class="hljs-string" style="color: #6a8759;">"</span>&gt;</span>1<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">th</span>&gt;</span>
-            <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">td</span> <span class="hljs-attr">th:text</span>=<span class="hljs-string" style="color: #6a8759;">"$</span></span></span><span class="hljs-template-variable" style="color: #629755;">{person.lastName}</span><span class="xml"><span class="hljs-tag"><span class="hljs-string" style="color: #6a8759;">"</span>&gt;</span>Mark<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">td</span>&gt;</span>
-            <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">td</span> <span class="hljs-attr">th:text</span>=<span class="hljs-string" style="color: #6a8759;">"$</span></span></span><span class="hljs-template-variable" style="color: #629755;">{person.firstName}</span><span class="xml"><span class="hljs-tag"><span class="hljs-string" style="color: #6a8759;">"</span>&gt;</span>Otto<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">td</span>&gt;</span>
-            <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">td</span> <span class="hljs-attr">th:text</span>=<span class="hljs-string" style="color: #6a8759;">"$</span></span></span><span class="hljs-template-variable" style="color: #629755;">{person.dob}</span><span class="xml"><span class="hljs-tag"><span class="hljs-string" style="color: #6a8759;">"</span>&gt;</span>@mdo<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">td</span>&gt;</span>
-            <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">td</span> <span class="hljs-attr">th:text</span>=<span class="hljs-string" style="color: #6a8759;">"$</span></span></span><span class="hljs-template-variable" style="color: #629755;">{person.salary}</span><span class="xml"><span class="hljs-tag"><span class="hljs-string" style="color: #6a8759;">"</span>&gt;</span>@mdo<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">td</span>&gt;</span>
-        <span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">tr</span>&gt;</span>
-        <span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">tbody</span>&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">table</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">div</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">body</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">html</span>&gt;</span></span></pre>
-<p>If we now rebuild our Project and refresh our people page we receive this dynamic content:</p>
-<figure class="post__image"><img loading="lazy"  src="https://www.finecloud.ch/media/posts/65/Screenshot-2022-09-21-at-09.14.36.png" alt="" width="1406" height="373" sizes="100vw" srcset="https://www.finecloud.ch/media/posts/65/responsive/Screenshot-2022-09-21-at-09.14.36-xs.png 300w ,https://www.finecloud.ch/media/posts/65/responsive/Screenshot-2022-09-21-at-09.14.36-sm.png 480w ,https://www.finecloud.ch/media/posts/65/responsive/Screenshot-2022-09-21-at-09.14.36-md.png 768w ,https://www.finecloud.ch/media/posts/65/responsive/Screenshot-2022-09-21-at-09.14.36-lg.png 1024w ,https://www.finecloud.ch/media/posts/65/responsive/Screenshot-2022-09-21-at-09.14.36-xl.png 1360w ,https://www.finecloud.ch/media/posts/65/responsive/Screenshot-2022-09-21-at-09.14.36-2xl.png 1600w"></figure>
-<h2 id="mcetoc_1gdk6qb94kk">Formatting Dates and Numbers</h2>
-<p>To format the Dates and Currency (Salary) we should not modify our Person.java Class, since this Class is part of the Service Layer, not the Presentation Layer. What we should do instead is create new Formatter Classes which make use of the Spring Formatter and can act directory on. the Presentation Layer:</p>
-<p>peopledbweb/web/formatter/BigDecimalFormatter.java</p>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-selector-tag" style="color: #cc7832;">package</span> <span class="hljs-selector-tag" style="color: #cc7832;">ch</span><span class="hljs-selector-class" style="color: #e8bf6a;">.finecloud</span><span class="hljs-selector-class" style="color: #e8bf6a;">.peopledbweb</span><span class="hljs-selector-class" style="color: #e8bf6a;">.web</span><span class="hljs-selector-class" style="color: #e8bf6a;">.formatter</span>;
-
-<span class="hljs-selector-tag" style="color: #cc7832;">import</span> <span class="hljs-selector-tag" style="color: #cc7832;">org</span><span class="hljs-selector-class" style="color: #e8bf6a;">.springframework</span><span class="hljs-selector-class" style="color: #e8bf6a;">.format</span><span class="hljs-selector-class" style="color: #e8bf6a;">.Formatter</span>;
-<span class="hljs-selector-tag" style="color: #cc7832;">import</span> <span class="hljs-selector-tag" style="color: #cc7832;">org</span><span class="hljs-selector-class" style="color: #e8bf6a;">.springframework</span><span class="hljs-selector-class" style="color: #e8bf6a;">.stereotype</span><span class="hljs-selector-class" style="color: #e8bf6a;">.Component</span>;
-
-<span class="hljs-selector-tag" style="color: #cc7832;">import</span> <span class="hljs-selector-tag" style="color: #cc7832;">java</span><span class="hljs-selector-class" style="color: #e8bf6a;">.math</span><span class="hljs-selector-class" style="color: #e8bf6a;">.BigDecimal</span>;
-<span class="hljs-selector-tag" style="color: #cc7832;">import</span> <span class="hljs-selector-tag" style="color: #cc7832;">java</span><span class="hljs-selector-class" style="color: #e8bf6a;">.text</span><span class="hljs-selector-class" style="color: #e8bf6a;">.NumberFormat</span>;
-<span class="hljs-selector-tag" style="color: #cc7832;">import</span> <span class="hljs-selector-tag" style="color: #cc7832;">java</span><span class="hljs-selector-class" style="color: #e8bf6a;">.text</span><span class="hljs-selector-class" style="color: #e8bf6a;">.ParseException</span>;
-<span class="hljs-selector-tag" style="color: #cc7832;">import</span> <span class="hljs-selector-tag" style="color: #cc7832;">java</span><span class="hljs-selector-class" style="color: #e8bf6a;">.util</span><span class="hljs-selector-class" style="color: #e8bf6a;">.Locale</span>;
-
-@<span class="hljs-keyword" style="color: #cc7832;">Component</span>
-public class BigDecimalFormatter implements Formatter&lt;BigDecimal&gt; {
-
-    @<span class="hljs-keyword" style="color: #cc7832;">Override</span>
-    public BigDecimal parse(String text, Locale locale) throws ParseException {
-        <span class="hljs-selector-tag" style="color: #cc7832;">return</span> <span class="hljs-selector-tag" style="color: #cc7832;">null</span>;
-    }
-
-    @<span class="hljs-keyword" style="color: #cc7832;">Override</span>
-    public String print(BigDecimal object, Locale locale) {
-        <span class="hljs-selector-tag" style="color: #cc7832;">return</span> <span class="hljs-selector-tag" style="color: #cc7832;">NumberFormat</span><span class="hljs-selector-class" style="color: #e8bf6a;">.getCurrencyInstance</span>(<span class="hljs-selector-tag" style="color: #cc7832;">locale</span>)<span class="hljs-selector-class" style="color: #e8bf6a;">.format</span>(<span class="hljs-selector-tag" style="color: #cc7832;">object</span>);
-    }
-}
-</pre>
-<p>peopledbweb/web/formatter/LocalDateFormatter.java</p>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;">package ch<span class="hljs-selector-class" style="color: #e8bf6a;">.finecloud</span><span class="hljs-selector-class" style="color: #e8bf6a;">.peopledbweb</span><span class="hljs-selector-class" style="color: #e8bf6a;">.web</span><span class="hljs-selector-class" style="color: #e8bf6a;">.formatter</span>;
-
-import org<span class="hljs-selector-class" style="color: #e8bf6a;">.springframework</span><span class="hljs-selector-class" style="color: #e8bf6a;">.format</span><span class="hljs-selector-class" style="color: #e8bf6a;">.Formatter</span>;
-import org<span class="hljs-selector-class" style="color: #e8bf6a;">.springframework</span><span class="hljs-selector-class" style="color: #e8bf6a;">.stereotype</span><span class="hljs-selector-class" style="color: #e8bf6a;">.Component</span>;
-
-import java<span class="hljs-selector-class" style="color: #e8bf6a;">.text</span><span class="hljs-selector-class" style="color: #e8bf6a;">.ParseException</span>;
-import java<span class="hljs-selector-class" style="color: #e8bf6a;">.time</span><span class="hljs-selector-class" style="color: #e8bf6a;">.LocalDate</span>;
-import java<span class="hljs-selector-class" style="color: #e8bf6a;">.time</span><span class="hljs-selector-class" style="color: #e8bf6a;">.format</span><span class="hljs-selector-class" style="color: #e8bf6a;">.DateTimeFormatter</span>;
-import java<span class="hljs-selector-class" style="color: #e8bf6a;">.util</span><span class="hljs-selector-class" style="color: #e8bf6a;">.Locale</span>;
-
-<span class="hljs-variable" style="color: #629755;">@Component</span>
-public class LocalDateFormatter implements Formatter&lt;LocalDate&gt; {
-
-    private final DateTimeFormatter dateTimeFormatter = DateTimeFormatter<span class="hljs-selector-class" style="color: #e8bf6a;">.ofPattern</span>(<span class="hljs-string" style="color: #6a8759;">"dd. MMMM, yyyy"</span>);
-
-    <span class="hljs-variable" style="color: #629755;">@Override</span>
-    public LocalDate parse(String text, Locale locale) throws ParseException {
-        return LocalDate<span class="hljs-selector-class" style="color: #e8bf6a;">.parse</span>(text, dateTimeFormatter);
-    }
-
-    <span class="hljs-variable" style="color: #629755;">@Override</span>
-    public String print(LocalDate object, Locale locale) {
-        return dateTimeFormatter<span class="hljs-selector-class" style="color: #e8bf6a;">.format</span>(object);
-    }
-}
-</pre>
-<p>we also need to put the dob and salary table declaration into one more pair of curly braces:</p>
-<p><code>            &lt;td th:text="${{person.dob}}"&gt;@mdo&lt;/td&gt;</code><br><code>            &lt;td th:text="${{person.salary}}"&gt;@mdo&lt;/td&gt;</code></p>
-<p>If we not rebuild our Project we get beck those values nicely formatted:</p>
-<figure class="post__image"><img loading="lazy"  src="https://www.finecloud.ch/media/posts/65/Screenshot-2022-09-21-at-11.10.16-2.png" alt="" width="1442" height="374" sizes="100vw" srcset="https://www.finecloud.ch/media/posts/65/responsive/Screenshot-2022-09-21-at-11.10.16-2-xs.png 300w ,https://www.finecloud.ch/media/posts/65/responsive/Screenshot-2022-09-21-at-11.10.16-2-sm.png 480w ,https://www.finecloud.ch/media/posts/65/responsive/Screenshot-2022-09-21-at-11.10.16-2-md.png 768w ,https://www.finecloud.ch/media/posts/65/responsive/Screenshot-2022-09-21-at-11.10.16-2-lg.png 1024w ,https://www.finecloud.ch/media/posts/65/responsive/Screenshot-2022-09-21-at-11.10.16-2-xl.png 1360w ,https://www.finecloud.ch/media/posts/65/responsive/Screenshot-2022-09-21-at-11.10.16-2-2xl.png 1600w"></figure>
-<h2 id="mcetoc_1gdk6qb94kl">Introducing Spring Data</h2>
-<p>Until now we have worked with very static data. Lets change this by adding real <a href="https://en.wikipedia.org/wiki/Create,_read,_update_and_delete" rel="nofollow">CRUD</a> functionality.</p>
-<p>Now we're going to introduce the third part of our three tier architecture. And that is the data. Lets create a new package called <em>data</em>. Under the data package, we create a new Java Interfacee called <em>PersonRepository</em> with this content:</p>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-keyword" style="color: #cc7832;">package</span> ch.finecloud.peopledbweb.data;
-
-<span class="hljs-keyword" style="color: #cc7832;">import</span> ch.finecloud.peopledbweb.biz.model.Person;
-<span class="hljs-keyword" style="color: #cc7832;">import</span> org.springframework.data.repository.CrudRepository;
-<span class="hljs-keyword" style="color: #cc7832;">import</span> org.springframework.stereotype.Repository;
-
-<span class="hljs-meta" style="color: #bbb529;">@Repository</span>
-<span class="hljs-keyword" style="color: #cc7832;">public</span> <span class="hljs-class"><span class="hljs-keyword" style="color: #cc7832;">interface</span> <span class="hljs-title" style="color: #ffc66d;">PersonRepository</span> <span class="hljs-keyword" style="color: #cc7832;">extends</span> <span class="hljs-title" style="color: #ffc66d;">CrudRepository</span>&lt;<span class="hljs-title" style="color: #ffc66d;">Person</span>, <span class="hljs-title" style="color: #ffc66d;">Long</span>&gt; </span>{
-}
-</pre>
-<p>The first will be the type of the domain model class that I want this repository to be responsible for or work with, and that would be our person class. The other type, though, which I will separate with a comma. The second type will be the data type of the ID property of the person class, that would be, in our case, long. And then I need to annotate this interface so that when spring is starting up or in this case, spring<br>data is starting up. It can scan through all of the classes that I have here, and it will find this interface and know that it should treat this interface as an actual data repository.<br>To do that, we will use another annotation of the spring framework, which is <em>@Repository. </em>That's all I have to do to make a repository with full crud capabilities.<br><br>We need to go into the person class now and make a few little alterations here:</p>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-keyword" style="color: #cc7832;">package</span> ch.finecloud.peopledbweb.biz.model;
-
-<span class="hljs-keyword" style="color: #cc7832;">import</span> lombok.AllArgsConstructor;
-<span class="hljs-keyword" style="color: #cc7832;">import</span> lombok.Data;
-<span class="hljs-keyword" style="color: #cc7832;">import</span> lombok.NoArgsConstructor;
-
-<span class="hljs-keyword" style="color: #cc7832;">import</span> javax.persistence.Entity;
-<span class="hljs-keyword" style="color: #cc7832;">import</span> javax.persistence.GeneratedValue;
-<span class="hljs-keyword" style="color: #cc7832;">import</span> javax.persistence.Id;
-<span class="hljs-keyword" style="color: #cc7832;">import</span> java.math.BigDecimal;
-<span class="hljs-keyword" style="color: #cc7832;">import</span> java.time.LocalDate;
-
-<span class="hljs-meta" style="color: #bbb529;">@Data</span>
-<span class="hljs-meta" style="color: #bbb529;">@AllArgsConstructor</span>
-<span class="hljs-meta" style="color: #bbb529;">@NoArgsConstructor</span>
-<span class="hljs-meta" style="color: #bbb529;">@Entity</span>
-<span class="hljs-keyword" style="color: #cc7832;">public</span> <span class="hljs-class"><span class="hljs-keyword" style="color: #cc7832;">class</span> <span class="hljs-title" style="color: #ffc66d;">Person</span> </span>{
-    <span class="hljs-meta" style="color: #bbb529;">@Id</span>
-    <span class="hljs-meta" style="color: #bbb529;">@GeneratedValue</span>
-    <span class="hljs-keyword" style="color: #cc7832;">private</span> Long id;
-    <span class="hljs-keyword" style="color: #cc7832;">private</span> String firstName;
-    <span class="hljs-keyword" style="color: #cc7832;">private</span> String lastName;
-    <span class="hljs-keyword" style="color: #cc7832;">private</span> LocalDate dob;
-    <span class="hljs-keyword" style="color: #cc7832;">private</span> BigDecimal salary;
-}
-</pre>
-<p>Lets create a Class to load the Persons:</p>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-keyword" style="color: #cc7832;">package</span> ch.finecloud.peopledbweb.data;
-
-<span class="hljs-keyword" style="color: #cc7832;">import</span> ch.finecloud.peopledbweb.biz.model.Person;
-<span class="hljs-keyword" style="color: #cc7832;">import</span> org.springframework.boot.ApplicationArguments;
-<span class="hljs-keyword" style="color: #cc7832;">import</span> org.springframework.boot.ApplicationRunner;
-<span class="hljs-keyword" style="color: #cc7832;">import</span> org.springframework.stereotype.Component;
-
-<span class="hljs-keyword" style="color: #cc7832;">import</span> java.math.BigDecimal;
-<span class="hljs-keyword" style="color: #cc7832;">import</span> java.time.LocalDate;
-<span class="hljs-keyword" style="color: #cc7832;">import</span> java.util.List;
-
-<span class="hljs-meta" style="color: #bbb529;">@Component</span>
-<span class="hljs-keyword" style="color: #cc7832;">public</span> <span class="hljs-class"><span class="hljs-keyword" style="color: #cc7832;">class</span> <span class="hljs-title" style="color: #ffc66d;">PersonDataLoader</span> <span class="hljs-keyword" style="color: #cc7832;">implements</span> <span class="hljs-title" style="color: #ffc66d;">ApplicationRunner</span> </span>{
-
-    <span class="hljs-keyword" style="color: #cc7832;">private</span> PersonRepository personRepository;
-
-    <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">public</span> <span class="hljs-title" style="color: #ffc66d;">PersonDataLoader</span><span class="hljs-params">(PersonRepository personRepository)</span> </span>{
-        <span class="hljs-keyword" style="color: #cc7832;">this</span>.personRepository = personRepository;
-    }
-
-    <span class="hljs-meta" style="color: #bbb529;">@Override</span>
-    <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">public</span> <span class="hljs-keyword" style="color: #cc7832;">void</span> <span class="hljs-title" style="color: #ffc66d;">run</span><span class="hljs-params">(ApplicationArguments args)</span> <span class="hljs-keyword" style="color: #cc7832;">throws</span> Exception </span>{
-        <span class="hljs-keyword" style="color: #cc7832;">if</span> (personRepository.count() == <span class="hljs-number" style="color: #6897bb;">0</span>) {
-            List&lt;Person&gt; people = List.of(
-                    <span class="hljs-keyword" style="color: #cc7832;">new</span> Person(<span class="hljs-keyword" style="color: #cc7832;">null</span>, <span class="hljs-string" style="color: #6a8759;">"Pete"</span>, <span class="hljs-string" style="color: #6a8759;">"Snake"</span>, LocalDate.of(<span class="hljs-number" style="color: #6897bb;">1950</span>, <span class="hljs-number" style="color: #6897bb;">1</span>, <span class="hljs-number" style="color: #6897bb;">8</span>), <span class="hljs-keyword" style="color: #cc7832;">new</span> BigDecimal(<span class="hljs-number" style="color: #6897bb;">50000</span>)),
-                    <span class="hljs-keyword" style="color: #cc7832;">new</span> Person(<span class="hljs-keyword" style="color: #cc7832;">null</span>, <span class="hljs-string" style="color: #6a8759;">"Jennifer"</span>, <span class="hljs-string" style="color: #6a8759;">"Smith"</span>, LocalDate.of(<span class="hljs-number" style="color: #6897bb;">1960</span>, <span class="hljs-number" style="color: #6897bb;">2</span>, <span class="hljs-number" style="color: #6897bb;">7</span>), <span class="hljs-keyword" style="color: #cc7832;">new</span> BigDecimal(<span class="hljs-number" style="color: #6897bb;">60000</span>)),
-                    <span class="hljs-keyword" style="color: #cc7832;">new</span> Person(<span class="hljs-keyword" style="color: #cc7832;">null</span>, <span class="hljs-string" style="color: #6a8759;">"Mark"</span>, <span class="hljs-string" style="color: #6a8759;">"Jackson"</span>, LocalDate.of(<span class="hljs-number" style="color: #6897bb;">1970</span>, <span class="hljs-number" style="color: #6897bb;">3</span>, <span class="hljs-number" style="color: #6897bb;">6</span>), <span class="hljs-keyword" style="color: #cc7832;">new</span> BigDecimal(<span class="hljs-number" style="color: #6897bb;">70000</span>)),
-                    <span class="hljs-keyword" style="color: #cc7832;">new</span> Person(<span class="hljs-keyword" style="color: #cc7832;">null</span>, <span class="hljs-string" style="color: #6a8759;">"Vishnu"</span>, <span class="hljs-string" style="color: #6a8759;">"Norris"</span>, LocalDate.of(<span class="hljs-number" style="color: #6897bb;">1971</span>, <span class="hljs-number" style="color: #6897bb;">3</span>, <span class="hljs-number" style="color: #6897bb;">6</span>), <span class="hljs-keyword" style="color: #cc7832;">new</span> BigDecimal(<span class="hljs-number" style="color: #6897bb;">70000</span>)),
-                    <span class="hljs-keyword" style="color: #cc7832;">new</span> Person(<span class="hljs-keyword" style="color: #cc7832;">null</span>, <span class="hljs-string" style="color: #6a8759;">"Alice"</span>, <span class="hljs-string" style="color: #6a8759;">"Jane"</span>, LocalDate.of(<span class="hljs-number" style="color: #6897bb;">1972</span>, <span class="hljs-number" style="color: #6897bb;">3</span>, <span class="hljs-number" style="color: #6897bb;">6</span>), <span class="hljs-keyword" style="color: #cc7832;">new</span> BigDecimal(<span class="hljs-number" style="color: #6897bb;">70000</span>)),
-                    <span class="hljs-keyword" style="color: #cc7832;">new</span> Person(<span class="hljs-keyword" style="color: #cc7832;">null</span>, <span class="hljs-string" style="color: #6a8759;">"Daniel"</span>, <span class="hljs-string" style="color: #6a8759;">"Norris"</span>, LocalDate.of(<span class="hljs-number" style="color: #6897bb;">1980</span>, <span class="hljs-number" style="color: #6897bb;">4</span>, <span class="hljs-number" style="color: #6897bb;">5</span>), <span class="hljs-keyword" style="color: #cc7832;">new</span> BigDecimal(<span class="hljs-number" style="color: #6897bb;">80000</span>))
-            );
-            personRepository.saveAll(people);
-        }
-    }
-}
-</pre>
-<p>we also need to modify our <em>PeopleController</em>:</p>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-keyword" style="color: #cc7832;">package</span> ch.finecloud.peopledbweb.web.controller;
-
-<span class="hljs-keyword" style="color: #cc7832;">import</span> ch.finecloud.peopledbweb.biz.model.Person;
-<span class="hljs-keyword" style="color: #cc7832;">import</span> ch.finecloud.peopledbweb.data.PersonRepository;
-<span class="hljs-keyword" style="color: #cc7832;">import</span> org.springframework.stereotype.Controller;
-<span class="hljs-keyword" style="color: #cc7832;">import</span> org.springframework.web.bind.annotation.GetMapping;
-<span class="hljs-keyword" style="color: #cc7832;">import</span> org.springframework.web.bind.annotation.ModelAttribute;
-<span class="hljs-keyword" style="color: #cc7832;">import</span> org.springframework.web.bind.annotation.RequestMapping;
-
-<span class="hljs-meta" style="color: #bbb529;">@Controller</span>
-<span class="hljs-meta" style="color: #bbb529;">@RequestMapping</span>(<span class="hljs-string" style="color: #6a8759;">"/people"</span>)
-<span class="hljs-keyword" style="color: #cc7832;">public</span> <span class="hljs-class"><span class="hljs-keyword" style="color: #cc7832;">class</span> <span class="hljs-title" style="color: #ffc66d;">PeopleController</span> </span>{
-
-    <span class="hljs-keyword" style="color: #cc7832;">private</span> PersonRepository personRepository;
-
-    <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">public</span> <span class="hljs-title" style="color: #ffc66d;">PeopleController</span><span class="hljs-params">(PersonRepository personRepository)</span> </span>{
-        <span class="hljs-keyword" style="color: #cc7832;">this</span>.personRepository = personRepository;
-    }
-
-    <span class="hljs-meta" style="color: #bbb529;">@ModelAttribute</span>(<span class="hljs-string" style="color: #6a8759;">"people"</span>)
-    <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">public</span> Iterable&lt;Person&gt; <span class="hljs-title" style="color: #ffc66d;">getPeople</span><span class="hljs-params">()</span> </span>{
-        <span class="hljs-keyword" style="color: #cc7832;">return</span> personRepository.findAll();
-    }
-    <span class="hljs-meta" style="color: #bbb529;">@GetMapping</span>
-    <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">public</span> String <span class="hljs-title" style="color: #ffc66d;">showPeoplePage</span><span class="hljs-params">()</span> </span>{
-        <span class="hljs-keyword" style="color: #cc7832;">return</span> <span class="hljs-string" style="color: #6a8759;">"people"</span>;
-    }
-}
-</pre>
-<h2 id="mcetoc_1gdkdrmqkla">Saving a Person</h2>
-<p>To provide the function to also add new Persons, we first need to create a form in the WebUI to create new People Records:</p>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-meta" style="color: #bbb529;">&lt;!DOCTYPE html&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string" style="color: #6a8759;">"en"</span> <span class="hljs-attr">xmlns:th</span>=<span class="hljs-string" style="color: #6a8759;">"http://www.thymeleaf.org"</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">head</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string" style="color: #6a8759;">"UTF-8"</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">meta</span> <span class="hljs-attr">name</span>=<span class="hljs-string" style="color: #6a8759;">"viewport"</span> <span class="hljs-attr">content</span>=<span class="hljs-string" style="color: #6a8759;">"width=device-width, initial-scale=1"</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">title</span>&gt;</span>People<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">title</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">link</span> <span class="hljs-attr">href</span>=<span class="hljs-string" style="color: #6a8759;">"https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css"</span> <span class="hljs-attr">rel</span>=<span class="hljs-string" style="color: #6a8759;">"stylesheet"</span> <span class="hljs-attr">integrity</span>=<span class="hljs-string" style="color: #6a8759;">"sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT"</span> <span class="hljs-attr">crossorigin</span>=<span class="hljs-string" style="color: #6a8759;">"anonymous"</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string" style="color: #6a8759;">"https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"</span> <span class="hljs-attr">integrity</span>=<span class="hljs-string" style="color: #6a8759;">"sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"</span> <span class="hljs-attr">crossorigin</span>=<span class="hljs-string" style="color: #6a8759;">"anonymous"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">script</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">head</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">body</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string" style="color: #6a8759;">"col-md-8 col-sm-10 mx-auto mt-5 my-5"</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">h2</span>&gt;</span>People List<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">h2</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">table</span> <span class="hljs-attr">class</span>=<span class="hljs-string" style="color: #6a8759;">"table table-bordered table-sm"</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">thead</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">tr</span>&gt;</span>
-            <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">th</span> <span class="hljs-attr">scope</span>=<span class="hljs-string" style="color: #6a8759;">"col"</span>&gt;</span>ID<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">th</span>&gt;</span>
-            <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">th</span> <span class="hljs-attr">scope</span>=<span class="hljs-string" style="color: #6a8759;">"col"</span>&gt;</span>Last Name<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">th</span>&gt;</span>
-            <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">th</span> <span class="hljs-attr">scope</span>=<span class="hljs-string" style="color: #6a8759;">"col"</span>&gt;</span>First Name<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">th</span>&gt;</span>
-            <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">th</span> <span class="hljs-attr">scope</span>=<span class="hljs-string" style="color: #6a8759;">"col"</span>&gt;</span>DOB<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">th</span>&gt;</span>
-            <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">th</span> <span class="hljs-attr">scope</span>=<span class="hljs-string" style="color: #6a8759;">"col"</span>&gt;</span>EMail<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">th</span>&gt;</span>
-            <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">th</span> <span class="hljs-attr">scope</span>=<span class="hljs-string" style="color: #6a8759;">"col"</span>&gt;</span>Salary<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">th</span>&gt;</span>
-        <span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">tr</span>&gt;</span>
-        <span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">thead</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">tbody</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">tr</span> <span class="hljs-attr">th:if</span>=<span class="hljs-string" style="color: #6a8759;">"${#lists.isEmpty(people)}"</span>&gt;</span>
-            <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">td</span> <span class="hljs-attr">colspan</span>=<span class="hljs-string" style="color: #6a8759;">"6"</span> <span class="hljs-attr">class</span>=<span class="hljs-string" style="color: #6a8759;">"text-center"</span>&gt;</span>No Data<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">td</span>&gt;</span>
-        <span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">tr</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">tr</span> <span class="hljs-attr">th:each</span>=<span class="hljs-string" style="color: #6a8759;">"person : ${people}"</span>&gt;</span>
-            <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">th</span> <span class="hljs-attr">scope</span>=<span class="hljs-string" style="color: #6a8759;">"row"</span> <span class="hljs-attr">th:text</span>=<span class="hljs-string" style="color: #6a8759;">"${person.id}"</span>&gt;</span>1<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">th</span>&gt;</span>
-            <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">td</span> <span class="hljs-attr">th:text</span>=<span class="hljs-string" style="color: #6a8759;">"${person.lastName}"</span>&gt;</span>Mark<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">td</span>&gt;</span>
-            <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">td</span> <span class="hljs-attr">th:text</span>=<span class="hljs-string" style="color: #6a8759;">"${person.firstName}"</span>&gt;</span>Otto<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">td</span>&gt;</span>
-            <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">td</span> <span class="hljs-attr">th:text</span>=<span class="hljs-string" style="color: #6a8759;">"${{person.dob}}"</span>&gt;</span>@mdo<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">td</span>&gt;</span>
-            <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">td</span> <span class="hljs-attr">th:text</span>=<span class="hljs-string" style="color: #6a8759;">"${person.email}"</span>&gt;</span>Otto<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">td</span>&gt;</span>
-            <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">td</span> <span class="hljs-attr">th:text</span>=<span class="hljs-string" style="color: #6a8759;">"${{person.salary}}"</span>&gt;</span>@mdo<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">td</span>&gt;</span>
-        <span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">tr</span>&gt;</span>
-        <span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">tbody</span>&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">table</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">h2</span>&gt;</span>Person Form<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">h2</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">form</span> <span class="hljs-attr">th:object</span>=<span class="hljs-string" style="color: #6a8759;">"${person}"</span> <span class="hljs-attr">method</span>=<span class="hljs-string" style="color: #6a8759;">"post"</span> <span class="hljs-attr">novalidate</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string" style="color: #6a8759;">"mb-3"</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">label</span> <span class="hljs-attr">for</span>=<span class="hljs-string" style="color: #6a8759;">"firstName"</span> <span class="hljs-attr">class</span>=<span class="hljs-string" style="color: #6a8759;">"form-label"</span>&gt;</span>First Name<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">label</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string" style="color: #6a8759;">"text"</span> <span class="hljs-attr">class</span>=<span class="hljs-string" style="color: #6a8759;">"form-control"</span> <span class="hljs-attr">id</span>=<span class="hljs-string" style="color: #6a8759;">"firstName"</span> <span class="hljs-attr">th:field</span>=<span class="hljs-string" style="color: #6a8759;">"*{firstName}"</span> <span class="hljs-attr">th:errorclass</span>=<span class="hljs-string" style="color: #6a8759;">"is-invalid"</span> <span class="hljs-attr">aria-describedby</span>=<span class="hljs-string" style="color: #6a8759;">"firstNameHelp"</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string" style="color: #6a8759;">"validationFirstName"</span> <span class="hljs-attr">class</span>=<span class="hljs-string" style="color: #6a8759;">"invalid-feedback"</span> <span class="hljs-attr">th:errors</span>=<span class="hljs-string" style="color: #6a8759;">"*{firstName}"</span>&gt;</span>
-            Please choose a username.
-        <span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">div</span>&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">div</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string" style="color: #6a8759;">"mb-3"</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">label</span> <span class="hljs-attr">for</span>=<span class="hljs-string" style="color: #6a8759;">"lastName"</span> <span class="hljs-attr">class</span>=<span class="hljs-string" style="color: #6a8759;">"form-label"</span>&gt;</span>Last Name<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">label</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string" style="color: #6a8759;">"text"</span> <span class="hljs-attr">class</span>=<span class="hljs-string" style="color: #6a8759;">"form-control"</span> <span class="hljs-attr">id</span>=<span class="hljs-string" style="color: #6a8759;">"lastName"</span> <span class="hljs-attr">th:field</span>=<span class="hljs-string" style="color: #6a8759;">"*{lastName}"</span> <span class="hljs-attr">th:errorclass</span>=<span class="hljs-string" style="color: #6a8759;">"is-invalid"</span> <span class="hljs-attr">aria-describedby</span>=<span class="hljs-string" style="color: #6a8759;">"lastNameHelp"</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string" style="color: #6a8759;">"validationLastName"</span> <span class="hljs-attr">class</span>=<span class="hljs-string" style="color: #6a8759;">"invalid-feedback"</span> <span class="hljs-attr">th:errors</span>=<span class="hljs-string" style="color: #6a8759;">"*{lastName}"</span>&gt;</span>
-            Please choose a username.
-        <span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">div</span>&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">div</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string" style="color: #6a8759;">"mb-3"</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">label</span> <span class="hljs-attr">for</span>=<span class="hljs-string" style="color: #6a8759;">"dob"</span> <span class="hljs-attr">class</span>=<span class="hljs-string" style="color: #6a8759;">"form-label"</span>&gt;</span>Date of Birth<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">label</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string" style="color: #6a8759;">"date"</span> <span class="hljs-attr">class</span>=<span class="hljs-string" style="color: #6a8759;">"form-control"</span> <span class="hljs-attr">id</span>=<span class="hljs-string" style="color: #6a8759;">"dob"</span> <span class="hljs-attr">th:field</span>=<span class="hljs-string" style="color: #6a8759;">"*{dob}"</span> <span class="hljs-attr">th:errorclass</span>=<span class="hljs-string" style="color: #6a8759;">"is-invalid"</span> <span class="hljs-attr">aria-describedby</span>=<span class="hljs-string" style="color: #6a8759;">"dobHelp"</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string" style="color: #6a8759;">"validationDOB"</span> <span class="hljs-attr">class</span>=<span class="hljs-string" style="color: #6a8759;">"invalid-feedback"</span> <span class="hljs-attr">th:errors</span>=<span class="hljs-string" style="color: #6a8759;">"*{dob}"</span>&gt;</span>
-            Please choose a username.
-        <span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">div</span>&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">div</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string" style="color: #6a8759;">"mb-3"</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">label</span> <span class="hljs-attr">for</span>=<span class="hljs-string" style="color: #6a8759;">"email"</span> <span class="hljs-attr">class</span>=<span class="hljs-string" style="color: #6a8759;">"form-label"</span>&gt;</span>Email address<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">label</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string" style="color: #6a8759;">"email"</span> <span class="hljs-attr">class</span>=<span class="hljs-string" style="color: #6a8759;">"form-control"</span> <span class="hljs-attr">id</span>=<span class="hljs-string" style="color: #6a8759;">"email"</span> <span class="hljs-attr">th:field</span>=<span class="hljs-string" style="color: #6a8759;">"*{email}"</span> <span class="hljs-attr">th:errorclass</span>=<span class="hljs-string" style="color: #6a8759;">"is-invalid"</span> <span class="hljs-attr">aria-describedby</span>=<span class="hljs-string" style="color: #6a8759;">"emailHelp"</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string" style="color: #6a8759;">"validationEmail"</span> <span class="hljs-attr">class</span>=<span class="hljs-string" style="color: #6a8759;">"invalid-feedback"</span> <span class="hljs-attr">th:errors</span>=<span class="hljs-string" style="color: #6a8759;">"*{email}"</span>&gt;</span>
-            Please choose a username.
-        <span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">div</span>&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">div</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string" style="color: #6a8759;">"mb-3"</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">label</span> <span class="hljs-attr">for</span>=<span class="hljs-string" style="color: #6a8759;">"salary"</span> <span class="hljs-attr">class</span>=<span class="hljs-string" style="color: #6a8759;">"form-label"</span>&gt;</span>Salary<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">label</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string" style="color: #6a8759;">"number"</span> <span class="hljs-attr">class</span>=<span class="hljs-string" style="color: #6a8759;">"form-control"</span> <span class="hljs-attr">id</span>=<span class="hljs-string" style="color: #6a8759;">"salary"</span> <span class="hljs-attr">th:field</span>=<span class="hljs-string" style="color: #6a8759;">"*{salary}"</span> <span class="hljs-attr">th:errorclass</span>=<span class="hljs-string" style="color: #6a8759;">"is-invalid"</span> <span class="hljs-attr">aria-describedby</span>=<span class="hljs-string" style="color: #6a8759;">"salaryHelp"</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string" style="color: #6a8759;">"validationSalary"</span> <span class="hljs-attr">class</span>=<span class="hljs-string" style="color: #6a8759;">"invalid-feedback"</span> <span class="hljs-attr">th:errors</span>=<span class="hljs-string" style="color: #6a8759;">"*{salary}"</span>&gt;</span>
-            Please choose a username.
-        <span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">div</span>&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">div</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">button</span> <span class="hljs-attr">type</span>=<span class="hljs-string" style="color: #6a8759;">"submit"</span> <span class="hljs-attr">class</span>=<span class="hljs-string" style="color: #6a8759;">"btn btn-primary"</span>&gt;</span>Save Person<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">button</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">form</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">div</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">body</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">html</span>&gt;</span></pre>
-<p>lets also perform some validation of the entered data:</p>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e none repeat scroll 0% 0%; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-keyword" style="color: #cc7832;">package</span> ch.finecloud.peopledbweb.biz.model;
-
-<span class="hljs-keyword" style="color: #cc7832;">import</span> lombok.AllArgsConstructor;
-<span class="hljs-keyword" style="color: #cc7832;">import</span> lombok.Data;
-<span class="hljs-keyword" style="color: #cc7832;">import</span> lombok.NoArgsConstructor;
-
-<span class="hljs-keyword" style="color: #cc7832;">import</span> javax.persistence.Entity;
-<span class="hljs-keyword" style="color: #cc7832;">import</span> javax.persistence.GeneratedValue;
-<span class="hljs-keyword" style="color: #cc7832;">import</span> javax.persistence.Id;
-<span class="hljs-keyword" style="color: #cc7832;">import</span> javax.validation.constraints.*;
-<span class="hljs-keyword" style="color: #cc7832;">import</span> java.math.BigDecimal;
-<span class="hljs-keyword" style="color: #cc7832;">import</span> java.time.LocalDate;
-
-<span class="hljs-meta" style="color: #bbb529;">@Data</span>
-<span class="hljs-meta" style="color: #bbb529;">@AllArgsConstructor</span>
-<span class="hljs-meta" style="color: #bbb529;">@NoArgsConstructor</span>
-<span class="hljs-meta" style="color: #bbb529;">@Entity</span>
-<span class="hljs-keyword" style="color: #cc7832;">public</span> <span class="hljs-class"><span class="hljs-keyword" style="color: #cc7832;">class</span> <span class="hljs-title" style="color: #ffc66d;">Person</span> </span>{
-    <span class="hljs-meta" style="color: #bbb529;">@Id</span>
-    <span class="hljs-meta" style="color: #bbb529;">@GeneratedValue</span>
-    <span class="hljs-keyword" style="color: #cc7832;">private</span> Long id;
-
-    <span class="hljs-meta" style="color: #bbb529;">@NotEmpty</span>(message = <span class="hljs-string" style="color: #6a8759;">"First name can not be empty"</span>)
-    <span class="hljs-keyword" style="color: #cc7832;">private</span> String firstName;
-
-    <span class="hljs-meta" style="color: #bbb529;">@NotEmpty</span>(message = <span class="hljs-string" style="color: #6a8759;">"Last name can not be empty"</span>)
-    <span class="hljs-keyword" style="color: #cc7832;">private</span> String lastName;
-
-    <span class="hljs-meta" style="color: #bbb529;">@Past</span>(message = <span class="hljs-string" style="color: #6a8759;">"Date of Birth must be in the Past"</span>)
-    <span class="hljs-meta" style="color: #bbb529;">@NotNull</span>(message = <span class="hljs-string" style="color: #6a8759;">"Date of Birth can not be empty"</span>)
-    <span class="hljs-keyword" style="color: #cc7832;">private</span> LocalDate dob;
-
-    <span class="hljs-meta" style="color: #bbb529;">@Email</span>(message = <span class="hljs-string" style="color: #6a8759;">"Email must be valid"</span>)
-    <span class="hljs-meta" style="color: #bbb529;">@NotEmpty</span>(message = <span class="hljs-string" style="color: #6a8759;">"Email can not be empty"</span>)
-    <span class="hljs-keyword" style="color: #cc7832;">private</span> String email;
-
-    <span class="hljs-meta" style="color: #bbb529;">@DecimalMin</span>(value = <span class="hljs-string" style="color: #6a8759;">"1000.00"</span>, message = <span class="hljs-string" style="color: #6a8759;">"Salary must be at least 1000.00"</span>)
-    <span class="hljs-meta" style="color: #bbb529;">@NotNull</span>(message = <span class="hljs-string" style="color: #6a8759;">"salary can not be empty"</span>)
-    <span class="hljs-keyword" style="color: #cc7832;">private</span> BigDecimal salary;
-}
-
-</pre>
-<p> </p>
             ]]>
         </content>
     </entry>

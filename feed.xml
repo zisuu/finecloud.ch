@@ -3,7 +3,7 @@
     <title>Finecloud</title>
     <link href="https://www.finecloud.ch/feed.xml" rel="self" />
     <link href="https://www.finecloud.ch" />
-    <updated>2023-01-30T20:19:54+01:00</updated>
+    <updated>2023-01-31T07:29:06+01:00</updated>
     <author>
         <name>Finecloud</name>
     </author>
@@ -20,7 +20,7 @@
             <category term="javascript"/>
             <category term="dev"/>
 
-        <updated>2023-01-30T20:19:54+01:00</updated>
+        <updated>2023-01-31T07:29:06+01:00</updated>
             <summary>
                 <![CDATA[
                     The DOM Based on the received HTML document the browser builds up a model of the document structure, the Document Object Model (DOM) The DOM has a tree structure and each node of the document is represented by an object The browser renders the page&hellip;
@@ -45,6 +45,19 @@
 <li><a href="#mcetoc_1go1kdqqcj7">Event Object</a></li>
 <li><a href="#mcetoc_1go1kdqqcj8">Event Propagation</a></li>
 <li><a href="#mcetoc_1go1kdqqcj9">Default action</a></li>
+</ul>
+</li>
+<li><a href="#mcetoc_1go387fbq1bm">AJAX</a>
+<ul>
+<li><a href="#mcetoc_1go387fbq1bn">AJAX and JSON</a></li>
+<li><a href="#mcetoc_1go387fbq1bo">Same-Origin Policy</a></li>
+</ul>
+</li>
+<li><a href="#mcetoc_1go387fbq1bp">jQuery</a>
+<ul>
+<li><a href="#mcetoc_1go387fbq1bq">jQuery usage</a></li>
+<li><a href="#mcetoc_1go387fbq1br">The jQuery Object</a></li>
+<li><a href="#mcetoc_1go387fbq1bs">jQuery and AJAX</a></li>
 </ul>
 </li>
 </ul>
@@ -325,6 +338,169 @@ e.stopPropagation();
 e.preventDefault();
 alert(<span class="hljs-string" style="color: #6a8759;">"Sorry, but we don't want you to leave!"</span>);
 });</pre>
+<h2 id="mcetoc_1go387fbq1bm">AJAX</h2>
+<ul>
+<li>AJAX (Asynchronous JavaScript and XML) is used to create faster and more interactive web applications</li>
+<li>AJAX enables JavaScript to load data from the server without reloading the page</li>
+<li>On the protocol level, AJAX requests are just a normal HTTP requests</li>
+<li>The XMLHttpRequest (XHR) object is the interface for AJAX requests</li>
+<li>Despite the term XML in AJAX and XHR, any type of data can be loaded from the server</li>
+<li>ES6 introduced the new Promise based Fetch API</li>
+</ul>
+<figure class="post__image"><img loading="lazy"  src="https://www.finecloud.ch/media/posts/77/Screenshot-2023-01-31-at-07.17.30.png" alt="" width="1494" height="834" sizes="100vw" srcset="https://www.finecloud.ch/media/posts/77/responsive/Screenshot-2023-01-31-at-07.17.30-xs.png 300w ,https://www.finecloud.ch/media/posts/77/responsive/Screenshot-2023-01-31-at-07.17.30-sm.png 480w ,https://www.finecloud.ch/media/posts/77/responsive/Screenshot-2023-01-31-at-07.17.30-md.png 768w ,https://www.finecloud.ch/media/posts/77/responsive/Screenshot-2023-01-31-at-07.17.30-lg.png 1024w ,https://www.finecloud.ch/media/posts/77/responsive/Screenshot-2023-01-31-at-07.17.30-xl.png 1360w ,https://www.finecloud.ch/media/posts/77/responsive/Screenshot-2023-01-31-at-07.17.30-2xl.png 1600w"></figure>
+<pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-comment" style="color: grey;">// Create a new XMLHttpRequest object</span>
+<span class="hljs-keyword" style="color: #cc7832;">const</span> xhr = <span class="hljs-keyword" style="color: #cc7832;">new</span> XMLHttpRequest();
+<span class="hljs-comment" style="color: grey;">// Specify the type of request: method and url</span>
+xhr.open(<span class="hljs-string" style="color: #6a8759;">'GET'</span>, <span class="hljs-string" style="color: #6a8759;">'/ajax/time'</span>);
+<span class="hljs-comment" style="color: grey;">// Register a callback to be notified about state changes</span>
+xhr.onreadystatechange = <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span>() </span>{
+  <span class="hljs-comment" style="color: grey;">// Check ready state: 4 means request completed</span>
+  <span class="hljs-keyword" style="color: #cc7832;">if</span> (<span class="hljs-keyword" style="color: #cc7832;">this</span>.readyState === <span class="hljs-number" style="color: #6897bb;">4</span>) {
+    <span class="hljs-comment" style="color: grey;">// Check HTTP status: 200 OK</span>
+    <span class="hljs-keyword" style="color: #cc7832;">if</span> (<span class="hljs-keyword" style="color: #cc7832;">this</span>.status === <span class="hljs-number" style="color: #6897bb;">200</span>) {
+      <span class="hljs-comment" style="color: grey;">// Update DOM with the response text</span>
+      <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string" style="color: #6a8759;">'time'</span>).innerHTML = <span class="hljs-keyword" style="color: #cc7832;">this</span>.responseText;
+    } <span class="hljs-keyword" style="color: #cc7832;">else</span> {
+      <span class="hljs-comment" style="color: grey;">// Error handling...</span>
+      <span class="hljs-built_in">console</span>.log(<span class="hljs-string" style="color: #6a8759;">"Something failed!"</span>);
+    }
+  }
+};
+<span class="hljs-comment" style="color: grey;">// Send the request</span>
+xhr.send();
+</pre>
+<h3 id="mcetoc_1go387fbq1bn">AJAX and JSON</h3>
+<ul>
+<li>The property responseText of the XMLHttpRequest object contains the HTTP response body as a string</li>
+<li>If the response is an XML document, the data can be accessed directly by the responseXML property</li>
+<li>If the response is a JSON document, the JSON string must be parsed manually</li>
+</ul>
+<pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-comment" style="color: grey;">// Retrieving a JSON document</span>
+<span class="hljs-keyword" style="color: #cc7832;">const</span> xhr = <span class="hljs-keyword" style="color: #cc7832;">new</span> XMLHttpRequest();
+xhr.open(<span class="hljs-string" style="color: #6a8759;">'GET'</span>, <span class="hljs-string" style="color: #6a8759;">'/ajax/data.json'</span>);
+xhr.onloadend = <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span>() </span>{
+  <span class="hljs-keyword" style="color: #cc7832;">if</span> (<span class="hljs-keyword" style="color: #cc7832;">this</span>.status === <span class="hljs-number" style="color: #6897bb;">200</span>) {
+    <span class="hljs-comment" style="color: grey;">// Parse the responseText into an object</span>
+    <span class="hljs-keyword" style="color: #cc7832;">const</span> obj = <span class="hljs-built_in">JSON</span>.parse(<span class="hljs-keyword" style="color: #cc7832;">this</span>.responseText);
+    <span class="hljs-built_in">console</span>.log(obj.name+<span class="hljs-string" style="color: #6a8759;">" is "</span>+obj.age+<span class="hljs-string" style="color: #6a8759;">" years old."</span>);
+  } <span class="hljs-keyword" style="color: #cc7832;">else</span> {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string" style="color: #6a8759;">"Error..."</span>);
+  }
+};
+xhr.send();
+</pre>
+<h3 id="mcetoc_1go387fbq1bo">Same-Origin Policy</h3>
+<ul>
+<li>The same-origin policy is a browser security feature that restricts how documents and scripts from one origin can interact with resources from another origin</li>
+<li>Two URLs have the same origin if the protocol, host, and port are the same</li>
+<li>Generally, embedding a cross-origin resource using tags such as img, link, and script is permitted</li>
+<li>Accessing a cross-origin resource using an AJAX request is blocked by default</li>
+<li>Using CORS headers, a web server can explicitly allow certain hosts to access its resources</li>
+</ul>
+<h2 id="mcetoc_1go387fbq1bp">jQuery</h2>
+<blockquote>
+<p>”jQuery is a fast, small, and feature-rich JavaScript library” / <span style="color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: inherit; font-weight: var(--font-weight-normal);">jquery.com</span></p>
+</blockquote>
+<ul>
+<li>jQuery simpliﬁes
+<ul>
+<li>element selection</li>
+<li>DOM traversal/manipulation</li>
+<li>event handling</li>
+<li>animation</li>
+<li>AJAX requests</li>
+</ul>
+</li>
+<li>Provides an easy-to-use API</li>
+<li>Is tested on all major browsers</li>
+<li>Was initially released in 2006 and used by 80% of the top 100k websites in 2022 (builtwith.com)</li>
+</ul>
+<h3 id="mcetoc_1go387fbq1bq">jQuery usage</h3>
+<p>jQuery can be downloaded and included by a single script tag:<br><code>&lt;script src="js/jquery.js"&gt;&lt;/script&gt;</code><br>jQuery can also be loaded directly from jQuery or a CDN:<br><code>&lt;script src="https://code.jquery.com/jquery-3.3.1.min.js"&gt;&lt;/script&gt;</code><br><code>&lt;script src="https://unpkg.com/jquery"&gt;&lt;/script&gt;</code></p>
+<p>Example:</p>
+<pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-comment" style="color: grey;">// On document ready...</span>
+$(<span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span>() </span>{
+  <span class="hljs-comment" style="color: grey;">// Set the css property color of each div to red</span>
+  $(<span class="hljs-string" style="color: #6a8759;">'div'</span>).css(<span class="hljs-string" style="color: #6a8759;">'color'</span>, <span class="hljs-string" style="color: #6a8759;">'red'</span>);
+
+  <span class="hljs-comment" style="color: grey;">// Load some content for each selected element</span>
+  $(<span class="hljs-string" style="color: #6a8759;">'.content'</span>).each(<span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span>()</span>{
+    $(<span class="hljs-keyword" style="color: #cc7832;">this</span>).load(<span class="hljs-string" style="color: #6a8759;">'/ajax/content'</span>, {id: <span class="hljs-keyword" style="color: #cc7832;">this</span>.id});
+  });
+
+  <span class="hljs-comment" style="color: grey;">// Register a click event handler. On each click a paragraph is added</span>
+  <span class="hljs-comment" style="color: grey;">// to the article element</span>
+  $(<span class="hljs-string" style="color: #6a8759;">'#add-content'</span>).click(<span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span>() </span>{
+    $(<span class="hljs-string" style="color: #6a8759;">'article'</span>).append($(<span class="hljs-string" style="color: #6a8759;">"&lt;p&gt;More content...&lt;/p&gt;"</span>));
+  });
+
+  <span class="hljs-comment" style="color: grey;">// Make an AJAX request and insert the received HTML into the DOM</span>
+  $.get(<span class="hljs-string" style="color: #6a8759;">'/ajax/test.html'</span>, <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span>(<span class="hljs-params">data</span>) </span>{
+    $(<span class="hljs-string" style="color: #6a8759;">'#result'</span>).html(data);
+  });
+});
+</pre>
+<p>There is no magic!</p>
+<ul>
+<li>$ is an alias for jQuery, which is a function and thus an object</li>
+<li>$(...) is equal to jQuery(...) and is just a function call</li>
+<li>$.abc() calls the jQuery’s static utility function abc</li>
+</ul>
+<pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-comment" style="color: grey;">// From jQuery’s source code: jQuery is a function and $ an alias</span>
+<span class="hljs-keyword" style="color: #cc7832;">var</span> jQuery = <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span>(<span class="hljs-params">slector, context</span>) </span>{
+<span class="hljs-comment" style="color: grey;">// ...</span>
+};
+<span class="hljs-built_in">window</span>.jQuery = <span class="hljs-built_in">window</span>.$ = jQuery;</pre>
+<h3 id="mcetoc_1go387fbq1br">The jQuery Object</h3>
+<ul>
+<li>A jQuery object references one or more DOM nodes</li>
+<li>jQuery objects have methods to manipulate and to access these nodes</li>
+<li>Manipulations are applied to each DOM node referenced by the object</li>
+<li>jQuery object methods are chainable</li>
+</ul>
+<p><code>$('div')</code><br><code>.css('background-color', '#f00')</code><br><code>.addClass('whatever')</code><br><code>.click(function(){ console.log("Clicked!"); })</code><br><code>.first()</code><br><code>.fadeOut(400);</code></p>
+<h3 id="mcetoc_1go387fbq1bs">jQuery and AJAX</h3>
+<ul>
+<li>jQuery has great support for AJAX</li>
+<li>Supported data types are XML, HTML, Script, JSON, JSONP, and TEXT</li>
+<li>Besides the basic $.ajax() function, there are a number of convenient shorthand functions:
+<ul>
+<li>$.get()</li>
+<li>$.post()</li>
+<li>$.getJSON()</li>
+<li>.load()</li>
+</ul>
+</li>
+<li>Provides simpliﬁed callback handling (success/error)</li>
+<li>In addition, the jqXHR object implements the Promise interface</li>
+</ul>
+<pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-comment" style="color: grey;">// AJAX example with success and error callback</span>
+$.ajax({
+  url: <span class="hljs-string" style="color: #6a8759;">"/ajax/time"</span>,
+  type: <span class="hljs-string" style="color: #6a8759;">"GET"</span>,
+  dataType: <span class="hljs-string" style="color: #6a8759;">"text"</span>,
+  success: <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span>(<span class="hljs-params">data</span>)</span>{ $(<span class="hljs-string" style="color: #6a8759;">"#time"</span>).html(data); },
+  error: <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span>(<span class="hljs-params">jqXHR, status, msg</span>)</span>{ $(<span class="hljs-string" style="color: #6a8759;">"#error"</span>).html(<span class="hljs-string" style="color: #6a8759;">"Error! "</span>+msg); }
+});
+
+<span class="hljs-comment" style="color: grey;">// GET example with success callback</span>
+$.get(<span class="hljs-string" style="color: #6a8759;">"/ajax/time"</span>, <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span>(<span class="hljs-params">data</span>)</span>{ $(<span class="hljs-string" style="color: #6a8759;">"#time"</span>).html(data); });
+
+<span class="hljs-comment" style="color: grey;">// Load example</span>
+$(<span class="hljs-string" style="color: #6a8759;">"#time"</span>).load(<span class="hljs-string" style="color: #6a8759;">"/ajax/time"</span>);
+
+<span class="hljs-comment" style="color: grey;">// POST example with success callback and JSON response</span>
+$.post(
+  <span class="hljs-string" style="color: #6a8759;">"/ajax/get_person_data"</span>,
+  $(<span class="hljs-string" style="color: #6a8759;">'#form'</span>).serialize(),    <span class="hljs-comment" style="color: grey;">// request data</span>
+  <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span>(<span class="hljs-params">person</span>) </span>{ $(<span class="hljs-string" style="color: #6a8759;">'#person'</span>).html(person.name+<span class="hljs-string" style="color: #6a8759;">" is "</span>+person.age); },
+  <span class="hljs-string" style="color: #6a8759;">"json"</span>);
+</pre>
+<p> </p>
+<p> </p>
+<p> </p>
+<p> </p>
+<p> </p>
 <p> </p>
 <p> </p>
             ]]>

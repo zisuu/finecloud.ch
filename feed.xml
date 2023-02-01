@@ -3,12 +3,421 @@
     <title>Finecloud</title>
     <link href="https://www.finecloud.ch/feed.xml" rel="self" />
     <link href="https://www.finecloud.ch" />
-    <updated>2023-01-31T07:29:06+01:00</updated>
+    <updated>2023-02-01T06:16:42+01:00</updated>
     <author>
         <name>Finecloud</name>
     </author>
     <id>https://www.finecloud.ch</id>
 
+    <entry>
+        <title>JavaScript advanced features</title>
+        <author>
+            <name>Finecloud</name>
+        </author>
+        <link href="https://www.finecloud.ch/javascript-advanced-features.html"/>
+        <id>https://www.finecloud.ch/javascript-advanced-features.html</id>
+            <category term="software development"/>
+            <category term="javascript"/>
+            <category term="dev"/>
+
+        <updated>2023-02-01T06:16:42+01:00</updated>
+            <summary>
+                <![CDATA[
+                    New Features New versions of JavaScript, such as ES6, ES2016, 2017, etc., come with many new features, however it is still ECMAScript Many of the new features are syntactic sugar or extend the functionality only marginal Template Literals Template literals are string literals with support&hellip;
+                ]]>
+            </summary>
+        <content type="html">
+            <![CDATA[
+                <div class="post__toc">
+<h3>Table of Contents</h3>
+<ul>
+<li><a href="#mcetoc_1go3akel62sa">New Features</a>
+<ul>
+<li><a href="#mcetoc_1go3akel62sb">Template Literals</a></li>
+<li><a href="#mcetoc_1go3akel62sc">Spread Operator</a></li>
+<li><a href="#mcetoc_1go3akel62sd">Array and Object Destructuring</a></li>
+<li><a href="#mcetoc_1go3akel62se">Arraw functions</a></li>
+<li><a href="#mcetoc_1go3akel62sf">Classes</a></li>
+<li><a href="#mcetoc_1go3akel62sg">Class Inheritance</a></li>
+</ul>
+</li>
+<li><a href="#mcetoc_1go3akel62sh">Modules</a>
+<ul>
+<li><a href="#mcetoc_1go3akel62si">Global Scope</a></li>
+<li><a href="#mcetoc_1go3akel62sj">IIFE</a></li>
+<li><a href="#mcetoc_1go3akel62sk">Example jQuery Plugin</a></li>
+<li><a href="#mcetoc_1go3r9h51351">Module Systems</a></li>
+<li><a href="#mcetoc_1go3r9h51352">ES Modules</a></li>
+<li><a href="#mcetoc_1go3r9h51353">Export Examples</a></li>
+<li><a href="#mcetoc_1go3r9h51354">Import Examples</a></li>
+<li><a href="#mcetoc_1go3r9h51355">Default Export</a></li>
+<li><a href="#mcetoc_1go3r9h51356">Usage in the Browser</a></li>
+</ul>
+</li>
+<li><a href="#mcetoc_1go3akel62sl">Promises</a>
+<ul>
+<li><a href="#mcetoc_1go41qk9o3km">Asynchronous Programming</a></li>
+<li><a href="#mcetoc_1go41qk9o3kn">Promises Are State Machines</a></li>
+</ul>
+</li>
+<li><a href="#mcetoc_1go41qk9o3ko">Creating Promises</a>
+<ul>
+<li><a href="#mcetoc_1go41qk9o3kp">Promise Example</a></li>
+<li><a href="#mcetoc_1go41qk9o3kq">Chaining</a></li>
+<li><a href="#mcetoc_1go41qk9o3kr">Chaining and Combining Examples</a></li>
+<li><a href="#mcetoc_1go41qk9o3ks">async and await</a></li>
+</ul>
+</li>
+<li><a href="#mcetoc_1go3akel62sm">Fetch API</a></li>
+</ul>
+</div>
+<h2 id="mcetoc_1go3akel62sa">New Features</h2>
+<ul>
+<li>New versions of JavaScript, such as ES6, ES2016, 2017, etc., come with many new features, however it is still ECMAScript</li>
+<li>Many of the new features are syntactic sugar or extend the functionality only marginal</li>
+</ul>
+<h3 id="mcetoc_1go3akel62sb">Template Literals</h3>
+<ul>
+<li>Template literals are string literals with support for text interpolation and multiple lines</li>
+<li>Template literals are enclosed by backticks</li>
+<li>Expressions in placeholders (marked by the dollar sign and curly braces) are evaluated and replaced by their value at runtime</li>
+</ul>
+<pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span> <span class="hljs-title" style="color: #ffc66d;">getYear</span>() </span>{
+    <span class="hljs-keyword" style="color: #cc7832;">return</span> (<span class="hljs-keyword" style="color: #cc7832;">new</span> <span class="hljs-built_in">Date</span>()).getFullYear();
+}
+
+<span class="hljs-keyword" style="color: #cc7832;">const</span> student = {
+    name: <span class="hljs-string" style="color: #6a8759;">"Bob"</span>,
+    age: <span class="hljs-number" style="color: #6897bb;">25</span>,
+    university: <span class="hljs-string" style="color: #6a8759;">"BFH"</span>
+};
+
+<span class="hljs-keyword" style="color: #cc7832;">const</span> message = <span class="hljs-string" style="color: #6a8759;">`<span class="hljs-subst">${student.name}</span> is a student at <span class="hljs-subst">${student.university}</span>.
+<span class="hljs-subst">${student.name}</span> was born in <span class="hljs-subst">${getYear() - student.age}</span>.`</span>;
+
+<span class="hljs-built_in">console</span>.log(message);    <span class="hljs-comment" style="color: grey;">// &gt;&gt; Bob is a student at BFH.</span>
+                         <span class="hljs-comment" style="color: grey;">//    Bob was born in 1996.</span>
+</pre>
+<h3 id="mcetoc_1go3akel62sc">Spread Operator</h3>
+<ul>
+<li>Using the spread operator new arrays and objects can be created based on the values of other arrays or objects</li>
+<li>The spread operator is especially useful to shallow-clone and merge or extend objects</li>
+</ul>
+<pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-keyword" style="color: #cc7832;">const</span> a = [<span class="hljs-number" style="color: #6897bb;">1</span>, <span class="hljs-number" style="color: #6897bb;">2</span>];
+<span class="hljs-keyword" style="color: #cc7832;">const</span> b = [<span class="hljs-number" style="color: #6897bb;">3</span>, <span class="hljs-number" style="color: #6897bb;">4</span>, <span class="hljs-number" style="color: #6897bb;">5</span>];
+
+<span class="hljs-keyword" style="color: #cc7832;">const</span> clonedA = [...a];
+clonedA[<span class="hljs-number" style="color: #6897bb;">1</span>] = <span class="hljs-number" style="color: #6897bb;">3</span>;                         <span class="hljs-comment" style="color: grey;">// a remains unaffected</span>
+
+<span class="hljs-keyword" style="color: #cc7832;">const</span> mergedArr = [<span class="hljs-number" style="color: #6897bb;">0</span>, ...a, ...b, <span class="hljs-number" style="color: #6897bb;">6</span>];   <span class="hljs-comment" style="color: grey;">// [0, 1, 2, 3, 4, 5, 6]</span>
+
+<span class="hljs-keyword" style="color: #cc7832;">const</span> x = {a: <span class="hljs-string" style="color: #6a8759;">"foo"</span>, b: <span class="hljs-number" style="color: #6897bb;">7</span>};
+<span class="hljs-keyword" style="color: #cc7832;">const</span> y = {a: <span class="hljs-string" style="color: #6a8759;">"bar"</span>, c: <span class="hljs-number" style="color: #6897bb;">8</span>};
+
+<span class="hljs-keyword" style="color: #cc7832;">const</span> clonedX = {...x};
+clonedX.a = <span class="hljs-string" style="color: #6a8759;">"bar"</span>;                      <span class="hljs-comment" style="color: grey;">// x remains unaffected</span>
+
+<span class="hljs-keyword" style="color: #cc7832;">const</span> mergedObj = {...x, ...y, c: <span class="hljs-number" style="color: #6897bb;">9</span>};   <span class="hljs-comment" style="color: grey;">// \{a: "bar", b: 7, c: 9\}</span>
+</pre>
+<h3 id="mcetoc_1go3akel62sd">Array and Object Destructuring</h3>
+<ul>
+<li>The destructuring assignment unpacks values from arrays and objects into distinct variables</li>
+<li>Destructuring can also be used in function parameter deﬁnitions to unpack ﬁelds from objects passed as argument</li>
+</ul>
+<pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-keyword" style="color: #cc7832;">const</span> a = [<span class="hljs-number" style="color: #6897bb;">1</span>, <span class="hljs-number" style="color: #6897bb;">2</span>, <span class="hljs-number" style="color: #6897bb;">3</span>, <span class="hljs-number" style="color: #6897bb;">4</span>];
+<span class="hljs-keyword" style="color: #cc7832;">const</span> [first, second] = a;
+<span class="hljs-built_in">console</span>.log(first);             <span class="hljs-comment" style="color: grey;">// &gt;&gt; 1</span>
+<span class="hljs-built_in">console</span>.log(second);            <span class="hljs-comment" style="color: grey;">// &gt;&gt; 2</span>
+
+<span class="hljs-keyword" style="color: #cc7832;">const</span> x = {a: <span class="hljs-string" style="color: #6a8759;">"foo"</span>, b: <span class="hljs-string" style="color: #6a8759;">"bar"</span>, c: <span class="hljs-number" style="color: #6897bb;">12</span>};
+<span class="hljs-keyword" style="color: #cc7832;">const</span> {b, c} = x;
+<span class="hljs-built_in">console</span>.log(b);                 <span class="hljs-comment" style="color: grey;">// &gt;&gt; bar</span>
+<span class="hljs-built_in">console</span>.log(c);                 <span class="hljs-comment" style="color: grey;">// &gt;&gt; 12</span>
+
+<span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span> <span class="hljs-title" style="color: #ffc66d;">f</span>(<span class="hljs-params">{a, b}</span>) </span>{
+    <span class="hljs-built_in">console</span>.log(a+<span class="hljs-string" style="color: #6a8759;">", "</span>+b);
+}
+f(x);                          <span class="hljs-comment" style="color: grey;">// &gt;&gt; foo, bar</span>
+</pre>
+<h3 id="mcetoc_1go3akel62se">Arraw functions</h3>
+<ul>
+<li>Arrow functions are a compact alternative to function expressions</li>
+<li>If the body consists of a single expression, then the curly braces can be omitted and the return is implied</li>
+</ul>
+<pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-keyword" style="color: #cc7832;">const</span> f = (a, b) =&gt; {
+  <span class="hljs-keyword" style="color: #cc7832;">const</span> c = a * a;
+  <span class="hljs-keyword" style="color: #cc7832;">return</span> c+b;
+};
+<span class="hljs-built_in">console</span>.log(f(<span class="hljs-number" style="color: #6897bb;">3</span>, <span class="hljs-number" style="color: #6897bb;">4</span>));         <span class="hljs-comment" style="color: grey;">// &gt;&gt; 13</span>
+
+<span class="hljs-keyword" style="color: #cc7832;">const</span> g = a =&gt; a * a;
+<span class="hljs-built_in">console</span>.log(g(<span class="hljs-number" style="color: #6897bb;">3</span>));            <span class="hljs-comment" style="color: grey;">// &gt;&gt; 9</span>
+</pre>
+<ul>
+<li>Arrow functions cannot be bound to objects</li>
+<li>The this reference is lexically scoped</li>
+</ul>
+<pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-keyword" style="color: #cc7832;">const</span> alice = {
+  name: <span class="hljs-string" style="color: #6a8759;">"Alice"</span>,
+  friends: [<span class="hljs-string" style="color: #6a8759;">"Bob"</span>, <span class="hljs-string" style="color: #6a8759;">"Eve"</span>],
+  sayHi: <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span>() </span>{
+    <span class="hljs-keyword" style="color: #cc7832;">this</span>.friends.forEach(friend =&gt; {
+      <span class="hljs-built_in">console</span>.log(<span class="hljs-keyword" style="color: #cc7832;">this</span>.name+<span class="hljs-string" style="color: #6a8759;">" says hi to "</span>+friend);  <span class="hljs-comment" style="color: grey;">// this is lexically scoped</span>
+    });
+  }
+};
+
+<span class="hljs-keyword" style="color: #cc7832;">const</span> speak = phrase =&gt; <span class="hljs-built_in">console</span>.log(<span class="hljs-keyword" style="color: #cc7832;">this</span>.name+<span class="hljs-string" style="color: #6a8759;">" says "</span>+phrase);
+speak.call(alice, <span class="hljs-string" style="color: #6a8759;">"Hello World!"</span>);   <span class="hljs-comment" style="color: grey;">// &gt;&gt; undefined says Hello World!</span>
+</pre>
+<h3 id="mcetoc_1go3akel62sf">Classes</h3>
+<ul>
+<li>The class keyword is syntactic sugar for constructor functions and prototype inheritance</li>
+<li>A class may contain a constructor, the actual constructor function, which will be bound to the class name, and any number of methods</li>
+</ul>
+<pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-class"><span class="hljs-keyword" style="color: #cc7832;">class</span> <span class="hljs-title" style="color: #ffc66d;">Person</span> </span>{
+  <span class="hljs-keyword" style="color: #cc7832;">constructor</span>(name, age) {
+    <span class="hljs-keyword" style="color: #cc7832;">this</span>.name = name;
+    <span class="hljs-keyword" style="color: #cc7832;">this</span>.age = age;
+  }
+  speak(phrase) {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string" style="color: #6a8759;">`<span class="hljs-subst">${this.name}</span> says: <span class="hljs-subst">${phrase}</span>`</span>);
+  }
+}
+
+<span class="hljs-keyword" style="color: #cc7832;">const</span> alice = <span class="hljs-keyword" style="color: #cc7832;">new</span> Person(<span class="hljs-string" style="color: #6a8759;">"Alice"</span>, <span class="hljs-number" style="color: #6897bb;">19</span>);
+alice.speak(<span class="hljs-string" style="color: #6a8759;">"It's just syntactic sugar!"</span>);
+</pre>
+<h3 id="mcetoc_1go3akel62sg">Class Inheritance</h3>
+<ul>
+<li>Classes support inheritance</li>
+<li>The super keyword is used to reference the constructor and methods deﬁned in the base class</li>
+</ul>
+<pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-class"><span class="hljs-keyword" style="color: #cc7832;">class</span> <span class="hljs-title" style="color: #ffc66d;">Student</span> <span class="hljs-keyword" style="color: #cc7832;">extends</span> <span class="hljs-title" style="color: #ffc66d;">Person</span> </span>{
+  <span class="hljs-keyword" style="color: #cc7832;">constructor</span>(name, age, university) {
+    <span class="hljs-keyword" style="color: #cc7832;">super</span>(name, age);
+    <span class="hljs-keyword" style="color: #cc7832;">this</span>.university = university;
+  }
+  speak(phrase) {
+    <span class="hljs-keyword" style="color: #cc7832;">super</span>.speak(phrase);
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string" style="color: #6a8759;">"And I'm a student at the "</span>+<span class="hljs-keyword" style="color: #cc7832;">this</span>.university);
+  }
+}
+</pre>
+<h2 id="mcetoc_1go3akel62sh">Modules</h2>
+<h3 id="mcetoc_1go3akel62si">Global Scope</h3>
+<ul>
+<li>JavaScript has one global scope</li>
+<li>Different JavaScript ﬁles share the same global scope and have not their own private scope</li>
+</ul>
+<p><code>let counter = 0;</code><br><code>function count() { return ++counter; }</code><br><br><code>function logCounter() { console.log(counter); }</code><br><br><code>&lt;html&gt;</code><br><code>&lt;head&gt;</code><br><code>&lt;script src="listing_11a.js"&gt;&lt;/script&gt;</code><br><code>&lt;script src="listing_11b.js"&gt;&lt;/script&gt;</code><br><code>&lt;/head&gt;</code><br><code>&lt;body&gt;</code><br><code>&lt;script&gt;</code><br><code>count();</code><br><code>logCounter(); // &gt;&gt; 1</code><br><code>&lt;/script&gt;</code><br><code>&lt;/body&gt;</code><br><code>&lt;/html&gt;</code></p>
+<h3 id="mcetoc_1go3akel62sj">IIFE</h3>
+<ul>
+<li>An immediately-invoked function expression (IIFE, pronounced ”iffy”) is an unnamed function which is immediately invoked</li>
+<li>An IIFE takes advantage of the concept of closures and the local scope produced by functions</li>
+<li>IIFEs can be used to implement a simple module pattern, in which each module binds only a single global variable</li>
+</ul>
+<p>counter-service.js:</p>
+<pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-keyword" style="color: #cc7832;">const</span> counterService = (<span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span>() </span>{
+    <span class="hljs-comment" style="color: grey;">// Private scope</span>
+    <span class="hljs-keyword" style="color: #cc7832;">let</span> counter = <span class="hljs-number" style="color: #6897bb;">0</span>;
+    <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span> <span class="hljs-title" style="color: #ffc66d;">count</span>() </span>{ <span class="hljs-keyword" style="color: #cc7832;">return</span> ++counter; }
+    <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span> <span class="hljs-title" style="color: #ffc66d;">logCounter</span>() </span>{ <span class="hljs-built_in">console</span>.log(counter); }
+
+    <span class="hljs-comment" style="color: grey;">// Export public features</span>
+    <span class="hljs-keyword" style="color: #cc7832;">return</span> {count, logCounter};
+})();
+</pre>
+<p><code>&lt;script src="counter-service.js"&gt;&lt;/script&gt;</code><br><code>&lt;script&gt;</code><br><code>counterService.count();</code><br><code>counterService.logCounter(); // 1</code><br><code>&lt;/script&gt;</code></p>
+<h3 id="mcetoc_1go3akel62sk">Example jQuery Plugin</h3>
+<ul>
+<li>A jQuery plugin is implemented as an IIFE</li>
+<li>New features are added to the prototype of jQuery objects (which is the $.fn object)</li>
+<li>See How to Create a Basic Plugin for more details</li>
+</ul>
+<p>jquery-identify.js;</p>
+<pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;">(<span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span>(<span class="hljs-params">$</span>) </span>{
+  <span class="hljs-keyword" style="color: #cc7832;">let</span> counter = <span class="hljs-number" style="color: #6897bb;">0</span>;
+
+  $.fn.identify = <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span>() </span>{
+    <span class="hljs-keyword" style="color: #cc7832;">return</span> <span class="hljs-keyword" style="color: #cc7832;">this</span>.each(<span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span>() </span>{
+      <span class="hljs-keyword" style="color: #cc7832;">this</span>.id = <span class="hljs-string" style="color: #6a8759;">'id-'</span>+(++counter);
+    });
+  }
+})(jQuery);
+</pre>
+<p><code>&lt;script src="jquery.js"&gt;&lt;/script&gt;</code><br><code>&lt;script src="jquery-identify.js"&gt;&lt;/script&gt;</code><br><code>&lt;script&gt;</code><br><code>$('p, img').identify();</code><br><code>&lt;/script&gt;</code></p>
+<h3 id="mcetoc_1go3r9h51351">Module Systems</h3>
+<ul>
+<li>Module Systems provide a private scope on a ﬁle basis with the possibility to export functionality and to import functionality from other modules</li>
+<li>Before ES6, JavaScript had no built-in module system and proprietary module systems, such as CommonJS (which is still used by Node.js), were needed</li>
+<li>ES6 introduced its own module system (often called ES modules) with the new keywords import and export</li>
+<li>In larger applications, module dependencies are resolved during the build and bundling process</li>
+<li>ES modules are natively supported by all modern browsers</li>
+</ul>
+<h3 id="mcetoc_1go3r9h51352">ES Modules</h3>
+<ul>
+<li>Features are exported from a module using the export keyword</li>
+<li>The export keyword is placed in front of the item to export</li>
+<li>Functions, classes and variables deﬁned with let or const can be exported</li>
+<li>Multiple features can be exported in a single statement by wrapping the comma-separated list of items in curly braces</li>
+<li>Items which are not exported are local to the module</li>
+<li>Features are imported from other modules using the import keyword</li>
+<li>Speciﬁc features are imported by their names (comma-separated list in curly braces)</li>
+<li>All features of a module can be important using the *-notation</li>
+</ul>
+<h3 id="mcetoc_1go3r9h51353">Export Examples</h3>
+<p>math.js:</p>
+<p><code>export const PI = computePI();</code><br><code>export function square(x) { return x * x; }</code><br><code>export function sum(x, y) { return x + y; }</code><br><code>// Local to math.js</code><br><code>function computePI() { return 3.14; }</code></p>
+<p>colors.js:</p>
+<p><code>const white = '#ffffff', black = '#000000';</code><br><code>function rgbToHex(r, g, b) { return '#' + toHex(r) + toHex(g) + toHex(b); }</code><br><code>function toHex(c) { return ('0' + c.toString(16)).slice(m2); }</code><br><code>// Export multiple features in a single statement</code><br><code>export {white, black, rgbToHex};</code></p>
+<h3 id="mcetoc_1go3r9h51354">Import Examples</h3>
+<p>file1.js:</p>
+<p><code>// Import specific features from another module</code><br><code>import {square, PI} from 'math';</code><br><code>console.log(PI); // &gt;&gt; 3.14</code><br><code>console.log(square(4)); // &gt;&gt; 16</code><br><br>file2.js</p>
+<p><code>// Import all features from another module</code><br><code>import * as math from 'math';</code><br><code>console.log(math.PI); // &gt;&gt; 3.14</code><br><code>console.log(math.sum(4, 5)); // &gt;&gt; 9</code></p>
+<h3 id="mcetoc_1go3r9h51355">Default Export</h3>
+<ul>
+<li>One single export per module can be marked as default using the default keyword</li>
+<li>The default feature is imported without curly braces and any name can be given</li>
+<li>Especially convenient if only one feature is exported per module</li>
+</ul>
+<p>hello-world.js:</p>
+<p><code>export default function() {</code><br><code>console.log("Hello World!");</code><br><code>}</code></p>
+<p>any-class.js:</p>
+<p><code>export default class {</code><br><code>// ...</code><br><code>}</code></p>
+<p>main.js:</p>
+<p><code>import logHelloWorld from 'hello-world';</code><br><code>import AnyClass from 'any-class';</code><br><code>logHelloWorld();</code><br><code>let obj = new AnyClass();</code></p>
+<h3 id="mcetoc_1go3r9h51356">Usage in the Browser</h3>
+<ul>
+<li>The type of the script must be module</li>
+<li>Modules are loaded deferred (after the browser ﬁnished parsing the HTML and building the DOM)</li>
+<li>Modules are running in strict mode by default</li>
+<li>The module name must be the ﬁle path relative to the site root or, using the dot-syntax, relative to the current location, e.g.: import ... from './lib/my-module.js';</li>
+</ul>
+<p><code>&lt;html&gt;</code><br><code>&lt;head&gt;</code><br><code>&lt;title&gt;ES Modules&lt;/title&gt;</code><br><code>&lt;script type="module" src="main.js"&gt;&lt;/script&gt;</code><br><code>&lt;script type="module"&gt;</code><br><code>import {PI} from './math.js';</code><br><code>// ...</code><br><code>&lt;/script&gt;</code><br><code>&lt;/head&gt;</code><br><code>&lt;body&gt; ... &lt;/body&gt;</code><br><code>&lt;/html&gt;</code></p>
+<h2 id="mcetoc_1go3akel62sl">Promises</h2>
+<h3 id="mcetoc_1go41qk9o3km">Asynchronous Programming</h3>
+<ul>
+<li>JavaScript is single-threaded, hence time-consuming tasks must be implemented asynchronously to not block the thread</li>
+<li>Promises are helpers for asynchronous programming</li>
+<li>A promise is a proxy for a value possibly known in the future</li>
+<li>Instead of passing callback functions to the asynchronous function, the  synchronous function returns a promise on which success and error handlers can be registered</li>
+</ul>
+<pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-comment" style="color: grey;">// Traditional approach with callbacks passed to the asynchronous function</span>
+computeAsync(<span class="hljs-string" style="color: #6a8759;">"Foo"</span>, <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span>(<span class="hljs-params">result</span>) </span>{
+  <span class="hljs-comment" style="color: grey;">// Process result</span>
+}, <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span>(<span class="hljs-params">error</span>) </span>{
+  <span class="hljs-comment" style="color: grey;">// Handle error</span>
+});
+
+<span class="hljs-comment" style="color: grey;">// Promise based approach where the asynchronous function returns a promise</span>
+computeAsync(<span class="hljs-string" style="color: #6a8759;">"Foo"</span>)
+  .then(result =&gt; { <span class="hljs-comment" style="color: grey;">/* Process result */</span> })
+  .catch(error =&gt; { <span class="hljs-comment" style="color: grey;">/* Handle error */</span> });
+</pre>
+<h3 id="mcetoc_1go41qk9o3kn">Promises Are State Machines</h3>
+<ul>
+<li>Newly created promises are in the state pending</li>
+<li>A promise remains pending as long as the value is unknown and no error has occurred</li>
+<li>As soon as the value is available, the state changes to fullﬁled and registered success handlers are called</li>
+<li>If an error occurs, the state changes to rejected and registered error handlers are called</li>
+<li>Once the state is fullﬁled or rejected, the promise remains in this state for ever</li>
+</ul>
+<figure class="post__image"><img loading="lazy"  src="https://www.finecloud.ch/media/posts/79/Screenshot-2023-01-31-at-14.42.22.png" alt="" width="882" height="734" sizes="100vw" srcset="https://www.finecloud.ch/media/posts/79/responsive/Screenshot-2023-01-31-at-14.42.22-xs.png 300w ,https://www.finecloud.ch/media/posts/79/responsive/Screenshot-2023-01-31-at-14.42.22-sm.png 480w ,https://www.finecloud.ch/media/posts/79/responsive/Screenshot-2023-01-31-at-14.42.22-md.png 768w ,https://www.finecloud.ch/media/posts/79/responsive/Screenshot-2023-01-31-at-14.42.22-lg.png 1024w ,https://www.finecloud.ch/media/posts/79/responsive/Screenshot-2023-01-31-at-14.42.22-xl.png 1360w ,https://www.finecloud.ch/media/posts/79/responsive/Screenshot-2023-01-31-at-14.42.22-2xl.png 1600w"></figure>
+<h2 id="mcetoc_1go41qk9o3ko">Creating Promises</h2>
+<ul>
+<li>Promises are created using the Promise constructor</li>
+<li>A function is passed to the constructor implementing the asynchronous task</li>
+<li>The function is called by the promise, passing two functions to resolve or reject the promise</li>
+<li>Either the resolve or reject function must be ﬁnally called by the asynchronous task</li>
+</ul>
+<pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span> <span class="hljs-title" style="color: #ffc66d;">computeAsync</span>() </span>{
+  <span class="hljs-keyword" style="color: #cc7832;">return</span> <span class="hljs-keyword" style="color: #cc7832;">new</span> <span class="hljs-built_in">Promise</span>((resolve, reject) =&gt; {
+
+    <span class="hljs-comment" style="color: grey;">// ... Perform the asynchronous task (Promise is pending)</span>
+
+    <span class="hljs-keyword" style="color: #cc7832;">if</span> (success) resolve(result);  <span class="hljs-comment" style="color: grey;">// Promise will be fulfilled</span>
+    <span class="hljs-keyword" style="color: #cc7832;">else</span> reject(error);            <span class="hljs-comment" style="color: grey;">// Promise will be rejected</span>
+  });
+}
+</pre>
+<h3 id="mcetoc_1go41qk9o3kp">Promise Example</h3>
+<pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span> <span class="hljs-title" style="color: #ffc66d;">computePI</span>() </span>{
+  <span class="hljs-keyword" style="color: #cc7832;">return</span> <span class="hljs-keyword" style="color: #cc7832;">new</span> <span class="hljs-built_in">Promise</span>((resolve, reject) =&gt; {
+    <span class="hljs-comment" style="color: grey;">// Computing PI is hard work...</span>
+    setTimeout(() =&gt; {
+      <span class="hljs-comment" style="color: grey;">// Computing PI fails with a certain probability...</span>
+      <span class="hljs-keyword" style="color: #cc7832;">if</span> (<span class="hljs-built_in">Math</span>.random() &lt; <span class="hljs-number" style="color: #6897bb;">0.2</span>) {
+        reject(<span class="hljs-string" style="color: #6a8759;">"Sorry, computation failed!"</span>);     <span class="hljs-comment" style="color: grey;">// Reject the promise</span>
+      } <span class="hljs-keyword" style="color: #cc7832;">else</span> {
+        resolve(<span class="hljs-number" style="color: #6897bb;">3.14</span>);       <span class="hljs-comment" style="color: grey;">// Resolve the promise to the value of PI</span>
+      }
+    }, <span class="hljs-number" style="color: #6897bb;">300</span>);
+  });
+}
+
+computePI()
+  .then(result =&gt; <span class="hljs-built_in">console</span>.log(<span class="hljs-string" style="color: #6a8759;">"PI: "</span>+result))
+  .catch(error =&gt; <span class="hljs-built_in">console</span>.log(error));
+</pre>
+<h3 id="mcetoc_1go41qk9o3kq">Chaining</h3>
+<ul>
+<li>The then and catch functions return a promise, hence they can<br>be chained</li>
+<li>The promise returned by then and catch resolves to the return value of the handler or to its original settled value if the handler was not called (e.g. a catch-handler is not called on a fullﬁled promise)</li>
+<li>If the handler returns a promise, the promise returned by then and catch resolves to the same value as the returned promise</li>
+</ul>
+<figure class="post__image"><img loading="lazy"  src="https://www.finecloud.ch/media/posts/79/Screenshot-2023-01-31-at-14.49.16.png" alt="" width="2062" height="734" sizes="100vw" srcset="https://www.finecloud.ch/media/posts/79/responsive/Screenshot-2023-01-31-at-14.49.16-xs.png 300w ,https://www.finecloud.ch/media/posts/79/responsive/Screenshot-2023-01-31-at-14.49.16-sm.png 480w ,https://www.finecloud.ch/media/posts/79/responsive/Screenshot-2023-01-31-at-14.49.16-md.png 768w ,https://www.finecloud.ch/media/posts/79/responsive/Screenshot-2023-01-31-at-14.49.16-lg.png 1024w ,https://www.finecloud.ch/media/posts/79/responsive/Screenshot-2023-01-31-at-14.49.16-xl.png 1360w ,https://www.finecloud.ch/media/posts/79/responsive/Screenshot-2023-01-31-at-14.49.16-2xl.png 1600w"></figure>
+<h3 id="mcetoc_1go41qk9o3kr">Chaining and Combining Examples</h3>
+<pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-comment" style="color: grey;">// Chaining</span>
+doAsync()
+  .then(resultA =&gt; { <span class="hljs-comment" style="color: grey;">/* ... */</span> })
+  .then(resultB =&gt; { <span class="hljs-comment" style="color: grey;">/* ... */</span> })
+  .catch(error =&gt; { <span class="hljs-comment" style="color: grey;">/* ... */</span> })
+  .then(resultC =&gt; { <span class="hljs-comment" style="color: grey;">/* ... */</span> })
+  .catch(error =&gt; { <span class="hljs-comment" style="color: grey;">/* ... */</span> });
+
+<span class="hljs-comment" style="color: grey;">// Add multiple handlers to the same promise</span>
+<span class="hljs-keyword" style="color: #cc7832;">const</span> promise = doAsync();
+promise.then(result =&gt; { <span class="hljs-comment" style="color: grey;">/* ... */</span> });
+promise.then(result =&gt; { <span class="hljs-comment" style="color: grey;">/* ... */</span> });
+
+<span class="hljs-comment" style="color: grey;">// 'Wait' until all promises are fulfilled or one rejected</span>
+<span class="hljs-built_in">Promise</span>.all([doAsync(<span class="hljs-string" style="color: #6a8759;">"A"</span>), doAsync(<span class="hljs-string" style="color: #6a8759;">"B"</span>), doAsync2()])
+  .then(results =&gt; { <span class="hljs-comment" style="color: grey;">/* ... */</span> })
+  .catch(error =&gt; { <span class="hljs-comment" style="color: grey;">/* ... */</span> });
+
+<span class="hljs-comment" style="color: grey;">// 'Wait' until the first promise is fulfilled or rejected</span>
+<span class="hljs-built_in">Promise</span>.race([doAsync(<span class="hljs-string" style="color: #6a8759;">"A"</span>), doAsync(<span class="hljs-string" style="color: #6a8759;">"B"</span>), doAsync2()])
+  .then(result =&gt; { <span class="hljs-comment" style="color: grey;">/* ... */</span> })
+  .catch(error =&gt; { <span class="hljs-comment" style="color: grey;">/* ... */</span> });
+</pre>
+<h3 id="mcetoc_1go41qk9o3ks">async and await</h3>
+<ul>
+<li>async and await allow asynchronous code to be written synchronously</li>
+<li>An async function implicitly returns a promise, which resolves to the return value of the function or is rejected on exception</li>
+<li>async functions can await other promises (written synchronously)</li>
+<li>await interrupts the synchronous execution and waits until the returned promise is resolved or rejected</li>
+</ul>
+<pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-keyword" style="color: #cc7832;">async</span> <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span> <span class="hljs-title" style="color: #ffc66d;">computeDiskArea</span>(<span class="hljs-params">radius</span>) </span>{
+  <span class="hljs-keyword" style="color: #cc7832;">const</span> PI = <span class="hljs-keyword" style="color: #cc7832;">await</span> computePI();
+  <span class="hljs-keyword" style="color: #cc7832;">return</span> radius * radius * PI;
+}
+
+computeDiskArea(<span class="hljs-number" style="color: #6897bb;">2</span>)
+  .then(area =&gt; <span class="hljs-built_in">console</span>.log(<span class="hljs-string" style="color: #6a8759;">"The area of a disk with r=2 is "</span>+area))
+  .catch(error =&gt; <span class="hljs-built_in">console</span>.log(<span class="hljs-string" style="color: #6a8759;">"An error occurred: "</span>+error))
+</pre>
+<h2 id="mcetoc_1go3akel62sm">Fetch API</h2>
+<ul>
+<li>The Fetch API provides an interface for fetching resources</li>
+<li>This includes resources across the network</li>
+<li>It is similar to the XMLHttpRequest but it is more powerful and more ﬂexible</li>
+<li>It provides a generic deﬁnition of Request and Response objects</li>
+<li>The global fetch function takes the URL of a resource as parameter and returns a promise which resolves to a Response object once the response is available</li>
+</ul>
+            ]]>
+        </content>
+    </entry>
     <entry>
         <title>JavaScript and the browser</title>
         <author>
@@ -20,7 +429,7 @@
             <category term="javascript"/>
             <category term="dev"/>
 
-        <updated>2023-01-31T07:29:06+01:00</updated>
+        <updated>2023-01-31T13:02:06+01:00</updated>
             <summary>
                 <![CDATA[
                     The DOM Based on the received HTML document the browser builds up a model of the document structure, the Document Object Model (DOM) The DOM has a tree structure and each node of the document is represented by an object The browser renders the page&hellip;
@@ -1595,457 +2004,6 @@ http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"</span>&gt;</span></pre>
 <img loading="lazy"  src="https://www.finecloud.ch/media/posts/69/Screenshot-2022-11-03-at-09.39.22.png" alt="" width="819" height="351" sizes="100vw" srcset="https://www.finecloud.ch/media/posts/69/responsive/Screenshot-2022-11-03-at-09.39.22-xs.png 300w ,https://www.finecloud.ch/media/posts/69/responsive/Screenshot-2022-11-03-at-09.39.22-sm.png 480w ,https://www.finecloud.ch/media/posts/69/responsive/Screenshot-2022-11-03-at-09.39.22-md.png 768w ,https://www.finecloud.ch/media/posts/69/responsive/Screenshot-2022-11-03-at-09.39.22-lg.png 1024w ,https://www.finecloud.ch/media/posts/69/responsive/Screenshot-2022-11-03-at-09.39.22-xl.png 1360w ,https://www.finecloud.ch/media/posts/69/responsive/Screenshot-2022-11-03-at-09.39.22-2xl.png 1600w"></figure><br>
 <p id="references" class="rubric"></p>
 </div>
-            ]]>
-        </content>
-    </entry>
-    <entry>
-        <title>Maven getting started</title>
-        <author>
-            <name>Finecloud</name>
-        </author>
-        <link href="https://www.finecloud.ch/maven-getting-started.html"/>
-        <id>https://www.finecloud.ch/maven-getting-started.html</id>
-            <category term="software development"/>
-            <category term="maven"/>
-            <category term="java"/>
-            <category term="dev"/>
-
-        <updated>2022-11-03T16:59:36+01:00</updated>
-            <summary>
-                <![CDATA[
-                    What is Maven? Declarative build management tool for automated builds Standardized directory structure Declarative dependency management Works with an XML control file (POM - Project Object Model) Open source, written in Java, for Java projects Pure command line tool IDEs offer integration Why Maven? Uniform&hellip;
-                ]]>
-            </summary>
-        <content type="html">
-            <![CDATA[
-                <div class="post__toc">
-<h3>Table of Contents</h3>
-<ul>
-<li><a href="#mcetoc_1ggd2611qj0">What is Maven?</a></li>
-<li><a href="#mcetoc_1ggd2611qj1">Why Maven?</a></li>
-<li><a href="#mcetoc_1ggd2611qj2">Components</a></li>
-<li><a href="#mcetoc_1ggd2611qj3">Build lifecycle</a></li>
-<li><a href="#mcetoc_1ggd2611qj4">POM (Project Object Model) file</a></li>
-<li><a href="#mcetoc_1ggd2611qj5">Project coordinates</a></li>
-<li><a href="#mcetoc_1ggd443kjlt">Packaging</a></li>
-<li><a href="#mcetoc_1ggd2611qj6">Naming conventions</a>
-<ul>
-<li><a href="#mcetoc_1ggd2611qj7">groupId</a></li>
-<li><a href="#mcetoc_1ggd2611qj8">artifactId</a></li>
-</ul>
-</li>
-<li><a href="#mcetoc_1ggd443kjlu">Standard directory layout</a></li>
-<li><a href="#mcetoc_1ggd8kpb6ob">Dependencies</a>
-<ul>
-<li><a href="#mcetoc_1ggd8kpb6oc">Scope</a></li>
-<li><a href="#mcetoc_1ggd9jq2mqi">Transitive dependencies</a></li>
-</ul>
-</li>
-<li><a href="#mcetoc_1ggd9jq2mqj">Project inheritance</a></li>
-<li><a href="#mcetoc_1ggd9jq2mqk">Project aggregation (Multi Module)</a></li>
-<li><a href="#mcetoc_1ggd9tb9jr2">Properties</a></li>
-<li><a href="#mcetoc_1ggv3g3smf5">Version structure</a>
-<ul>
-<li><a href="#mcetoc_1ggv3g3smf6">SNAPSHOT Version</a></li>
-</ul>
-</li>
-<li><a href="#mcetoc_1ggv3g3smf7">Version resolution transitive dependencies</a></li>
-<li><a href="#mcetoc_1ggv3g3smf8">Keeping POM clean</a></li>
-</ul>
-</div>
-<h2 id="mcetoc_1ggd2611qj0">What is Maven?</h2>
-<ul>
-<li>Declarative build management tool for automated builds</li>
-<li>Standardized directory structure</li>
-<li>Declarative dependency management</li>
-<li>Works with an XML control file (POM - Project Object Model)</li>
-<li>Open source, written in Java, for Java projects</li>
-<li>Pure command line tool</li>
-<li>IDEs offer integration</li>
-</ul>
-<h2 id="mcetoc_1ggd2611qj1">Why Maven?</h2>
-<ul>
-<li>Uniform build in the project, but also across multiple projects.</li>
-<li>Dependency management</li>
-<li>Independent of an IDE</li>
-<li>Basis for rapid familiarization of new developers</li>
-<li>Basis for Continuous Integration/Continuous Deployment (DevOps)</li>
-<li>Industry standard for Java applications</li>
-</ul>
-<h2 id="mcetoc_1ggd2611qj2">Components</h2>
-<figure class="post__image"><img loading="lazy"  src="https://www.finecloud.ch/media/posts/68/Screenshot-2022-10-27-at-17.17.05.png" alt="" width="851" height="555" sizes="100vw" srcset="https://www.finecloud.ch/media/posts/68/responsive/Screenshot-2022-10-27-at-17.17.05-xs.png 300w ,https://www.finecloud.ch/media/posts/68/responsive/Screenshot-2022-10-27-at-17.17.05-sm.png 480w ,https://www.finecloud.ch/media/posts/68/responsive/Screenshot-2022-10-27-at-17.17.05-md.png 768w ,https://www.finecloud.ch/media/posts/68/responsive/Screenshot-2022-10-27-at-17.17.05-lg.png 1024w ,https://www.finecloud.ch/media/posts/68/responsive/Screenshot-2022-10-27-at-17.17.05-xl.png 1360w ,https://www.finecloud.ch/media/posts/68/responsive/Screenshot-2022-10-27-at-17.17.05-2xl.png 1600w"></figure>
-<h2 id="mcetoc_1ggd2611qj3">Build lifecycle</h2>
-<ul>
-<li>Each Build Phase has its own Plugin. M<span style="color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: inherit; font-weight: var(--font-weight-normal);">aven delegates the work of each build phase to plugins.</span></li>
-<li><span style="color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: inherit; font-weight: var(--font-weight-normal);">Plugins provide Goals, which do the actual work</span></li>
-<li><span style="color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: inherit; font-weight: var(--font-weight-normal);">Goals can be assigned to one or more build phases</span></li>
-<li><span style="color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: inherit; font-weight: var(--font-weight-normal);">Certain plugins/goals are assigned by Maven by default</span></li>
-<li><span style="color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: inherit; font-weight: var(--font-weight-normal);">You can assign plugins/goals to specific build phases in the project object model itself</span></li>
-</ul>
-<h2 id="mcetoc_1ggd2611qj4">POM (Project Object Model) file</h2>
-<ul>
-<li>The POM declaratively describes the build including all dependencies.</li>
-<li>POM is an XML file that describes the Maven project.</li>
-<li>Maven project usually creates an artifact (jar, war, ear, ...)</li>
-</ul>
-<p>Minimal POM example file:</p>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;"><span class="php"><span class="hljs-meta" style="color: #bbb529;">&lt;?</span>xml version=<span class="hljs-string" style="color: #6a8759;">"1.0"</span> encoding=<span class="hljs-string" style="color: #6a8759;">"UTF-8"</span><span class="hljs-meta" style="color: #bbb529;">?&gt;</span></span>
-<span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">project</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string" style="color: #6a8759;">"http://maven.apache.org/POM/4.0.0"</span>
-         <span class="hljs-attr">xmlns:xsi</span>=<span class="hljs-string" style="color: #6a8759;">"http://www.w3.org/2001/XMLSchema-instance"</span>
-         <span class="hljs-attr">xsi:schemaLocation</span>=<span class="hljs-string" style="color: #6a8759;">"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">modelVersion</span>&gt;</span>4.0.0<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">modelVersion</span>&gt;</span>
-
-    <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">groupId</span>&gt;</span>com.test<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">groupId</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">artifactId</span>&gt;</span>test<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">artifactId</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">version</span>&gt;</span>1.0-SNAPSHOT<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">version</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">project</span>&gt;</span></pre>
-<h2 id="mcetoc_1ggd2611qj5">Project coordinates</h2>
-<p>The project coordinates consists of groupId, artifactId and the version</p>
-<ul>
-<li>Maven project coordinates form a kind of address for a Maven artifact</li>
-<li>They consist of:<br><code>&lt;groupId&gt;com.test&lt;/groupId&gt;</code><br><code>&lt;artifactId&gt;my-app&lt;/artifactId&gt;</code><br><code>&lt;version&gt;1.0.0&lt;/version&gt;</code></li>
-<li>The combination of the three parts shall be globally unique!</li>
-<li>Using the project coordinates, the dependencies are fetched from the repository fetched</li>
-<li>All three parts are mandatory</li>
-</ul>
-<h2 id="mcetoc_1ggd443kjlt">Packaging</h2>
-<ul>
-<li>Packaging defines the shape of the generated artifact</li>
-<li>Packaging:<br><code>&lt;packaging&gt;jar&lt;/packaging&gt;</code></li>
-<li>Not specified: default is jar.</li>
-<li>Other possible values: pom, maven-plugin, ejb, war, ear, rar</li>
-</ul>
-<h2 id="mcetoc_1ggd2611qj6">Naming conventions</h2>
-<h3 id="mcetoc_1ggd2611qj7">groupId</h3>
-<ul>
-<li>Identifies the project globally → unique namespace required.</li>
-<li>The Java package naming conventions are used.</li>
-<li>Reverse Internet domain name, which one has under one's own control<br>has, e.g. com.example</li>
-<li>After that, freely selectable, uniquely within domain, e.g. com.example.dev</li>
-</ul>
-<h3 id="mcetoc_1ggd2611qj8">artifactId</h3>
-<ul>
-<li>Identifies the concrete build artifact (jar, war, ear, ...).</li>
-<li>E.g. todoapp</li>
-</ul>
-<h2 id="mcetoc_1ggd443kjlu">Standard directory layout</h2>
-<figure class="post__image"><img loading="lazy"  src="https://www.finecloud.ch/media/posts/68/Screenshot-2022-10-27-at-18.09.08.png" alt="" width="283" height="430" sizes="100vw" srcset="https://www.finecloud.ch/media/posts/68/responsive/Screenshot-2022-10-27-at-18.09.08-xs.png 300w ,https://www.finecloud.ch/media/posts/68/responsive/Screenshot-2022-10-27-at-18.09.08-sm.png 480w ,https://www.finecloud.ch/media/posts/68/responsive/Screenshot-2022-10-27-at-18.09.08-md.png 768w ,https://www.finecloud.ch/media/posts/68/responsive/Screenshot-2022-10-27-at-18.09.08-lg.png 1024w ,https://www.finecloud.ch/media/posts/68/responsive/Screenshot-2022-10-27-at-18.09.08-xl.png 1360w ,https://www.finecloud.ch/media/posts/68/responsive/Screenshot-2022-10-27-at-18.09.08-2xl.png 1600w"></figure>
-<p>Legend to the layout:</p>
-<table class="table table-striped" border="1">
-<tbody>
-<tr class="a">
-<td align="left"><code>src/main/java</code></td>
-<td align="left">Application/Library sources</td>
-</tr>
-<tr class="b">
-<td align="left"><code>src/main/resources</code></td>
-<td align="left">Application/Library resources</td>
-</tr>
-<tr class="a">
-<td align="left"><code>src/main/filters</code></td>
-<td align="left">Resource filter files</td>
-</tr>
-<tr class="b">
-<td align="left"><code>src/main/webapp</code></td>
-<td align="left">Web application sources</td>
-</tr>
-<tr class="a">
-<td align="left"><code>src/test/java</code></td>
-<td align="left">Test sources</td>
-</tr>
-<tr class="b">
-<td align="left"><code>src/test/resources</code></td>
-<td align="left">Test resources</td>
-</tr>
-<tr class="a">
-<td align="left"><code>src/test/filters</code></td>
-<td align="left">Test resource filter files</td>
-</tr>
-<tr class="b">
-<td align="left"><code>src/it</code></td>
-<td align="left">Integration Tests (primarily for plugins)</td>
-</tr>
-<tr class="a">
-<td align="left"><code>src/assembly</code></td>
-<td align="left">Assembly descriptors</td>
-</tr>
-<tr class="b">
-<td align="left"><code>src/site</code></td>
-<td align="left">Site</td>
-</tr>
-<tr class="a">
-<td align="left"><code>LICENSE.txt</code></td>
-<td align="left">Project's license</td>
-</tr>
-<tr class="b">
-<td align="left"><code>NOTICE.txt</code></td>
-<td align="left">Notices and attributions required by libraries that the project depends on</td>
-</tr>
-<tr class="a">
-<td align="left"><code>README.txt</code></td>
-<td align="left">Project's readme</td>
-</tr>
-</tbody>
-</table>
-<h2 id="mcetoc_1ggd8kpb6ob">Dependencies</h2>
-<ul>
-<li>Dependency management is the central function of Maven</li>
-<li>Management of the required libraries</li>
-<li>Dependencies required by libraries themselves are added automatically (without specifying them) → transitive dependencies.</li>
-<li>Maven automatically downloads dependencies and transitive dependencies.</li>
-<li>The downloaded dependencies are available for compilation.<br>available</li>
-<li>The downloaded dependencies are packed into the artifacts</li>
-</ul>
-<p>example of a dependency declaration in a POM file:</p>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">dependencies</span>&gt;</span>
-	<span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">dependency</span>&gt;</span>
-		<span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">groupId</span>&gt;</span>
-		<span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">artifactId</span>&gt;</span>spring-boot-starter-jdbc<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">artifactId</span>&gt;</span>
-	<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">dependency</span>&gt;</span>
-	<span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">dependency</span>&gt;</span>
-		<span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">groupId</span>&gt;</span>
-		<span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">artifactId</span>&gt;</span>spring-boot-starter-web<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">artifactId</span>&gt;</span>
-	<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">dependency</span>&gt;</span>
-	<span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">dependency</span>&gt;</span>
-		<span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">groupId</span>&gt;</span>
-		<span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">artifactId</span>&gt;</span>spring-boot-starter-test<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">artifactId</span>&gt;</span>
-		<span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">scope</span>&gt;</span>test<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">scope</span>&gt;</span>
-	<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">dependency</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">dependencies</span>&gt;</span></pre>
-<p>You can also list all dependencies with this command: </p>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-comment" style="color: grey;"># mvn dependency:tree                                                                                                          </span>
-[INFO] Scanning <span class="hljs-keyword" style="color: #cc7832;">for</span> projects...
-[INFO] 
-[INFO] --------------------------&lt; com.example:demo &gt;--------------------------
-[INFO] Building demo 0.0.1-SNAPSHOT
-[INFO] --------------------------------[ jar ]---------------------------------
-[INFO] 
-[INFO] --- maven-dependency-plugin:3.3.0:tree (default-cli) @ demo ---
-[INFO] com.example:demo:jar:0.0.1-SNAPSHOT
-[INFO] +- org.springframework.boot:spring-boot-starter-web:jar:2.7.5:compile
-[INFO] |  +- org.springframework.boot:spring-boot-starter:jar:2.7.5:compile
-[INFO] |  |  +- org.springframework.boot:spring-boot-starter-logging:jar:2.7.5:compile
-[INFO] |  |  |  +- ch.qos.logback:logback-classic:jar:1.2.11:compile
-[INFO] |  |  |  |  \- ch.qos.logback:logback-core:jar:1.2.11:compile
-[INFO] |  |  |  +- org.apache.logging.log4j:<span class="hljs-built_in">log</span>4j-to-slf4j:jar:2.17.2:compile
-[INFO] |  |  |  |  \- org.apache.logging.log4j:<span class="hljs-built_in">log</span>4j-api:jar:2.17.2:compile
-[INFO] |  |  |  \- org.slf4j:jul-to-slf4j:jar:1.7.36:compile
-[INFO] |  |  +- jakarta.annotation:jakarta.annotation-api:jar:1.3.5:compile
-[INFO] |  |  \- org.yaml:snakeyaml:jar:1.30:compile
-[INFO] |  +- org.springframework.boot:spring-boot-starter-json:jar:2.7.5:compile
-[INFO] |  |  +- com.fasterxml.jackson.core:jackson-databind:jar:2.13.4.2:compile
-[INFO] |  |  |  +- com.fasterxml.jackson.core:jackson-annotations:jar:2.13.4:compile
-[INFO] |  |  |  \- com.fasterxml.jackson.core:jackson-core:jar:2.13.4:compile
-[INFO] |  |  +- com.fasterxml.jackson.datatype:jackson-datatype-jdk8:jar:2.13.4:compile
-[INFO] |  |  +- com.fasterxml.jackson.datatype:jackson-datatype-jsr310:jar:2.13.4:compile
-[INFO] |  |  \- com.fasterxml.jackson.module:jackson-module-parameter-names:jar:2.13.4:compile
-[INFO] |  +- org.springframework.boot:spring-boot-starter-tomcat:jar:2.7.5:compile
-[INFO] |  |  +- org.apache.tomcat.embed:tomcat-embed-core:jar:9.0.68:compile
-[INFO] |  |  +- org.apache.tomcat.embed:tomcat-embed-el:jar:9.0.68:compile
-[INFO] |  |  \- org.apache.tomcat.embed:tomcat-embed-websocket:jar:9.0.68:compile
-[INFO] |  +- org.springframework:spring-web:jar:5.3.23:compile
-[INFO] |  |  \- org.springframework:spring-beans:jar:5.3.23:compile
-[INFO] |  \- org.springframework:spring-webmvc:jar:5.3.23:compile
-[INFO] |     +- org.springframework:spring-aop:jar:5.3.23:compile
-[INFO] |     +- org.springframework:spring-context:jar:5.3.23:compile
-[INFO] |     \- org.springframework:spring-expression:jar:5.3.23:compile
-[INFO] +- org.springframework.boot:spring-boot-devtools:jar:2.7.5:runtime
-[INFO] |  +- org.springframework.boot:spring-boot:jar:2.7.5:compile
-[INFO] |  \- org.springframework.boot:spring-boot-autoconfigure:jar:2.7.5:compile
-[INFO] \- org.springframework.boot:spring-boot-starter-test:jar:2.7.5:<span class="hljs-built_in">test</span>
-[INFO]    +- org.springframework.boot:spring-boot-test:jar:2.7.5:<span class="hljs-built_in">test</span>
-[INFO]    +- org.springframework.boot:spring-boot-test-autoconfigure:jar:2.7.5:<span class="hljs-built_in">test</span>
-[INFO]    +- com.jayway.jsonpath:json-path:jar:2.7.0:<span class="hljs-built_in">test</span>
-[INFO]    |  +- net.minidev:json-smart:jar:2.4.8:<span class="hljs-built_in">test</span>
-[INFO]    |  |  \- net.minidev:accessors-smart:jar:2.4.8:<span class="hljs-built_in">test</span>
-[INFO]    |  |     \- org.ow2.asm:asm:jar:9.1:<span class="hljs-built_in">test</span>
-[INFO]    |  \- org.slf4j:slf4j-api:jar:1.7.36:compile
-[INFO]    +- jakarta.xml.bind:jakarta.xml.bind-api:jar:2.3.3:<span class="hljs-built_in">test</span>
-[INFO]    |  \- jakarta.activation:jakarta.activation-api:jar:1.2.2:<span class="hljs-built_in">test</span>
-[INFO]    +- org.assertj:assertj-core:jar:3.22.0:<span class="hljs-built_in">test</span>
-[INFO]    +- org.hamcrest:hamcrest:jar:2.2:<span class="hljs-built_in">test</span>
-[INFO]    +- org.junit.jupiter:junit-jupiter:jar:5.8.2:<span class="hljs-built_in">test</span>
-[INFO]    |  +- org.junit.jupiter:junit-jupiter-api:jar:5.8.2:<span class="hljs-built_in">test</span>
-[INFO]    |  |  +- org.opentest4j:opentest4j:jar:1.2.0:<span class="hljs-built_in">test</span>
-[INFO]    |  |  +- org.junit.platform:junit-platform-commons:jar:1.8.2:<span class="hljs-built_in">test</span>
-[INFO]    |  |  \- org.apiguardian:apiguardian-api:jar:1.1.2:<span class="hljs-built_in">test</span>
-[INFO]    |  +- org.junit.jupiter:junit-jupiter-params:jar:5.8.2:<span class="hljs-built_in">test</span>
-[INFO]    |  \- org.junit.jupiter:junit-jupiter-engine:jar:5.8.2:<span class="hljs-built_in">test</span>
-[INFO]    |     \- org.junit.platform:junit-platform-engine:jar:1.8.2:<span class="hljs-built_in">test</span>
-[INFO]    +- org.mockito:mockito-core:jar:4.5.1:<span class="hljs-built_in">test</span>
-[INFO]    |  +- net.bytebuddy:byte-buddy:jar:1.12.18:<span class="hljs-built_in">test</span>
-[INFO]    |  +- net.bytebuddy:byte-buddy-agent:jar:1.12.18:<span class="hljs-built_in">test</span>
-[INFO]    |  \- org.objenesis:objenesis:jar:3.2:<span class="hljs-built_in">test</span>
-[INFO]    +- org.mockito:mockito-junit-jupiter:jar:4.5.1:<span class="hljs-built_in">test</span>
-[INFO]    +- org.skyscreamer:jsonassert:jar:1.5.1:<span class="hljs-built_in">test</span>
-[INFO]    |  \- com.vaadin.external.google:android-json:jar:0.0.20131108.vaadin1:<span class="hljs-built_in">test</span>
-[INFO]    +- org.springframework:spring-core:jar:5.3.23:compile
-[INFO]    |  \- org.springframework:spring-jcl:jar:5.3.23:compile
-[INFO]    +- org.springframework:spring-test:jar:5.3.23:<span class="hljs-built_in">test</span>
-[INFO]    \- org.xmlunit:xmlunit-core:jar:2.9.0:<span class="hljs-built_in">test</span>
-[INFO] ------------------------------------------------------------------------
-[INFO] BUILD SUCCESS
-[INFO] ------------------------------------------------------------------------
-[INFO] Total time:  1.256 s
-[INFO] Finished at: 2022-10-27T19:47:12+02:00
-[INFO] ------------------------------------------------------------------------
-</pre>
-<h3 id="mcetoc_1ggd8kpb6oc">Scope</h3>
-<p>The scope of a dependency specifies in which classpaths it is provided by Maven.<br>(classpaths change depending on the build phase):</p>
-<ul>
-<li><strong>compile</strong>: Default Scope, Dependencies are available in all classpaths</li>
-<li><strong>test</strong>: Only during test</li>
-<li><strong>provided</strong>: Only available in compile and test classpaths, dependency must be provided at runtime (e.g., by the servlet container)</li>
-<li><strong>runtime</strong>: Only during runtime and test, but not for compile</li>
-<li><strong>other</strong> (not so important)</li>
-</ul>
-<h3 id="mcetoc_1ggd9jq2mqi">Transitive dependencies</h3>
-<ul>
-<li>Dependencies required by the dependencies we declare.</li>
-<li>Are automatically downloaded by Maven and added to the classpath</li>
-<li>Attention: You can also use these transitive dependencies directly in the code.<br>→ please do not do this!</li>
-<li>Explicitly enter each dependency that you use yourself in the code as a dependency in the POM</li>
-</ul>
-<p>Finding out if you are using a transitive dependency in your code:</p>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-comment" style="color: grey;"># mvn dependency:analyze                                                                                                             </span>
-[INFO] Scanning <span class="hljs-keyword" style="color: #cc7832;">for</span> projects...
-[INFO] 
-[INFO] --------------------------&lt; com.example:demo &gt;--------------------------
-[INFO] Building demo 0.0.1-SNAPSHOT
-[INFO] --------------------------------[ jar ]---------------------------------
-[INFO] 
-[INFO] &gt;&gt;&gt; maven-dependency-plugin:3.3.0:analyze (default-cli) &gt; <span class="hljs-built_in">test</span>-compile @ demo &gt;&gt;&gt;
-[INFO] 
-[INFO] --- maven-resources-plugin:3.2.0:resources (default-resources) @ demo ---
-[INFO] Using <span class="hljs-string" style="color: #6a8759;">'UTF-8'</span> encoding to copy filtered resources.
-[INFO] Using <span class="hljs-string" style="color: #6a8759;">'UTF-8'</span> encoding to copy filtered properties files.
-[INFO] Copying 1 resource
-[INFO] Copying 0 resource
-[INFO] 
-[INFO] --- maven-compiler-plugin:3.10.1:compile (default-compile) @ demo ---
-[INFO] Changes detected - recompiling the module!
-[INFO] Compiling 1 <span class="hljs-built_in">source</span> file to /Users/Dave/Downloads/demo/target/classes
-[INFO] 
-[INFO] --- maven-resources-plugin:3.2.0:<span class="hljs-built_in">test</span>Resources (default-testResources) @ demo ---
-[INFO] Using <span class="hljs-string" style="color: #6a8759;">'UTF-8'</span> encoding to copy filtered resources.
-[INFO] Using <span class="hljs-string" style="color: #6a8759;">'UTF-8'</span> encoding to copy filtered properties files.
-[INFO] skip non existing resourceDirectory /Users/Dave/Downloads/demo/src/<span class="hljs-built_in">test</span>/resources
-[INFO] 
-[INFO] --- maven-compiler-plugin:3.10.1:<span class="hljs-built_in">test</span>Compile (default-testCompile) @ demo ---
-[INFO] Changes detected - recompiling the module!
-[INFO] Compiling 1 <span class="hljs-built_in">source</span> file to /Users/Dave/Downloads/demo/target/<span class="hljs-built_in">test</span>-classes
-[INFO] 
-[INFO] &lt;&lt;&lt; maven-dependency-plugin:3.3.0:analyze (default-cli) &lt; <span class="hljs-built_in">test</span>-compile @ demo &lt;&lt;&lt;
-[INFO] 
-[INFO] 
-[INFO] --- maven-dependency-plugin:3.3.0:analyze (default-cli) @ demo ---
-[WARNING] Used undeclared dependencies found:
-[WARNING]    org.springframework.boot:spring-boot:jar:2.7.5:compile
-[WARNING]    org.junit.jupiter:junit-jupiter-api:jar:5.8.2:<span class="hljs-built_in">test</span>
-[WARNING]    org.springframework.boot:spring-boot-test:jar:2.7.5:<span class="hljs-built_in">test</span>
-[WARNING]    org.springframework.boot:spring-boot-autoconfigure:jar:2.7.5:compile
-[WARNING] Unused declared dependencies found:
-[WARNING]    org.springframework.boot:spring-boot-starter-web:jar:2.7.5:compile
-[WARNING]    org.springframework.boot:spring-boot-devtools:jar:2.7.5:runtime
-[WARNING]    org.springframework.boot:spring-boot-starter-test:jar:2.7.5:<span class="hljs-built_in">test</span>
-[INFO] ------------------------------------------------------------------------
-[INFO] BUILD SUCCESS
-[INFO] ------------------------------------------------------------------------
-[INFO] Total time:  2.113 s
-[INFO] Finished at: 2022-10-27T19:50:29+02:00
-[INFO] ------------------------------------------------------------------------
-</pre>
-<h2 id="mcetoc_1ggd9jq2mqj">Project inheritance</h2>
-<p>POMs an also inherit, this is for example needed for a Spring Boot-Application. This allows you for example, to standardize the libraries used and their versions across multiple projects or Maven modules.</p>
-<figure class="post__image"><img loading="lazy"  src="https://www.finecloud.ch/media/posts/68/inheritance.png" alt="" width="1024" height="754" sizes="100vw" srcset="https://www.finecloud.ch/media/posts/68/responsive/inheritance-xs.png 300w ,https://www.finecloud.ch/media/posts/68/responsive/inheritance-sm.png 480w ,https://www.finecloud.ch/media/posts/68/responsive/inheritance-md.png 768w ,https://www.finecloud.ch/media/posts/68/responsive/inheritance-lg.png 1024w ,https://www.finecloud.ch/media/posts/68/responsive/inheritance-xl.png 1360w ,https://www.finecloud.ch/media/posts/68/responsive/inheritance-2xl.png 1600w"></figure>
-<h2 id="mcetoc_1ggd9jq2mqk">Project aggregation (Multi Module)</h2>
-<p>Also a POM can aggregate multiple POMs as Modules</p>
-<figure class="post__image"><img loading="lazy"  src="https://www.finecloud.ch/media/posts/68/Screenshot-2022-10-27-at-20.01.00.png" alt="" width="275" height="400" sizes="100vw" srcset="https://www.finecloud.ch/media/posts/68/responsive/Screenshot-2022-10-27-at-20.01.00-xs.png 300w ,https://www.finecloud.ch/media/posts/68/responsive/Screenshot-2022-10-27-at-20.01.00-sm.png 480w ,https://www.finecloud.ch/media/posts/68/responsive/Screenshot-2022-10-27-at-20.01.00-md.png 768w ,https://www.finecloud.ch/media/posts/68/responsive/Screenshot-2022-10-27-at-20.01.00-lg.png 1024w ,https://www.finecloud.ch/media/posts/68/responsive/Screenshot-2022-10-27-at-20.01.00-xl.png 1360w ,https://www.finecloud.ch/media/posts/68/responsive/Screenshot-2022-10-27-at-20.01.00-2xl.png 1600w"></figure>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">groupId</span>&gt;</span>com.test<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">groupId</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">artifactId</span>&gt;</span>example-maven-multimodule<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">artifactId</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">version</span>&gt;</span>1.0-SNAPSHOT<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">version</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">packaging</span>&gt;</span>pom<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">packaging</span>&gt;</span>
-
-<span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">modules</span>&gt;</span>
-	<span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">module</span>&gt;</span>module1<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">module</span>&gt;</span>
-	<span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">module</span>&gt;</span>module2<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">module</span>&gt;</span>
-	<span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">module</span>&gt;</span>module3<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">module</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">modules</span>&gt;</span></pre>
-<h2 id="mcetoc_1ggd9tb9jr2">Properties</h2>
-<p>Properties are placeholders and can be addressed via ${&lt;propertyname&gt;}.</p>
-<p>Example:</p>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">properties</span>&gt;</span>
-	<span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">java.version</span>&gt;</span>1.8<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">java.version</span>&gt;</span>
-	<span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">commons-pool2.version</span>&gt;</span>2.6.0<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">commons-pool2.version</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">properties</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">dependency</span>&gt;</span>
-	<span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">groupId</span>&gt;</span>org.apache.commons<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">groupId</span>&gt;</span>
-	<span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">artifactId</span>&gt;</span>commons-pool2<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">artifactId</span>&gt;</span>
-	<span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">version</span>&gt;</span>${commons-pool2.version}<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">version</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">dependency</span>&gt;</span></pre>
-<h2 id="mcetoc_1ggv3g3smf5">Version structure</h2>
-<ul>
-<li>A version must always be specified</li>
-<li>Maven basically leaves the structure of a version free</li>
-<li>Recommended approach: semantic versioning (<a href="https://semver.org/">https://semver.org/</a>)
-<ul>
-<li><code>&lt;Major&gt;.&lt;Minor&gt;.&lt;Bugfix&gt;-&lt;Qualifier&gt;-&lt;Buildnumber&gt;</code></li>
-<li>Major: increment when API changes.</li>
-<li>Minor: increment if new features are included, but same API.</li>
-<li>Bugfix: increment, if only something was fixed</li>
-<li>Qualifier: Optional.</li>
-<li>Build number: Optional.</li>
-<li>Example: &lt;version&gt;2.4.18&lt;/version&gt;</li>
-</ul>
-</li>
-</ul>
-<h3 id="mcetoc_1ggv3g3smf6">SNAPSHOT Version</h3>
-<ul>
-<li>The qualifier SNAPSHOT is used during the development of a version<br>is used</li>
-<li>Example: 1.0-SNAPSHOT → means that the 1.0 version of the software is being<br>is being developed</li>
-<li>A version with SNAPSHOT qualifier is always considered to be older than<br>the same one without the qualifier</li>
-<li>Special rules apply for version resolution, Maven usually fetches a snapshot version once per day from the repository, unless you specify "-U".</li>
-<li>Example: <code>mvn -U clean install</code> also fetches the most recent snapshot<br>versions from the repository</li>
-</ul>
-<h2 id="mcetoc_1ggv3g3smf7">Version resolution transitive dependencies</h2>
-<ul>
-<li>Multiple transitive dependencies can contain the same artifact in different<br>different versions, but can only have exactly one version of a transitive dependency in the classpath.</li>
-<li>Resolution is performed according to the "nearest definition" principle:
-<ul>
-<li>The version in the dependency tree that is closest to one's own project<br>Tree is taken</li>
-<li>If two versions are equally close, the one found first is taken</li>
-<li>Example: Dependency D appears twice in the dependency tree:
-<ul>
-<li>A → B → C → D (version 2.0)</li>
-<li>A → E → D (version 1.0)</li>
-<li>Version 1.0 of D is taken, since closer to own project (A).</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>One can explicitly specify a particular version of a transitive dependency<br>specify:
-<ul>
-<li>Include it explicitly as a dependency in your own POM.</li>
-<li>Via Dependency Management</li>
-</ul>
-</li>
-</ul>
-<h2 id="mcetoc_1ggv3g3smf8">Keeping POM clean</h2>
-<ul>
-<li>Find out unclean dependencies:
-<ul>
-<li><code>mvn dependency:analyze</code></li>
-<li>check out <a href="https://maven.apache.org/plugins/maven-dependency-plugin/analyze-mojo.html">https://maven.apache.org/plugins/maven-dependency-plugin/analyze-mojo.html</a></li>
-</ul>
-</li>
-<li>Lists dependencies that:
-<ul>
-<li>Used and declared (--&gt; ok)</li>
-<li>Used but are not declared in their own pom (--&gt; nok)</li>
-<li>Are not used but are declared (--&gt; potentially remnant, clean up)</li>
-</ul>
-</li>
-</ul>
             ]]>
         </content>
     </entry>

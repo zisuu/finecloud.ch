@@ -3,12 +3,70 @@
     <title>Finecloud</title>
     <link href="https://www.finecloud.ch/feed.xml" rel="self" />
     <link href="https://www.finecloud.ch" />
-    <updated>2023-02-01T06:16:42+01:00</updated>
+    <updated>2023-02-09T16:55:54+01:00</updated>
     <author>
         <name>Finecloud</name>
     </author>
     <id>https://www.finecloud.ch</id>
 
+    <entry>
+        <title>CleanCode</title>
+        <author>
+            <name>Finecloud</name>
+        </author>
+        <link href="https://www.finecloud.ch/cleancode.html"/>
+        <id>https://www.finecloud.ch/cleancode.html</id>
+            <category term="software development"/>
+            <category term="dev"/>
+
+        <updated>2023-02-09T16:55:54+01:00</updated>
+            <summary>
+                <![CDATA[
+                    Summary of 'Clean code' by Robert C. Martin: https://gist.github.com/wojteklu/73c6914cc446146b8b533c0988cf8d29 Code is clean if it can be understood easily – by everyone on the team. Clean code can be read and enhanced by a developer other than its original author. With understandability comes readability, changeability, extensibility&hellip;
+                ]]>
+            </summary>
+        <content type="html">
+            <![CDATA[
+                <div class="post__toc">
+<h3>Table of Contents</h3>
+<ul>
+<li><a href="#mcetoc_1gore4e2o9">General rules</a></li>
+<li><a href="#mcetoc_1gore4e2oa">Design rules</a></li>
+<li><a href="#mcetoc_1gore6rj763">Understandability tips</a></li>
+<li><a href="#mcetoc_1gore6rj764">Names rules</a></li>
+<li><a href="#mcetoc_1gore6rj765">Functions rules</a></li>
+<li><a href="#mcetoc_1gore6rj766">Comments rules</a></li>
+<li><a href="#mcetoc_1gore6rj767">Source code structure</a></li>
+<li><a href="#mcetoc_1gore6rj768">Objects and data structures</a></li>
+<li><a href="#mcetoc_1gore6rj769">Tests</a></li>
+<li><a href="#mcetoc_1gore6rj76a">Code smells</a></li>
+</ul>
+</div>
+<p>Summary of 'Clean code' by Robert C. Martin:<br>https://gist.github.com/wojteklu/73c6914cc446146b8b533c0988cf8d29<br><br>Code is clean if it can be understood easily – by everyone on the team. Clean code can be read and enhanced by a developer other than its original author. With understandability comes readability, changeability, extensibility and maintainability.</p>
+<hr>
+<h2 id="mcetoc_1gore4e2o9">General rules</h2>
+<p>1. Follow standard conventions.<br>2. Keep it simple stupid. Simpler is always better. Reduce complexity as much as possible.<br>3. Boy scout rule. Leave the campground cleaner than you found it.<br>4. Always find root cause. Always look for the root cause of a problem.</p>
+<h2 id="mcetoc_1gore4e2oa">Design rules</h2>
+<p>1. Keep configurable data at high levels.<br>2. Prefer polymorphism to if/else or switch/case.<br>3. Separate multi-threading code.<br>4. Prevent over-configurability.<br>5. Use dependency injection.<br>6. Follow Law of Demeter. A class should know only its direct dependencies.</p>
+<h2 id="mcetoc_1gore6rj763">Understandability tips</h2>
+<p>1. Be consistent. If you do something a certain way, do all similar things in the same way.<br>2. Use explanatory variables.<br>3. Encapsulate boundary conditions. Boundary conditions are hard to keep track of. Put the processing for them in one place.<br>4. Prefer dedicated value objects to primitive type.<br>5. Avoid logical dependency. Don't write methods which works correctly depending on something else in the same class.<br>6. Avoid negative conditionals.</p>
+<h2 id="mcetoc_1gore6rj764">Names rules</h2>
+<p>1. Choose descriptive and unambiguous names.<br>2. Make meaningful distinction.<br>3. Use pronounceable names.<br>4. Use searchable names.<br>5. Replace magic numbers with named constants.<br>6. Avoid encodings. Don't append prefixes or type information.</p>
+<h2 id="mcetoc_1gore6rj765">Functions rules</h2>
+<p>1. Small.<br>2. Do one thing.<br>3. Use descriptive names.<br>4. Prefer fewer arguments.<br>5. Have no side effects.<br>6. Don't use flag arguments. Split method into several independent methods that can be called from the client without the flag.</p>
+<h2 id="mcetoc_1gore6rj766">Comments rules</h2>
+<p>1. Always try to explain yourself in code.<br>2. Don't be redundant.<br>3. Don't add obvious noise.<br>4. Don't use closing brace comments.<br>5. Don't comment out code. Just remove.<br>6. Use as explanation of intent.<br>7. Use as clarification of code.<br>8. Use as warning of consequences.</p>
+<h2 id="mcetoc_1gore6rj767">Source code structure</h2>
+<p>1. Separate concepts vertically.<br>2. Related code should appear vertically dense.<br>3. Declare variables close to their usage.<br>4. Dependent functions should be close.<br>5. Similar functions should be close.<br>6. Place functions in the downward direction.<br>7. Keep lines short.<br>8. Don't use horizontal alignment.<br>9. Use white space to associate related things and disassociate weakly related.<br>10. Don't break indentation.</p>
+<h2 id="mcetoc_1gore6rj768">Objects and data structures</h2>
+<p>1. Hide internal structure.<br>2. Prefer data structures.<br>3. Avoid hybrids structures (half object and half data).<br>4. Should be small.<br>5. Do one thing.<br>6. Small number of instance variables.<br>7. Base class should know nothing about their derivatives.<br>8. Better to have many functions than to pass some code into a function to select a behavior.<br>9. Prefer non-static methods to static methods.</p>
+<h2 id="mcetoc_1gore6rj769">Tests</h2>
+<p>1. One assert per test.<br>2. Readable.<br>3. Fast.<br>4. Independent.<br>5. Repeatable.</p>
+<h2 id="mcetoc_1gore6rj76a">Code smells</h2>
+<p>1. Rigidity. The software is difficult to change. A small change causes a cascade of subsequent changes.<br>2. Fragility. The software breaks in many places due to a single change.<br>3. Immobility. You cannot reuse parts of the code in other projects because of involved risks and high effort.<br>4. Needless Complexity.<br>5. Needless Repetition.<br>6. Opacity. The code is hard to understand.</p>
+            ]]>
+        </content>
+    </entry>
     <entry>
         <title>JavaScript advanced features</title>
         <author>
@@ -20,7 +78,7 @@
             <category term="javascript"/>
             <category term="dev"/>
 
-        <updated>2023-02-01T06:16:42+01:00</updated>
+        <updated>2023-02-07T16:50:59+01:00</updated>
             <summary>
                 <![CDATA[
                     New Features New versions of JavaScript, such as ES6, ES2016, 2017, etc., come with many new features, however it is still ECMAScript Many of the new features are syntactic sugar or extend the functionality only marginal Template Literals Template literals are string literals with support&hellip;
@@ -415,6 +473,55 @@ computeDiskArea(<span class="hljs-number" style="color: #6897bb;">2</span>)
 <li>It provides a generic deﬁnition of Request and Response objects</li>
 <li>The global fetch function takes the URL of a resource as parameter and returns a promise which resolves to a Response object once the response is available</li>
 </ul>
+<p><code>fetch('http://quotes.org')</code><br><code>  .then(response =&gt; response.text())</code><br><code>  .then(quote =&gt; console.log(quote));</code></p>
+<h3>Response Object</h3>
+<ul>
+<li>A Response object has the following properties:
+<ul>
+<li>ok - true if the status code is 2xx, false otherwise</li>
+<li>status - the response status code</li>
+<li>statusText - the status code message</li>
+<li>headers - the response headers</li>
+</ul>
+</li>
+<li>In addition, Response provides the following methods:
+<ul>
+<li>text() returns a promise resolving to the body as string</li>
+<li>json() returns a promise resolving to the result of parsing the body as JSON</li>
+<li>blob() returns a promise resolving the body as Blob object</li>
+</ul>
+</li>
+</ul>
+<p><code>fetch('http://news.org')</code><br><code>  .then(response =&gt; response.json())</code><br><code>  .then(data =&gt; data.articles.forEach(article =&gt; console.log(article.title)));</code></p>
+<h3>Request Options</h3>
+<p>The fetch function has as a second optional parameter that allows setting the HTTP method, headers and request body:</p>
+<p><code>fetch('http://news.org', {</code><br><code>method: 'POST',</code><br><code>headers: {</code><br><code>'Authorization:': 'Basic amRAZXhhbXBsZS5vcmc6MTIzNDU=',</code><br><code>'Content-Type': 'application/json'</code><br><code>},</code><br><code>body: JSON.stringify(article)</code><br><code>});</code></p>
+<p>Advanced settings include:</p>
+<ul>
+<li>the interaction with the browser cache</li>
+<li>the following of redirect responses</li>
+<li>sending credentials</li>
+<li>aborting requests</li>
+</ul>
+<h3>Error Handling</h3>
+<ul>
+<li>The promise returned by fetch does only reject on network errors but not on HTTP errors such as 404 or 500 (in contrast to many AJAX libraries)</li>
+<li>An accurate error handling should check if the promise was resolved and if its  status is OK</li>
+</ul>
+<pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;">fetch(<span class="hljs-string" style="color: #6a8759;">'http://news.org'</span>)
+  .then(response =&gt; {
+    <span class="hljs-keyword" style="color: #cc7832;">if</span> (!response.ok)
+      <span class="hljs-comment" style="color: grey;">// Error handling based on HTTP status</span>
+    <span class="hljs-keyword" style="color: #cc7832;">return</span> response.json();
+  })
+  .then(data =&gt; {
+    ...
+  })
+  .catch(error =&gt; {
+    <span class="hljs-comment" style="color: grey;">// Error handling (network error, JSON syntax error, etc.)</span>
+  });
+</pre>
+<p> </p>
             ]]>
         </content>
     </entry>
@@ -1874,136 +1981,6 @@ http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"</span>&gt;</span></pre>
 <p>It is recommended to use one specific key for each host:</p>
 <pre><code>Host github.com</code><br><code>    PubkeyAuthentication yes</code><br><code>    IdentityFile ~/.ssh/github_id_ed25519</code></pre>
 <p> </p>
-            ]]>
-        </content>
-    </entry>
-    <entry>
-        <title>Backup OPNsense to Nextcloud</title>
-        <author>
-            <name>Finecloud</name>
-        </author>
-        <link href="https://www.finecloud.ch/opnsense-backup-to-nextcloud.html"/>
-        <id>https://www.finecloud.ch/opnsense-backup-to-nextcloud.html</id>
-            <category term="tools"/>
-            <category term="opnsense"/>
-            <category term="nextcloud"/>
-            <category term="network"/>
-            <category term="linux"/>
-            <category term="firewall"/>
-            <category term="backup"/>
-
-        <updated>2022-11-03T09:49:00+01:00</updated>
-            <summary>
-                <![CDATA[
-                    What is OPNsense? OPNsense® is an open source, easy-to-use and easy-to-build FreeBSD based firewall and routing platform. OPNsense includes most of the features available in expensive commercial firewalls, and more in many cases. It brings the rich feature set of commercial offerings with the benefits&hellip;
-                ]]>
-            </summary>
-        <content type="html">
-            <![CDATA[
-                <div class="post__toc">
-<h3>Table of Contents</h3>
-<ul>
-<li><a href="#mcetoc_1ggu9idgo5i">What is OPNsense?</a></li>
-<li><a href="#mcetoc_1ggu9idgo5j">Why OPNsense?</a></li>
-<li><a href="#mcetoc_1ggu9idgo5k">Backup your OPNsense configuration to your Nextcloud</a>
-<ul>
-<li><a href="#mcetoc_1ggu9idgo5l">1. Create a new user</a></li>
-<li><a href="#mcetoc_1ggu9idgo5m">2. Create an Access Token</a></li>
-<li><a href="#mcetoc_1ggu9idgo5n">3. Install Nextcloud Backup Plugin</a></li>
-<li><a href="#mcetoc_1ggu9idgo5o">4. Connect OPNsense with Nextcloud</a></li>
-<li><a href="#mcetoc_1ggu9idgo5p">5. Verify the Configuration Upload</a></li>
-</ul>
-</li>
-</ul>
-</div>
-<h2 id="mcetoc_1ggu9idgo5i">What is OPNsense?</h2>
-<p><a class="reference external" href="https://opnsense.org">OPNsense®</a> is an open source, easy-to-use and easy-to-build FreeBSD based firewall and routing platform.</p>
-<p>OPNsense includes most of the features available in expensive commercial firewalls, and more in many cases. It brings the rich feature set of commercial offerings with the benefits of open and verifiable sources.</p>
-<h2 id="mcetoc_1ggu9idgo5j">Why OPNsense?</h2>
-<p>The feature set of OPNsense includes high-end features such as forward caching proxy, traffic shaping, intrusion detection and easy OpenVPN client setup. The latest release is based on a recent FreeBSD for long-term support and uses a newly developed MVC-framework based on Phalcon. OPNsense’s focus on security brings unique features such as the option to use LibreSSL instead of OpenSSL (selectable in the GUI).<br><br>The robust and reliable update mechanism gives OPNsense the ability to provide important security updates in a timely fashion.</p>
-<h2 id="mcetoc_1ggu9idgo5k">Backup your OPNsense configuration to your Nextcloud</h2>
-<p>In OPNsense you can backup your configuration directly and automatically to Nextcloud, using the backup feature. Every backup will be encrypted with the same algorithm used in the manual backup so it’s quite easy to restore to a new installed machine.</p>
-<p>After set-up, the backup feature will run a first backup of the OPNsense configuration file. Then, if the configuration is subsequently changed, a new backup will be run. Only one backup is run per day after configuration changes.</p>
-<div id="step-create-a-new-user" class="section">
-<h3 id="mcetoc_1ggu9idgo5l">1. Create a new user<a class="headerlink" href="https://docs.opnsense.org/manual/how-tos/cloud_backup.html#step-create-a-new-user" title="Permalink to this headline"></a></h3>
-<p>Click on the user icon top right and click “Users”. In the new page, enter an username and a password into the boxes and click create to create a new user.</p>
-</div>
-<div id="step-create-an-access-token" class="section">
-<h3 id="mcetoc_1ggu9idgo5m">2. Create an Access Token<a class="headerlink" href="https://docs.opnsense.org/manual/how-tos/cloud_backup.html#step-create-an-access-token" title="Permalink to this headline"></a></h3>
-<figure class="post__image">Close the modal dialog and remove the default files. Then open the Settings menu (also in the menu top right). Switch to security and generate a App password.
-<img loading="lazy"  src="https://www.finecloud.ch/media/posts/69/Screenshot-2022-11-03-at-09.19.23.png" alt="" width="931" height="933" sizes="100vw" srcset="https://www.finecloud.ch/media/posts/69/responsive/Screenshot-2022-11-03-at-09.19.23-xs.png 300w ,https://www.finecloud.ch/media/posts/69/responsive/Screenshot-2022-11-03-at-09.19.23-sm.png 480w ,https://www.finecloud.ch/media/posts/69/responsive/Screenshot-2022-11-03-at-09.19.23-md.png 768w ,https://www.finecloud.ch/media/posts/69/responsive/Screenshot-2022-11-03-at-09.19.23-lg.png 1024w ,https://www.finecloud.ch/media/posts/69/responsive/Screenshot-2022-11-03-at-09.19.23-xl.png 1360w ,https://www.finecloud.ch/media/posts/69/responsive/Screenshot-2022-11-03-at-09.19.23-2xl.png 1600w"></figure><br>
-<p>Copy and store the generated password.</p>
-</div>
-<div id="step-connect-opnsense-with-nextcloud" class="section">
-<h3 id="mcetoc_1ggu9idgo5n">3. Install Nextcloud Backup Plugin</h3>
-<p>Go to <em><span class="menuselection">System ‣ Firmware ‣ Plugins</span></em> and install the <em>os-nextcloud-backup</em> plugin</p>
-<figure class="post__image"><img loading="lazy"  src="https://www.finecloud.ch/media/posts/69/Screenshot-2022-11-03-at-09.24.39.png" alt="" width="1915" height="537" sizes="100vw" srcset="https://www.finecloud.ch/media/posts/69/responsive/Screenshot-2022-11-03-at-09.24.39-xs.png 300w ,https://www.finecloud.ch/media/posts/69/responsive/Screenshot-2022-11-03-at-09.24.39-sm.png 480w ,https://www.finecloud.ch/media/posts/69/responsive/Screenshot-2022-11-03-at-09.24.39-md.png 768w ,https://www.finecloud.ch/media/posts/69/responsive/Screenshot-2022-11-03-at-09.24.39-lg.png 1024w ,https://www.finecloud.ch/media/posts/69/responsive/Screenshot-2022-11-03-at-09.24.39-xl.png 1360w ,https://www.finecloud.ch/media/posts/69/responsive/Screenshot-2022-11-03-at-09.24.39-2xl.png 1600w"></figure>
-<h3 id="mcetoc_1ggu9idgo5o">4. Connect OPNsense with Nextcloud<a class="headerlink" href="https://docs.opnsense.org/manual/how-tos/cloud_backup.html#step-connect-opnsense-with-nextcloud" title="Permalink to this headline"></a></h3>
-<figure class="post__image"><img loading="lazy"  src="https://www.finecloud.ch/media/posts/69/Screenshot-2022-11-03-at-09.32.01.png" alt="" width="727" height="432" sizes="100vw" srcset="https://www.finecloud.ch/media/posts/69/responsive/Screenshot-2022-11-03-at-09.32.01-xs.png 300w ,https://www.finecloud.ch/media/posts/69/responsive/Screenshot-2022-11-03-at-09.32.01-sm.png 480w ,https://www.finecloud.ch/media/posts/69/responsive/Screenshot-2022-11-03-at-09.32.01-md.png 768w ,https://www.finecloud.ch/media/posts/69/responsive/Screenshot-2022-11-03-at-09.32.01-lg.png 1024w ,https://www.finecloud.ch/media/posts/69/responsive/Screenshot-2022-11-03-at-09.32.01-xl.png 1360w ,https://www.finecloud.ch/media/posts/69/responsive/Screenshot-2022-11-03-at-09.32.01-2xl.png 1600w"></figure><br>
-<p>Scroll to the Nextcloud Section in <em><span class="menuselection">System ‣ Configuration ‣ Backups</span></em> and enter the following values:</p>
-<div class="wy-table-responsive">
-<table class="docutils align-default"><colgroup><col><col></colgroup>
-<tbody>
-<tr class="row-odd">
-<td>
-<p>Enable</p>
-</td>
-<td>
-<p>checked</p>
-</td>
-</tr>
-<tr class="row-even">
-<td>
-<p>URL</p>
-</td>
-<td>
-<p>Base URL of your Nextcloud installation like <a class="reference external" href="https://cloud.example.com">https://cloud.example.com</a></p>
-</td>
-</tr>
-<tr class="row-odd">
-<td>
-<p>User</p>
-</td>
-<td>
-<p>your choosen username</p>
-</td>
-</tr>
-<tr class="row-even">
-<td>
-<p>Password</p>
-</td>
-<td>
-<p>paste your app password from step 2</p>
-</td>
-</tr>
-<tr>
-<td>
-<p>Encryption Passowrd</p>
-</td>
-<td>
-<p>define a Password to encrypt the config file</p>
-</td>
-</tr>
-<tr class="row-odd">
-<td>
-<p>Backup Directory</p>
-</td>
-<td>
-<p>a name consisting of alphanumeric characters (keep default)</p>
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<div id="step-verify-the-configuration-upload" class="section">
-<h3 id="mcetoc_1ggu9idgo5p">5. Verify the Configuration Upload<a class="headerlink" href="https://docs.opnsense.org/manual/how-tos/cloud_backup.html#step-verify-the-configuration-upload" title="Permalink to this headline"></a></h3>
-<p>When everything worked, you will see the newly created directory after saving the settings:</p>
-<figure class="post__image"><img loading="lazy"  src="https://www.finecloud.ch/media/posts/69/Screenshot-2022-11-03-at-09.38.41.png" alt="" width="292" height="114" sizes="100vw" srcset="https://www.finecloud.ch/media/posts/69/responsive/Screenshot-2022-11-03-at-09.38.41-xs.png 300w ,https://www.finecloud.ch/media/posts/69/responsive/Screenshot-2022-11-03-at-09.38.41-sm.png 480w ,https://www.finecloud.ch/media/posts/69/responsive/Screenshot-2022-11-03-at-09.38.41-md.png 768w ,https://www.finecloud.ch/media/posts/69/responsive/Screenshot-2022-11-03-at-09.38.41-lg.png 1024w ,https://www.finecloud.ch/media/posts/69/responsive/Screenshot-2022-11-03-at-09.38.41-xl.png 1360w ,https://www.finecloud.ch/media/posts/69/responsive/Screenshot-2022-11-03-at-09.38.41-2xl.png 1600w"></figure>
-<figure class="post__image">If you open it, you will see at lease a single backed up configuration file:
-<img loading="lazy"  src="https://www.finecloud.ch/media/posts/69/Screenshot-2022-11-03-at-09.39.22.png" alt="" width="819" height="351" sizes="100vw" srcset="https://www.finecloud.ch/media/posts/69/responsive/Screenshot-2022-11-03-at-09.39.22-xs.png 300w ,https://www.finecloud.ch/media/posts/69/responsive/Screenshot-2022-11-03-at-09.39.22-sm.png 480w ,https://www.finecloud.ch/media/posts/69/responsive/Screenshot-2022-11-03-at-09.39.22-md.png 768w ,https://www.finecloud.ch/media/posts/69/responsive/Screenshot-2022-11-03-at-09.39.22-lg.png 1024w ,https://www.finecloud.ch/media/posts/69/responsive/Screenshot-2022-11-03-at-09.39.22-xl.png 1360w ,https://www.finecloud.ch/media/posts/69/responsive/Screenshot-2022-11-03-at-09.39.22-2xl.png 1600w"></figure><br>
-<p id="references" class="rubric"></p>
-</div>
             ]]>
         </content>
     </entry>

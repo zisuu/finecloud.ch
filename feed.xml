@@ -3,12 +3,59 @@
     <title>Finecloud</title>
     <link href="https://www.finecloud.ch/feed.xml" rel="self" />
     <link href="https://www.finecloud.ch" />
-    <updated>2023-02-09T16:55:54+01:00</updated>
+    <updated>2023-02-14T09:20:08+01:00</updated>
     <author>
         <name>Finecloud</name>
     </author>
     <id>https://www.finecloud.ch</id>
 
+    <entry>
+        <title>Conventional commits</title>
+        <author>
+            <name>Finecloud</name>
+        </author>
+        <link href="https://www.finecloud.ch/conventional-commits.html"/>
+        <id>https://www.finecloud.ch/conventional-commits.html</id>
+            <category term="software development"/>
+            <category term="git"/>
+            <category term="dev"/>
+
+        <updated>2023-02-14T09:20:08+01:00</updated>
+            <summary>
+                <![CDATA[
+                    What are Conventional commits Conventional Commits is a convention for writing commit messages that provides structure and consistency to a project's version control history. It's based on the idea of defining a standard format for commit messages that makes it easier for developers to understand&hellip;
+                ]]>
+            </summary>
+        <content type="html">
+            <![CDATA[
+                <div class="post__toc">
+<h3>Table of Contents</h3>
+<ul>
+<li><a href="#mcetoc_1gp7g3b0bbq">What are Conventional commits</a></li>
+<li><a href="#mcetoc_1gp7g3b0bbr">Why should you use Conventional commits</a></li>
+<li><a href="#mcetoc_1gp7g3b0bbs">Example</a>
+<ul>
+<li><a href="#mcetoc_1gp7g3b0bbt">multiline commit messages</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<h2 id="mcetoc_1gp7g3b0bbq">What are Conventional commits</h2>
+<p>Conventional Commits is a convention for writing commit messages that provides structure and consistency to a project's version control history. It's based on the idea of defining a standard format for commit messages that makes it easier for developers to understand the changes made to a codebase over time.</p>
+<p><a href="https://www.conventionalcommits.org/en/v1.0.0/#specification">https://www.conventionalcommits.org/en/v1.0.0/#specification</a></p>
+<h2 id="mcetoc_1gp7g3b0bbr">Why should you use Conventional commits</h2>
+<ul>
+<li>Improving collaboration: Having a clear, concise and standardized way of writing commit messages helps everyone on the team understand what changes were made and why. This can improve collaboration and reduce the time spent discussing changes.</li>
+<li>Better automated versioning: Conventional Commits provides a way to automate versioning and release management by using the commit messages to determine the type and scope of changes. This can save time and improve accuracy compared to manually managing versions.</li>
+<li>Improved documentation: Commit messages can serve as a form of documentation, providing insight into the motivations and thought process behind changes. By using Conventional Commits, this documentation is more consistent and easier to understand.</li>
+</ul>
+<h2 id="mcetoc_1gp7g3b0bbs">Example</h2>
+<p>Here's an example of a Conventional Commit message:<br><br><code>feat(parser): add ability to parse hexadecimal numbers</code><br><br><code>This commit adds the ability to parse hexadecimal numbers, allowing for a wider range of input options.</code><br><br>In this example, "feat" is the type of change being made (a new feature), "parser" is the scope of the change (the parser component), and the rest of the message provides a brief description of the change. The Conventional Commits specification defines a number of different types (e.g. "feat", "fix", "docs") and provides guidelines for how to use them.</p>
+<h3 id="mcetoc_1gp7g3b0bbt">multiline commit messages</h3>
+<p>how do you make multiline commit messages like these? how do you add an optional body or optional footer in a conventional Commit message?<br><br>Multiline commit messages are written by adding a blank line between the subject (first line) and the body (or footer). The subject should be a single line of text that summarizes the change and should not exceed 50 characters. If a more detailed explanation is needed, it can be added in the body.<br><br>Here's an example of a multiline Conventional Commit message:<br><br><code>feat(parser): add ability to parse hexadecimal numbers</code><br><br><code>This commit adds the ability to parse hexadecimal numbers, allowing for a wider range of input options. The new feature has been thoroughly tested and is now ready for use.</code><br><br>An optional footer can also be added to Conventional Commit messages for extra information, such as breaking changes, references to related issues, or other meta-information. The footer should start with a new line and should be separated from the body by a double line break. Here's an example with a footer:<br><br><code>feat(parser): add ability to parse hexadecimal numbers</code><br><br><code>This commit adds the ability to parse hexadecimal numbers, allowing for a wider range of input options. The new feature has been thoroughly tested and is now ready for use.</code><br><br><code>BREAKING CHANGE: The previous version of the parser only supported decimal numbers, so this change may break compatibility with existing code that uses the parser.</code><br><br>It's worth noting that not all Conventional Commit tools and systems require or make use of the body or footer. The most important aspect is the subject line, as it provides a concise summary of the change. The body and footer are optional and should be used as needed to provide additional context and information.<br><br>Here's an example of a Conventional Commit message with a body and footer, using the git commit command with the -m option:<br><br><code>$ git commit -m "feat(parser): add ability to parse hexadecimal numbers</code><br><br><code>This commit adds the ability to parse hexadecimal numbers, allowing for a wider range of input options. The new feature has been thoroughly tested and is now ready for use.</code><br><br><code>BREAKING CHANGE: The previous version of the parser only supported decimal numbers, so this change may break compatibility with existing code that uses the parser.</code><br><br><code>Closes #123"</code><br><br>In this example, the subject is "feat(parser): add ability to parse hexadecimal numbers", the body is "This commit adds the ability to parse hexadecimal numbers, allowing for a wider range of input options. The new feature has been thoroughly tested and is now ready for use.", and the footer is "BREAKING CHANGE: The previous version of the parser only supported decimal numbers, so this change may break compatibility with existing code that uses the parser. Closes #123". The "Closes #123" part of the footer is an example of a reference to a related issue, indicating that this commit resolves the issue with the given number.</p>
+            ]]>
+        </content>
+    </entry>
     <entry>
         <title>CleanCode</title>
         <author>
@@ -1946,41 +1993,6 @@ http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"</span>&gt;</span></pre>
 <p>Create a Procfile in the root folder of your Application:<br><code>echo 'web: java $JAVA_OPTS -jar target/dependency/webapp-runner.jar --port $PORT target/*.war' &gt; Procfile</code></p>
 <p>We also need to declare the Java version to Heroku:<br><code>echo 'java.runtime.version=17' &gt; system.properties</code><br><br></p>
 <p>Commit your changes to Git:<br><br><code>git init</code><br><code>git add .</code><br><code>git commit -m "Ready to deploy"</code><br><br><br>Create the app and deploy your code:<br><br><code>heroku create</code><code>--region eu</code><code></code><br><code>git push heroku main</code><br><br><br>Your web app should now be up and running on Heroku. Open it in your browser with:<br><br><code>heroku open</code><br><br></p>
-            ]]>
-        </content>
-    </entry>
-    <entry>
-        <title>Take care of your SSH identities</title>
-        <author>
-            <name>Finecloud</name>
-        </author>
-        <link href="https://www.finecloud.ch/take-care-of-your-ssh-keys.html"/>
-        <id>https://www.finecloud.ch/take-care-of-your-ssh-keys.html</id>
-            <category term="tools"/>
-            <category term="ssh"/>
-            <category term="shell"/>
-            <category term="security"/>
-            <category term="network"/>
-            <category term="linux"/>
-            <category term="bash"/>
-
-        <updated>2022-11-22T15:37:51+01:00</updated>
-            <summary>
-                <![CDATA[
-                    Did you know that your ssh Client sends the server all your public keys, one by one, until the server accepts one, when you try to authenticate via public key? Don't believe me? Try it out yourself: ssh whoami.filippo.io Someone could use this to find&hellip;
-                ]]>
-            </summary>
-        <content type="html">
-            <![CDATA[
-                <p>Did you know that your ssh Client sends the server all your public keys, one by one, until the server accepts one, when you try to authenticate via public key?</p>
-<p>Don't believe me? Try it out yourself: </p>
-<pre><code>ssh whoami.filippo.io</code></pre>
-<p>Someone could use this to find out which public keys you have installed on your Client. You don't what this, don't you? So how can we avoid the leak of our Clients Public Keys? There is an easy fix, just add this at the end of your <code>~/.ssh/config</code> file:</p>
-<pre><code>Host *</code><br><code>    PubkeyAuthentication no</code><br><code>    IdentitiesOnly yes</code></pre>
-<p>Also make sure you don't use just one key for all connections. I hope don't use one password for all your logins - so why should you use one key for all your logins?</p>
-<p>It is recommended to use one specific key for each host:</p>
-<pre><code>Host github.com</code><br><code>    PubkeyAuthentication yes</code><br><code>    IdentityFile ~/.ssh/github_id_ed25519</code></pre>
-<p> </p>
             ]]>
         </content>
     </entry>

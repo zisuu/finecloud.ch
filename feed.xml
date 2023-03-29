@@ -3,7 +3,7 @@
     <title>Finecloud</title>
     <link href="https://www.finecloud.ch/feed.xml" rel="self" />
     <link href="https://www.finecloud.ch" />
-    <updated>2023-02-14T09:20:08+01:00</updated>
+    <updated>2023-03-29T20:14:52+02:00</updated>
     <author>
         <name>Finecloud</name>
     </author>
@@ -125,7 +125,7 @@
             <category term="javascript"/>
             <category term="dev"/>
 
-        <updated>2023-02-07T16:50:59+01:00</updated>
+        <updated>2023-03-29T20:14:17+02:00</updated>
             <summary>
                 <![CDATA[
                     New Features New versions of JavaScript, such as ES6, ES2016, 2017, etc., come with many new features, however it is still ECMAScript Many of the new features are syntactic sugar or extend the functionality only marginal Template Literals Template literals are string literals with support&hellip;
@@ -583,7 +583,7 @@ computeDiskArea(<span class="hljs-number" style="color: #6897bb;">2</span>)
             <category term="javascript"/>
             <category term="dev"/>
 
-        <updated>2023-01-31T13:02:06+01:00</updated>
+        <updated>2023-03-29T20:14:23+02:00</updated>
             <summary>
                 <![CDATA[
                     The DOM Based on the received HTML document the browser builds up a model of the document structure, the Document Object Model (DOM) The DOM has a tree structure and each node of the document is represented by an object The browser renders the page&hellip;
@@ -1080,7 +1080,7 @@ $.post(
             <category term="javascript"/>
             <category term="dev"/>
 
-        <updated>2023-01-30T16:26:53+01:00</updated>
+        <updated>2023-03-29T20:14:29+02:00</updated>
             <summary>
                 <![CDATA[
                     Object An object is a collection of properties A property has a name and a value An object can be seen as associative array (map) where the keys in the array are the names of the object’s properties // Create object as literal const bob&hellip;
@@ -1388,7 +1388,7 @@ extend(Person, Prof);
             <category term="software development"/>
             <category term="dev"/>
 
-        <updated>2023-01-21T13:27:07+01:00</updated>
+        <updated>2023-03-29T20:14:52+02:00</updated>
             <summary>
                 <![CDATA[
                     In this Post I try to explain the difference between the heap and the stack. It's just a very high level amateur explanation, there is a lot more to read and learn about this Topics. This Drawing helps me a lot to understand the basic&hellip;
@@ -1442,7 +1442,7 @@ extend(Person, Prof);
             <category term="dev"/>
             <category term="array"/>
 
-        <updated>2023-01-17T20:13:15+01:00</updated>
+        <updated>2023-03-29T20:14:46+02:00</updated>
             <summary>
                 <![CDATA[
                     Array An array combines multiple values in a single variable Arrays are helpful if the number of values is huge or dynamic Each value of an array has a unique numerical index // Normal variables hold exactly one value const colorA = "blue"; const colorB&hellip;
@@ -1589,7 +1589,7 @@ colors.forEach(<span class="hljs-function"><span class="hljs-keyword" style="col
             <category term="javascript"/>
             <category term="dev"/>
 
-        <updated>2023-01-17T19:41:43+01:00</updated>
+        <updated>2023-03-29T20:14:40+02:00</updated>
             <summary>
                 <![CDATA[
                     Function Expression A function expression starts with the keyword function followed by the function arguments in parentheses and the function body in curly braces: const square = function(x) { return x * x; }; console.log(square(4)); // &gt;&gt; 16 Function Scope Each function deﬁnes a scope&hellip;
@@ -1751,7 +1751,7 @@ f = <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832
             <category term="javascript"/>
             <category term="dev"/>
 
-        <updated>2023-01-17T19:50:27+01:00</updated>
+        <updated>2023-03-29T20:14:35+02:00</updated>
             <summary>
                 <![CDATA[
                     What JavaScript is A scripting language originally designed for web browsers Object-oriented, however prototype-based and not class-based Supporting ﬁrst-class functions A multi-paradigm language, supports imperative, object-oriented and functional programming style Untyped Moving from an interpreted language to just-in-time compilation Nowadays used for server-side programming too&hellip;

@@ -3,7 +3,7 @@
     <title>Finecloud</title>
     <link href="https://www.finecloud.ch/feed.xml" rel="self" />
     <link href="https://www.finecloud.ch" />
-    <updated>2023-04-04T15:29:20+02:00</updated>
+    <updated>2023-04-04T16:15:16+02:00</updated>
     <author>
         <name>Finecloud</name>
     </author>
@@ -123,7 +123,7 @@
             <category term="java"/>
             <category term="dev"/>
 
-        <updated>2023-04-04T14:57:57+02:00</updated>
+        <updated>2023-04-04T16:15:16+02:00</updated>
             <summary>
                 <![CDATA[
                     If you want to develop a Spring Application you need to know when to use which Annotation. Spring’s dependency injection capability includes the following annotations:
@@ -149,8 +149,8 @@
 <td style="width: 49.9288%; height: 79.1562px;">Indicates that an annotated class is a service.</td>
 </tr>
 <tr style="height: 50.3594px;">
-<td style="width: 49.9288%; height: 50.3594px;"> </td>
-<td style="width: 49.9288%; height: 50.3594px;"> </td>
+<td style="width: 49.9288%; height: 50.3594px;"><a href="https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/beans/factory/annotation/Value.html" rel="nofollow">@Value</a></td>
+<td style="width: 49.9288%; height: 50.3594px;">Injection mechanism for fields and methods that indicates a default value. Often used to get values from property files.</td>
 </tr>
 <tr style="height: 50.3594px;">
 <td style="width: 49.9288%; height: 50.3594px;"> </td>

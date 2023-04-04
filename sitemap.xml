@@ -138,7 +138,11 @@
 </url>
 <url>
 <loc>https://www.finecloud.ch/http-methoden-rfc9110.html</loc>
-<lastmod>2022-06-25T10:55:55+02:00</lastmod>
+<lastmod>2023-04-04T16:18:48+02:00</lastmod>
+<image:image>
+<image:loc>https://www.finecloud.ch/media/posts/40/Screenshot-2023-04-04-at-16.18.32.png</image:loc>
+<image:title><![CDATA[]]></image:title>
+</image:image>
 </url>
 <url>
 <loc>https://www.finecloud.ch/http-response-status-codes.html</loc>
@@ -471,7 +475,7 @@
 </url>
 <url>
 <loc>https://www.finecloud.ch/spring-annotations.html</loc>
-<lastmod>2023-04-04T14:57:57+02:00</lastmod>
+<lastmod>2023-04-04T16:15:16+02:00</lastmod>
 </url>
 <url>
 <loc>https://www.finecloud.ch/spring-bean-lifecycle.html</loc>

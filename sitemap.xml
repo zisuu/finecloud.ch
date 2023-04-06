@@ -353,6 +353,10 @@
 <lastmod>2022-06-06T23:18:42+02:00</lastmod>
 </url>
 <url>
+<loc>https://www.finecloud.ch/mockmvc.html</loc>
+<lastmod>2023-04-06T20:52:03+02:00</lastmod>
+</url>
+<url>
 <loc>https://www.finecloud.ch/monitor-proxmox-mit-grafana-und-prometheus.html</loc>
 <lastmod>2022-07-24T18:00:23+02:00</lastmod>
 <image:image>
@@ -424,6 +428,9 @@
 </url>
 <url>
 <loc>https://www.finecloud.ch/page/12/</loc>
+</url>
+<url>
+<loc>https://www.finecloud.ch/page/13/</loc>
 </url>
 <url>
 <loc>https://www.finecloud.ch/page/2/</loc>

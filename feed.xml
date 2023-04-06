@@ -3,7 +3,7 @@
     <title>Finecloud</title>
     <link href="https://www.finecloud.ch/feed.xml" rel="self" />
     <link href="https://www.finecloud.ch" />
-    <updated>2023-04-06T20:52:03+02:00</updated>
+    <updated>2023-04-06T21:22:21+02:00</updated>
     <author>
         <name>Finecloud</name>
     </author>
@@ -22,10 +22,10 @@
             <category term="java"/>
             <category term="dev"/>
 
-        <updated>2023-04-06T20:52:03+02:00</updated>
+        <updated>2023-04-06T21:22:21+02:00</updated>
             <summary>
                 <![CDATA[
-                    Types of Tests Unit Tests / Unit Testing Code written to test code under test Designed to test specific sections of code Percentage of lines of code tested is code coverage Ideal coverage is in the 70-80% range Should be ‘unity’ and execute very fast&hellip;
+                    Why use Spring MockMVC? Spring MockMVC allows you to test the controller interactions in a servlet context without the application running in an application server. Mockito is the most popular mocking framework for testing Java Mocks (aka Test Doubles) are alternate implementations of objects to&hellip;
                 ]]>
             </summary>
         <content type="html">
@@ -33,6 +33,7 @@
                 <div class="post__toc">
 <h3>Table of Contents</h3>
 <ul>
+<li><a href="#mcetoc_1gtc0a48v1bq">Why use Spring MockMVC?</a></li>
 <li><a href="#mcetoc_1gtbugt571b8">Types of Tests</a>
 <ul>
 <li><a href="#mcetoc_1gtbugt571b9">Unit Tests / Unit Testing</a></li>
@@ -47,6 +48,18 @@
 <li><a href="#mcetoc_1gtbugt571bg">Types of Mocks</a></li>
 <li><a href="#mcetoc_1gtbugt571bh">Testing Controllers</a></li>
 </ul>
+</div>
+<div class="question--question--152Yi">
+<div class="ud-text-bold question--title--2FD-U">
+<div class="question--title-text--2kBEO rt-scaffolding" data-purpose="safely-set-inner-html:rich-text-viewer:html">
+<h3 id="mcetoc_1gtc0a48v1bq">Why use Spring MockMVC?</h3>
+</div>
+</div>
+<div class="question--answer--2ASXa">
+<div data-purpose="safely-set-inner-html:submission:user-answer-body">
+<p>Spring MockMVC allows you to test the controller interactions in a servlet context without the application running in an application server.</p>
+</div>
+</div>
 </div>
 <h3 id="mcetoc_1gtbugt571b8">Types of Tests</h3>
 <div class="page" title="Page 2">

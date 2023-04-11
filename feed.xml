@@ -3,12 +3,69 @@
     <title>Finecloud</title>
     <link href="https://www.finecloud.ch/feed.xml" rel="self" />
     <link href="https://www.finecloud.ch" />
-    <updated>2023-04-10T08:45:10+02:00</updated>
+    <updated>2023-04-11T19:53:59+02:00</updated>
     <author>
         <name>Finecloud</name>
     </author>
     <id>https://www.finecloud.ch</id>
 
+    <entry>
+        <title>Data Transfer Objects</title>
+        <author>
+            <name>Finecloud</name>
+        </author>
+        <link href="https://www.finecloud.ch/data-transfer-objects.html"/>
+        <id>https://www.finecloud.ch/data-transfer-objects.html</id>
+            <category term="software development"/>
+            <category term="java"/>
+            <category term="dev"/>
+
+        <updated>2023-04-11T19:53:59+02:00</updated>
+            <summary>
+                <![CDATA[
+                    Data Transfer Objects DTOs - Data Transfer Objects DTOs are simple Java POJOs DTOs are data structures, generally should NOT have behavior DTOs are objects used to transfer data between producers and consumers Controller models are typically DTOs Why Not Entities? Database Entities are also&hellip;
+                ]]>
+            </summary>
+        <content type="html">
+            <![CDATA[
+                <h2>Data Transfer Objects</h2>
+<ul>
+<li>DTOs - Data Transfer Objects</li>
+<li>DTOs are simple Java POJOs</li>
+<li>DTOs are data structures, generally should NOT have behavior</li>
+<li>DTOs are objects used to transfer data between producers and consumers</li>
+<li>Controller models are typically DTOs</li>
+</ul>
+<h2>Why Not Entities?</h2>
+<ul>
+<li>Database Entities are also POJOs, why can’t we use those?</li>
+<li>For simple applications you can</li>
+<li>Spring Data REST exposes database entities directly</li>
+<li>Database entities can “leak” data to client tier</li>
+<li>As applications become more complex, having the separation becomes more  important</li>
+<li>The needs of the consumers are different than the needs of persistence</li>
+<li>DTOs can be optimized for JSON serialization and deserialization</li>
+</ul>
+<h2>Type Conversions</h2>
+<ul>
+<li>Type Conversions are often done within methods</li>
+<li>Best practice is to use dedicated converters</li>
+<li>Single Responsibility Principle</li>
+<li>Spring Framework provides an Interface called “Converter” with generics</li>
+<li>Can be used with conjunction with Conversion service</li>
+<li>MapStruct is a code generator which automates generation of type converters</li>
+</ul>
+<h2>MapStruct</h2>
+<ul>
+<li>MapStruct is a code generator</li>
+<li>You provide the interface, MapStruct generates the implementation</li>
+<li>Works like Lombok via annotation processing during code compile</li>
+<li>Has good Spring integration - can generate Spring Converters or Spring Components</li>
+<li>You can use Mapstruct Components for injection into services<br><br><br></li>
+</ul>
+            ]]>
+        </content>
+    </entry>
     <entry>
         <title>Spring Exception Handling</title>
         <author>
@@ -1760,315 +1817,6 @@ $.post(
 <p> </p>
 <p> </p>
 <p> </p>
-            ]]>
-        </content>
-    </entry>
-    <entry>
-        <title>JavaScript objects</title>
-        <author>
-            <name>Finecloud</name>
-        </author>
-        <link href="https://www.finecloud.ch/javascript-objects.html"/>
-        <id>https://www.finecloud.ch/javascript-objects.html</id>
-            <category term="software development"/>
-            <category term="javascript"/>
-            <category term="dev"/>
-
-        <updated>2023-03-29T20:14:29+02:00</updated>
-            <summary>
-                <![CDATA[
-                    Object An object is a collection of properties A property has a name and a value An object can be seen as associative array (map) where the keys in the array are the names of the object’s properties // Create object as literal const bob&hellip;
-                ]]>
-            </summary>
-        <content type="html">
-            <![CDATA[
-                <div class="post__toc">
-<h3>Table of Contents</h3>
-<ul>
-<li><a href="#mcetoc_1gn0ic8ssj0">Object</a></li>
-<li><a href="#mcetoc_1gn0ic8ssj1">Object Properties</a></li>
-<li><a href="#mcetoc_1gna43tov6">Object Methods</a></li>
-<li><a href="#mcetoc_1gna43tov7">Object Constructor</a></li>
-<li><a href="#mcetoc_1gna43tov8">Altering Objects</a></li>
-<li><a href="#mcetoc_1gnhh62kj1">The this-reference</a></li>
-<li><a href="#mcetoc_1go1kjd5kjg">Prototype</a></li>
-<li><a href="#mcetoc_1go1kjd5kjh">Inheritance</a>
-<ul>
-<li><a href="#mcetoc_1go1kjd5kji">Inheritance Helper Function</a></li>
-</ul>
-</li>
-</ul>
-</div>
-<h2 id="mcetoc_1gn0ic8ssj0">Object</h2>
-<ul>
-<li>An object is a collection of properties</li>
-<li>A property has a name and a value</li>
-<li>An object can be seen as associative array (map) where the keys in the array are the names of the object’s properties</li>
-</ul>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-comment" style="color: grey;">// Create object as literal</span>
-<span class="hljs-keyword" style="color: #cc7832;">const</span> bob = {
-  name: <span class="hljs-string" style="color: #6a8759;">"Bob"</span>,
-  age: <span class="hljs-number" style="color: #6897bb;">25</span>
-};
-
-<span class="hljs-comment" style="color: grey;">// Access properties</span>
-<span class="hljs-built_in">console</span>.log(bob.name);               <span class="hljs-comment" style="color: grey;">// &gt;&gt; Bob</span>
-bob.age = bob.age+<span class="hljs-number" style="color: #6897bb;">1</span>;
-bob.age++;
-<span class="hljs-built_in">console</span>.log(bob.age);                <span class="hljs-comment" style="color: grey;">// &gt;&gt; 27</span>
-</pre>
-<h2 id="mcetoc_1gn0ic8ssj1">Object Properties</h2>
-<ul>
-<li>Properties can dynamically be added to an object</li>
-<li>Properties can be accessed using the dot or index operator</li>
-<li>Property names that are not valid variable names have to be put in quotes</li>
-</ul>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-keyword" style="color: #cc7832;">const</span> bob = {name: <span class="hljs-string" style="color: #6a8759;">"Bob"</span>, age: <span class="hljs-number" style="color: #6897bb;">25</span>};
-
-<span class="hljs-comment" style="color: grey;">// Add new properties</span>
-bob.hairColor = <span class="hljs-string" style="color: #6a8759;">"black"</span>;
-<span class="hljs-built_in">console</span>.log(bob.hairColor);          <span class="hljs-comment" style="color: grey;">// &gt;&gt; black</span>
-<span class="hljs-built_in">console</span>.log(bob.lastname);           <span class="hljs-comment" style="color: grey;">// &gt;&gt; undefined</span>
-
-<span class="hljs-comment" style="color: grey;">// Access properties using the dot or index operator</span>
-<span class="hljs-built_in">console</span>.log(bob.name);               <span class="hljs-comment" style="color: grey;">// &gt;&gt; Bob</span>
-<span class="hljs-built_in">console</span>.log(bob[<span class="hljs-string" style="color: #6a8759;">"name"</span>]);            <span class="hljs-comment" style="color: grey;">// &gt;&gt; Bob</span>
-
-<span class="hljs-comment" style="color: grey;">// Property with quoted name</span>
-<span class="hljs-keyword" style="color: #cc7832;">const</span> alice = {
-  name: <span class="hljs-string" style="color: #6a8759;">"Alice"</span>,
-  <span class="hljs-string" style="color: #6a8759;">"year of birth"</span>: <span class="hljs-number" style="color: #6897bb;">1991</span>
-};
-<span class="hljs-built_in">console</span>.log(alice[<span class="hljs-string" style="color: #6a8759;">"year of birth"</span>]); <span class="hljs-comment" style="color: grey;">// &gt;&gt; 1991</span>
-</pre>
-<h2 id="mcetoc_1gna43tov6">Object Methods</h2>
-<ul>
-<li>An object property that points to a function value is called method</li>
-<li>Within the method body, the this reference points to the object the method is called on</li>
-</ul>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-keyword" style="color: #cc7832;">const</span> bob = {name: <span class="hljs-string" style="color: #6a8759;">"Bob"</span>};
-
-<span class="hljs-comment" style="color: grey;">// Add method to object</span>
-bob.speak = <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span>(<span class="hljs-params">phrase</span>) </span>{
-  <span class="hljs-built_in">console</span>.log(<span class="hljs-keyword" style="color: #cc7832;">this</span>.name+<span class="hljs-string" style="color: #6a8759;">" says: "</span>+phrase);
-};
-bob.speak(<span class="hljs-string" style="color: #6a8759;">"What's up?"</span>);        <span class="hljs-comment" style="color: grey;">// &gt;&gt; Bob says: What's up?</span>
-<span class="hljs-built_in">console</span>.log(bob.speak);         <span class="hljs-comment" style="color: grey;">// &gt;&gt; [Function]</span>
-
-<span class="hljs-comment" style="color: grey;">// Object literal with method</span>
-<span class="hljs-keyword" style="color: #cc7832;">const</span> alice = {
-  name: <span class="hljs-string" style="color: #6a8759;">"Alice"</span>,
-  speak: <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span>(<span class="hljs-params">phrase</span>) </span>{
-    <span class="hljs-built_in">console</span>.log(<span class="hljs-keyword" style="color: #cc7832;">this</span>.name+<span class="hljs-string" style="color: #6a8759;">" says: "</span>+phrase);
-  }
-};
-alice.speak(<span class="hljs-string" style="color: #6a8759;">"Great!"</span>);          <span class="hljs-comment" style="color: grey;">// &gt;&gt; Alice says: Great!</span>
-</pre>
-<h2 id="mcetoc_1gna43tov7">Object Constructor</h2>
-<ul>
-<li>A constructor function is a normal function, but treated as constructor when called with the new operator</li>
-<li>The this reference points to the new object</li>
-</ul>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-comment" style="color: grey;">// Constructor function</span>
-<span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span> <span class="hljs-title" style="color: #ffc66d;">Person</span>(<span class="hljs-params">name, age</span>) </span>{
-  <span class="hljs-keyword" style="color: #cc7832;">this</span>.name = name;
-  <span class="hljs-keyword" style="color: #cc7832;">this</span>.age = age;
-  <span class="hljs-keyword" style="color: #cc7832;">this</span>.speak = <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span>(<span class="hljs-params">phrase</span>) </span>{
-    <span class="hljs-built_in">console</span>.log(<span class="hljs-keyword" style="color: #cc7832;">this</span>.name+<span class="hljs-string" style="color: #6a8759;">" says: "</span>+phrase);
-  }
-}
-
-<span class="hljs-comment" style="color: grey;">// Create objects</span>
-<span class="hljs-keyword" style="color: #cc7832;">const</span> alice = <span class="hljs-keyword" style="color: #cc7832;">new</span> Person(<span class="hljs-string" style="color: #6a8759;">"Alice"</span>, <span class="hljs-number" style="color: #6897bb;">19</span>);
-<span class="hljs-keyword" style="color: #cc7832;">const</span> bob = <span class="hljs-keyword" style="color: #cc7832;">new</span> Person(<span class="hljs-string" style="color: #6a8759;">"Bob"</span>, <span class="hljs-number" style="color: #6897bb;">25</span>);
-
-<span class="hljs-built_in">console</span>.log(alice.name);    <span class="hljs-comment" style="color: grey;">// Alice</span>
-bob.speak(<span class="hljs-string" style="color: #6a8759;">"I'm Bob"</span>);       <span class="hljs-comment" style="color: grey;">// &gt;&gt; Bob says: I'm Bob</span>
-</pre>
-<h2 id="mcetoc_1gna43tov8">Altering Objects</h2>
-<p>Objects can always be altered even if they were created using a constructor function:</p>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span> <span class="hljs-title" style="color: #ffc66d;">Person</span>(<span class="hljs-params">name, age</span>) </span>{
-    <span class="hljs-keyword" style="color: #cc7832;">this</span>.name = name;
-    <span class="hljs-keyword" style="color: #cc7832;">this</span>.age = age;
-    <span class="hljs-keyword" style="color: #cc7832;">this</span>.speak = <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span> (<span class="hljs-params">phrase</span>) </span>{
-        <span class="hljs-built_in">console</span>.log(<span class="hljs-keyword" style="color: #cc7832;">this</span>.name + <span class="hljs-string" style="color: #6a8759;">" says: "</span> + phrase);
-    }
-    <span class="hljs-keyword" style="color: #cc7832;">this</span>.sleep = <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span> () </span>{
-        <span class="hljs-built_in">console</span>.log(<span class="hljs-string" style="color: #6a8759;">"CHRRRZ Z Z z z..."</span>);
-    };
-}
-
-<span class="hljs-keyword" style="color: #cc7832;">const</span> bob = <span class="hljs-keyword" style="color: #cc7832;">new</span> Person(<span class="hljs-string" style="color: #6a8759;">"Bob"</span>, <span class="hljs-number" style="color: #6897bb;">25</span>);
-
-<span class="hljs-comment" style="color: grey;">// Alter bob</span>
-bob.speak = <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span> () </span>{
-    <span class="hljs-built_in">console</span>.log(<span class="hljs-string" style="color: #6a8759;">"Sorry, I prefer writing"</span>);
-}
-bob.write = <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span> (<span class="hljs-params">phrase</span>) </span>{
-    <span class="hljs-built_in">console</span>.log(<span class="hljs-keyword" style="color: #cc7832;">this</span>.name + <span class="hljs-string" style="color: #6a8759;">" writes: "</span> + phrase);
-}
-<span class="hljs-keyword" style="color: #cc7832;">delete</span> bob.sleep;
-
-bob.speak(<span class="hljs-string" style="color: #6a8759;">"Bla bla"</span>);    <span class="hljs-comment" style="color: grey;">// &gt;&gt; Sorry, I prefer writing</span>
-bob.write(<span class="hljs-string" style="color: #6a8759;">"Bla bla"</span>);   <span class="hljs-comment" style="color: grey;">// &gt;&gt; Bob writes: Bla bla</span>
-bob.sleep();             <span class="hljs-comment" style="color: grey;">// ! TypeError: bob.sleep is not a function !</span>
-
-<span class="hljs-comment" style="color: grey;">// bob is still a Person</span>
-<span class="hljs-built_in">console</span>.log(bob <span class="hljs-keyword" style="color: #cc7832;">instanceof</span> Person);  <span class="hljs-comment" style="color: grey;">// &gt;&gt; true</span></pre>
-<h2 id="mcetoc_1gnhh62kj1">The this-reference</h2>
-<ul>
-<li>The this reference within a function points to the bound object</li>
-<li>Functions are implicitly bound to the object the function is called on (methods)</li>
-<li>Functions can be explicitly bound using bind or call</li>
-</ul>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-comment" style="color: grey;">// speak is not bound ('this' points to the global object or is undefined)</span>
-<span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span> <span class="hljs-title" style="color: #ffc66d;">speak</span>(<span class="hljs-params">phrase</span>) </span>{
-  <span class="hljs-built_in">console</span>.log(<span class="hljs-keyword" style="color: #cc7832;">this</span>.name+<span class="hljs-string" style="color: #6a8759;">" says: "</span>+phrase);
-}
-speak(<span class="hljs-string" style="color: #6a8759;">"Hello"</span>);           <span class="hljs-comment" style="color: grey;">// &gt;&gt; undefined says: Hello</span>
-                          <span class="hljs-comment" style="color: grey;">// OR</span>
-                          <span class="hljs-comment" style="color: grey;">// TypeError: Cannot read property name of undefined</span>
-
-<span class="hljs-keyword" style="color: #cc7832;">const</span> alice = {name: <span class="hljs-string" style="color: #6a8759;">"Alice"</span>, speak: speak};
-<span class="hljs-comment" style="color: grey;">// speak is implicitly bound to alice when called as method</span>
-alice.speak(<span class="hljs-string" style="color: #6a8759;">"Hello"</span>);     <span class="hljs-comment" style="color: grey;">// &gt;&gt; Alice says: Hello</span>
-
-<span class="hljs-comment" style="color: grey;">// bind creates a new function which is explicitly bound to the passed object</span>
-<span class="hljs-keyword" style="color: #cc7832;">const</span> aliceSpeak = speak.bind(alice);
-aliceSpeak(<span class="hljs-string" style="color: #6a8759;">"Hello"</span>);      <span class="hljs-comment" style="color: grey;">// &gt;&gt; Alice says: Hello</span>
-
-<span class="hljs-comment" style="color: grey;">// call explicitly binds the function to the passed object and calls it</span>
-speak.call(alice, <span class="hljs-string" style="color: #6a8759;">"Hi"</span>);  <span class="hljs-comment" style="color: grey;">// &gt;&gt; Alice says: Hi</span>
-</pre>
-<h2 id="mcetoc_1go1kjd5kjg">Prototype</h2>
-<ul>
-<li>Most objects have a prototype, which is another object used as fallback source for properties</li>
-<li>The prototype is often referenced by the __proto__ property (not standardized)</li>
-<li>Each function has a prototype property which points to an object.</li>
-<li>This object becomes the prototype of the objects created with the new operator from that function</li>
-</ul>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span> <span class="hljs-title" style="color: #ffc66d;">Person</span>(<span class="hljs-params">name, age</span>) </span>{
-  <span class="hljs-keyword" style="color: #cc7832;">this</span>.name = name;
-  <span class="hljs-keyword" style="color: #cc7832;">this</span>.age = age;
-}
-<span class="hljs-comment" style="color: grey;">// Add functionality to Person's prototype</span>
-Person.prototype.speak = <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span>(<span class="hljs-params">phrase</span>) </span>{
-  <span class="hljs-built_in">console</span>.log(<span class="hljs-keyword" style="color: #cc7832;">this</span>.name+<span class="hljs-string" style="color: #6a8759;">" says: "</span>+phrase);
-};
-
-<span class="hljs-keyword" style="color: #cc7832;">const</span> alice = <span class="hljs-keyword" style="color: #cc7832;">new</span> Person(<span class="hljs-string" style="color: #6a8759;">"Alice"</span>, <span class="hljs-number" style="color: #6897bb;">19</span>);
-<span class="hljs-keyword" style="color: #cc7832;">const</span> bob = <span class="hljs-keyword" style="color: #cc7832;">new</span> Person(<span class="hljs-string" style="color: #6a8759;">"Bob"</span>, <span class="hljs-number" style="color: #6897bb;">25</span>);
-
-<span class="hljs-comment" style="color: grey;">// alice and bob have the same prototype</span>
-<span class="hljs-built_in">console</span>.log(alice.__proto__ === bob.__proto__); <span class="hljs-comment" style="color: grey;">// &gt;&gt; true</span>
-
-<span class="hljs-comment" style="color: grey;">// New functionality can always be added to a prototype</span>
-Person.prototype.sleep = <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span>() </span>{
-  <span class="hljs-built_in">console</span>.log(<span class="hljs-string" style="color: #6a8759;">"CHRRRZ Z Z z z ..."</span>);
-};
-
-bob.sleep();    <span class="hljs-comment" style="color: grey;">// &gt;&gt; CHRRR Z Z Z z z ...</span>
-</pre>
-<ul>
-<li>Using prototype functions has the advantage that only one function instance is needed for all objects</li>
-<li>But prototype functions have no access to local variables of the constructor function</li>
-</ul>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span> <span class="hljs-title" style="color: #ffc66d;">Person</span>(<span class="hljs-params">name, age</span>) </span>{
-  <span class="hljs-comment" style="color: grey;">// Public property</span>
-  <span class="hljs-keyword" style="color: #cc7832;">this</span>.name = name;
-  <span class="hljs-comment" style="color: grey;">// Local variable (private property)</span>
-  <span class="hljs-keyword" style="color: #cc7832;">const</span> yearOfBirth = <span class="hljs-keyword" style="color: #cc7832;">new</span> <span class="hljs-built_in">Date</span>().getFullYear()-age;
-  <span class="hljs-comment" style="color: grey;">// Only functions defined in the constructor function can access local variables</span>
-  <span class="hljs-keyword" style="color: #cc7832;">this</span>.getYearOfBirth = <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span>() </span>{
-    <span class="hljs-keyword" style="color: #cc7832;">return</span> yearOfBirth;
-  }
-}
-Person.prototype.toString = <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span>() </span>{
-  <span class="hljs-comment" style="color: grey;">// Prototype functions have only access to the public properties of the object</span>
-  <span class="hljs-keyword" style="color: #cc7832;">return</span> <span class="hljs-keyword" style="color: #cc7832;">this</span>.name+<span class="hljs-string" style="color: #6a8759;">" was bron in "</span>+<span class="hljs-keyword" style="color: #cc7832;">this</span>.getYearOfBirth();
-}
-<span class="hljs-keyword" style="color: #cc7832;">const</span> bob = <span class="hljs-keyword" style="color: #cc7832;">new</span> Person(<span class="hljs-string" style="color: #6a8759;">"Bob"</span>, <span class="hljs-number" style="color: #6897bb;">25</span>);
-<span class="hljs-built_in">console</span>.log(bob+<span class="hljs-string" style="color: #6a8759;">"!"</span>);   <span class="hljs-comment" style="color: grey;">// &gt;&gt; Bob was born in 1996!</span>
-</pre>
-<h2 id="mcetoc_1go1kjd5kjh">Inheritance</h2>
-<ul>
-<li>Prototype properties are inherited over several levels</li>
-<li>Inheritance is set up by
-<ul>
-<li>calling the base constructor function to initialize the new object :</li>
-</ul>
-</li>
-</ul>
-<p><code>function Student(name, age, university) {</code><br><code>Person.call(this, name, age);</code><br><code>// ...</code><br><code>}</code></p>
-<ul>
-<li style="list-style-type: none;">
-<ul>
-<li>setting the prototype object of the base constructor function as the prototype of the prototype object of the sub constructor function:</li>
-</ul>
-</li>
-</ul>
-<p><code>// Student’s prototype object must be replaced by a new object which</code><br><code>// has Person’s prototype object as prototype</code><br><code>Student.prototype = Object.create(Person.prototype);</code><br><code>Student.prototype.constructor = Student;</code></p>
-<p>Example1:</p>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span> <span class="hljs-title" style="color: #ffc66d;">Person</span>(<span class="hljs-params">name, age</span>) </span>{
-  <span class="hljs-keyword" style="color: #cc7832;">this</span>.name = name;
-  <span class="hljs-keyword" style="color: #cc7832;">this</span>.age = age;
-}
-Person.prototype.describe = <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span>() </span>{
-  <span class="hljs-built_in">console</span>.log(<span class="hljs-keyword" style="color: #cc7832;">this</span>.name+<span class="hljs-string" style="color: #6a8759;">" is "</span>+<span class="hljs-keyword" style="color: #cc7832;">this</span>.age);
-}
-Person.prototype.speak = <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span>(<span class="hljs-params">phrase</span>) </span>{
-  <span class="hljs-built_in">console</span>.log(<span class="hljs-keyword" style="color: #cc7832;">this</span>.name+<span class="hljs-string" style="color: #6a8759;">" says: "</span>+phrase);
-}
-
-<span class="hljs-comment" style="color: grey;">// Student extends Person</span>
-<span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span> <span class="hljs-title" style="color: #ffc66d;">Student</span>(<span class="hljs-params">name, age, university</span>) </span>{
-  Person.call(<span class="hljs-keyword" style="color: #cc7832;">this</span>, name, age);
-  <span class="hljs-keyword" style="color: #cc7832;">this</span>.university = university;
-}
-Student.prototype = <span class="hljs-built_in">Object</span>.create(Person.prototype);
-Student.prototype.constructor = Student;
-
-Student.prototype.sleep = <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span>() </span>{
-  <span class="hljs-built_in">console</span>.log(<span class="hljs-string" style="color: #6a8759;">"CHRRRZ Z Z z z..."</span>);
-}
-Student.prototype.describe = <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span>()</span>{
-  <span class="hljs-built_in">console</span>.log(<span class="hljs-keyword" style="color: #cc7832;">this</span>.name+<span class="hljs-string" style="color: #6a8759;">" is a student at "</span>+<span class="hljs-keyword" style="color: #cc7832;">this</span>.university);
-};
-</pre>
-<p>Example2:</p>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-keyword" style="color: #cc7832;">const</span> bob = <span class="hljs-keyword" style="color: #cc7832;">new</span> Student(<span class="hljs-string" style="color: #6a8759;">"Bob"</span>, <span class="hljs-number" style="color: #6897bb;">25</span>, <span class="hljs-string" style="color: #6a8759;">"BFH"</span>);
-<span class="hljs-built_in">console</span>.log(bob <span class="hljs-keyword" style="color: #cc7832;">instanceof</span> Student); <span class="hljs-comment" style="color: grey;">// &gt;&gt; true</span>
-<span class="hljs-built_in">console</span>.log(bob <span class="hljs-keyword" style="color: #cc7832;">instanceof</span> Person); <span class="hljs-comment" style="color: grey;">// &gt;&gt; true</span>
-bob.speak(<span class="hljs-string" style="color: #6a8759;">"Hi"</span>);
-bob.describe();
-bob.sleep();
-<span class="hljs-comment" style="color: grey;">// &gt;&gt; Bob says: Hi</span>
-<span class="hljs-comment" style="color: grey;">// &gt;&gt; Bob is a student at BFH</span>
-<span class="hljs-comment" style="color: grey;">// &gt;&gt; CHRRRZ Z Z z z...</span></pre>
-<h3 id="mcetoc_1go1kjd5kji">Inheritance Helper Function</h3>
-<p>Using a helper function simpliﬁes inheritance and makes it less error prone:</p>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-comment" style="color: grey;">// Helper to correctly set up the prototype chain</span>
-<span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span> <span class="hljs-title" style="color: #ffc66d;">extend</span>(<span class="hljs-params">base, sub</span>) </span>{
-  <span class="hljs-keyword" style="color: #cc7832;">const</span> origProto = sub.prototype;
-  sub.prototype = <span class="hljs-built_in">Object</span>.create(base.prototype);
-  <span class="hljs-keyword" style="color: #cc7832;">for</span> (<span class="hljs-keyword" style="color: #cc7832;">let</span> key <span class="hljs-keyword" style="color: #cc7832;">in</span> origProto) {
-    sub.prototype[key] = origProto[key];
-  }
-  <span class="hljs-built_in">Object</span>.defineProperty(sub.prototype, <span class="hljs-string" style="color: #6a8759;">'constructor'</span>, {
-    enumerable: <span class="hljs-literal" style="color: #6897bb;">false</span>,
-    value: sub
-  });
-}
-<span class="hljs-comment" style="color: grey;">//----------------------------------------</span>
-
-<span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span> <span class="hljs-title" style="color: #ffc66d;">Prof</span>(<span class="hljs-params">name, age</span>) </span>{
-  Person.call(<span class="hljs-keyword" style="color: #cc7832;">this</span>, name, age);
-}
-Prof.prototype.describe = <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span>() </span>{
-  <span class="hljs-built_in">console</span>.log(<span class="hljs-string" style="color: #6a8759;">"Prof. "</span>+<span class="hljs-keyword" style="color: #cc7832;">this</span>.name+<span class="hljs-string" style="color: #6a8759;">" is "</span>+<span class="hljs-keyword" style="color: #cc7832;">this</span>.age+<span class="hljs-string" style="color: #6a8759;">"years old"</span>);
-}
-extend(Person, Prof);
-</pre>
             ]]>
         </content>
     </entry>

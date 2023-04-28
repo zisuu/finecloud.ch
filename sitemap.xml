@@ -494,7 +494,11 @@
 </url>
 <url>
 <loc>https://www.finecloud.ch/spring-bean-lifecycle.html</loc>
-<lastmod>2023-04-04T15:29:20+02:00</lastmod>
+<lastmod>2023-04-28T22:33:45+02:00</lastmod>
+<image:image>
+<image:loc>https://www.finecloud.ch/media/posts/83/lifecycle.png</image:loc>
+<image:title><![CDATA[]]></image:title>
+</image:image>
 </url>
 <url>
 <loc>https://www.finecloud.ch/spring-exception-handling.html</loc>

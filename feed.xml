@@ -3,7 +3,7 @@
     <title>Finecloud</title>
     <link href="https://www.finecloud.ch/feed.xml" rel="self" />
     <link href="https://www.finecloud.ch" />
-    <updated>2023-04-11T19:53:59+02:00</updated>
+    <updated>2023-04-28T22:33:45+02:00</updated>
     <author>
         <name>Finecloud</name>
     </author>
@@ -587,10 +587,10 @@
             <category term="java"/>
             <category term="dev"/>
 
-        <updated>2023-04-04T15:29:20+02:00</updated>
+        <updated>2023-04-28T22:33:45+02:00</updated>
             <summary>
                 <![CDATA[
-                    Before the application is deemed ready for use, Spring will go through and carry out all these actions on each bean in the context. This provides you with a variety of connections. You do have a great deal of flexibility and control over this. Sincerely&hellip;
+                    Part 1 Of course, instantiating the class will come first. The class will populate properties after it has been created. It will therefore set up any properties you may have. Then, if they exist, we do have some interfaces that we can implement. These methods&hellip;
                 ]]>
             </summary>
         <content type="html">
@@ -606,7 +606,7 @@
 <li><a href="#mcetoc_1gt66f14j8p">Aware Interfaces</a></li>
 </ul>
 </div>
-<p><strong><img loading="lazy" src="https://springframework.guru/wp-content/uploads/2019/08/lifecycle.png" alt="https://springframework.guru/wp-content/uploads/2019/08/lifecycle.png" data-is-external-image="true"></strong></p>
+<figure class="post__image"><img loading="lazy"  src="https://www.finecloud.ch/media/posts/83/lifecycle.png" alt="" width="1303" height="562" sizes="100vw" srcset="https://www.finecloud.ch/media/posts/83/responsive/lifecycle-xs.png 300w ,https://www.finecloud.ch/media/posts/83/responsive/lifecycle-sm.png 480w ,https://www.finecloud.ch/media/posts/83/responsive/lifecycle-md.png 768w ,https://www.finecloud.ch/media/posts/83/responsive/lifecycle-lg.png 1024w ,https://www.finecloud.ch/media/posts/83/responsive/lifecycle-xl.png 1360w ,https://www.finecloud.ch/media/posts/83/responsive/lifecycle-2xl.png 1600w"></figure>
 <h2 id="mcetoc_1gt66f14j8k">Part 1</h2>
 <div id="ct-sidebar-scroll-container" class="sidebar--content---4z0-" data-purpose="sidebar-content">
 <div class="transcript--transcript-panel--kfMxM" dir="auto" data-purpose="transcript-panel">

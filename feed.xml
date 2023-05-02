@@ -3,12 +3,137 @@
     <title>Finecloud</title>
     <link href="https://www.finecloud.ch/feed.xml" rel="self" />
     <link href="https://www.finecloud.ch" />
-    <updated>2023-04-28T22:33:45+02:00</updated>
+    <updated>2023-05-02T20:07:36+02:00</updated>
     <author>
         <name>Finecloud</name>
     </author>
     <id>https://www.finecloud.ch</id>
 
+    <entry>
+        <title>Data Validation Overview</title>
+        <author>
+            <name>Finecloud</name>
+        </author>
+        <link href="https://www.finecloud.ch/data-validation-overview.html"/>
+        <id>https://www.finecloud.ch/data-validation-overview.html</id>
+            <category term="spring-framework"/>
+            <category term="spring"/>
+            <category term="software development"/>
+            <category term="java"/>
+            <category term="dev"/>
+
+        <updated>2023-05-02T20:07:36+02:00</updated>
+            <summary>
+                <![CDATA[
+                    What is Validation? Validation is a process of making assertions against data to ensure data integrity Is a value required? How long is a phone number? Is it a good date? What is the maximum length of a string? Some refer to data validation as&hellip;
+                ]]>
+            </summary>
+        <content type="html">
+            <![CDATA[
+                <h2>What is Validation?</h2>
+<ul>
+<li>Validation is a process of making assertions against data to ensure data integrity</li>
+<li>Is a value required? How long is a phone number?</li>
+<li>Is it a good date? What is the maximum length of a string?</li>
+<li>Some refer to data validation as defensive programming</li>
+<li>Or a process of trust but verify</li>
+<li>Validation is an important step, but easily overlooked</li>
+</ul>
+<h2>When to Validate?</h2>
+<ul>
+<li>Validate data early and often!</li>
+<li>Validation should occur with every exchange</li>
+<li>User input data should be validated in the UI with rich user feedback</li>
+<li>RESTful API data should be validated early in the controller, before the service layer</li>
+<li>Data should be validated before persistence to the database</li>
+<li>Database constraints will also enforce data validation</li>
+<li>Best to validate early - Handling persistence errors is ugly</li>
+</ul>
+<h2>Java Bean Validation</h2>
+<ul>
+<li>Java Bean Validation is a Java API standard</li>
+<li>Provides for a standard way of performing validation and handling errors</li>
+<li>Much more graceful than custom code blocks of if… then… throw Exception</li>
+<li>Bean Validation is an API, like JPA or JDBC you need an implementation</li>
+<li>Fun Fact - Gunnar Morling, founder of MapStruct is the spec lead for the Bean Validation API and contributor of the Hibernate Implementation of the Bean Validation API</li>
+</ul>
+<h2>Jakarta Bean Validation 3.0</h2>
+<ul>
+<li>Released July of 2020</li>
+<li>Name changed from Bean Validation to Jakarta Bean Validation</li>
+<li>Only change from 2.0 to 3.0 is the API package changes</li>
+<li>2.0 - javax.validation</li>
+<li>3.0 - jakarta.validaton</li>
+<li>Used in Spring Framework 6.x+</li>
+<li>Hibernate Validator 7.x+ is the implementation</li>
+</ul>
+<h2>Built In Constraint Definitions</h2>
+<ul>
+<li>@Null - Checks value is null</li>
+<li>@NotNull - Checks value is not null</li>
+<li>@AssertTrue - Value is true</li>
+<li>@AssertFalse - Value is false</li>
+<li>@Min - Number is equal or higher</li>
+<li>@Max - Number is equal or less</li>
+<li>@DecimalMin - Value is larger</li>
+<li>@DecimalMax - Value is less than</li>
+<li>@Negative - Value is less than zero. Zero invalid.</li>
+<li>@NegativeOrZero - Value is zero or less than zero</li>
+<li>@Positive - Value is greater than zero. Zero invalid.</li>
+<li>@PositiveOrZero - Value is zero or greater than zero.</li>
+<li>@Size - checks if string or collection is between a min and max</li>
+<li>@Digits - check for integer digits and fraction digits</li>
+<li>@Past - Checks if date is in past</li>
+<li>@PastOrPresent - Checks if date is in past or present</li>
+<li>@Future - Checks if date is in future</li>
+<li>@FutureOrPresent - Checks if date is present or in future</li>
+<li>@Pattern - checks against RegEx pattern</li>
+<li>@NotEmpty - Checks if value is not null nor empty (whitespace characters or empty collection)</li>
+<li>@NonBlank - Checks string is not null or not whitespace characters</li>
+<li>@Email - Checks if string value is an email address</li>
+</ul>
+<h2>Hiberate Validator Constraints</h2>
+<ul>
+<li>@ScriptAssert - Class level annotation, checks class against script</li>
+<li>@CreditCardNumber - Verifies value is a credit card number</li>
+<li>@Currency - Valid currency amount</li>
+<li>@DurationMax - Duration less than given value</li>
+<li>@DurationMin - Duration greater than given value</li>
+<li>@EAN - Valid EAN barcode</li>
+<li>@ISBN - Valid ISBN value</li>
+<li>@Length - String length between given min and max</li>
+<li>@CodePointLength - Validates that code point length of the annotated character sequence is between min and max included.</li>
+<li>@LuhnCheck - Luhn check sum</li>
+<li>@Mod10Check - Mod 10 check sum</li>
+<li>@Mod11Check - Mod 11 check sum</li>
+<li>@Range - checks if number is between given min and max (inclusive)</li>
+<li>@SafeHtml - Checks for safe HTML</li>
+<li>@UniqueElements - Checks if collection has unique elements</li>
+<li>@Url - checks for valid URL</li>
+<li>@CNPJ - Brazilian Corporate Tax Payer Registry Number</li>
+<li>@CPF - Brazilian Individual Taxpayer Registry Number</li>
+<li>@TituloEleitoral - Brazilian voter ID</li>
+<li>@NIP - Polish VAR ID</li>
+<li>@PESEL - Polish National Validation Number</li>
+<li>@REGON - Polish Taxpayer ID</li>
+</ul>
+<h2>Validation and Spring Framework</h2>
+<ul>
+<li>Spring Framework has robust support for bean validation</li>
+<li>Validation support can be used in controllers, and services, and other Spring managed components</li>
+<li>Spring MVC will return a 400 Bad Request Error for validation failures</li>
+<li>Spring Data JPA with throw an exception for JPA constraint violations</li>
+</ul>
+<h2>Spring Boot and Validation</h2>
+<ul>
+<li>Spring Boot will auto-configure validation when the validation implementation is found on classpath</li>
+<li>If API is only on classpath (with no implementation) you can use the annotations, BUT validation will NOT occur</li>
+<li>Prior to Spring Boot 2.3, validation was included in starter dependencies</li>
+<li>After Spring Boot 2.3, you must include the Spring Boot validation starter</li>
+</ul>
+            ]]>
+        </content>
+    </entry>
     <entry>
         <title>Data Transfer Objects</title>
         <author>
@@ -1319,503 +1444,6 @@ computeDiskArea(<span class="hljs-number" style="color: #6897bb;">2</span>)
     <span class="hljs-comment" style="color: grey;">// Error handling (network error, JSON syntax error, etc.)</span>
   });
 </pre>
-<p> </p>
-            ]]>
-        </content>
-    </entry>
-    <entry>
-        <title>JavaScript and the browser</title>
-        <author>
-            <name>Finecloud</name>
-        </author>
-        <link href="https://www.finecloud.ch/javascript-and-the-browser.html"/>
-        <id>https://www.finecloud.ch/javascript-and-the-browser.html</id>
-            <category term="software development"/>
-            <category term="javascript"/>
-            <category term="dev"/>
-
-        <updated>2023-03-29T20:14:23+02:00</updated>
-            <summary>
-                <![CDATA[
-                    The DOM Based on the received HTML document the browser builds up a model of the document structure, the Document Object Model (DOM) The DOM has a tree structure and each node of the document is represented by an object The browser renders the page&hellip;
-                ]]>
-            </summary>
-        <content type="html">
-            <![CDATA[
-                <div class="post__toc">
-<h3>Table of Contents</h3>
-<ul>
-<li><a href="#mcetoc_1go1k7l5mfr">The DOM</a>
-<ul>
-<li><a href="#mcetoc_1go1k7l5mfs">The DOM Tree</a></li>
-</ul>
-</li>
-<li><a href="#mcetoc_1go1k7l5mft">Finding Elements</a></li>
-<li><a href="#mcetoc_1go1k7l5mfu">Element nodes</a></li>
-<li><a href="#mcetoc_1go1k7l5mfv">Manipulating the DOM</a></li>
-<li><a href="#mcetoc_1go1k7l5mg0">Animation</a></li>
-<li><a href="#mcetoc_1go1k7l5mg1">Event handling</a>
-<ul>
-<li><a href="#mcetoc_1go1kdqqcj7">Event Object</a></li>
-<li><a href="#mcetoc_1go1kdqqcj8">Event Propagation</a></li>
-<li><a href="#mcetoc_1go1kdqqcj9">Default action</a></li>
-</ul>
-</li>
-<li><a href="#mcetoc_1go387fbq1bm">AJAX</a>
-<ul>
-<li><a href="#mcetoc_1go387fbq1bn">AJAX and JSON</a></li>
-<li><a href="#mcetoc_1go387fbq1bo">Same-Origin Policy</a></li>
-</ul>
-</li>
-<li><a href="#mcetoc_1go387fbq1bp">jQuery</a>
-<ul>
-<li><a href="#mcetoc_1go387fbq1bq">jQuery usage</a></li>
-<li><a href="#mcetoc_1go387fbq1br">The jQuery Object</a></li>
-<li><a href="#mcetoc_1go387fbq1bs">jQuery and AJAX</a></li>
-</ul>
-</li>
-</ul>
-</div>
-<h2 id="mcetoc_1go1k7l5mfr">The DOM</h2>
-<ul>
-<li>Based on the received HTML document the browser builds up a model of the document structure, the Document Object Model (DOM)</li>
-<li>The DOM has a tree structure and each node of the document is represented by an object</li>
-<li>The browser renders the page based on the DOM and provides an API to read and modify the DOM with JS</li>
-<li>The DOM is live, i.e., DOM modiﬁcations are immediately reﬂected on the page</li>
-</ul>
-<h3 id="mcetoc_1go1k7l5mfs">The DOM Tree</h3>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;"><span class="xml"><span class="hljs-meta" style="color: #bbb529;">&lt;!doctype html&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">html</span>&gt;</span>
-<span class="hljs-tag">  &lt;<span class="hljs-name" style="color: #e8bf6a;">head</span>&gt;</span>
-<span class="hljs-tag">    &lt;<span class="hljs-name" style="color: #e8bf6a;">title</span>&gt;</span>Todo App<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">title</span>&gt;</span>
-<span class="hljs-tag">  &lt;/<span class="hljs-name" style="color: #e8bf6a;">head</span>&gt;</span>
-<span class="hljs-tag">  &lt;<span class="hljs-name" style="color: #e8bf6a;">body</span>&gt;</span>
-<span class="hljs-tag">    &lt;<span class="hljs-name" style="color: #e8bf6a;">h1</span>&gt;</span>Todo App<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">h1</span>&gt;</span>
-<span class="hljs-tag">    &lt;<span class="hljs-name" style="color: #e8bf6a;">p</span>&gt;</span>Don't forget anything!<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">p</span>&gt;</span>
-<span class="hljs-tag">    &lt;<span class="hljs-name" style="color: #e8bf6a;">p</span>&gt;</span>Please <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string" style="color: #6a8759;">"/login"</span>&gt;</span>login<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">a</span>&gt;</span>.<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">p</span>&gt;</span>
-<span class="hljs-tag">  &lt;/<span class="hljs-name" style="color: #e8bf6a;">body</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">html</span>&gt;</span></span></pre>
-<p>the Tree Structure of the html above:</p>
-<figure class="post__image"><img loading="lazy"  src="https://www.finecloud.ch/media/posts/77/Screenshot-2023-01-24-at-10.45.34.png" alt="" width="1434" height="858" sizes="100vw" srcset="https://www.finecloud.ch/media/posts/77/responsive/Screenshot-2023-01-24-at-10.45.34-xs.png 300w ,https://www.finecloud.ch/media/posts/77/responsive/Screenshot-2023-01-24-at-10.45.34-sm.png 480w ,https://www.finecloud.ch/media/posts/77/responsive/Screenshot-2023-01-24-at-10.45.34-md.png 768w ,https://www.finecloud.ch/media/posts/77/responsive/Screenshot-2023-01-24-at-10.45.34-lg.png 1024w ,https://www.finecloud.ch/media/posts/77/responsive/Screenshot-2023-01-24-at-10.45.34-xl.png 1360w ,https://www.finecloud.ch/media/posts/77/responsive/Screenshot-2023-01-24-at-10.45.34-2xl.png 1600w"></figure>
-<p>you can traverse the DOM Tree with:</p>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-comment" style="color: grey;">// Root node of the dom tree (html)</span>
-<span class="hljs-keyword" style="color: #cc7832;">const</span> root = <span class="hljs-built_in">document</span>.documentElement;
-
-<span class="hljs-comment" style="color: grey;">// The child elements of a node (only element nodes, no text nodes)</span>
-<span class="hljs-comment" style="color: grey;">// -&gt; HTMLCollection(2) [head, body]</span>
-root.children;
-
-<span class="hljs-comment" style="color: grey;">// head and body can also be accessed directly</span>
-<span class="hljs-keyword" style="color: #cc7832;">const</span> head = <span class="hljs-built_in">document</span>.head;
-<span class="hljs-keyword" style="color: #cc7832;">const</span> body = <span class="hljs-built_in">document</span>.body;
-
-<span class="hljs-comment" style="color: grey;">// All children of a node (including text nodes)</span>
-<span class="hljs-comment" style="color: grey;">// -&gt; NodeList(7) [\#text, h1, \#text, p, \#text, p, \#text]</span>
-body.childNodes;
-
-<span class="hljs-comment" style="color: grey;">// Accessing children and node type</span>
-body.childNodes[<span class="hljs-number" style="color: #6897bb;">0</span>].nodeType === Node.TEXT_NODE;      <span class="hljs-comment" style="color: grey;">// \#text</span>
-body.childNodes[<span class="hljs-number" style="color: #6897bb;">1</span>].nodeType === Node.ELEMENT_NODE;   <span class="hljs-comment" style="color: grey;">// h1</span>
-
-body.firstChild;                                     <span class="hljs-comment" style="color: grey;">// \#text</span>
-body.firstElementChild;                              <span class="hljs-comment" style="color: grey;">// h1</span>
-<span class="hljs-comment" style="color: grey;">// dito for last: lastChild, lastElementChild</span>
-</pre>
-<p>Another example:</p>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-keyword" style="color: #cc7832;">const</span> h1 = <span class="hljs-built_in">document</span>.body.children[<span class="hljs-number" style="color: #6897bb;">0</span>];
-
-<span class="hljs-comment" style="color: grey;">// Parent node</span>
-h1.parentNode;
-
-<span class="hljs-comment" style="color: grey;">// Siblings</span>
-h1.nextSibling;                                     <span class="hljs-comment" style="color: grey;">// \#text</span>
-h1.nextElementSibling;                              <span class="hljs-comment" style="color: grey;">// p</span>
-<span class="hljs-comment" style="color: grey;">// dito for previous: previousSibling, previousElementSibling</span>
-
-<span class="hljs-comment" style="color: grey;">// Example of recursively traversing the DOM</span>
-<span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span> <span class="hljs-title" style="color: #ffc66d;">findAnchors</span>(<span class="hljs-params">node</span>) </span>{
-  <span class="hljs-keyword" style="color: #cc7832;">if</span> (node.tagName === <span class="hljs-string" style="color: #6a8759;">'A'</span>) {
-    <span class="hljs-built_in">console</span>.log(node.textContent+<span class="hljs-string" style="color: #6a8759;">": "</span>+node.pathname);
-  }
-  <span class="hljs-keyword" style="color: #cc7832;">if</span> (node.nodeType === Node.ELEMENT_NODE) {
-    <span class="hljs-keyword" style="color: #cc7832;">for</span> (<span class="hljs-keyword" style="color: #cc7832;">let</span> i = <span class="hljs-number" style="color: #6897bb;">0</span>; i &lt; node.children.length; i++) {
-      findAnchors(node.children[i]);
-    }
-  }
-}
-findAnchors(<span class="hljs-built_in">document</span>.body);
-</pre>
-<h2 id="mcetoc_1go1k7l5mft">Finding Elements</h2>
-<p>It is often not a good idea to access a speciﬁc node by a ﬁxed path since the document structure may change over time:</p>
-<pre>// Get the href attribute of the first anchor<br>document.body.childNodes[5].childNodes[1].href;</pre>
-<p>There are a number of functions to ﬁnd DOM elements in a more sophisticated way. The functions can be called on the document or on any element node to reduce the search on the node’s descendants</p>
-<pre>// Get the href attribute of the first anchor<br>document.getElementsByTagName('a')[0].href;</pre>
-<p>more examples of finding elements:</p>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-comment" style="color: grey;">// Get a HTMLCollection of nodes by tag name</span>
-<span class="hljs-built_in">document</span>.getElementsByTagName(<span class="hljs-string" style="color: #6a8759;">'a'</span>);
-
-<span class="hljs-comment" style="color: grey;">// Get a HTMLCollection of nodes by class name</span>
-<span class="hljs-built_in">document</span>.getElementsByClassName(<span class="hljs-string" style="color: #6a8759;">'external-link'</span>);
-
-<span class="hljs-comment" style="color: grey;">// A single node can be retrieved by id (only via document)</span>
-<span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string" style="color: #6a8759;">'logo'</span>);
-
-<span class="hljs-comment" style="color: grey;">// Elements can also be selected by using a CSS selector string</span>
-<span class="hljs-comment" style="color: grey;">// A static NodeList is returned</span>
-<span class="hljs-built_in">document</span>.querySelectorAll(<span class="hljs-string" style="color: #6a8759;">'p a.external-link'</span>);
-
-<span class="hljs-comment" style="color: grey;">// Like querySelectorAll but only the first matching node is returned</span>
-<span class="hljs-built_in">document</span>.querySelector(<span class="hljs-string" style="color: #6a8759;">'#logo'</span>);
-</pre>
-<h2 id="mcetoc_1go1k7l5mfu">Element nodes</h2>
-<ul>
-<li>For different HTML elements (body, div, p, a, etc.) different objects with different properties and methods are created</li>
-<li>For example, an anchor object has a href and pathname property, whereas a form object has a submit and reset method</li>
-<li>w3schools provides a nice reference http://www.w3schools.com/jsref/default.asp</li>
-</ul>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-keyword" style="color: #cc7832;">const</span> a = <span class="hljs-built_in">document</span>.querySelector(<span class="hljs-string" style="color: #6a8759;">'a'</span>);
-<span class="hljs-built_in">console</span>.log(a.href);
- <span class="hljs-comment" style="color: grey;">// -&gt; ’https://www.todo-app.com/login’</span>
-<span class="hljs-built_in">console</span>.log(a.pathname);
- <span class="hljs-comment" style="color: grey;">// -&gt; ’/login’</span>
-<span class="hljs-keyword" style="color: #cc7832;">const</span> f = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string" style="color: #6a8759;">'myForm'</span>);
-f.reset();
- <span class="hljs-comment" style="color: grey;">// -&gt; resets all fields of the form</span>
-f.submit();
- <span class="hljs-comment" style="color: grey;">// -&gt; submits the form</span></pre>
-<h2 id="mcetoc_1go1k7l5mfv">Manipulating the DOM</h2>
-<ul>
-<li>Almost everything in the DOM can be manipulated with JavaScript:
-<ul>
-<li>Single node properties can be changed</li>
-<li>Nodes can be moved within the tree</li>
-<li>Nodes can be removed </li>
-<li>New nodes can be added</li>
-</ul>
-</li>
-</ul>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-keyword" style="color: #cc7832;">const</span> h1 = <span class="hljs-built_in">document</span>.querySelector(<span class="hljs-string" style="color: #6a8759;">'h1'</span>);
-<span class="hljs-comment" style="color: grey;">// Change the color style property to ’#FF0000’</span>
-h1.style.color = <span class="hljs-string" style="color: #6a8759;">'#FF0000'</span>;
-<span class="hljs-comment" style="color: grey;">// Change the display style property to ’none’</span>
-h1.style.display = <span class="hljs-string" style="color: #6a8759;">'none'</span>;
-<span class="hljs-comment" style="color: grey;">// Change the text of the h1</span>
-h1.childNodes[<span class="hljs-number" style="color: #6897bb;">0</span>].nodeValue = <span class="hljs-string" style="color: #6a8759;">"Hello Earth!"</span>;
-<span class="hljs-comment" style="color: grey;">// Or more comfortable by using the textContent property (all children of h1</span>
-<span class="hljs-comment" style="color: grey;">// are removed and and a new text node with the respective text is added)</span>
-h1.textContent = <span class="hljs-string" style="color: #6a8759;">"Hello World!"</span>;</pre>
-<p>another example:</p>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-keyword" style="color: #cc7832;">const</span> myList = <span class="hljs-built_in">document</span>.querySelector(<span class="hljs-string" style="color: #6a8759;">'ul'</span>);
-<span class="hljs-comment" style="color: grey;">// Nodes can be moved by simply re-inserting them at a different position</span>
-<span class="hljs-comment" style="color: grey;">// -&gt; The last node of the list is moved to the beginning of the list</span>
-myList.insertBefore(myList.lastElementChild, myList.firstElementChild);
-<span class="hljs-comment" style="color: grey;">// An element is removed by calling remove() on the node</span>
-<span class="hljs-comment" style="color: grey;">// -&gt; Removes the last element from the list</span>
-myList.lastElementChild.remove();
-<span class="hljs-comment" style="color: grey;">// New element and text nodes can be created. Newly created nodes must be</span>
-<span class="hljs-comment" style="color: grey;">// added to the DOM tree explicitly. e.g. using appendChild()</span>
-<span class="hljs-comment" style="color: grey;">// -&gt; Creates a new list item and appends it to the end of the list</span>
-<span class="hljs-keyword" style="color: #cc7832;">const</span> li = <span class="hljs-built_in">document</span>.createElement(<span class="hljs-string" style="color: #6a8759;">'li'</span>);
-li.appendChild(<span class="hljs-built_in">document</span>.createTextNode(<span class="hljs-string" style="color: #6a8759;">"New item"</span>));
-myList.appendChild(li);
-<span class="hljs-comment" style="color: grey;">// Nodes can also be created implicitly by using the innerHTML property</span>
-li.innerHTML = <span class="hljs-string" style="color: #6a8759;">"An &lt;b&gt;important&lt;/b&gt; item"</span>;</pre>
-<h2 id="mcetoc_1go1k7l5mg0">Animation</h2>
-<ul>
-<li>The setTimeout function waits a given number of milliseconds and then calls a function</li>
-<li>setTimeout can be used to implement an animation</li>
-</ul>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-comment" style="color: grey;">// The background color shall change between red and blue every second</span>
-<span class="hljs-keyword" style="color: #cc7832;">const</span> ball = <span class="hljs-built_in">document</span>.querySelector(<span class="hljs-string" style="color: #6a8759;">'#ball'</span>);
-<span class="hljs-keyword" style="color: #cc7832;">let</span> toggle = <span class="hljs-literal" style="color: #6897bb;">false</span>;
-<span class="hljs-comment" style="color: grey;">// The animation function</span>
-<span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span> <span class="hljs-title" style="color: #ffc66d;">animate</span>() </span>{
-ball.style.backgroundColor = toggle ? <span class="hljs-string" style="color: #6a8759;">'#f00'</span> : <span class="hljs-string" style="color: #6a8759;">'#00f'</span>;
-toggle = !toggle;
-<span class="hljs-comment" style="color: grey;">// Keep the animation runnning</span>
-setTimeout(animate, <span class="hljs-number" style="color: #6897bb;">1000</span>);
-}
-<span class="hljs-comment" style="color: grey;">// Start the animation</span>
-setTimeout(animate, <span class="hljs-number" style="color: #6897bb;">1000</span>);</pre>
-<ul>
-<li>setInterval is similar to setTimeout but calls the function every interval and not only once</li>
-<li>clearInterval and clearTimeout clear a timer set with setInterval and setTimeout respectively</li>
-</ul>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-keyword" style="color: #cc7832;">const</span> ball = <span class="hljs-built_in">document</span>.querySelector(<span class="hljs-string" style="color: #6a8759;">'#ball'</span>);
-<span class="hljs-keyword" style="color: #cc7832;">let</span> toggle = <span class="hljs-literal" style="color: #6897bb;">false</span>;
-<span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span> <span class="hljs-title" style="color: #ffc66d;">animate</span>() </span>{
-ball.style.backgroundColor = toggle ? <span class="hljs-string" style="color: #6a8759;">'#f00'</span> : <span class="hljs-string" style="color: #6a8759;">'#00f'</span>;
-toggle = !toggle;
-}
-<span class="hljs-comment" style="color: grey;">// Start the animation</span>
-<span class="hljs-keyword" style="color: #cc7832;">const</span> id = setInterval(animate, <span class="hljs-number" style="color: #6897bb;">1000</span>);
-<span class="hljs-comment" style="color: grey;">// Stop the animation after 10s</span>
-setTimeout(<span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span>()</span>{
-clearInterval(id);
-}, <span class="hljs-number" style="color: #6897bb;">10000</span>);</pre>
-<ul>
-<li>For smooth animations use requestAnimationFrame</li>
-<li>The scheduled animation function is called when the browser is ready to repaint the screen (at a rate of about 60 times per second but only when the window/tab is active)</li>
-<li>By using requestAnimationFrame the browser can optimize concurrent animations</li>
-</ul>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-keyword" style="color: #cc7832;">const</span> ball = <span class="hljs-built_in">document</span>.querySelector(<span class="hljs-string" style="color: #6a8759;">'#ball'</span>);
-<span class="hljs-keyword" style="color: #cc7832;">let</span> angle = <span class="hljs-built_in">Math</span>.PI / <span class="hljs-number" style="color: #6897bb;">2</span>;
-<span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span> <span class="hljs-title" style="color: #ffc66d;">animate</span>(<span class="hljs-params">time, lastTime</span>) </span>{
-<span class="hljs-keyword" style="color: #cc7832;">if</span> (lastTime) {
-<span class="hljs-comment" style="color: grey;">// Compute the next position based on the elapsed time</span>
-angle += (time - lastTime) * <span class="hljs-number" style="color: #6897bb;">0.001</span>;
-}
-ball.style.left = (<span class="hljs-built_in">Math</span>.cos(angle) * <span class="hljs-number" style="color: #6897bb;">200</span>) + <span class="hljs-string" style="color: #6a8759;">'px'</span>;
-requestAnimationFrame(<span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span>(<span class="hljs-params">newTime</span>) </span>{ animate(newTime, time); });
-}
-requestAnimationFrame(animate);</pre>
-<h2 id="mcetoc_1go1k7l5mg1">Event handling</h2>
-<ul>
-<li>Normally, a GUI must not only provide data to the user but also react to user input </li>
-<li>A user interacts with the GUI by key strokes, mouse clicks, mouse moves, etc.</li>
-<li>There are also implicit user interactions like window scrolling, window resizing, etc.</li>
-<li>To react programmatically to user input, one could constantly read the state of the input device or adopt a polling mechanism</li>
-<li>A better approach is a system that actively notifies registered listeners, also called handlers, about user inputs by firing events</li>
-<li>Event handlers are registered for a certain event type using addEventListener and removed using removeEventListener</li>
-<li>Event handlers are always registered in a context and are only called for events in that context</li>
-<li>Event handlers can be registered on the window or on any DOM element</li>
-<li>Multiple handlers can be registered for the same event and the same handler can be registered for multiple events</li>
-</ul>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-comment" style="color: grey;">// An event handler can be registerd for a certain event type</span>
-<span class="hljs-built_in">window</span>.addEventListener(<span class="hljs-string" style="color: #6a8759;">'click'</span>, <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span>() </span>{
-<span class="hljs-built_in">console</span>.log(<span class="hljs-string" style="color: #6a8759;">"That's amazing!"</span>);
-});
-<span class="hljs-built_in">window</span>.addEventListener(<span class="hljs-string" style="color: #6a8759;">'resize'</span>, <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span>() </span>{
-<span class="hljs-built_in">console</span>.log(<span class="hljs-string" style="color: #6a8759;">"Window has been resized"</span>);
-});
-<span class="hljs-comment" style="color: grey;">// Event handlers can be registerd on DOM elements to confine the context</span>
-<span class="hljs-keyword" style="color: #cc7832;">const</span> myButton = docuemnt.querySelector(<span class="hljs-string" style="color: #6a8759;">'#my-button'</span>);
-myButton.addEventListener(<span class="hljs-string" style="color: #6a8759;">'click'</span>, <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span>()</span>{
-<span class="hljs-built_in">console</span>.log(<span class="hljs-string" style="color: #6a8759;">'What a surprise!'</span>);
-});
-<span class="hljs-comment" style="color: grey;">// Event handlers can also be removed again</span>
-<span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span> <span class="hljs-title" style="color: #ffc66d;">once</span>() </span>{
-<span class="hljs-built_in">console</span>.log(<span class="hljs-string" style="color: #6a8759;">'Done.'</span>);
-<span class="hljs-built_in">window</span>.removeEventListener(<span class="hljs-string" style="color: #6a8759;">'click'</span>, once);
-}
-<span class="hljs-built_in">window</span>.addEventListener(<span class="hljs-string" style="color: #6a8759;">'click'</span>, once);</pre>
-<h3 id="mcetoc_1go1kdqqcj7">Event Object</h3>
-<ul>
-<li>Most events are propagated through the DOM tree, thus event handlers registered on an ancestor nodes are called too</li>
-<li>Default propagation behaviour is bubbling (the more specific handler, the earlier it is called)</li>
-<li>Handlers can also be registered in the capturing phase (before the bubbling phase)</li>
-<li>The propagation of an event can be stopped by any handler by calling stopPropagation on the event object</li>
-</ul>
-<figure class="post__image"><img loading="lazy"  src="https://www.finecloud.ch/media/posts/77/Pasted-image-20230130160641.png" alt="" width="421" height="229" sizes="100vw" srcset="https://www.finecloud.ch/media/posts/77/responsive/Pasted-image-20230130160641-xs.png 300w ,https://www.finecloud.ch/media/posts/77/responsive/Pasted-image-20230130160641-sm.png 480w ,https://www.finecloud.ch/media/posts/77/responsive/Pasted-image-20230130160641-md.png 768w ,https://www.finecloud.ch/media/posts/77/responsive/Pasted-image-20230130160641-lg.png 1024w ,https://www.finecloud.ch/media/posts/77/responsive/Pasted-image-20230130160641-xl.png 1360w ,https://www.finecloud.ch/media/posts/77/responsive/Pasted-image-20230130160641-2xl.png 1600w"></figure>
-<h3 id="mcetoc_1go1kdqqcj8">Event Propagation</h3>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-comment" style="color: grey;">// Registering a click event handler on the body and a button</span>
-<span class="hljs-built_in">document</span>.querySelector(<span class="hljs-string" style="color: #6a8759;">'body'</span>).addEventListener(<span class="hljs-string" style="color: #6a8759;">'click'</span>, <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span>(<span class="hljs-params">e</span>)</span>{
-<span class="hljs-built_in">console</span>.log(<span class="hljs-string" style="color: #6a8759;">"Handler on body (bubbling)"</span>);
-});
-<span class="hljs-built_in">document</span>.querySelector(<span class="hljs-string" style="color: #6a8759;">'button'</span>).addEventListener(<span class="hljs-string" style="color: #6a8759;">'click'</span>, <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span>(<span class="hljs-params">e</span>)</span>{
-<span class="hljs-built_in">console</span>.log(<span class="hljs-string" style="color: #6a8759;">"Handler on button (bubbling)"</span>);
-});
-<span class="hljs-comment" style="color: grey;">// Clicking on the button results in the following output:</span>
-<span class="hljs-comment" style="color: grey;">// -&gt; Handler on button (bubbling)</span>
-<span class="hljs-comment" style="color: grey;">// -&gt; Handler on body (bubbling)</span>
-<span class="hljs-comment" style="color: grey;">// Register an event handler in the capturing phase</span>
-<span class="hljs-built_in">document</span>.querySelector(<span class="hljs-string" style="color: #6a8759;">'body'</span>).addEventListener(<span class="hljs-string" style="color: #6a8759;">'click'</span>, <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span>(<span class="hljs-params">e</span>)</span>{
-<span class="hljs-built_in">console</span>.log(<span class="hljs-string" style="color: #6a8759;">"Handler on body (capturing)"</span>);
-}, <span class="hljs-literal" style="color: #6897bb;">true</span>);
-<span class="hljs-comment" style="color: grey;">// Clicking now on the button results in the following output:</span>
-<span class="hljs-comment" style="color: grey;">// -&gt; Handler on body (capturing)</span>
-<span class="hljs-comment" style="color: grey;">// -&gt; Handler on button (bubbling)</span>
-<span class="hljs-comment" style="color: grey;">// -&gt; Handler on body (bubbling)</span></pre>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-comment" style="color: grey;">// The propagation of an event can be stopped by an event handler</span>
-<span class="hljs-built_in">document</span>.querySelector(<span class="hljs-string" style="color: #6a8759;">'button'</span>).addEventListener(<span class="hljs-string" style="color: #6a8759;">'click'</span>, <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span>(<span class="hljs-params">e</span>)</span>{
-<span class="hljs-built_in">console</span>.log(<span class="hljs-string" style="color: #6a8759;">"Handler on button (bubbling)"</span>);
-e.stopPropagation();
-});
-<span class="hljs-comment" style="color: grey;">// Clicking on the button results in the following ouput:</span>
-<span class="hljs-comment" style="color: grey;">// -&gt; Handler on body (capturing)</span>
-<span class="hljs-comment" style="color: grey;">// -&gt; Handler on button (bubbling)</span></pre>
-<figure class="post__image"><img loading="lazy"  src="https://www.finecloud.ch/media/posts/77/Pasted-image-20230130160742.png" alt="" width="481" height="216" sizes="100vw" srcset="https://www.finecloud.ch/media/posts/77/responsive/Pasted-image-20230130160742-xs.png 300w ,https://www.finecloud.ch/media/posts/77/responsive/Pasted-image-20230130160742-sm.png 480w ,https://www.finecloud.ch/media/posts/77/responsive/Pasted-image-20230130160742-md.png 768w ,https://www.finecloud.ch/media/posts/77/responsive/Pasted-image-20230130160742-lg.png 1024w ,https://www.finecloud.ch/media/posts/77/responsive/Pasted-image-20230130160742-xl.png 1360w ,https://www.finecloud.ch/media/posts/77/responsive/Pasted-image-20230130160742-2xl.png 1600w"></figure>
-<h3 id="mcetoc_1go1kdqqcj9">Default action</h3>
-<ul>
-<li>Some events have associated default actions:
-<ul>
-<li>clicking on a link loads the link target</li>
-<li>clicking on a submit button submits the form</li>
-<li>pressing the down arrow scrolls the page down</li>
-</ul>
-</li>
-<li>Event handlers are called before the default behaviour takes place</li>
-<li>If the default action is unwanted, then the event handler can call preventDefault on the event object</li>
-</ul>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-comment" style="color: grey;">// The default action can be prevented by a handler</span>
-<span class="hljs-built_in">document</span>.querySelector(<span class="hljs-string" style="color: #6a8759;">'a'</span>).addEventListener(<span class="hljs-string" style="color: #6a8759;">'click'</span>, <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span>(<span class="hljs-params">e</span>) </span>{
-e.preventDefault();
-alert(<span class="hljs-string" style="color: #6a8759;">"Sorry, but we don't want you to leave!"</span>);
-});</pre>
-<h2 id="mcetoc_1go387fbq1bm">AJAX</h2>
-<ul>
-<li>AJAX (Asynchronous JavaScript and XML) is used to create faster and more interactive web applications</li>
-<li>AJAX enables JavaScript to load data from the server without reloading the page</li>
-<li>On the protocol level, AJAX requests are just a normal HTTP requests</li>
-<li>The XMLHttpRequest (XHR) object is the interface for AJAX requests</li>
-<li>Despite the term XML in AJAX and XHR, any type of data can be loaded from the server</li>
-<li>ES6 introduced the new Promise based Fetch API</li>
-</ul>
-<figure class="post__image"><img loading="lazy"  src="https://www.finecloud.ch/media/posts/77/Screenshot-2023-01-31-at-07.17.30.png" alt="" width="1494" height="834" sizes="100vw" srcset="https://www.finecloud.ch/media/posts/77/responsive/Screenshot-2023-01-31-at-07.17.30-xs.png 300w ,https://www.finecloud.ch/media/posts/77/responsive/Screenshot-2023-01-31-at-07.17.30-sm.png 480w ,https://www.finecloud.ch/media/posts/77/responsive/Screenshot-2023-01-31-at-07.17.30-md.png 768w ,https://www.finecloud.ch/media/posts/77/responsive/Screenshot-2023-01-31-at-07.17.30-lg.png 1024w ,https://www.finecloud.ch/media/posts/77/responsive/Screenshot-2023-01-31-at-07.17.30-xl.png 1360w ,https://www.finecloud.ch/media/posts/77/responsive/Screenshot-2023-01-31-at-07.17.30-2xl.png 1600w"></figure>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-comment" style="color: grey;">// Create a new XMLHttpRequest object</span>
-<span class="hljs-keyword" style="color: #cc7832;">const</span> xhr = <span class="hljs-keyword" style="color: #cc7832;">new</span> XMLHttpRequest();
-<span class="hljs-comment" style="color: grey;">// Specify the type of request: method and url</span>
-xhr.open(<span class="hljs-string" style="color: #6a8759;">'GET'</span>, <span class="hljs-string" style="color: #6a8759;">'/ajax/time'</span>);
-<span class="hljs-comment" style="color: grey;">// Register a callback to be notified about state changes</span>
-xhr.onreadystatechange = <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span>() </span>{
-  <span class="hljs-comment" style="color: grey;">// Check ready state: 4 means request completed</span>
-  <span class="hljs-keyword" style="color: #cc7832;">if</span> (<span class="hljs-keyword" style="color: #cc7832;">this</span>.readyState === <span class="hljs-number" style="color: #6897bb;">4</span>) {
-    <span class="hljs-comment" style="color: grey;">// Check HTTP status: 200 OK</span>
-    <span class="hljs-keyword" style="color: #cc7832;">if</span> (<span class="hljs-keyword" style="color: #cc7832;">this</span>.status === <span class="hljs-number" style="color: #6897bb;">200</span>) {
-      <span class="hljs-comment" style="color: grey;">// Update DOM with the response text</span>
-      <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string" style="color: #6a8759;">'time'</span>).innerHTML = <span class="hljs-keyword" style="color: #cc7832;">this</span>.responseText;
-    } <span class="hljs-keyword" style="color: #cc7832;">else</span> {
-      <span class="hljs-comment" style="color: grey;">// Error handling...</span>
-      <span class="hljs-built_in">console</span>.log(<span class="hljs-string" style="color: #6a8759;">"Something failed!"</span>);
-    }
-  }
-};
-<span class="hljs-comment" style="color: grey;">// Send the request</span>
-xhr.send();
-</pre>
-<h3 id="mcetoc_1go387fbq1bn">AJAX and JSON</h3>
-<ul>
-<li>The property responseText of the XMLHttpRequest object contains the HTTP response body as a string</li>
-<li>If the response is an XML document, the data can be accessed directly by the responseXML property</li>
-<li>If the response is a JSON document, the JSON string must be parsed manually</li>
-</ul>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-comment" style="color: grey;">// Retrieving a JSON document</span>
-<span class="hljs-keyword" style="color: #cc7832;">const</span> xhr = <span class="hljs-keyword" style="color: #cc7832;">new</span> XMLHttpRequest();
-xhr.open(<span class="hljs-string" style="color: #6a8759;">'GET'</span>, <span class="hljs-string" style="color: #6a8759;">'/ajax/data.json'</span>);
-xhr.onloadend = <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span>() </span>{
-  <span class="hljs-keyword" style="color: #cc7832;">if</span> (<span class="hljs-keyword" style="color: #cc7832;">this</span>.status === <span class="hljs-number" style="color: #6897bb;">200</span>) {
-    <span class="hljs-comment" style="color: grey;">// Parse the responseText into an object</span>
-    <span class="hljs-keyword" style="color: #cc7832;">const</span> obj = <span class="hljs-built_in">JSON</span>.parse(<span class="hljs-keyword" style="color: #cc7832;">this</span>.responseText);
-    <span class="hljs-built_in">console</span>.log(obj.name+<span class="hljs-string" style="color: #6a8759;">" is "</span>+obj.age+<span class="hljs-string" style="color: #6a8759;">" years old."</span>);
-  } <span class="hljs-keyword" style="color: #cc7832;">else</span> {
-    <span class="hljs-built_in">console</span>.log(<span class="hljs-string" style="color: #6a8759;">"Error..."</span>);
-  }
-};
-xhr.send();
-</pre>
-<h3 id="mcetoc_1go387fbq1bo">Same-Origin Policy</h3>
-<ul>
-<li>The same-origin policy is a browser security feature that restricts how documents and scripts from one origin can interact with resources from another origin</li>
-<li>Two URLs have the same origin if the protocol, host, and port are the same</li>
-<li>Generally, embedding a cross-origin resource using tags such as img, link, and script is permitted</li>
-<li>Accessing a cross-origin resource using an AJAX request is blocked by default</li>
-<li>Using CORS headers, a web server can explicitly allow certain hosts to access its resources</li>
-</ul>
-<h2 id="mcetoc_1go387fbq1bp">jQuery</h2>
-<blockquote>
-<p>”jQuery is a fast, small, and feature-rich JavaScript library” / <span style="color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: inherit; font-weight: var(--font-weight-normal);">jquery.com</span></p>
-</blockquote>
-<ul>
-<li>jQuery simpliﬁes
-<ul>
-<li>element selection</li>
-<li>DOM traversal/manipulation</li>
-<li>event handling</li>
-<li>animation</li>
-<li>AJAX requests</li>
-</ul>
-</li>
-<li>Provides an easy-to-use API</li>
-<li>Is tested on all major browsers</li>
-<li>Was initially released in 2006 and used by 80% of the top 100k websites in 2022 (builtwith.com)</li>
-</ul>
-<h3 id="mcetoc_1go387fbq1bq">jQuery usage</h3>
-<p>jQuery can be downloaded and included by a single script tag:<br><code>&lt;script src="js/jquery.js"&gt;&lt;/script&gt;</code><br>jQuery can also be loaded directly from jQuery or a CDN:<br><code>&lt;script src="https://code.jquery.com/jquery-3.3.1.min.js"&gt;&lt;/script&gt;</code><br><code>&lt;script src="https://unpkg.com/jquery"&gt;&lt;/script&gt;</code></p>
-<p>Example:</p>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-comment" style="color: grey;">// On document ready...</span>
-$(<span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span>() </span>{
-  <span class="hljs-comment" style="color: grey;">// Set the css property color of each div to red</span>
-  $(<span class="hljs-string" style="color: #6a8759;">'div'</span>).css(<span class="hljs-string" style="color: #6a8759;">'color'</span>, <span class="hljs-string" style="color: #6a8759;">'red'</span>);
-
-  <span class="hljs-comment" style="color: grey;">// Load some content for each selected element</span>
-  $(<span class="hljs-string" style="color: #6a8759;">'.content'</span>).each(<span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span>()</span>{
-    $(<span class="hljs-keyword" style="color: #cc7832;">this</span>).load(<span class="hljs-string" style="color: #6a8759;">'/ajax/content'</span>, {id: <span class="hljs-keyword" style="color: #cc7832;">this</span>.id});
-  });
-
-  <span class="hljs-comment" style="color: grey;">// Register a click event handler. On each click a paragraph is added</span>
-  <span class="hljs-comment" style="color: grey;">// to the article element</span>
-  $(<span class="hljs-string" style="color: #6a8759;">'#add-content'</span>).click(<span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span>() </span>{
-    $(<span class="hljs-string" style="color: #6a8759;">'article'</span>).append($(<span class="hljs-string" style="color: #6a8759;">"&lt;p&gt;More content...&lt;/p&gt;"</span>));
-  });
-
-  <span class="hljs-comment" style="color: grey;">// Make an AJAX request and insert the received HTML into the DOM</span>
-  $.get(<span class="hljs-string" style="color: #6a8759;">'/ajax/test.html'</span>, <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span>(<span class="hljs-params">data</span>) </span>{
-    $(<span class="hljs-string" style="color: #6a8759;">'#result'</span>).html(data);
-  });
-});
-</pre>
-<p>There is no magic!</p>
-<ul>
-<li>$ is an alias for jQuery, which is a function and thus an object</li>
-<li>$(...) is equal to jQuery(...) and is just a function call</li>
-<li>$.abc() calls the jQuery’s static utility function abc</li>
-</ul>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-comment" style="color: grey;">// From jQuery’s source code: jQuery is a function and $ an alias</span>
-<span class="hljs-keyword" style="color: #cc7832;">var</span> jQuery = <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span>(<span class="hljs-params">slector, context</span>) </span>{
-<span class="hljs-comment" style="color: grey;">// ...</span>
-};
-<span class="hljs-built_in">window</span>.jQuery = <span class="hljs-built_in">window</span>.$ = jQuery;</pre>
-<h3 id="mcetoc_1go387fbq1br">The jQuery Object</h3>
-<ul>
-<li>A jQuery object references one or more DOM nodes</li>
-<li>jQuery objects have methods to manipulate and to access these nodes</li>
-<li>Manipulations are applied to each DOM node referenced by the object</li>
-<li>jQuery object methods are chainable</li>
-</ul>
-<p><code>$('div')</code><br><code>.css('background-color', '#f00')</code><br><code>.addClass('whatever')</code><br><code>.click(function(){ console.log("Clicked!"); })</code><br><code>.first()</code><br><code>.fadeOut(400);</code></p>
-<h3 id="mcetoc_1go387fbq1bs">jQuery and AJAX</h3>
-<ul>
-<li>jQuery has great support for AJAX</li>
-<li>Supported data types are XML, HTML, Script, JSON, JSONP, and TEXT</li>
-<li>Besides the basic $.ajax() function, there are a number of convenient shorthand functions:
-<ul>
-<li>$.get()</li>
-<li>$.post()</li>
-<li>$.getJSON()</li>
-<li>.load()</li>
-</ul>
-</li>
-<li>Provides simpliﬁed callback handling (success/error)</li>
-<li>In addition, the jqXHR object implements the Promise interface</li>
-</ul>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-comment" style="color: grey;">// AJAX example with success and error callback</span>
-$.ajax({
-  url: <span class="hljs-string" style="color: #6a8759;">"/ajax/time"</span>,
-  type: <span class="hljs-string" style="color: #6a8759;">"GET"</span>,
-  dataType: <span class="hljs-string" style="color: #6a8759;">"text"</span>,
-  success: <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span>(<span class="hljs-params">data</span>)</span>{ $(<span class="hljs-string" style="color: #6a8759;">"#time"</span>).html(data); },
-  error: <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span>(<span class="hljs-params">jqXHR, status, msg</span>)</span>{ $(<span class="hljs-string" style="color: #6a8759;">"#error"</span>).html(<span class="hljs-string" style="color: #6a8759;">"Error! "</span>+msg); }
-});
-
-<span class="hljs-comment" style="color: grey;">// GET example with success callback</span>
-$.get(<span class="hljs-string" style="color: #6a8759;">"/ajax/time"</span>, <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span>(<span class="hljs-params">data</span>)</span>{ $(<span class="hljs-string" style="color: #6a8759;">"#time"</span>).html(data); });
-
-<span class="hljs-comment" style="color: grey;">// Load example</span>
-$(<span class="hljs-string" style="color: #6a8759;">"#time"</span>).load(<span class="hljs-string" style="color: #6a8759;">"/ajax/time"</span>);
-
-<span class="hljs-comment" style="color: grey;">// POST example with success callback and JSON response</span>
-$.post(
-  <span class="hljs-string" style="color: #6a8759;">"/ajax/get_person_data"</span>,
-  $(<span class="hljs-string" style="color: #6a8759;">'#form'</span>).serialize(),    <span class="hljs-comment" style="color: grey;">// request data</span>
-  <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span>(<span class="hljs-params">person</span>) </span>{ $(<span class="hljs-string" style="color: #6a8759;">'#person'</span>).html(person.name+<span class="hljs-string" style="color: #6a8759;">" is "</span>+person.age); },
-  <span class="hljs-string" style="color: #6a8759;">"json"</span>);
-</pre>
-<p> </p>
-<p> </p>
-<p> </p>
-<p> </p>
-<p> </p>
-<p> </p>
 <p> </p>
             ]]>
         </content>

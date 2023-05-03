@@ -3,12 +3,148 @@
     <title>Finecloud</title>
     <link href="https://www.finecloud.ch/feed.xml" rel="self" />
     <link href="https://www.finecloud.ch" />
-    <updated>2023-05-02T20:07:36+02:00</updated>
+    <updated>2023-05-03T20:34:47+02:00</updated>
     <author>
         <name>Finecloud</name>
     </author>
     <id>https://www.finecloud.ch</id>
 
+    <entry>
+        <title>Building Spring Boot Docker Images</title>
+        <author>
+            <name>Finecloud</name>
+        </author>
+        <link href="https://www.finecloud.ch/building-spring-boot-docker-images.html"/>
+        <id>https://www.finecloud.ch/building-spring-boot-docker-images.html</id>
+            <category term="spring-framework"/>
+            <category term="spring"/>
+            <category term="software development"/>
+            <category term="java"/>
+            <category term="docker"/>
+            <category term="dev"/>
+            <category term="container"/>
+
+        <updated>2023-05-03T20:34:47+02:00</updated>
+            <summary>
+                <![CDATA[
+                    Pre-Requirements Developer Environment ready with Docker, JDK, IDE A Java Spring Boot Project with a h2 in-memory DB Docker Hub account Create Docker File Create a Dockerfile with the following content: FROM openjdk:11-jre-slim ENV JAVA_OPTS " -Xms512m -Xmx512m -Djava.security.egd=file:///dev/./urandom" WORKDIR application COPY target/myapp-0.0.1-SNAPSHOT.jar ./ ENTRYPOINT&hellip;
+                ]]>
+            </summary>
+        <content type="html">
+            <![CDATA[
+                <div class="post__toc">
+<h3>Table of Contents</h3>
+<ul>
+<li><a href="#mcetoc_1gvhe7lit17h">Pre-Requirements</a></li>
+<li><a href="#mcetoc_1gvhe7lit17i">Create Docker File</a></li>
+<li><a href="#mcetoc_1gvhe7lit17j">Build and Run the Docker Image</a></li>
+<li><a href="#mcetoc_1gvhe7lit17k">Add Layer Tool in Maven</a></li>
+<li><a href="#mcetoc_1gvhe7lit17l">Enable Multi-Stage Dockerfile</a></li>
+<li><a href="#mcetoc_1gvhe7lit17m">Build the Docker Image with Maven</a></li>
+<li><a href="#mcetoc_1gvhe7lit17n">Push your Docker Image to Docker Hub</a></li>
+</ul>
+</div>
+<h2 id="mcetoc_1gvhe7lit17h">Pre-Requirements</h2>
+<ul>
+<li>Developer Environment ready with Docker, JDK, IDE</li>
+<li>A Java Spring Boot Project with a h2 in-memory DB</li>
+<li>Docker Hub account</li>
+</ul>
+<h2 id="mcetoc_1gvhe7lit17i">Create Docker File</h2>
+<p>Create a Dockerfile with the following content:</p>
+<pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-keyword" style="color: #cc7832;">FROM</span> openjdk:<span class="hljs-number" style="color: #6897bb;">11</span>-jre-slim
+<span class="hljs-keyword" style="color: #cc7832;">ENV</span> JAVA_OPTS <span class="hljs-string" style="color: #6a8759;">" -Xms512m -Xmx512m -Djava.security.egd=file:///dev/./urandom"</span>
+WORKDIR application
+<span class="hljs-keyword" style="color: #cc7832;">COPY</span> <span class="bash">target/myapp-0.0.1-SNAPSHOT.jar ./
+</span><span class="hljs-keyword" style="color: #cc7832;">ENTRYPOINT</span> <span class="bash">[<span class="hljs-string" style="color: #6a8759;">"java"</span>, <span class="hljs-string" style="color: #6a8759;">"-jar"</span>, <span class="hljs-string" style="color: #6a8759;">"myapp-0.0.1-SNAPSHOT.jar"</span>]</span></pre>
+<div>make sure the Paths where the .jar files are stored matches with your environment.</div>
+<h2 id="mcetoc_1gvhe7lit17j">Build and Run the Docker Image</h2>
+<p>Build the image with this command:</p>
+<p><code><span class="blob-code-inner blob-code-marker js-code-nav-pass " data-code-marker="+"><span class="pl-c1">docker build -f ./src/main/Dockerfile -t myapp .</span></span></code></p>
+<p>Run the image with this command:</p>
+<p><code><span class="blob-code-inner blob-code-marker js-code-nav-pass " data-code-marker="+"><span class="pl-c1">docker run -p 8080:8080 -d myapp</span></span></code></p>
+<p>The Spring Application-Context should now be loaded and started inside the Container. You can verify this with the <code>docker ps -a</code> and <code>docker logs -f &lt;containername&gt;</code> commands.</p>
+<h2 id="mcetoc_1gvhe7lit17k">Add Layer Tool in Maven</h2>
+<p>Make sure that you have enabled the Layer Tool with having this content in the pom.xml file:</p>
+<pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;">            <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">plugin</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">groupId</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">artifactId</span>&gt;</span>spring-boot-maven-plugin<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">artifactId</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">configuration</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">layers</span>&gt;</span>
+                        <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">enabled</span>&gt;</span>true<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">enabled</span>&gt;</span>
+                        <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">includeLayerTools</span>&gt;</span>true<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">includeLayerTools</span>&gt;</span>
+                    <span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">layers</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">excludes</span>&gt;</span>
+                        <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">exclude</span>&gt;</span>
+                            <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">groupId</span>&gt;</span>org.projectlombok<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">groupId</span>&gt;</span>
+                            <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">artifactId</span>&gt;</span>lombok<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">artifactId</span>&gt;</span>
+                        <span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">exclude</span>&gt;</span>
+                    <span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">excludes</span>&gt;</span>
+                <span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">configuration</span>&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">plugin</span>&gt;</span></pre>
+<div class="flex flex-grow flex-col gap-3">
+<div class="min-h-[20px] flex flex-col items-start gap-4 whitespace-pre-wrap break-words">
+<div class="markdown prose w-full break-words dark:prose-invert light">
+<p>Enabling the layer tool in a Java Spring project that runs in a Docker container can help reduce the size of the Docker image, which can be especially important in a production environment. The layer tool feature allows the Spring Boot application to be broken down into layers, where each layer contains a subset of the application's dependencies and resources. This makes it possible to separate the application's core functionality from its dependencies, such as external libraries and resources.</p>
+<p>By separating the application's dependencies into separate layers, Docker can cache each layer independently, making it easier to reuse existing layers when building new Docker images. This can significantly reduce the amount of time it takes to build and deploy new versions of the application.</p>
+<p>Enabling the layer tool also allows you to take advantage of other features, such as layer analysis, which can help you optimize your Docker image even further by identifying potential areas for improvement.</p>
+<p>In summary, enabling the layer tool in a Java Spring project that runs in a Docker container can help reduce the size of the Docker image, improve the speed of deployment, and optimize resource usage.</p>
+<h2 id="mcetoc_1gvhe7lit17l">Enable Multi-Stage Dockerfile</h2>
+<p>Now we want to create a example of a Multi-Stage Dockerfile, like so:</p>
+<pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-keyword" style="color: #cc7832;">FROM</span> openjdk:<span class="hljs-number" style="color: #6897bb;">11</span>-jre-slim as builder
+<span class="hljs-keyword" style="color: #cc7832;">WORKDIR</span> <span class="bash">application
+</span><span class="hljs-keyword" style="color: #cc7832;">ADD</span> <span class="bash">target/myapp-0.0.1-SNAPSHOT.jar ./
+</span><span class="hljs-keyword" style="color: #cc7832;">RUN</span> <span class="bash">java -Djarmode=layertools -jar myapp-0.0.1-SNAPSHOT.jar extract
+</span>
+<span class="hljs-keyword" style="color: #cc7832;">FROM</span> openjdk:<span class="hljs-number" style="color: #6897bb;">11</span>-jre-slim
+
+<span class="hljs-keyword" style="color: #cc7832;">WORKDIR</span> <span class="bash">application
+</span><span class="hljs-keyword" style="color: #cc7832;">COPY</span> <span class="bash">--from=builder application/dependencies/ ./
+</span><span class="hljs-keyword" style="color: #cc7832;">COPY</span> <span class="bash">--from=builder application/spring-boot-loader/ ./
+</span><span class="hljs-keyword" style="color: #cc7832;">COPY</span> <span class="bash">--from=builder application/snapshot-dependencies/ ./
+</span><span class="hljs-keyword" style="color: #cc7832;">COPY</span> <span class="bash">--from=builder application/application/ ./
+</span><span class="hljs-keyword" style="color: #cc7832;">ENTRYPOINT</span> <span class="bash">[<span class="hljs-string" style="color: #6a8759;">"java"</span>, <span class="hljs-string" style="color: #6a8759;">"-Djava.security.egd=file:///dev/./urandom"</span>, <span class="hljs-string" style="color: #6a8759;">"org.springframework.boot.loader.JarLauncher"</span>]</span></pre>
+<p>now we can recreate the image like so: <code><span class="blob-code-inner blob-code-marker js-code-nav-pass " data-code-marker="+"><span class="pl-c1">docker build -f ./src/main/docker/Dockerfile -t myapp .</span></span></code></p>
+<h2 id="mcetoc_1gvhe7lit17m">Build the Docker Image with Maven</h2>
+<p>So far it's very uncomfortable to have the Version of the .jar Artifact in the Dockerfile. This way we would need to change this after every new release. There is a better way: we can use the Docker Maven plugin. Add this dependency to your pom.xml:</p>
+<pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">plugin</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">groupId</span>&gt;</span>io.fabric8<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">groupId</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">artifactId</span>&gt;</span>docker-maven-plugin<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">artifactId</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">version</span>&gt;0.42.1</span><span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">version</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">configuration</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">verbose</span>&gt;</span>true<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">verbose</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">images</span>&gt;</span>
+                        <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">image</span>&gt;</span>
+                            <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">name</span>&gt;</span>yourdockeraccount/myapp<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">name</span>&gt;</span>
+                            <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">build</span>&gt;</span>
+                                <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">assembly</span>&gt;</span>
+                                    <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">descriptorRef</span>&gt;</span>artifact<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">descriptorRef</span>&gt;</span>
+                                <span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">assembly</span>&gt;</span>
+                                <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">dockerFile</span>&gt;</span>Dockerfile<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">dockerFile</span>&gt;</span>
+                                <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">tags</span>&gt;</span>
+                                    <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">tag</span>&gt;</span>latest<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">tag</span>&gt;</span>
+                                    <span class="hljs-tag">&lt;<span class="hljs-name" style="color: #e8bf6a;">tag</span>&gt;</span>${project.version}<span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">tag</span>&gt;</span>
+                                <span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">tags</span>&gt;</span>
+                            <span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">build</span>&gt;</span>
+                        <span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">image</span>&gt;</span>
+                    <span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">images</span>&gt;</span>
+                <span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">configuration</span>&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-name" style="color: #e8bf6a;">plugin</span>&gt;</span></pre>
+<p>make sure you add your image name!</p>
+<p>Also you need to replace the Artifact Name of "<span class="bash">myapp-0.0.1-SNAPSHOT.jar</span>" with </p>
+<div>"${project.build.finalName}.jar" in the Dockerfile.</div>
+<div> </div>
+<div>Now you can build the docker image with the maven plugin using a dynamic version.</div>
+<h2 id="mcetoc_1gvhe7lit17n">Push your Docker Image to Docker Hub</h2>
+<p>Last step is to push your Application to the docker hub. But first lets build the image with:</p>
+<p><code>mvn clean package docker:build docker:push</code></p>
+<p> </p>
+</div>
+</div>
+</div>
+            ]]>
+        </content>
+    </entry>
     <entry>
         <title>Data Validation Overview</title>
         <author>
@@ -22,7 +158,7 @@
             <category term="java"/>
             <category term="dev"/>
 
-        <updated>2023-05-02T20:07:36+02:00</updated>
+        <updated>2023-05-02T21:45:22+02:00</updated>
             <summary>
                 <![CDATA[
                     What is Validation? Validation is a process of making assertions against data to ensure data integrity Is a value required? How long is a phone number? Is it a good date? What is the maximum length of a string? Some refer to data validation as&hellip;
@@ -30,7 +166,20 @@
             </summary>
         <content type="html">
             <![CDATA[
-                <h2>What is Validation?</h2>
+                <div class="post__toc">
+<h3>Table of Contents</h3>
+<ul>
+<li><a href="#mcetoc_1gvevuu5v9p">What is Validation?</a></li>
+<li><a href="#mcetoc_1gvevuu5v9q">When to Validate?</a></li>
+<li><a href="#mcetoc_1gvevuu5v9r">Java Bean Validation</a></li>
+<li><a href="#mcetoc_1gvevuu5v9s">Jakarta Bean Validation 3.0</a></li>
+<li><a href="#mcetoc_1gvevuu5v9t">Built In Constraint Definitions</a></li>
+<li><a href="#mcetoc_1gvevuu5v9u">Hiberate Validator Constraints</a></li>
+<li><a href="#mcetoc_1gvevuu5v9v">Validation and Spring Framework</a></li>
+<li><a href="#mcetoc_1gvevuu5va0">Spring Boot and Validation</a></li>
+</ul>
+</div>
+<h2 id="mcetoc_1gvevuu5v9p">What is Validation?</h2>
 <ul>
 <li>Validation is a process of making assertions against data to ensure data integrity</li>
 <li>Is a value required? How long is a phone number?</li>
@@ -39,7 +188,7 @@
 <li>Or a process of trust but verify</li>
 <li>Validation is an important step, but easily overlooked</li>
 </ul>
-<h2>When to Validate?</h2>
+<h2 id="mcetoc_1gvevuu5v9q">When to Validate?</h2>
 <ul>
 <li>Validate data early and often!</li>
 <li>Validation should occur with every exchange</li>
@@ -49,7 +198,7 @@
 <li>Database constraints will also enforce data validation</li>
 <li>Best to validate early - Handling persistence errors is ugly</li>
 </ul>
-<h2>Java Bean Validation</h2>
+<h2 id="mcetoc_1gvevuu5v9r">Java Bean Validation</h2>
 <ul>
 <li>Java Bean Validation is a Java API standard</li>
 <li>Provides for a standard way of performing validation and handling errors</li>
@@ -57,7 +206,7 @@
 <li>Bean Validation is an API, like JPA or JDBC you need an implementation</li>
 <li>Fun Fact - Gunnar Morling, founder of MapStruct is the spec lead for the Bean Validation API and contributor of the Hibernate Implementation of the Bean Validation API</li>
 </ul>
-<h2>Jakarta Bean Validation 3.0</h2>
+<h2 id="mcetoc_1gvevuu5v9s">Jakarta Bean Validation 3.0</h2>
 <ul>
 <li>Released July of 2020</li>
 <li>Name changed from Bean Validation to Jakarta Bean Validation</li>
@@ -67,7 +216,7 @@
 <li>Used in Spring Framework 6.x+</li>
 <li>Hibernate Validator 7.x+ is the implementation</li>
 </ul>
-<h2>Built In Constraint Definitions</h2>
+<h2 id="mcetoc_1gvevuu5v9t">Built In Constraint Definitions</h2>
 <ul>
 <li>@Null - Checks value is null</li>
 <li>@NotNull - Checks value is not null</li>
@@ -92,7 +241,7 @@
 <li>@NonBlank - Checks string is not null or not whitespace characters</li>
 <li>@Email - Checks if string value is an email address</li>
 </ul>
-<h2>Hiberate Validator Constraints</h2>
+<h2 id="mcetoc_1gvevuu5v9u">Hiberate Validator Constraints</h2>
 <ul>
 <li>@ScriptAssert - Class level annotation, checks class against script</li>
 <li>@CreditCardNumber - Verifies value is a credit card number</li>
@@ -117,14 +266,14 @@
 <li>@PESEL - Polish National Validation Number</li>
 <li>@REGON - Polish Taxpayer ID</li>
 </ul>
-<h2>Validation and Spring Framework</h2>
+<h2 id="mcetoc_1gvevuu5v9v">Validation and Spring Framework</h2>
 <ul>
 <li>Spring Framework has robust support for bean validation</li>
 <li>Validation support can be used in controllers, and services, and other Spring managed components</li>
 <li>Spring MVC will return a 400 Bad Request Error for validation failures</li>
 <li>Spring Data JPA with throw an exception for JPA constraint violations</li>
 </ul>
-<h2>Spring Boot and Validation</h2>
+<h2 id="mcetoc_1gvevuu5va0">Spring Boot and Validation</h2>
 <ul>
 <li>Spring Boot will auto-configure validation when the validation implementation is found on classpath</li>
 <li>If API is only on classpath (with no implementation) you can use the annotations, BUT validation will NOT occur</li>
@@ -987,464 +1136,6 @@
 <p>1. One assert per test.<br>2. Readable.<br>3. Fast.<br>4. Independent.<br>5. Repeatable.</p>
 <h2 id="mcetoc_1gore6rj76a">Code smells</h2>
 <p>1. Rigidity. The software is difficult to change. A small change causes a cascade of subsequent changes.<br>2. Fragility. The software breaks in many places due to a single change.<br>3. Immobility. You cannot reuse parts of the code in other projects because of involved risks and high effort.<br>4. Needless Complexity.<br>5. Needless Repetition.<br>6. Opacity. The code is hard to understand.</p>
-            ]]>
-        </content>
-    </entry>
-    <entry>
-        <title>JavaScript advanced features</title>
-        <author>
-            <name>Finecloud</name>
-        </author>
-        <link href="https://www.finecloud.ch/javascript-advanced-features.html"/>
-        <id>https://www.finecloud.ch/javascript-advanced-features.html</id>
-            <category term="software development"/>
-            <category term="javascript"/>
-            <category term="dev"/>
-
-        <updated>2023-03-29T20:14:17+02:00</updated>
-            <summary>
-                <![CDATA[
-                    New Features New versions of JavaScript, such as ES6, ES2016, 2017, etc., come with many new features, however it is still ECMAScript Many of the new features are syntactic sugar or extend the functionality only marginal Template Literals Template literals are string literals with support&hellip;
-                ]]>
-            </summary>
-        <content type="html">
-            <![CDATA[
-                <div class="post__toc">
-<h3>Table of Contents</h3>
-<ul>
-<li><a href="#mcetoc_1go3akel62sa">New Features</a>
-<ul>
-<li><a href="#mcetoc_1go3akel62sb">Template Literals</a></li>
-<li><a href="#mcetoc_1go3akel62sc">Spread Operator</a></li>
-<li><a href="#mcetoc_1go3akel62sd">Array and Object Destructuring</a></li>
-<li><a href="#mcetoc_1go3akel62se">Arraw functions</a></li>
-<li><a href="#mcetoc_1go3akel62sf">Classes</a></li>
-<li><a href="#mcetoc_1go3akel62sg">Class Inheritance</a></li>
-</ul>
-</li>
-<li><a href="#mcetoc_1go3akel62sh">Modules</a>
-<ul>
-<li><a href="#mcetoc_1go3akel62si">Global Scope</a></li>
-<li><a href="#mcetoc_1go3akel62sj">IIFE</a></li>
-<li><a href="#mcetoc_1go3akel62sk">Example jQuery Plugin</a></li>
-<li><a href="#mcetoc_1go3r9h51351">Module Systems</a></li>
-<li><a href="#mcetoc_1go3r9h51352">ES Modules</a></li>
-<li><a href="#mcetoc_1go3r9h51353">Export Examples</a></li>
-<li><a href="#mcetoc_1go3r9h51354">Import Examples</a></li>
-<li><a href="#mcetoc_1go3r9h51355">Default Export</a></li>
-<li><a href="#mcetoc_1go3r9h51356">Usage in the Browser</a></li>
-</ul>
-</li>
-<li><a href="#mcetoc_1go3akel62sl">Promises</a>
-<ul>
-<li><a href="#mcetoc_1go41qk9o3km">Asynchronous Programming</a></li>
-<li><a href="#mcetoc_1go41qk9o3kn">Promises Are State Machines</a></li>
-</ul>
-</li>
-<li><a href="#mcetoc_1go41qk9o3ko">Creating Promises</a>
-<ul>
-<li><a href="#mcetoc_1go41qk9o3kp">Promise Example</a></li>
-<li><a href="#mcetoc_1go41qk9o3kq">Chaining</a></li>
-<li><a href="#mcetoc_1go41qk9o3kr">Chaining and Combining Examples</a></li>
-<li><a href="#mcetoc_1go41qk9o3ks">async and await</a></li>
-</ul>
-</li>
-<li><a href="#mcetoc_1go3akel62sm">Fetch API</a></li>
-</ul>
-</div>
-<h2 id="mcetoc_1go3akel62sa">New Features</h2>
-<ul>
-<li>New versions of JavaScript, such as ES6, ES2016, 2017, etc., come with many new features, however it is still ECMAScript</li>
-<li>Many of the new features are syntactic sugar or extend the functionality only marginal</li>
-</ul>
-<h3 id="mcetoc_1go3akel62sb">Template Literals</h3>
-<ul>
-<li>Template literals are string literals with support for text interpolation and multiple lines</li>
-<li>Template literals are enclosed by backticks</li>
-<li>Expressions in placeholders (marked by the dollar sign and curly braces) are evaluated and replaced by their value at runtime</li>
-</ul>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span> <span class="hljs-title" style="color: #ffc66d;">getYear</span>() </span>{
-    <span class="hljs-keyword" style="color: #cc7832;">return</span> (<span class="hljs-keyword" style="color: #cc7832;">new</span> <span class="hljs-built_in">Date</span>()).getFullYear();
-}
-
-<span class="hljs-keyword" style="color: #cc7832;">const</span> student = {
-    name: <span class="hljs-string" style="color: #6a8759;">"Bob"</span>,
-    age: <span class="hljs-number" style="color: #6897bb;">25</span>,
-    university: <span class="hljs-string" style="color: #6a8759;">"BFH"</span>
-};
-
-<span class="hljs-keyword" style="color: #cc7832;">const</span> message = <span class="hljs-string" style="color: #6a8759;">`<span class="hljs-subst">${student.name}</span> is a student at <span class="hljs-subst">${student.university}</span>.
-<span class="hljs-subst">${student.name}</span> was born in <span class="hljs-subst">${getYear() - student.age}</span>.`</span>;
-
-<span class="hljs-built_in">console</span>.log(message);    <span class="hljs-comment" style="color: grey;">// &gt;&gt; Bob is a student at BFH.</span>
-                         <span class="hljs-comment" style="color: grey;">//    Bob was born in 1996.</span>
-</pre>
-<h3 id="mcetoc_1go3akel62sc">Spread Operator</h3>
-<ul>
-<li>Using the spread operator new arrays and objects can be created based on the values of other arrays or objects</li>
-<li>The spread operator is especially useful to shallow-clone and merge or extend objects</li>
-</ul>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-keyword" style="color: #cc7832;">const</span> a = [<span class="hljs-number" style="color: #6897bb;">1</span>, <span class="hljs-number" style="color: #6897bb;">2</span>];
-<span class="hljs-keyword" style="color: #cc7832;">const</span> b = [<span class="hljs-number" style="color: #6897bb;">3</span>, <span class="hljs-number" style="color: #6897bb;">4</span>, <span class="hljs-number" style="color: #6897bb;">5</span>];
-
-<span class="hljs-keyword" style="color: #cc7832;">const</span> clonedA = [...a];
-clonedA[<span class="hljs-number" style="color: #6897bb;">1</span>] = <span class="hljs-number" style="color: #6897bb;">3</span>;                         <span class="hljs-comment" style="color: grey;">// a remains unaffected</span>
-
-<span class="hljs-keyword" style="color: #cc7832;">const</span> mergedArr = [<span class="hljs-number" style="color: #6897bb;">0</span>, ...a, ...b, <span class="hljs-number" style="color: #6897bb;">6</span>];   <span class="hljs-comment" style="color: grey;">// [0, 1, 2, 3, 4, 5, 6]</span>
-
-<span class="hljs-keyword" style="color: #cc7832;">const</span> x = {a: <span class="hljs-string" style="color: #6a8759;">"foo"</span>, b: <span class="hljs-number" style="color: #6897bb;">7</span>};
-<span class="hljs-keyword" style="color: #cc7832;">const</span> y = {a: <span class="hljs-string" style="color: #6a8759;">"bar"</span>, c: <span class="hljs-number" style="color: #6897bb;">8</span>};
-
-<span class="hljs-keyword" style="color: #cc7832;">const</span> clonedX = {...x};
-clonedX.a = <span class="hljs-string" style="color: #6a8759;">"bar"</span>;                      <span class="hljs-comment" style="color: grey;">// x remains unaffected</span>
-
-<span class="hljs-keyword" style="color: #cc7832;">const</span> mergedObj = {...x, ...y, c: <span class="hljs-number" style="color: #6897bb;">9</span>};   <span class="hljs-comment" style="color: grey;">// \{a: "bar", b: 7, c: 9\}</span>
-</pre>
-<h3 id="mcetoc_1go3akel62sd">Array and Object Destructuring</h3>
-<ul>
-<li>The destructuring assignment unpacks values from arrays and objects into distinct variables</li>
-<li>Destructuring can also be used in function parameter deﬁnitions to unpack ﬁelds from objects passed as argument</li>
-</ul>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-keyword" style="color: #cc7832;">const</span> a = [<span class="hljs-number" style="color: #6897bb;">1</span>, <span class="hljs-number" style="color: #6897bb;">2</span>, <span class="hljs-number" style="color: #6897bb;">3</span>, <span class="hljs-number" style="color: #6897bb;">4</span>];
-<span class="hljs-keyword" style="color: #cc7832;">const</span> [first, second] = a;
-<span class="hljs-built_in">console</span>.log(first);             <span class="hljs-comment" style="color: grey;">// &gt;&gt; 1</span>
-<span class="hljs-built_in">console</span>.log(second);            <span class="hljs-comment" style="color: grey;">// &gt;&gt; 2</span>
-
-<span class="hljs-keyword" style="color: #cc7832;">const</span> x = {a: <span class="hljs-string" style="color: #6a8759;">"foo"</span>, b: <span class="hljs-string" style="color: #6a8759;">"bar"</span>, c: <span class="hljs-number" style="color: #6897bb;">12</span>};
-<span class="hljs-keyword" style="color: #cc7832;">const</span> {b, c} = x;
-<span class="hljs-built_in">console</span>.log(b);                 <span class="hljs-comment" style="color: grey;">// &gt;&gt; bar</span>
-<span class="hljs-built_in">console</span>.log(c);                 <span class="hljs-comment" style="color: grey;">// &gt;&gt; 12</span>
-
-<span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span> <span class="hljs-title" style="color: #ffc66d;">f</span>(<span class="hljs-params">{a, b}</span>) </span>{
-    <span class="hljs-built_in">console</span>.log(a+<span class="hljs-string" style="color: #6a8759;">", "</span>+b);
-}
-f(x);                          <span class="hljs-comment" style="color: grey;">// &gt;&gt; foo, bar</span>
-</pre>
-<h3 id="mcetoc_1go3akel62se">Arraw functions</h3>
-<ul>
-<li>Arrow functions are a compact alternative to function expressions</li>
-<li>If the body consists of a single expression, then the curly braces can be omitted and the return is implied</li>
-</ul>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-keyword" style="color: #cc7832;">const</span> f = (a, b) =&gt; {
-  <span class="hljs-keyword" style="color: #cc7832;">const</span> c = a * a;
-  <span class="hljs-keyword" style="color: #cc7832;">return</span> c+b;
-};
-<span class="hljs-built_in">console</span>.log(f(<span class="hljs-number" style="color: #6897bb;">3</span>, <span class="hljs-number" style="color: #6897bb;">4</span>));         <span class="hljs-comment" style="color: grey;">// &gt;&gt; 13</span>
-
-<span class="hljs-keyword" style="color: #cc7832;">const</span> g = a =&gt; a * a;
-<span class="hljs-built_in">console</span>.log(g(<span class="hljs-number" style="color: #6897bb;">3</span>));            <span class="hljs-comment" style="color: grey;">// &gt;&gt; 9</span>
-</pre>
-<ul>
-<li>Arrow functions cannot be bound to objects</li>
-<li>The this reference is lexically scoped</li>
-</ul>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-keyword" style="color: #cc7832;">const</span> alice = {
-  name: <span class="hljs-string" style="color: #6a8759;">"Alice"</span>,
-  friends: [<span class="hljs-string" style="color: #6a8759;">"Bob"</span>, <span class="hljs-string" style="color: #6a8759;">"Eve"</span>],
-  sayHi: <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span>() </span>{
-    <span class="hljs-keyword" style="color: #cc7832;">this</span>.friends.forEach(friend =&gt; {
-      <span class="hljs-built_in">console</span>.log(<span class="hljs-keyword" style="color: #cc7832;">this</span>.name+<span class="hljs-string" style="color: #6a8759;">" says hi to "</span>+friend);  <span class="hljs-comment" style="color: grey;">// this is lexically scoped</span>
-    });
-  }
-};
-
-<span class="hljs-keyword" style="color: #cc7832;">const</span> speak = phrase =&gt; <span class="hljs-built_in">console</span>.log(<span class="hljs-keyword" style="color: #cc7832;">this</span>.name+<span class="hljs-string" style="color: #6a8759;">" says "</span>+phrase);
-speak.call(alice, <span class="hljs-string" style="color: #6a8759;">"Hello World!"</span>);   <span class="hljs-comment" style="color: grey;">// &gt;&gt; undefined says Hello World!</span>
-</pre>
-<h3 id="mcetoc_1go3akel62sf">Classes</h3>
-<ul>
-<li>The class keyword is syntactic sugar for constructor functions and prototype inheritance</li>
-<li>A class may contain a constructor, the actual constructor function, which will be bound to the class name, and any number of methods</li>
-</ul>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-class"><span class="hljs-keyword" style="color: #cc7832;">class</span> <span class="hljs-title" style="color: #ffc66d;">Person</span> </span>{
-  <span class="hljs-keyword" style="color: #cc7832;">constructor</span>(name, age) {
-    <span class="hljs-keyword" style="color: #cc7832;">this</span>.name = name;
-    <span class="hljs-keyword" style="color: #cc7832;">this</span>.age = age;
-  }
-  speak(phrase) {
-    <span class="hljs-built_in">console</span>.log(<span class="hljs-string" style="color: #6a8759;">`<span class="hljs-subst">${this.name}</span> says: <span class="hljs-subst">${phrase}</span>`</span>);
-  }
-}
-
-<span class="hljs-keyword" style="color: #cc7832;">const</span> alice = <span class="hljs-keyword" style="color: #cc7832;">new</span> Person(<span class="hljs-string" style="color: #6a8759;">"Alice"</span>, <span class="hljs-number" style="color: #6897bb;">19</span>);
-alice.speak(<span class="hljs-string" style="color: #6a8759;">"It's just syntactic sugar!"</span>);
-</pre>
-<h3 id="mcetoc_1go3akel62sg">Class Inheritance</h3>
-<ul>
-<li>Classes support inheritance</li>
-<li>The super keyword is used to reference the constructor and methods deﬁned in the base class</li>
-</ul>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-class"><span class="hljs-keyword" style="color: #cc7832;">class</span> <span class="hljs-title" style="color: #ffc66d;">Student</span> <span class="hljs-keyword" style="color: #cc7832;">extends</span> <span class="hljs-title" style="color: #ffc66d;">Person</span> </span>{
-  <span class="hljs-keyword" style="color: #cc7832;">constructor</span>(name, age, university) {
-    <span class="hljs-keyword" style="color: #cc7832;">super</span>(name, age);
-    <span class="hljs-keyword" style="color: #cc7832;">this</span>.university = university;
-  }
-  speak(phrase) {
-    <span class="hljs-keyword" style="color: #cc7832;">super</span>.speak(phrase);
-    <span class="hljs-built_in">console</span>.log(<span class="hljs-string" style="color: #6a8759;">"And I'm a student at the "</span>+<span class="hljs-keyword" style="color: #cc7832;">this</span>.university);
-  }
-}
-</pre>
-<h2 id="mcetoc_1go3akel62sh">Modules</h2>
-<h3 id="mcetoc_1go3akel62si">Global Scope</h3>
-<ul>
-<li>JavaScript has one global scope</li>
-<li>Different JavaScript ﬁles share the same global scope and have not their own private scope</li>
-</ul>
-<p><code>let counter = 0;</code><br><code>function count() { return ++counter; }</code><br><br><code>function logCounter() { console.log(counter); }</code><br><br><code>&lt;html&gt;</code><br><code>&lt;head&gt;</code><br><code>&lt;script src="listing_11a.js"&gt;&lt;/script&gt;</code><br><code>&lt;script src="listing_11b.js"&gt;&lt;/script&gt;</code><br><code>&lt;/head&gt;</code><br><code>&lt;body&gt;</code><br><code>&lt;script&gt;</code><br><code>count();</code><br><code>logCounter(); // &gt;&gt; 1</code><br><code>&lt;/script&gt;</code><br><code>&lt;/body&gt;</code><br><code>&lt;/html&gt;</code></p>
-<h3 id="mcetoc_1go3akel62sj">IIFE</h3>
-<ul>
-<li>An immediately-invoked function expression (IIFE, pronounced ”iffy”) is an unnamed function which is immediately invoked</li>
-<li>An IIFE takes advantage of the concept of closures and the local scope produced by functions</li>
-<li>IIFEs can be used to implement a simple module pattern, in which each module binds only a single global variable</li>
-</ul>
-<p>counter-service.js:</p>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-keyword" style="color: #cc7832;">const</span> counterService = (<span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span>() </span>{
-    <span class="hljs-comment" style="color: grey;">// Private scope</span>
-    <span class="hljs-keyword" style="color: #cc7832;">let</span> counter = <span class="hljs-number" style="color: #6897bb;">0</span>;
-    <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span> <span class="hljs-title" style="color: #ffc66d;">count</span>() </span>{ <span class="hljs-keyword" style="color: #cc7832;">return</span> ++counter; }
-    <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span> <span class="hljs-title" style="color: #ffc66d;">logCounter</span>() </span>{ <span class="hljs-built_in">console</span>.log(counter); }
-
-    <span class="hljs-comment" style="color: grey;">// Export public features</span>
-    <span class="hljs-keyword" style="color: #cc7832;">return</span> {count, logCounter};
-})();
-</pre>
-<p><code>&lt;script src="counter-service.js"&gt;&lt;/script&gt;</code><br><code>&lt;script&gt;</code><br><code>counterService.count();</code><br><code>counterService.logCounter(); // 1</code><br><code>&lt;/script&gt;</code></p>
-<h3 id="mcetoc_1go3akel62sk">Example jQuery Plugin</h3>
-<ul>
-<li>A jQuery plugin is implemented as an IIFE</li>
-<li>New features are added to the prototype of jQuery objects (which is the $.fn object)</li>
-<li>See How to Create a Basic Plugin for more details</li>
-</ul>
-<p>jquery-identify.js;</p>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;">(<span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span>(<span class="hljs-params">$</span>) </span>{
-  <span class="hljs-keyword" style="color: #cc7832;">let</span> counter = <span class="hljs-number" style="color: #6897bb;">0</span>;
-
-  $.fn.identify = <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span>() </span>{
-    <span class="hljs-keyword" style="color: #cc7832;">return</span> <span class="hljs-keyword" style="color: #cc7832;">this</span>.each(<span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span>() </span>{
-      <span class="hljs-keyword" style="color: #cc7832;">this</span>.id = <span class="hljs-string" style="color: #6a8759;">'id-'</span>+(++counter);
-    });
-  }
-})(jQuery);
-</pre>
-<p><code>&lt;script src="jquery.js"&gt;&lt;/script&gt;</code><br><code>&lt;script src="jquery-identify.js"&gt;&lt;/script&gt;</code><br><code>&lt;script&gt;</code><br><code>$('p, img').identify();</code><br><code>&lt;/script&gt;</code></p>
-<h3 id="mcetoc_1go3r9h51351">Module Systems</h3>
-<ul>
-<li>Module Systems provide a private scope on a ﬁle basis with the possibility to export functionality and to import functionality from other modules</li>
-<li>Before ES6, JavaScript had no built-in module system and proprietary module systems, such as CommonJS (which is still used by Node.js), were needed</li>
-<li>ES6 introduced its own module system (often called ES modules) with the new keywords import and export</li>
-<li>In larger applications, module dependencies are resolved during the build and bundling process</li>
-<li>ES modules are natively supported by all modern browsers</li>
-</ul>
-<h3 id="mcetoc_1go3r9h51352">ES Modules</h3>
-<ul>
-<li>Features are exported from a module using the export keyword</li>
-<li>The export keyword is placed in front of the item to export</li>
-<li>Functions, classes and variables deﬁned with let or const can be exported</li>
-<li>Multiple features can be exported in a single statement by wrapping the comma-separated list of items in curly braces</li>
-<li>Items which are not exported are local to the module</li>
-<li>Features are imported from other modules using the import keyword</li>
-<li>Speciﬁc features are imported by their names (comma-separated list in curly braces)</li>
-<li>All features of a module can be important using the *-notation</li>
-</ul>
-<h3 id="mcetoc_1go3r9h51353">Export Examples</h3>
-<p>math.js:</p>
-<p><code>export const PI = computePI();</code><br><code>export function square(x) { return x * x; }</code><br><code>export function sum(x, y) { return x + y; }</code><br><code>// Local to math.js</code><br><code>function computePI() { return 3.14; }</code></p>
-<p>colors.js:</p>
-<p><code>const white = '#ffffff', black = '#000000';</code><br><code>function rgbToHex(r, g, b) { return '#' + toHex(r) + toHex(g) + toHex(b); }</code><br><code>function toHex(c) { return ('0' + c.toString(16)).slice(m2); }</code><br><code>// Export multiple features in a single statement</code><br><code>export {white, black, rgbToHex};</code></p>
-<h3 id="mcetoc_1go3r9h51354">Import Examples</h3>
-<p>file1.js:</p>
-<p><code>// Import specific features from another module</code><br><code>import {square, PI} from 'math';</code><br><code>console.log(PI); // &gt;&gt; 3.14</code><br><code>console.log(square(4)); // &gt;&gt; 16</code><br><br>file2.js</p>
-<p><code>// Import all features from another module</code><br><code>import * as math from 'math';</code><br><code>console.log(math.PI); // &gt;&gt; 3.14</code><br><code>console.log(math.sum(4, 5)); // &gt;&gt; 9</code></p>
-<h3 id="mcetoc_1go3r9h51355">Default Export</h3>
-<ul>
-<li>One single export per module can be marked as default using the default keyword</li>
-<li>The default feature is imported without curly braces and any name can be given</li>
-<li>Especially convenient if only one feature is exported per module</li>
-</ul>
-<p>hello-world.js:</p>
-<p><code>export default function() {</code><br><code>console.log("Hello World!");</code><br><code>}</code></p>
-<p>any-class.js:</p>
-<p><code>export default class {</code><br><code>// ...</code><br><code>}</code></p>
-<p>main.js:</p>
-<p><code>import logHelloWorld from 'hello-world';</code><br><code>import AnyClass from 'any-class';</code><br><code>logHelloWorld();</code><br><code>let obj = new AnyClass();</code></p>
-<h3 id="mcetoc_1go3r9h51356">Usage in the Browser</h3>
-<ul>
-<li>The type of the script must be module</li>
-<li>Modules are loaded deferred (after the browser ﬁnished parsing the HTML and building the DOM)</li>
-<li>Modules are running in strict mode by default</li>
-<li>The module name must be the ﬁle path relative to the site root or, using the dot-syntax, relative to the current location, e.g.: import ... from './lib/my-module.js';</li>
-</ul>
-<p><code>&lt;html&gt;</code><br><code>&lt;head&gt;</code><br><code>&lt;title&gt;ES Modules&lt;/title&gt;</code><br><code>&lt;script type="module" src="main.js"&gt;&lt;/script&gt;</code><br><code>&lt;script type="module"&gt;</code><br><code>import {PI} from './math.js';</code><br><code>// ...</code><br><code>&lt;/script&gt;</code><br><code>&lt;/head&gt;</code><br><code>&lt;body&gt; ... &lt;/body&gt;</code><br><code>&lt;/html&gt;</code></p>
-<h2 id="mcetoc_1go3akel62sl">Promises</h2>
-<h3 id="mcetoc_1go41qk9o3km">Asynchronous Programming</h3>
-<ul>
-<li>JavaScript is single-threaded, hence time-consuming tasks must be implemented asynchronously to not block the thread</li>
-<li>Promises are helpers for asynchronous programming</li>
-<li>A promise is a proxy for a value possibly known in the future</li>
-<li>Instead of passing callback functions to the asynchronous function, the  synchronous function returns a promise on which success and error handlers can be registered</li>
-</ul>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-comment" style="color: grey;">// Traditional approach with callbacks passed to the asynchronous function</span>
-computeAsync(<span class="hljs-string" style="color: #6a8759;">"Foo"</span>, <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span>(<span class="hljs-params">result</span>) </span>{
-  <span class="hljs-comment" style="color: grey;">// Process result</span>
-}, <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span>(<span class="hljs-params">error</span>) </span>{
-  <span class="hljs-comment" style="color: grey;">// Handle error</span>
-});
-
-<span class="hljs-comment" style="color: grey;">// Promise based approach where the asynchronous function returns a promise</span>
-computeAsync(<span class="hljs-string" style="color: #6a8759;">"Foo"</span>)
-  .then(result =&gt; { <span class="hljs-comment" style="color: grey;">/* Process result */</span> })
-  .catch(error =&gt; { <span class="hljs-comment" style="color: grey;">/* Handle error */</span> });
-</pre>
-<h3 id="mcetoc_1go41qk9o3kn">Promises Are State Machines</h3>
-<ul>
-<li>Newly created promises are in the state pending</li>
-<li>A promise remains pending as long as the value is unknown and no error has occurred</li>
-<li>As soon as the value is available, the state changes to fullﬁled and registered success handlers are called</li>
-<li>If an error occurs, the state changes to rejected and registered error handlers are called</li>
-<li>Once the state is fullﬁled or rejected, the promise remains in this state for ever</li>
-</ul>
-<figure class="post__image"><img loading="lazy"  src="https://www.finecloud.ch/media/posts/79/Screenshot-2023-01-31-at-14.42.22.png" alt="" width="882" height="734" sizes="100vw" srcset="https://www.finecloud.ch/media/posts/79/responsive/Screenshot-2023-01-31-at-14.42.22-xs.png 300w ,https://www.finecloud.ch/media/posts/79/responsive/Screenshot-2023-01-31-at-14.42.22-sm.png 480w ,https://www.finecloud.ch/media/posts/79/responsive/Screenshot-2023-01-31-at-14.42.22-md.png 768w ,https://www.finecloud.ch/media/posts/79/responsive/Screenshot-2023-01-31-at-14.42.22-lg.png 1024w ,https://www.finecloud.ch/media/posts/79/responsive/Screenshot-2023-01-31-at-14.42.22-xl.png 1360w ,https://www.finecloud.ch/media/posts/79/responsive/Screenshot-2023-01-31-at-14.42.22-2xl.png 1600w"></figure>
-<h2 id="mcetoc_1go41qk9o3ko">Creating Promises</h2>
-<ul>
-<li>Promises are created using the Promise constructor</li>
-<li>A function is passed to the constructor implementing the asynchronous task</li>
-<li>The function is called by the promise, passing two functions to resolve or reject the promise</li>
-<li>Either the resolve or reject function must be ﬁnally called by the asynchronous task</li>
-</ul>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span> <span class="hljs-title" style="color: #ffc66d;">computeAsync</span>() </span>{
-  <span class="hljs-keyword" style="color: #cc7832;">return</span> <span class="hljs-keyword" style="color: #cc7832;">new</span> <span class="hljs-built_in">Promise</span>((resolve, reject) =&gt; {
-
-    <span class="hljs-comment" style="color: grey;">// ... Perform the asynchronous task (Promise is pending)</span>
-
-    <span class="hljs-keyword" style="color: #cc7832;">if</span> (success) resolve(result);  <span class="hljs-comment" style="color: grey;">// Promise will be fulfilled</span>
-    <span class="hljs-keyword" style="color: #cc7832;">else</span> reject(error);            <span class="hljs-comment" style="color: grey;">// Promise will be rejected</span>
-  });
-}
-</pre>
-<h3 id="mcetoc_1go41qk9o3kp">Promise Example</h3>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span> <span class="hljs-title" style="color: #ffc66d;">computePI</span>() </span>{
-  <span class="hljs-keyword" style="color: #cc7832;">return</span> <span class="hljs-keyword" style="color: #cc7832;">new</span> <span class="hljs-built_in">Promise</span>((resolve, reject) =&gt; {
-    <span class="hljs-comment" style="color: grey;">// Computing PI is hard work...</span>
-    setTimeout(() =&gt; {
-      <span class="hljs-comment" style="color: grey;">// Computing PI fails with a certain probability...</span>
-      <span class="hljs-keyword" style="color: #cc7832;">if</span> (<span class="hljs-built_in">Math</span>.random() &lt; <span class="hljs-number" style="color: #6897bb;">0.2</span>) {
-        reject(<span class="hljs-string" style="color: #6a8759;">"Sorry, computation failed!"</span>);     <span class="hljs-comment" style="color: grey;">// Reject the promise</span>
-      } <span class="hljs-keyword" style="color: #cc7832;">else</span> {
-        resolve(<span class="hljs-number" style="color: #6897bb;">3.14</span>);       <span class="hljs-comment" style="color: grey;">// Resolve the promise to the value of PI</span>
-      }
-    }, <span class="hljs-number" style="color: #6897bb;">300</span>);
-  });
-}
-
-computePI()
-  .then(result =&gt; <span class="hljs-built_in">console</span>.log(<span class="hljs-string" style="color: #6a8759;">"PI: "</span>+result))
-  .catch(error =&gt; <span class="hljs-built_in">console</span>.log(error));
-</pre>
-<h3 id="mcetoc_1go41qk9o3kq">Chaining</h3>
-<ul>
-<li>The then and catch functions return a promise, hence they can<br>be chained</li>
-<li>The promise returned by then and catch resolves to the return value of the handler or to its original settled value if the handler was not called (e.g. a catch-handler is not called on a fullﬁled promise)</li>
-<li>If the handler returns a promise, the promise returned by then and catch resolves to the same value as the returned promise</li>
-</ul>
-<figure class="post__image"><img loading="lazy"  src="https://www.finecloud.ch/media/posts/79/Screenshot-2023-01-31-at-14.49.16.png" alt="" width="2062" height="734" sizes="100vw" srcset="https://www.finecloud.ch/media/posts/79/responsive/Screenshot-2023-01-31-at-14.49.16-xs.png 300w ,https://www.finecloud.ch/media/posts/79/responsive/Screenshot-2023-01-31-at-14.49.16-sm.png 480w ,https://www.finecloud.ch/media/posts/79/responsive/Screenshot-2023-01-31-at-14.49.16-md.png 768w ,https://www.finecloud.ch/media/posts/79/responsive/Screenshot-2023-01-31-at-14.49.16-lg.png 1024w ,https://www.finecloud.ch/media/posts/79/responsive/Screenshot-2023-01-31-at-14.49.16-xl.png 1360w ,https://www.finecloud.ch/media/posts/79/responsive/Screenshot-2023-01-31-at-14.49.16-2xl.png 1600w"></figure>
-<h3 id="mcetoc_1go41qk9o3kr">Chaining and Combining Examples</h3>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-comment" style="color: grey;">// Chaining</span>
-doAsync()
-  .then(resultA =&gt; { <span class="hljs-comment" style="color: grey;">/* ... */</span> })
-  .then(resultB =&gt; { <span class="hljs-comment" style="color: grey;">/* ... */</span> })
-  .catch(error =&gt; { <span class="hljs-comment" style="color: grey;">/* ... */</span> })
-  .then(resultC =&gt; { <span class="hljs-comment" style="color: grey;">/* ... */</span> })
-  .catch(error =&gt; { <span class="hljs-comment" style="color: grey;">/* ... */</span> });
-
-<span class="hljs-comment" style="color: grey;">// Add multiple handlers to the same promise</span>
-<span class="hljs-keyword" style="color: #cc7832;">const</span> promise = doAsync();
-promise.then(result =&gt; { <span class="hljs-comment" style="color: grey;">/* ... */</span> });
-promise.then(result =&gt; { <span class="hljs-comment" style="color: grey;">/* ... */</span> });
-
-<span class="hljs-comment" style="color: grey;">// 'Wait' until all promises are fulfilled or one rejected</span>
-<span class="hljs-built_in">Promise</span>.all([doAsync(<span class="hljs-string" style="color: #6a8759;">"A"</span>), doAsync(<span class="hljs-string" style="color: #6a8759;">"B"</span>), doAsync2()])
-  .then(results =&gt; { <span class="hljs-comment" style="color: grey;">/* ... */</span> })
-  .catch(error =&gt; { <span class="hljs-comment" style="color: grey;">/* ... */</span> });
-
-<span class="hljs-comment" style="color: grey;">// 'Wait' until the first promise is fulfilled or rejected</span>
-<span class="hljs-built_in">Promise</span>.race([doAsync(<span class="hljs-string" style="color: #6a8759;">"A"</span>), doAsync(<span class="hljs-string" style="color: #6a8759;">"B"</span>), doAsync2()])
-  .then(result =&gt; { <span class="hljs-comment" style="color: grey;">/* ... */</span> })
-  .catch(error =&gt; { <span class="hljs-comment" style="color: grey;">/* ... */</span> });
-</pre>
-<h3 id="mcetoc_1go41qk9o3ks">async and await</h3>
-<ul>
-<li>async and await allow asynchronous code to be written synchronously</li>
-<li>An async function implicitly returns a promise, which resolves to the return value of the function or is rejected on exception</li>
-<li>async functions can await other promises (written synchronously)</li>
-<li>await interrupts the synchronous execution and waits until the returned promise is resolved or rejected</li>
-</ul>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-keyword" style="color: #cc7832;">async</span> <span class="hljs-function"><span class="hljs-keyword" style="color: #cc7832;">function</span> <span class="hljs-title" style="color: #ffc66d;">computeDiskArea</span>(<span class="hljs-params">radius</span>) </span>{
-  <span class="hljs-keyword" style="color: #cc7832;">const</span> PI = <span class="hljs-keyword" style="color: #cc7832;">await</span> computePI();
-  <span class="hljs-keyword" style="color: #cc7832;">return</span> radius * radius * PI;
-}
-
-computeDiskArea(<span class="hljs-number" style="color: #6897bb;">2</span>)
-  .then(area =&gt; <span class="hljs-built_in">console</span>.log(<span class="hljs-string" style="color: #6a8759;">"The area of a disk with r=2 is "</span>+area))
-  .catch(error =&gt; <span class="hljs-built_in">console</span>.log(<span class="hljs-string" style="color: #6a8759;">"An error occurred: "</span>+error))
-</pre>
-<h2 id="mcetoc_1go3akel62sm">Fetch API</h2>
-<ul>
-<li>The Fetch API provides an interface for fetching resources</li>
-<li>This includes resources across the network</li>
-<li>It is similar to the XMLHttpRequest but it is more powerful and more ﬂexible</li>
-<li>It provides a generic deﬁnition of Request and Response objects</li>
-<li>The global fetch function takes the URL of a resource as parameter and returns a promise which resolves to a Response object once the response is available</li>
-</ul>
-<p><code>fetch('http://quotes.org')</code><br><code>  .then(response =&gt; response.text())</code><br><code>  .then(quote =&gt; console.log(quote));</code></p>
-<h3>Response Object</h3>
-<ul>
-<li>A Response object has the following properties:
-<ul>
-<li>ok - true if the status code is 2xx, false otherwise</li>
-<li>status - the response status code</li>
-<li>statusText - the status code message</li>
-<li>headers - the response headers</li>
-</ul>
-</li>
-<li>In addition, Response provides the following methods:
-<ul>
-<li>text() returns a promise resolving to the body as string</li>
-<li>json() returns a promise resolving to the result of parsing the body as JSON</li>
-<li>blob() returns a promise resolving the body as Blob object</li>
-</ul>
-</li>
-</ul>
-<p><code>fetch('http://news.org')</code><br><code>  .then(response =&gt; response.json())</code><br><code>  .then(data =&gt; data.articles.forEach(article =&gt; console.log(article.title)));</code></p>
-<h3>Request Options</h3>
-<p>The fetch function has as a second optional parameter that allows setting the HTTP method, headers and request body:</p>
-<p><code>fetch('http://news.org', {</code><br><code>method: 'POST',</code><br><code>headers: {</code><br><code>'Authorization:': 'Basic amRAZXhhbXBsZS5vcmc6MTIzNDU=',</code><br><code>'Content-Type': 'application/json'</code><br><code>},</code><br><code>body: JSON.stringify(article)</code><br><code>});</code></p>
-<p>Advanced settings include:</p>
-<ul>
-<li>the interaction with the browser cache</li>
-<li>the following of redirect responses</li>
-<li>sending credentials</li>
-<li>aborting requests</li>
-</ul>
-<h3>Error Handling</h3>
-<ul>
-<li>The promise returned by fetch does only reject on network errors but not on HTTP errors such as 404 or 500 (in contrast to many AJAX libraries)</li>
-<li>An accurate error handling should check if the promise was resolved and if its  status is OK</li>
-</ul>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;">fetch(<span class="hljs-string" style="color: #6a8759;">'http://news.org'</span>)
-  .then(response =&gt; {
-    <span class="hljs-keyword" style="color: #cc7832;">if</span> (!response.ok)
-      <span class="hljs-comment" style="color: grey;">// Error handling based on HTTP status</span>
-    <span class="hljs-keyword" style="color: #cc7832;">return</span> response.json();
-  })
-  .then(data =&gt; {
-    ...
-  })
-  .catch(error =&gt; {
-    <span class="hljs-comment" style="color: grey;">// Error handling (network error, JSON syntax error, etc.)</span>
-  });
-</pre>
-<p> </p>
             ]]>
         </content>
     </entry>

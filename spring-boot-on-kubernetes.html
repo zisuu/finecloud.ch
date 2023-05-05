@@ -1,0 +1,131 @@
+<!DOCTYPE html><html lang="de-ch"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Spring Boot on Kubernetes - Finecloud</title><meta name="description" content="Enable Kubernetes in Docker Desktop We will use Docker Desktop to provide us a Test Kubernetes Environment. Open Docker Desktop Settings, go to Tab 'Kubernetes'. Select 'Enable Kubernetes', then 'Apply &amp; Restart'. Now you should be able to see docker-desktop listed, if you run kubectl&hellip;"><meta name="generator" content="Publii Open-Source CMS for Static Site"><link rel="canonical" href="https://www.finecloud.ch/spring-boot-on-kubernetes.html"><link rel="alternate" type="application/atom+xml" href="https://www.finecloud.ch/feed.xml"><link rel="alternate" type="application/json" href="https://www.finecloud.ch/feed.json"><meta property="og:title" content="Spring Boot on Kubernetes"><meta property="og:site_name" content="Finecloud"><meta property="og:description" content="Enable Kubernetes in Docker Desktop We will use Docker Desktop to provide us a Test Kubernetes Environment. Open Docker Desktop Settings, go to Tab 'Kubernetes'. Select 'Enable Kubernetes', then 'Apply &amp; Restart'. Now you should be able to see docker-desktop listed, if you run kubectl&hellip;"><meta property="og:url" content="https://www.finecloud.ch/spring-boot-on-kubernetes.html"><meta property="og:type" content="article"><link rel="shortcut icon" href="https://www.finecloud.ch/media/website/finecloud.png" type="image/png"><link rel="stylesheet" href="https://www.finecloud.ch/assets/css/style.css?v=39da73365516a098a9b73b721fc970e2"><script type="application/ld+json">{"@context":"http://schema.org","@type":"Article","mainEntityOfPage":{"@type":"WebPage","@id":"https://www.finecloud.ch/spring-boot-on-kubernetes.html"},"headline":"Spring Boot on Kubernetes","datePublished":"2023-05-03T20:46","dateModified":"2023-05-05T19:16","description":"Enable Kubernetes in Docker Desktop We will use Docker Desktop to provide us a Test Kubernetes Environment. Open Docker Desktop Settings, go to Tab 'Kubernetes'. Select 'Enable Kubernetes', then 'Apply &amp; Restart'. Now you should be able to see docker-desktop listed, if you run kubectl&hellip;","author":{"@type":"Person","name":"Finecloud","url":"https://www.finecloud.ch/authors/finecloud/"},"publisher":{"@type":"Organization","name":"Finecloud"}}</script><meta name="google-site-verification" content="seFY9U12uiEq5U3_MyZiX6XWzk0AVFl9zITr2ZKsytY"></head><body><div class="site-container"><header class="top" id="js-header"><a class="logo" href="https://www.finecloud.ch/">Finecloud</a><nav class="navbar js-navbar"><button class="navbar__toggle js-toggle" aria-label="Menu" aria-haspopup="true" aria-expanded="false"><span class="navbar__toggle-box"><span class="navbar__toggle-inner">Menu</span></span></button><ul class="navbar__menu"><li><a href="https://www.finecloud.ch/" target="_self">Blog</a></li><li><a href="https://www.finecloud.ch/tags/" target="_self">Tags</a></li></ul></nav><div class="search"><div class="search__overlay js-search-overlay"><div class="search__overlay-inner"><form action="https://www.finecloud.ch/search.html" class="search__form"><input class="search__input js-search-input" type="search" name="q" placeholder="search..." aria-label="search..." autofocus="autofocus"></form><button class="search__close js-search-close" aria-label="Close">Close</button></div></div><button class="search__btn js-search-btn" aria-label="Search"><svg role="presentation" focusable="false"><use xlink:href="https://www.finecloud.ch/assets/svg/svg-map.svg#search"/></svg></button></div></header><main><article class="post"><div class="hero"><figure class="hero__image hero__image--overlay"><img src="https://www.finecloud.ch/media/website/download.jpg" srcset="https://www.finecloud.ch/media/website/responsive/download-xs.jpg 300w, https://www.finecloud.ch/media/website/responsive/download-sm.jpg 480w, https://www.finecloud.ch/media/website/responsive/download-md.jpg 768w, https://www.finecloud.ch/media/website/responsive/download-lg.jpg 1024w, https://www.finecloud.ch/media/website/responsive/download-xl.jpg 1360w, https://www.finecloud.ch/media/website/responsive/download-2xl.jpg 1600w" sizes="100vw" loading="eager" alt=""></figure><header class="hero__content"><div class="wrapper"><div class="post__meta"><time datetime="2023-05-03T20:46">Mai 3, 2023</time></div><h1>Spring Boot on Kubernetes</h1></div></header></div><div class="wrapper post__entry"><div class="post__toc"><h3>Table of Contents</h3><ul><li><a href="#mcetoc_1gvimt7cd1et">Enable Kubernetes in Docker Desktop</a></li><li><a href="#mcetoc_1gvimt7cd1eu">Create Deployment</a></li><li><a href="#mcetoc_1gvimt7cd1ev">Create Service</a></li><li><a href="#mcetoc_1gvimt7cd1f0">Port Forwarding</a></li></ul></div><h2 id="mcetoc_1gvimt7cd1et">Enable Kubernetes in Docker Desktop</h2><p>We will use Docker Desktop to provide us a Test Kubernetes Environment.</p><p>Open Docker Desktop Settings, go to Tab "Kubernetes". Select "Enable Kubernetes", then "Apply &amp; Restart".</p><p>Now you should be able to see docker-desktop listed, if you run <code>kubectl get nodes</code></p><h2 id="mcetoc_1gvimt7cd1eu">Create Deployment</h2><p>We will use the Docker Image we created in the last Post. Instead of directly deploying the Application we want to create a deployment.yml file:</p><p><code>kubectl create deployment myapp --image name/myapp --dry-run=client -o=yaml &gt; deployment.yml</code></p><p>the content looks like this:</p><pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-attr">apiVersion:</span> apps/v1
+<span class="hljs-attr">kind:</span> Deployment
+<span class="hljs-attr">metadata:</span>
+<span class="hljs-attr">  creationTimestamp:</span> <span class="hljs-literal" style="color: #6897bb;">null</span>
+<span class="hljs-attr">  labels:</span>
+<span class="hljs-attr">    app:</span> myapp
+<span class="hljs-attr">  name:</span> myapp
+<span class="hljs-attr">spec:</span>
+<span class="hljs-attr">  replicas:</span> <span class="hljs-number" style="color: #6897bb;">1</span>
+<span class="hljs-attr">  selector:</span>
+<span class="hljs-attr">    matchLabels:</span>
+<span class="hljs-attr">      app:</span> myapp
+<span class="hljs-attr">  strategy:</span> {}
+<span class="hljs-attr">  template:</span>
+<span class="hljs-attr">    metadata:</span>
+<span class="hljs-attr">      creationTimestamp:</span> <span class="hljs-literal" style="color: #6897bb;">null</span>
+<span class="hljs-attr">      labels:</span>
+<span class="hljs-attr">        app:</span> myapp
+<span class="hljs-attr">    spec:</span>
+<span class="hljs-attr">      containers:</span>
+<span class="hljs-attr">      - image:</span> name/myapp
+<span class="hljs-attr">        name:</span> myapp
+<span class="hljs-attr">        resources:</span> {}
+<span class="hljs-attr">status:</span> {}</pre><p>now we can apply this deployment with: <code>kubectl apply -f deployment.yml</code></p><h2 id="mcetoc_1gvimt7cd1ev">Create Service</h2><p>With the command </p><p><code>kubectl create service clusterip myapp --tcp=8080:8080 --dry-run=client -o=yaml &gt; service.yml</code></p><p>we can create the service definition file. And then apply it with: </p><p><code>kubectl apply -f service.yml</code></p><p>the content of the file:</p><pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-attr">apiVersion:</span> v1
+<span class="hljs-attr">kind:</span> Service
+<span class="hljs-attr">metadata:</span>
+<span class="hljs-attr">  creationTimestamp:</span> <span class="hljs-literal" style="color: #6897bb;">null</span>
+<span class="hljs-attr">  labels:</span>
+<span class="hljs-attr">    app:</span> myapp
+<span class="hljs-attr">  name:</span> myapp
+<span class="hljs-attr">spec:</span>
+<span class="hljs-attr">  ports:</span>
+<span class="hljs-attr">  - name:</span> <span class="hljs-number" style="color: #6897bb;">8080</span><span class="hljs-bullet" style="color: #6897bb;">-8080</span>
+<span class="hljs-attr">    port:</span> <span class="hljs-number" style="color: #6897bb;">8080</span>
+<span class="hljs-attr">    protocol:</span> TCP
+<span class="hljs-attr">    targetPort:</span> <span class="hljs-number" style="color: #6897bb;">8080</span>
+<span class="hljs-attr">  selector:</span>
+<span class="hljs-attr">    app:</span> myapp
+<span class="hljs-attr">  type:</span> ClusterIP
+<span class="hljs-attr">status:</span>
+<span class="hljs-attr">  loadBalancer:</span> {}</pre><p>with <code>kubectl get all</code> we can now see that the service has been created.</p><h2 id="mcetoc_1gvimt7cd1f0">Port Forwarding</h2><p>To be able to access the App, we need to create a Port Forwarding like so:</p><ol><li>get your local ip address, e.g.: <code>ipconfig getifaddr en0</code></li><li>configure port forwarding with: <code>kubectl port-forward service/myapp 8080:8080</code></li><li>Check if it works with: <code>curl localhost:8080/actuator/health</code></li><li>this should return: <code>{"status":"UP","groups":["liveness","readiness"]}</code></li></ol><h2>Terminate Service and Deployment</h2><p>If you want to stop a Service or a Deployment you can use these cmds:</p><p><code>kubectl delete service myapp</code></p><p><code>kubectl delete deployment myapp</code></p><h2>Exposing Services</h2><p>If you want to expose a Service permanent and not only with Port Forwarding you can go with this: </p><ol><li>Replace <em><span class="hljs-attr">type:</span> ClusterIP </em>in the service.yml file with <em><span class="hljs-attr">type:</span> NodePort</em></li><li>Reapply the deployment and service</li><li>Check what dynamic Port the service has been exposed on: <code>kubectl get all</code></li><li>Check access with curl: <code>curl localhost:31610/actuator/health</code></li></ol><h2>Accessing Logs</h2><p>One option is to check the logs on the docker containers directly with:</p><ol><li>docker ps -a</li><li>docker logs -f &lt;containername&gt;</li></ol><p>but in a Kubernetes context you probably cant access the docker logs directly, or docker is not used at all, thats why you need to go with this:</p><ol><li>kubectl get all</li><li>kubectl logs -f &lt;podname&gt;</li></ol><h2>Setting Environment Variables</h2><p>Example use case: overwrite log levels.</p><ol><li>Change your deployment.yml and add the env part to it:</li><li><pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-attr">apiVersion:</span> apps/v1
+<span class="hljs-attr">kind:</span> Deployment
+<span class="hljs-attr">metadata:</span>
+<span class="hljs-attr">  creationTimestamp:</span> <span class="hljs-literal" style="color: #6897bb;">null</span>
+<span class="hljs-attr">  labels:</span>
+<span class="hljs-attr">    app:</span> myapp
+<span class="hljs-attr">  name:</span> myapp
+<span class="hljs-attr">spec:</span>
+<span class="hljs-attr">  replicas:</span> <span class="hljs-number" style="color: #6897bb;">1</span>
+<span class="hljs-attr">  selector:</span>
+<span class="hljs-attr">    matchLabels:</span>
+<span class="hljs-attr">      app:</span> myapp
+<span class="hljs-attr">  strategy:</span> {}
+<span class="hljs-attr">  template:</span>
+<span class="hljs-attr">    metadata:</span>
+<span class="hljs-attr">      creationTimestamp:</span> <span class="hljs-literal" style="color: #6897bb;">null</span>
+<span class="hljs-attr">      labels:</span>
+<span class="hljs-attr">        app:</span> myapp
+<span class="hljs-attr">    spec:</span>
+<span class="hljs-attr">      containers:</span>
+<span class="hljs-attr">      - image:</span> jhyyhpp/kbe-rest-brewery
+<span class="hljs-attr">        name:</span> kbe-rest-brewery
+<span class="hljs-attr">        resources:</span> {}
+<span class="hljs-attr">        env:</span>
+<span class="hljs-attr">        - name:</span> LOGGING_LEVEL_MYAPP
+<span class="hljs-attr">          value:</span> INFO
+<span class="hljs-attr">status:</span> {}
+</pre></li><li>kubectl apply -f deployment.yml</li><li>kubectl get all</li><li>kubectl logs -f &lt;podname&gt;</li></ol><h2>Readiness Probe</h2><div class="flex flex-grow flex-col gap-3"><div class="min-h-[20px] flex flex-col items-start gap-4 whitespace-pre-wrap break-words"><div class="markdown prose w-full break-words dark:prose-invert light"><p>A readiness probe is an essential feature in Kubernetes that ensures the proper functioning of a deployed application. Here are some reasons why you should use a readiness probe:</p><ol><li><p>Prevents traffic to unhealthy pods: Kubernetes uses readiness probes to determine if a pod is ready to receive traffic or not. If a pod is not ready, Kubernetes will not route traffic to that pod. This ensures that traffic is only sent to healthy pods, preventing downtime and improving the overall availability of the application.</p></li><li><p>Allows for graceful scaling: When new pods are added to a deployment or replica set, Kubernetes uses readiness probes to determine when the new pods are ready to receive traffic. This allows for a more graceful scaling experience, as traffic is only routed to new pods once they are ready to handle it.</p></li><li><p>Helps with rolling updates: Kubernetes uses readiness probes to determine when a new version of an application is ready to receive traffic. This allows for rolling updates to be performed without causing downtime or disruption to users.</p></li><li><p>Provides insight into application health: Readiness probes can be used to provide insight into the health of an application. By monitoring the results of readiness probes, you can determine if your application is healthy and identify any issues that need to be addressed.</p></li></ol><p>Overall, readiness probes are a crucial feature in Kubernetes that help ensure the proper functioning of your application and improve its availability.</p></div></div></div><h2>Liveness Probe</h2><div class="flex flex-grow flex-col gap-3"><div class="min-h-[20px] flex flex-col items-start gap-4 whitespace-pre-wrap break-words"><div class="markdown prose w-full break-words dark:prose-invert light"><p>A liveness probe is another important feature in Kubernetes that ensures the health of a deployed application. Here are some reasons why you should use a liveness probe:</p><ol><li><p>Restarts unhealthy pods: Kubernetes uses liveness probes to determine if a pod is healthy or not. If a pod fails the liveness probe, Kubernetes will automatically restart the pod, ensuring that the application remains available.</p></li><li><p>Prevents failed requests: Liveness probes help prevent failed requests by ensuring that only healthy pods are serving traffic. If a pod is not healthy, Kubernetes will not route traffic to that pod, preventing failed requests and improving the overall availability of the application.</p></li><li><p>Identifies application failures: Liveness probes can be used to identify application failures and help diagnose issues. By monitoring the results of liveness probes, you can determine if your application is healthy and identify any issues that need to be addressed.</p></li><li><p>Supports self-healing: By automatically restarting unhealthy pods, liveness probes support self-healing in Kubernetes. This ensures that your application remains available even in the face of failures.</p></li></ol><p>Overall, liveness probes are a crucial feature in Kubernetes that help ensure the health of your application and improve its availability. By using liveness probes, you can ensure that your application remains available, even in the face of failures, and identify and address any issues that may arise.</p><p>To add the readiness and liveness probles we need to add the following content to our deployment.yml file:</p><pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-attr">apiVersion:</span> apps/v1
+<span class="hljs-attr">kind:</span> Deployment
+<span class="hljs-attr">metadata:</span>
+<span class="hljs-attr">  creationTimestamp:</span> <span class="hljs-literal" style="color: #6897bb;">null</span>
+<span class="hljs-attr">  labels:</span>
+<span class="hljs-attr">    app:</span> myapp
+<span class="hljs-attr">  name:</span> myapp
+<span class="hljs-attr">spec:</span>
+<span class="hljs-attr">  replicas:</span> <span class="hljs-number" style="color: #6897bb;">1</span>
+<span class="hljs-attr">  selector:</span>
+<span class="hljs-attr">    matchLabels:</span>
+<span class="hljs-attr">      app:</span> myapp
+<span class="hljs-attr">  strategy:</span> {}
+<span class="hljs-attr">  template:</span>
+<span class="hljs-attr">    metadata:</span>
+<span class="hljs-attr">      creationTimestamp:</span> <span class="hljs-literal" style="color: #6897bb;">null</span>
+<span class="hljs-attr">      labels:</span>
+<span class="hljs-attr">        app:</span> myapp
+<span class="hljs-attr">    spec:</span>
+<span class="hljs-attr">      containers:</span>
+<span class="hljs-attr">      - image:</span> jhyyhpp/kbe-rest-brewery
+<span class="hljs-attr">        name:</span> kbe-rest-brewery
+<span class="hljs-attr">        resources:</span> {}
+<span class="hljs-attr">        env:</span>
+<span class="hljs-attr">        - name:</span> LOGGING_LEVEL_CH_FINECLOUD_SFGRESTBREWERY
+<span class="hljs-attr">          value:</span> INFO
+<span class="hljs-attr">        - name:</span> MANAGEMENT_ENDPOINTS_HEALTH_PROBES_ENABLED
+<span class="hljs-attr">          value:</span> <span class="hljs-string" style="color: #6a8759;">"true"</span>
+<span class="hljs-attr">        - name:</span> MANAGEMENT_HEALTH_READINESSSTATE_ENABLED
+<span class="hljs-attr">          value:</span> <span class="hljs-string" style="color: #6a8759;">"true"</span>
+<span class="hljs-attr">        - name:</span> MANAGEMENT_HEALTH_LIVENESSSTATE_ENABLED
+<span class="hljs-attr">          value:</span> <span class="hljs-string" style="color: #6a8759;">"true"</span>
+<span class="hljs-attr">        livenessProbe:</span>
+<span class="hljs-attr">            httpGet:</span>
+<span class="hljs-attr">                path:</span> /actuator/health/liveness
+<span class="hljs-attr">                port:</span> <span class="hljs-number" style="color: #6897bb;">8080</span>
+<span class="hljs-attr">        readinessProbe:</span>
+<span class="hljs-attr">          httpGet:</span>
+<span class="hljs-attr">            path:</span> /actuator/health/readiness
+<span class="hljs-attr">            port:</span> <span class="hljs-number" style="color: #6897bb;">8080</span>
+<span class="hljs-attr">status:</span> {}
+</pre></div></div></div><h2>Graceful Shutdown</h2><div class="flex flex-grow flex-col gap-3"><div class="min-h-[20px] flex flex-col items-start gap-4 whitespace-pre-wrap break-words"><div class="markdown prose w-full break-words dark:prose-invert light"><p>Graceful shutdown is an important feature to consider when deploying an application on Kubernetes. Here are some reasons why you should use a graceful shutdown:</p><ol><li><p>Minimizes downtime: Graceful shutdown allows your application to shut down in a controlled manner, ensuring that any in-flight requests are completed before the application is terminated. This helps to minimize downtime and improve the overall availability of the application.</p></li><li><p>Avoids data loss: During a graceful shutdown, your application has the opportunity to save any data that needs to be persisted before shutting down. This helps to avoid data loss and ensures that your application can be restarted without losing any important data.</p></li><li><p>Prevents disruption to users: A graceful shutdown ensures that your application is shut down in a way that is transparent to users. By completing any in-flight requests and avoiding abrupt terminations, you can prevent disruption to users and provide a better user experience.</p></li><li><p>Supports scaling: When scaling down your application, a graceful shutdown ensures that any remaining requests are completed before the pod is terminated. This allows for more efficient scaling and helps to prevent any lost or interrupted requests.</p></li></ol><p>Overall, a graceful shutdown is an important feature to consider when deploying an application on Kubernetes. It helps to minimize downtime, avoid data loss, prevent disruption to users, and support efficient scaling. By using a graceful shutdown, you can ensure that your application is shut down in a way that is safe, controlled, and reliable.</p></div></div></div><p>To configure graceful shutdown we need to add the following content to our deployment.yml file:</p><pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-attr">        - name:</span> SERVER_SHUTDOWN
+<span class="hljs-attr">          value:</span> <span class="hljs-string" style="color: #6a8759;">"graceful"</span>
+<span class="hljs-attr">        lifecycle:</span>
+<span class="hljs-attr">          preStop:</span>
+<span class="hljs-attr">            exec:</span>
+<span class="hljs-attr">              command:</span> [<span class="hljs-string" style="color: #6a8759;">"/bin/sh"</span>, <span class="hljs-string" style="color: #6a8759;">"-c"</span>, <span class="hljs-string" style="color: #6a8759;">"sleep 10"</span>]</pre><p> </p></div><footer class="wrapper post__footer"><p class="post__last-updated">This article was updated on Mai 5, 2023</p><ul class="post__tag"><li><a href="https://www.finecloud.ch/tags/container/">container</a></li><li><a href="https://www.finecloud.ch/tags/dev/">dev</a></li><li><a href="https://www.finecloud.ch/tags/docker/">docker</a></li><li><a href="https://www.finecloud.ch/tags/java/">java</a></li><li><a href="https://www.finecloud.ch/tags/kubernetes/">kubernetes</a></li><li><a href="https://www.finecloud.ch/tags/softwareentwicklung/">software development</a></li><li><a href="https://www.finecloud.ch/tags/spring/">spring</a></li><li><a href="https://www.finecloud.ch/tags/spring-framework/">spring-framework</a></li></ul><div class="post__share"></div></footer></article><nav class="post__nav"><div class="post__nav-inner"><div class="post__nav-prev"><svg width="1.041em" height="0.416em" aria-hidden="true"><use xlink:href="https://www.finecloud.ch/assets/svg/svg-map.svg#arrow-prev"/></svg> <a href="https://www.finecloud.ch/building-spring-boot-docker-images.html" class="post__nav-link" rel="prev"><span>Previous</span> Building Spring Boot Docker Images</a></div></div></nav><div class="post__related related"><div class="wrapper"><h2 class="h5 related__title">You should also read:</h2><article class="related__item"><div class="feed__meta"><time datetime="2023-04-10T08:36" class="feed__date">April 10, 2023</time></div><h3 class="h1"><a href="https://www.finecloud.ch/spring-exception-handling.html">Spring Exception Handling</a></h3></article><article class="related__item"><div class="feed__meta"><time datetime="2023-04-04T15:29" class="feed__date">April 4, 2023</time></div><h3 class="h1"><a href="https://www.finecloud.ch/spring-bean-lifecycle.html">Spring Bean Lifecycle</a></h3></article><article class="related__item"><div class="feed__meta"><time datetime="2023-04-04T14:57" class="feed__date">April 4, 2023</time></div><h3 class="h1"><a href="https://www.finecloud.ch/spring-annotations.html">Spring Annotations</a></h3></article></div></div></main><footer class="footer"><div class="footer__copyright"><p>Powered by Publii</p></div><button onclick="backToTopFunction()" id="backToTop" class="footer__bttop" aria-label="Back to top" title="Back to top"><svg><use xlink:href="https://www.finecloud.ch/assets/svg/svg-map.svg#toparrow"/></svg></button></footer></div><script>window.publiiThemeMenuConfig = {    
+        mobileMenuMode: 'sidebar',
+        animationSpeed: 300,
+        submenuWidth: 'auto',
+        doubleClickTime: 500,
+        mobileMenuExpandableSubmenus: true, 
+        relatedContainerForOverlayMenuSelector: '.top',
+   };</script><script defer="defer" src="https://www.finecloud.ch/assets/js/scripts.min.js?v=6ca8b60e6534a3888de1205e82df8528"></script><script>var images = document.querySelectorAll('img[loading]');
+
+        for (var i = 0; i < images.length; i++) {
+            if (images[i].complete) {
+                images[i].classList.add('is-loaded');
+            } else {
+                images[i].addEventListener('load', function () {
+                    this.classList.add('is-loaded');
+                }, false);
+            }
+        }</script></body></html>

@@ -445,6 +445,9 @@
 <loc>https://www.finecloud.ch/page/13/</loc>
 </url>
 <url>
+<loc>https://www.finecloud.ch/page/14/</loc>
+</url>
+<url>
 <loc>https://www.finecloud.ch/page/2/</loc>
 </url>
 <url>
@@ -507,6 +510,10 @@
 <image:loc>https://www.finecloud.ch/media/posts/83/lifecycle.png</image:loc>
 <image:title><![CDATA[]]></image:title>
 </image:image>
+</url>
+<url>
+<loc>https://www.finecloud.ch/spring-boot-on-kubernetes.html</loc>
+<lastmod>2023-05-05T19:16:26+02:00</lastmod>
 </url>
 <url>
 <loc>https://www.finecloud.ch/spring-exception-handling.html</loc>

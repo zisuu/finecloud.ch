@@ -3,12 +3,438 @@
     <title>Finecloud</title>
     <link href="https://www.finecloud.ch/feed.xml" rel="self" />
     <link href="https://www.finecloud.ch" />
-    <updated>2023-05-05T19:16:26+02:00</updated>
+    <updated>2023-09-18T17:11:41+02:00</updated>
     <author>
         <name>Finecloud</name>
     </author>
     <id>https://www.finecloud.ch</id>
 
+    <entry>
+        <title>Terraform Tips and Tricks</title>
+        <author>
+            <name>Finecloud</name>
+        </author>
+        <link href="https://www.finecloud.ch/terraform-tips-and-tricks-2.html"/>
+        <id>https://www.finecloud.ch/terraform-tips-and-tricks-2.html</id>
+            <category term="terraform"/>
+            <category term="iac"/>
+            <category term="devops"/>
+            <category term="dev"/>
+
+        <updated>2023-09-18T17:11:41+02:00</updated>
+            <summary>
+                <![CDATA[
+                    module "zland" { source = "git::ssh//git@gitlab.com/zland/module.git" version = "1.0.5" servers = 3 } Module Output Values resource "aws_instance" "appserver" { #... instance = module.servers.instance_ids } Since the resources defined in a module are encapsulated, a calling module cannot access their attributes directly. Instead, the child&hellip;
+                ]]>
+            </summary>
+        <content type="html">
+            <![CDATA[
+                
+  <p>
+    <br>
+  </p>
+
+  <div class="post__toc">
+    <h3>Table of contents</h3>
+    <ul>
+      <li><a href="#facts-about-remote-state">Facts about Remote State</a></li><li><a href="#remote-state-storage-support">Remote State Storage support</a></li><li><a href="#separate-environments">Separate Environments</a></li><li><a href="#use-modules">Use Modules</a></li><li><a href="#arguments-to-use-with-modules">Arguments to use with Modules</a></li><li><a href="#module-output-valueslessbrgreater">Module Output Values<br></a><ul><li><a href="#create-a-custom-module-example">Create a custom Module (Example)</a></li></ul></li><li><a href="#dont-repeat-yourself">Don’t Repeat Yourself</a></li><li><a href="#3-things-to-use-to-keep-it-dry">3 Things to Use to Keep It DRY</a><ul><li><a href="#conditional-example">Conditional Example</a><ul><li><a href="#the-create_bucketfalse-conditional">The create_bucket=false Conditional</a></li><li><a href="#the-create_buckettrue-conditional">The create_bucket=true Conditional</a></li></ul></li></ul></li><li><a href="#use-null_resource">Use null_resource</a><ul><li><a href="#example-null_resource">Example null_resource</a></li></ul></li><li><a href="#use-functions">Use Functions</a><ul><li><a href="#the-format-function">The format Function</a></li><li><a href="#the-matchkeys-function">The matchkeys Function</a></li><li><a href="#the-element-function">The element Function</a></li></ul></li><li><a href="#test-your-code">Test Your Code</a><ul><li><a href="#other-testing-tools">Other Testing Tools</a></li></ul></li>
+    </ul>
+  </div>
+  
+
+    <h2 id="facts-about-remote-state">
+      Facts about Remote State
+    </h2>
+
+  <ul>
+    <li>Remote state is not the default; you must specify which backend to use and configure it to be used.</li><li>Remote state can be used by multiple team members. Terraform will write state data to a remote data store that users with access can use so there aren’t multiple state files.</li><li>Remote state uses a backend, which is configured in your configuration’s root module.</li><li>Remote state allows you to share output values with other configurations. Those configurations can then consume the exposed outputs in additional configurations.</li>
+  </ul>
+
+    <h2 id="remote-state-storage-support">
+      Remote State Storage support
+    </h2>
+
+  <ul>
+    <li>Terraform Cloud</li><li>HashiCorp Consul</li><li>Amazon S3</li><li>Azure Blob Storage</li><li>Google Cloud Storage</li><li>Alibaba Cloud OSS</li><li>...and more</li>
+  </ul>
+
+    <h2 id="separate-environments">
+      Separate Environments
+    </h2>
+
+  <ol>
+    <li>It is good practice to separate your Terraform configurations per environment.</li><li>Separate environments help with code organization, as well as allowing for better and easier CI and automation integration.</li><li>Implementing a one-folder-per-environment pattern lets you copy and paste Terraform code from one folder to another. This, used with variables, allows you to quickly change only what is needed per environment.</li>
+  </ol>
+
+    <figure class="post__image post__image--center">
+      <img loading="lazy" src="https://www.finecloud.ch/media/posts/92/Screenshot-2023-09-15-at-21.25.59.png" height="620" width="1432" alt=""  sizes="100vw" srcset="https://www.finecloud.ch/media/posts/92/responsive/Screenshot-2023-09-15-at-21.25.59-xs.png 300w ,https://www.finecloud.ch/media/posts/92/responsive/Screenshot-2023-09-15-at-21.25.59-sm.png 480w ,https://www.finecloud.ch/media/posts/92/responsive/Screenshot-2023-09-15-at-21.25.59-md.png 768w ,https://www.finecloud.ch/media/posts/92/responsive/Screenshot-2023-09-15-at-21.25.59-lg.png 1024w ,https://www.finecloud.ch/media/posts/92/responsive/Screenshot-2023-09-15-at-21.25.59-xl.png 1360w ,https://www.finecloud.ch/media/posts/92/responsive/Screenshot-2023-09-15-at-21.25.59-2xl.png 1600w">
+      
+    </figure>
+
+    <h2 id="use-modules">
+      Use Modules
+    </h2>
+
+  <ol>
+    <li>Modules are containers for multiple resources that are used together.</li><li>Every Terraform configuration contains at least one module.</li><li>Modules can call other modules. This lets you include a module’s resources in a configuration in a concise way.</li><li>Modules can be called multiple times, either in the same Terraform configuration or in separate ones. This allows for resource configurations to be packaged and reused.</li>
+  </ol>
+
+    <h2 id="arguments-to-use-with-modules">
+      Arguments to use with Modules
+    </h2>
+
+  <ul>
+    <li>source: This argument is mandatory for all modules.</li><li>version: This argument is recommended for modules from a registry.</li><li>meta-arguments: Arguments like for_each and count.</li><li>input variables: Most other arguments correspond to input variables.</li>
+  </ul>
+<pre class=" language-go"><code>module "zland" {
+  source = "git::ssh//git@gitlab.com/zland/module.git"
+  version = "1.0.5"
+  servers = 3
+}</code></pre>
+
+    <h2 id="module-output-valueslessbrgreater">
+      Module Output Values<br>
+    </h2>
+<pre class=" language-go"><code>resource "aws_instance" "appserver" {
+    #...
+    instance = module.servers.instance_ids
+}</code></pre>
+
+  <p>
+    Since the resources defined in a module are encapsulated, a calling module cannot access their attributes directly. Instead, the child module can declare output values.
+  </p>
+
+    <h3 id="create-a-custom-module-example">
+      Create a custom Module (Example)
+    </h3>
+
+  <p>
+    Create those files in the folder modules/ec2:<br><br>main.tf
+  </p>
+<pre class=" language-go"><code>resource "aws_instance" "app_server" {
+  ami           = "DUMMY_VALUE_AMI"
+  instance_type = "t3.micro"
+  subnet_id     = "DUMMY_VALUE_SUBNET_ID"
+  tags = {
+    Name = "WayneCorp"
+  }
+}
+</code></pre>
+
+  <p>
+    outputs.tf
+  </p>
+<pre class=" language-go"><code>output "instance_id" {
+  description = "ID of the EC2 instance"
+  value       = aws_instance.app_server.id
+}
+
+output "instance_public_ip" {
+  description = "Public IP address of the EC2 instance"
+  value       = aws_instance.app_server.public_ip
+}</code></pre>
+
+  <p>
+    to use your module, add this snippet at the end of you existing ec2.tf file:<br><br>existing ec2.tf:
+  </p>
+<pre class=" language-go"><code>terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~&gt; 3.27"
+    }
+  }
+  required_version = "&gt;= 0.14.9"
+}
+provider "aws" {
+  profile = "default"
+  region  = "us-east-1"
+}</code></pre>
+
+  <p>
+    new content to add:
+  </p>
+<pre class=" language-go"><code>module "ec2-module" {
+  source = "./modules/ec2/"
+}
+</code></pre>
+
+  <p>
+    now you can run a <code>terraform fmt </code>to format your code.<br><br>Now run a <code>terraform init</code>&nbsp;to initialize your terraform backend<br><br>run a <code>terraform validate</code>&nbsp;to make sure syntax is correct<br><br>finally run a <code>terraform plan</code>&nbsp;and if your happy with the output a terraform apply<br><br>To check your state you can now run <code>terraform show</code>&nbsp;or <code>aws ec2 describe-instances</code>
+  </p>
+
+    <h2 id="dont-repeat-yourself">
+      Don’t Repeat Yourself
+    </h2>
+
+  <ul>
+    <li>DRY is a principle that promotes modularization, abstraction, and code reuse and discourages repetition.</li><li>    This principle states that “every piece of knowledge must have a single, unambiguous, authoritative representation within a system”.</li><li>    This principle can be applied to not only programming, but to database schemas, test plans, the build system, and even documentation.</li><li>    If applied successfully, a modification of a single piece of the system will not require a change in other logic or unrelated elements of the system.</li>
+  </ul>
+
+  <p>
+    Not Keeping It DRY looks like this:
+  </p>
+
+    <figure class="post__image post__image--center">
+      <img loading="lazy" src="https://www.finecloud.ch/media/posts/92/Screenshot-2023-09-18-at-13.40.41.png" height="482" width="1958" alt=""  sizes="100vw" srcset="https://www.finecloud.ch/media/posts/92/responsive/Screenshot-2023-09-18-at-13.40.41-xs.png 300w ,https://www.finecloud.ch/media/posts/92/responsive/Screenshot-2023-09-18-at-13.40.41-sm.png 480w ,https://www.finecloud.ch/media/posts/92/responsive/Screenshot-2023-09-18-at-13.40.41-md.png 768w ,https://www.finecloud.ch/media/posts/92/responsive/Screenshot-2023-09-18-at-13.40.41-lg.png 1024w ,https://www.finecloud.ch/media/posts/92/responsive/Screenshot-2023-09-18-at-13.40.41-xl.png 1360w ,https://www.finecloud.ch/media/posts/92/responsive/Screenshot-2023-09-18-at-13.40.41-2xl.png 1600w">
+      
+    </figure>
+
+  <p>
+    Keeping it DRY on the oder hand look like this:
+  </p>
+
+    <figure class="post__image post__image--center">
+      <img loading="lazy" src="https://www.finecloud.ch/media/posts/92/Screenshot-2023-09-18-at-13.43.16.png" height="590" width="2216" alt=""  sizes="100vw" srcset="https://www.finecloud.ch/media/posts/92/responsive/Screenshot-2023-09-18-at-13.43.16-xs.png 300w ,https://www.finecloud.ch/media/posts/92/responsive/Screenshot-2023-09-18-at-13.43.16-sm.png 480w ,https://www.finecloud.ch/media/posts/92/responsive/Screenshot-2023-09-18-at-13.43.16-md.png 768w ,https://www.finecloud.ch/media/posts/92/responsive/Screenshot-2023-09-18-at-13.43.16-lg.png 1024w ,https://www.finecloud.ch/media/posts/92/responsive/Screenshot-2023-09-18-at-13.43.16-xl.png 1360w ,https://www.finecloud.ch/media/posts/92/responsive/Screenshot-2023-09-18-at-13.43.16-2xl.png 1600w">
+      
+    </figure>
+
+  <p>
+    the configurations are symlinked here, this allows us to share the same configurations between those environments
+  </p>
+
+    <h2 id="3-things-to-use-to-keep-it-dry">
+      3 Things to Use to Keep It DRY
+    </h2>
+
+  <ul>
+    <li>Terraform supports conditionals through the syntax of a ternary operator.</li><li>    The most common use case for conditionals is to create a conditional resource based on an input variable and the meta-parameter count.</li>
+  </ul>
+
+    <h3 id="conditional-example">
+      Conditional Example
+    </h3>
+<pre class=" language-go"><code>locals {
+  make_bucket = "${var.create_bucket == "true" ? True : false}"
+}
+resource "google_storage_bucket” “twinkiebucket" {
+  count = "${local.make_bucket ? 1 : 0}"
+  name = "${var.bucket_name}"
+  project = "${var.project_name}"
+}</code></pre>
+
+    <h4 id="the-create_bucketfalse-conditional">
+      The create_bucket=false Conditional
+    </h4>
+
+  <p>
+    output:
+  </p>
+
+  <p>
+    —&gt; test-bucket terraform plan -var=‘create_bucket=false’<br>Refreshing Terraform state in-memory prior to plan...<br>The refreshed state will be used to calculate this plan, but will not be Persisted to local or remote state storage.
+  </p>
+
+  <p>
+    No changes. Infrastructure is up-to-date.<br><br>This means that Terraform did not detect any differences between your configuration and real physical resources that exist. As a result, no actions need to be performed.
+  </p>
+
+    <h4 id="the-create_buckettrue-conditional">
+      The create_bucket=true Conditional
+    </h4>
+
+  <p>
+    output:
+  </p>
+
+  <p>
+    —&gt; test-bucket terraform plan -var=‘create_bucket=true’<br>Refreshing Terraform state in-memory prior to plan...<br>The refreshed state will be used to calculate this plan, but will not be Persisted to local or remote state storage.<br><br>An execution plan has been generated and is shown below. Resource actions are indicated with the following symbols:<br><br>+ create<br>Terraform will perform the following actions:<br><br>+ google_storage_bucket.twinkiebucket ...
+  </p>
+
+    <h2 id="use-null_resource">
+      Use null_resource
+    </h2>
+
+  <ul>
+    <li>The null_resource is useful when you need to do something that is not directly associated with the lifecycle of an actual resource.</li><li>    Within a null_resource, you can configure provisioners to run scripts to do pretty much whatever you want.</li><li>    Just like with provisioners, it is a good idea to use null_resource sparingly since it adds to the complexity of your Terraform usage.</li><li>    Make sure, when you do use it, that you vet the scripts being called thoroughly.</li>
+  </ul>
+
+    <h3 id="example-null_resource">
+      Example null_resource
+    </h3>
+<pre class=" language-go"><code>resource "aws_instance" "prod_cluster" {
+    count = 4
+    #...
+}
+resource "null_resource" "prod_cluster" {
+    triggers = {
+        cluster_instance_ids = join("," aws_instance.prod_cluster.*.id)
+    }
+    connection {
+        host = element(aws_instance.prod_cluster.*.public_ip, 0)
+    }
+    provisioner "remote-exec" {
+        inline = [
+            "prod_cluster.sh ${join(" ", aws_instance.prod_cluster.*.private_ip)}",
+        ]
+    }
+}
+</code></pre>
+
+  <p class="msg msg--highlight">
+    Actions that are done inside a null_resource are not managed by Terraform. If you decide to call a command to create resources in your null_resource, Terraform will not know about the resource creation, and therefore can’t manage its lifecycle and state.
+  </p>
+
+  <p>
+    you could for example add those lines to your main.tf:
+  </p>
+<pre class=" language-go"><code>resource "null_resource" "ec2_status" {
+  provisioner "local-exec" {
+    command = "./scripts/health.sh"
+  }
+}
+</code></pre>
+
+  <p>
+    and add the health.sh script to your repository:
+  </p>
+<pre class=" language-bash"><code>#!/bin/bash
+echo "   -------------------------------- "
+echo "  --&gt; Fetching Instance status."
+sleep 25
+instance_id=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=TheFastestManAlive" "Name=instance-state-name,Values=running" --query 'Reservations[*].Instances[*].InstanceId' --output text)
+size=${#instance_id}
+echo "  --&gt; Instance ID: $instance_id"
+sleep 2
+instance_state=$(aws ec2 describe-instance-status --instance-ids $instance_id --query 'InstanceStatuses[*].InstanceState.Name' --output text)
+size=${#instance_state}
+echo "  --&gt; Instance Status: $instance_state"
+sleep 2
+instance_zone=$(aws ec2 describe-instance-status --instance-ids $instance_id --query 'InstanceStatuses[*].AvailabilityZone' --output text)
+size=${#instance_zone}
+echo "  --&gt; Availability Zone: $instance_zone"
+sleep 2
+fetch_instance_health=$(aws ec2 describe-instance-status --instance-ids $instance_id --query 'InstanceStatuses[*].InstanceStatus.Status' --output text)
+echo "  --&gt; Instance health check : $fetch_instance_health"
+echo "  -------------------------------------------"</code></pre>
+
+  <p>
+    do run some trivial heal check after the deployment of our EC2 instance.
+  </p>
+
+    <h2 id="use-functions">
+      Use Functions
+    </h2>
+
+  <ul>
+    <li>Terraform has built-in interpolation functions that allow you to use interpolation syntax embedded within strings to interpolate other values.</li><li>Interpolationfunctionsarecalledwiththesyntax${name(arg, arg2, ...)}.</li><li>The interpolation syntax allows you to call a large list of built-in functions.</li>
+  </ul>
+
+    <h3 id="the-format-function">
+      The format Function
+    </h3>
+<pre class=" language-bash"><code>#format.tf
+locals {
+hostname = "${format("%s-%s-%s-%s-%04d-%s", var.region, var.env, var.app,
+var.type, var.cluster_id, var.id)}" }</code></pre>
+
+  <p>
+    this Terraform code defines a local variable named <em>hostname</em>&nbsp;using the locals block. This variable is computed using the `format` function and a string template. Let's break down the components of this function:<br><br>1. `${format(...)}:` This part of the code is using Terraform's interpolation syntax `${...}` to execute the `format` function. The `format` function is used to create formatted strings by substituting values into placeholders within a template string.<br><br>2. `"${format("%s-%s-%s-%s-%04d-%s", var.region, var.env, var.app, var.type, var.cluster_id, var.id)}"`: This is the template string used in the `format` function. It consists of several placeholders, each represented by `%s` or `%04d`, which are replaced by the values provided after the template string.
+  </p>
+
+  <ul>
+    <li>`%s`: This is a placeholder for a string value.</li><li>`%04d`: This is a placeholder for a decimal integer value, formatted with leading zeros to ensure a total width of 4 characters.</li>
+  </ul>
+
+  <p>
+    The values to be substituted into these placeholders come from various Terraform variables:
+  </p>
+
+  <ul>
+    <li>`var.region`: This variable is expected to contain a string representing a region.</li><li>`var.env`: This variable is expected to contain a string representing an environment.</li><li>`var.app`: This variable is expected to contain a string representing an application name.</li><li>`var.type`: This variable is expected to contain a string representing a type.</li><li>`var.cluster_id`: This variable is expected to contain a numeric cluster identifier.</li><li>`var.id`: This variable is expected to contain a string or value that is used in the formatted hostname.</li>
+  </ul>
+
+  <p>
+    The `format` function combines these values using the specified template to generate a formatted hostname. The resulting hostname will be a string that includes the region, environment, application, type, cluster identifier (with leading zeros if necessary), and the additional identifier provided by `var.id`.<br><br>For example, if you have the following values for your variables:
+  </p>
+
+  <ul>
+    <li>`var.region` = "us-west"</li><li>`var.env` = "prod"</li><li>`var.app` = "web"</li><li>`var.type` = "frontend"</li><li>`var.cluster_id` = 42</li><li>`var.id` = "abc123"</li>
+  </ul>
+
+  <p>
+    The `hostname` variable will be computed as follows:<br>
+  </p>
+<pre class=" language-bash"><code>us-west-prod-web-frontend-0042-abc123</code></pre>
+
+  <p>
+    This computed hostname can then be used in your Terraform configuration as needed, such as for provisioning cloud resources with this specific hostname format.
+  </p>
+
+    <h3 id="the-matchkeys-function">
+      The matchkeys Function
+    </h3>
+
+  <p>
+    matchkeys constructs a new list by taking a subset of elements from one list whose indexes match the corresponding indexes of values in another list.<br><br>matchkeys identifies the indexes in keyslist that are equal to elements of searchset, and then constructs a new list by taking those same indexes from valueslist. Both valueslist and keyslist must be the same length.<br><br>The ordering of the values in valueslist is preserved in the result.
+  </p>
+<pre class=" language-bash"><code>#matchkeys.tf
+instances = [ "${matchkeys(
+  google_compute_instance.compute_instance.*.self_link,
+  google_compute_instance.compute_instance.*.zone,
+  data.google_compute_zones.available.names[0])
+}" ]</code></pre>
+
+    <h3 id="the-element-function">
+      The element Function
+    </h3>
+
+  <p>
+    The `element` function in Terraform is primarily used for accessing elements within a list or an array. It's a versatile function that can be used for various purposes, including:
+  </p>
+
+  <ol>
+    <li>Retrieving Values: You can use `element` to retrieve specific values from a list or array. For example, you might use it to access the nth element of a list.</li><li><span style="color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: 1em; font-weight: var(--font-weight-normal);">Looping and Iteration: When combined with other Terraform constructs like `count` or `for_each`, `element` can be used to iterate over a list or array, applying the same resource configuration or operation to each element.</span></li><li>Dynamic Resource Creation: In Terraform, you can use `element` to dynamically create multiple instances of a resource by specifying different configurations for each instance based on the elements of a list or array.</li><li><span style="color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: 1em; font-weight: var(--font-weight-normal);">Conditional Behavior: It can be used to conditionally set values or attributes in resources or variables based on the index of an element in a list.</span></li>
+  </ol>
+
+  <p>
+    Here's an example of how you might use the `element` function in a Terraform configuration:
+  </p>
+<pre class=" language-bash"><code>variable "server_names" {
+  type    = list(string)
+  default = ["web-server-1", "web-server-2", "web-server-3"]
+}
+
+resource "aws_instance" "example" {
+  count = length(var.server_names)
+  ami   = "ami-12345678"
+  instance_type = "t2.micro"
+  tags = {
+    Name = element(var.server_names, count.index)
+  }
+}
+</code></pre>
+
+  <p>
+    In this example, the `element` function is used to assign a unique name tag to each AWS EC2 instance being created based on the elements of the "server_names" list. It demonstrates how `element` can be used for dynamic resource creation and conditional behavior.<br><br>Overall, the `element` function is a fundamental tool in Terraform for working with lists and arrays, enabling you to make your configurations more dynamic and flexible.
+  </p>
+
+    <h2 id="test-your-code">
+      Test Your Code
+    </h2>
+
+  <ul>
+    <li>Testing code leads to greater confidence that the code will perform as expected.</li><li>Terraform has built-in tools to help test your code before deployment.</li><li>Due to Terraform’s usefulness and popularity, there are many tools which expand upon the built-in tools.</li>
+  </ul>
+
+  <p>
+    there are a few built-in commands to test your TF code:
+  </p>
+
+  <ol>
+    <li>terraform fmt</li><li>terraform init</li><li>terraform validate</li><li>terraform plan</li>
+  </ol>
+
+    <h3 id="other-testing-tools">
+      Other Testing Tools
+    </h3>
+
+  <ul>
+    <li>Terratest:&nbsp;A great, comprehensive tool by Gruntwork. This tool does not do unit testing.</li><li>Kitchen-Terraform:&nbsp;Spins up, tests, and spins down various Terraform resources.</li><li>Terraform-compliance:&nbsp;A simple tool for testing and enforcing Terraform compliance rules.</li>
+  </ul>
+            ]]>
+        </content>
+    </entry>
     <entry>
         <title>Spring Boot on Kubernetes</title>
         <author>
@@ -1314,53 +1740,6 @@ WORKDIR application
 </tbody>
 </table>
 <p><br><br></p>
-            ]]>
-        </content>
-    </entry>
-    <entry>
-        <title>Conventional commits</title>
-        <author>
-            <name>Finecloud</name>
-        </author>
-        <link href="https://www.finecloud.ch/conventional-commits.html"/>
-        <id>https://www.finecloud.ch/conventional-commits.html</id>
-            <category term="software development"/>
-            <category term="git"/>
-            <category term="dev"/>
-
-        <updated>2023-02-14T09:20:08+01:00</updated>
-            <summary>
-                <![CDATA[
-                    What are Conventional commits Conventional Commits is a convention for writing commit messages that provides structure and consistency to a project's version control history. It's based on the idea of defining a standard format for commit messages that makes it easier for developers to understand&hellip;
-                ]]>
-            </summary>
-        <content type="html">
-            <![CDATA[
-                <div class="post__toc">
-<h3>Table of Contents</h3>
-<ul>
-<li><a href="#mcetoc_1gp7g3b0bbq">What are Conventional commits</a></li>
-<li><a href="#mcetoc_1gp7g3b0bbr">Why should you use Conventional commits</a></li>
-<li><a href="#mcetoc_1gp7g3b0bbs">Example</a>
-<ul>
-<li><a href="#mcetoc_1gp7g3b0bbt">multiline commit messages</a></li>
-</ul>
-</li>
-</ul>
-</div>
-<h2 id="mcetoc_1gp7g3b0bbq">What are Conventional commits</h2>
-<p>Conventional Commits is a convention for writing commit messages that provides structure and consistency to a project's version control history. It's based on the idea of defining a standard format for commit messages that makes it easier for developers to understand the changes made to a codebase over time.</p>
-<p><a href="https://www.conventionalcommits.org/en/v1.0.0/#specification">https://www.conventionalcommits.org/en/v1.0.0/#specification</a></p>
-<h2 id="mcetoc_1gp7g3b0bbr">Why should you use Conventional commits</h2>
-<ul>
-<li>Improving collaboration: Having a clear, concise and standardized way of writing commit messages helps everyone on the team understand what changes were made and why. This can improve collaboration and reduce the time spent discussing changes.</li>
-<li>Better automated versioning: Conventional Commits provides a way to automate versioning and release management by using the commit messages to determine the type and scope of changes. This can save time and improve accuracy compared to manually managing versions.</li>
-<li>Improved documentation: Commit messages can serve as a form of documentation, providing insight into the motivations and thought process behind changes. By using Conventional Commits, this documentation is more consistent and easier to understand.</li>
-</ul>
-<h2 id="mcetoc_1gp7g3b0bbs">Example</h2>
-<p>Here's an example of a Conventional Commit message:<br><br><code>feat(parser): add ability to parse hexadecimal numbers</code><br><br><code>This commit adds the ability to parse hexadecimal numbers, allowing for a wider range of input options.</code><br><br>In this example, "feat" is the type of change being made (a new feature), "parser" is the scope of the change (the parser component), and the rest of the message provides a brief description of the change. The Conventional Commits specification defines a number of different types (e.g. "feat", "fix", "docs") and provides guidelines for how to use them.</p>
-<h3 id="mcetoc_1gp7g3b0bbt">multiline commit messages</h3>
-<p>how do you make multiline commit messages like these? how do you add an optional body or optional footer in a conventional Commit message?<br><br>Multiline commit messages are written by adding a blank line between the subject (first line) and the body (or footer). The subject should be a single line of text that summarizes the change and should not exceed 50 characters. If a more detailed explanation is needed, it can be added in the body.<br><br>Here's an example of a multiline Conventional Commit message:<br><br><code>feat(parser): add ability to parse hexadecimal numbers</code><br><br><code>This commit adds the ability to parse hexadecimal numbers, allowing for a wider range of input options. The new feature has been thoroughly tested and is now ready for use.</code><br><br>An optional footer can also be added to Conventional Commit messages for extra information, such as breaking changes, references to related issues, or other meta-information. The footer should start with a new line and should be separated from the body by a double line break. Here's an example with a footer:<br><br><code>feat(parser): add ability to parse hexadecimal numbers</code><br><br><code>This commit adds the ability to parse hexadecimal numbers, allowing for a wider range of input options. The new feature has been thoroughly tested and is now ready for use.</code><br><br><code>BREAKING CHANGE: The previous version of the parser only supported decimal numbers, so this change may break compatibility with existing code that uses the parser.</code><br><br>It's worth noting that not all Conventional Commit tools and systems require or make use of the body or footer. The most important aspect is the subject line, as it provides a concise summary of the change. The body and footer are optional and should be used as needed to provide additional context and information.<br><br>Here's an example of a Conventional Commit message with a body and footer, using the git commit command with the -m option:<br><br><code>$ git commit -m "feat(parser): add ability to parse hexadecimal numbers</code><br><br><code>This commit adds the ability to parse hexadecimal numbers, allowing for a wider range of input options. The new feature has been thoroughly tested and is now ready for use.</code><br><br><code>BREAKING CHANGE: The previous version of the parser only supported decimal numbers, so this change may break compatibility with existing code that uses the parser.</code><br><br><code>Closes #123"</code><br><br>In this example, the subject is "feat(parser): add ability to parse hexadecimal numbers", the body is "This commit adds the ability to parse hexadecimal numbers, allowing for a wider range of input options. The new feature has been thoroughly tested and is now ready for use.", and the footer is "BREAKING CHANGE: The previous version of the parser only supported decimal numbers, so this change may break compatibility with existing code that uses the parser. Closes #123". The "Closes #123" part of the footer is an example of a reference to a related issue, indicating that this commit resolves the issue with the given number.</p>
             ]]>
         </content>
     </entry>

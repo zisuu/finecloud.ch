@@ -3,12 +3,66 @@
     <title>Finecloud</title>
     <link href="https://www.finecloud.ch/feed.xml" rel="self" />
     <link href="https://www.finecloud.ch" />
-    <updated>2023-09-18T17:11:41+02:00</updated>
+    <updated>2023-09-23T13:54:08+02:00</updated>
     <author>
         <name>Finecloud</name>
     </author>
     <id>https://www.finecloud.ch</id>
 
+    <entry>
+        <title>The Concept of API Contracts</title>
+        <author>
+            <name>Finecloud</name>
+        </author>
+        <link href="https://www.finecloud.ch/the-concept-of-api-contracts.html"/>
+        <id>https://www.finecloud.ch/the-concept-of-api-contracts.html</id>
+            <category term="software development"/>
+            <category term="dev"/>
+            <category term="api"/>
+
+        <updated>2023-09-23T13:54:08+02:00</updated>
+            <summary>
+                <![CDATA[
+                    What is it about? We define an API contract as a formal agreement between a software provider and a consumer that abstractly communicates how to interact with each other. This contract defines how API providers and consumers interact, what data exchanges looks like, and how&hellip;
+                ]]>
+            </summary>
+        <content type="html">
+            <![CDATA[
+                
+    <h2 id="what-is-it-about">
+      What is it about?
+    </h2>
+
+  <p>
+    We define an API contract as a formal agreement between a software provider and a consumer that abstractly communicates how to interact with each other. This contract defines how API providers and consumers interact, what data exchanges looks like, and how to communicate success and failure cases.<br><br>The provider and consumers do not have to share the same programming language, only the same API contracts. Lets imagine that we need to design a API for a Family Cash Card Web Application. Let’s assume that currently there's one contract between the Cash Card service and all services using it. Below is an example of that first API contract.
+  </p>
+<pre class=" language-json"><code>Request
+  URI: /cashcards/{id}
+  HTTP Verb: GET
+  Body: None
+
+Response:
+  HTTP Status:
+    200 OK if the user is authorized and the Cash Card was successfully retrieved
+    403 UNAUTHORIZED if the user is unauthenticated or unauthorized
+    404 NOT FOUND if the user is authenticated and authorized but the Cash Card cannot be found
+  Response Body Type: JSON
+  Example Response Body:
+    {
+      "id": 99,
+      "amount": 123.45
+    }</code></pre>
+
+    <h2 id="why-are-api-contracts-important">
+      Why Are API Contracts Important?
+    </h2>
+
+  <p>
+    API contracts are important because they communicate the behavior of a REST API. They provide specific details about the data being serialized (or deserialized) for each command and parameter being exchanged. The API contracts are written in such a way that can be easily translated into API provider and consumer functionality, and corresponding automated tests.
+  </p>
+            ]]>
+        </content>
+    </entry>
     <entry>
         <title>Terraform Tips and Tricks</title>
         <author>
@@ -1655,91 +1709,6 @@ WORKDIR application
 </div>
 </div>
 </div>
-            ]]>
-        </content>
-    </entry>
-    <entry>
-        <title>Spring Annotations</title>
-        <author>
-            <name>Finecloud</name>
-        </author>
-        <link href="https://www.finecloud.ch/spring-annotations.html"/>
-        <id>https://www.finecloud.ch/spring-annotations.html</id>
-            <category term="spring-framework"/>
-            <category term="spring"/>
-            <category term="software development"/>
-            <category term="java"/>
-            <category term="dev"/>
-
-        <updated>2023-04-04T16:15:16+02:00</updated>
-            <summary>
-                <![CDATA[
-                    If you want to develop a Spring Application you need to know when to use which Annotation. Spring’s dependency injection capability includes the following annotations:
-                ]]>
-            </summary>
-        <content type="html">
-            <![CDATA[
-                <p>If you want to develop a Spring Application you need to know when to use which Annotation.</p>
-<h2>Dependency Injection</h2>
-<p>Spring’s dependency injection capability includes the following annotations:</p>
-<table style="border-collapse: collapse; width: 100%; height: 417.344px;" border="1">
-<tbody>
-<tr style="height: 50.3594px;">
-<td style="width: 49.9288%; height: 50.3594px;"><strong>Annotation</strong></td>
-<td style="width: 49.9288%; height: 50.3594px;"><strong>Explanation</strong></td>
-</tr>
-<tr style="height: 136.75px;">
-<td style="width: 49.9288%; height: 136.75px;"><a href="https://docs.spring.io/spring/docs/current/spring-framework-reference/html/beans.html#beans-stereotype-annotations" target="_blank" rel="nofollow noopener noreferrer">@Component</a></td>
-<td style="width: 49.9288%; height: 136.75px;">Generic stereotype for any Spring-managed component.</td>
-</tr>
-<tr style="height: 79.1562px;">
-<td style="width: 49.9288%; height: 79.1562px;"><a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/stereotype/Service.html" target="_blank" rel="nofollow noopener noreferrer">@Service </a></td>
-<td style="width: 49.9288%; height: 79.1562px;">Indicates that an annotated class is a service.</td>
-</tr>
-<tr style="height: 50.3594px;">
-<td style="width: 49.9288%; height: 50.3594px;"><a href="https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/beans/factory/annotation/Value.html" rel="nofollow">@Value</a></td>
-<td style="width: 49.9288%; height: 50.3594px;">Injection mechanism for fields and methods that indicates a default value. Often used to get values from property files.</td>
-</tr>
-<tr style="height: 50.3594px;">
-<td style="width: 49.9288%; height: 50.3594px;"> </td>
-<td style="width: 49.9288%; height: 50.3594px;"> </td>
-</tr>
-<tr style="height: 50.3594px;">
-<td style="width: 49.9288%; height: 50.3594px;"> </td>
-<td style="width: 49.9288%; height: 50.3594px;"> </td>
-</tr>
-</tbody>
-</table>
-<h2><br>Configuration</h2>
-<table style="border-collapse: collapse; width: 100%; height: 417.344px;" border="1">
-<tbody>
-<tr style="height: 50.3594px;">
-<td style="width: 49.9288%; height: 50.3594px;"><strong>Annotation</strong></td>
-<td style="width: 49.9288%; height: 50.3594px;"><strong>Explanation</strong></td>
-</tr>
-<tr style="height: 136.75px;">
-<td style="width: 49.9288%; height: 136.75px;"><a href="https://docs.spring.io/spring/docs/current/spring-framework-reference/html/beans.html#beans-autowired-annotation-qualifiers" target="_blank" rel="nofollow noopener noreferrer">@Qualifier</a></td>
-<td style="width: 49.9288%; height: 136.75px;">Associates a value with a particular argument. More finely tuned way than @Order and @Priority to control selection.</td>
-</tr>
-<tr style="height: 79.1562px;">
-<td style="width: 49.9288%; height: 79.1562px;"><a href="https://docs.spring.io/spring/docs/current/spring-framework-reference/html/beans.html#beans-definition-profiles" target="_blank" rel="nofollow noopener noreferrer">@Profile</a></td>
-<td style="width: 49.9288%; height: 79.1562px;">Indicates that a component is eligible for registration when one or more specified profiles are active. You can also use @Profile({"default"}) to define a default profile, if no Profile is actively selected.</td>
-</tr>
-<tr style="height: 50.3594px;">
-<td style="width: 49.9288%; height: 50.3594px;"> </td>
-<td style="width: 49.9288%; height: 50.3594px;"> </td>
-</tr>
-<tr style="height: 50.3594px;">
-<td style="width: 49.9288%; height: 50.3594px;"> </td>
-<td style="width: 49.9288%; height: 50.3594px;"> </td>
-</tr>
-<tr style="height: 50.3594px;">
-<td style="width: 49.9288%; height: 50.3594px;"> </td>
-<td style="width: 49.9288%; height: 50.3594px;"> </td>
-</tr>
-</tbody>
-</table>
-<p><br><br></p>
             ]]>
         </content>
     </entry>

@@ -1,0 +1,60 @@
+<!DOCTYPE html><html lang="de-ch"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Working efficient within different directories in a Linux Shell - Finecloud</title><meta name="description" content="Lets Suppose you need to perform a certain kind of work in all of these directories:&nbsp; You might know about the 'cd' command. But isn't it annoying if you need to use and retype a lot of Commands, like for example: $ cd ~/Work/Projects/Web/src $&hellip;"><meta name="generator" content="Publii Open-Source CMS for Static Site"><link rel="stylesheet" href="https://www.finecloud.ch/media/plugins/syntaxHighlighter/prism-black.css"><link rel="canonical" href="https://www.finecloud.ch/working-efficient-within-different-directories-in-a-linux-shell.html"><link rel="alternate" type="application/atom+xml" href="https://www.finecloud.ch/feed.xml"><link rel="alternate" type="application/json" href="https://www.finecloud.ch/feed.json"><meta property="og:title" content="Working efficient within different directories in a Linux Shell"><meta property="og:site_name" content="Finecloud"><meta property="og:description" content="Lets Suppose you need to perform a certain kind of work in all of these directories:&nbsp; You might know about the 'cd' command. But isn't it annoying if you need to use and retype a lot of Commands, like for example: $ cd ~/Work/Projects/Web/src $&hellip;"><meta property="og:url" content="https://www.finecloud.ch/working-efficient-within-different-directories-in-a-linux-shell.html"><meta property="og:type" content="article"><link rel="shortcut icon" href="https://www.finecloud.ch/media/website/finecloud.png" type="image/png"><link rel="stylesheet" href="https://www.finecloud.ch/assets/css/style.css?v=39da73365516a098a9b73b721fc970e2"><script type="application/ld+json">{"@context":"http://schema.org","@type":"Article","mainEntityOfPage":{"@type":"WebPage","@id":"https://www.finecloud.ch/working-efficient-within-different-directories-in-a-linux-shell.html"},"headline":"Working efficient within different directories in a Linux Shell","datePublished":"2023-12-10T13:52","dateModified":"2023-12-11T07:15","description":"Lets Suppose you need to perform a certain kind of work in all of these directories:&nbsp; You might know about the 'cd' command. But isn't it annoying if you need to use and retype a lot of Commands, like for example: $ cd ~/Work/Projects/Web/src $&hellip;","author":{"@type":"Person","name":"Finecloud","url":"https://www.finecloud.ch/authors/finecloud/"},"publisher":{"@type":"Organization","name":"Finecloud"}}</script><meta name="google-site-verification" content="seFY9U12uiEq5U3_MyZiX6XWzk0AVFl9zITr2ZKsytY"></head><body><div class="site-container"><header class="top" id="js-header"><a class="logo" href="https://www.finecloud.ch/">Finecloud</a><nav class="navbar js-navbar"><button class="navbar__toggle js-toggle" aria-label="Menu" aria-haspopup="true" aria-expanded="false"><span class="navbar__toggle-box"><span class="navbar__toggle-inner">Menu</span></span></button><ul class="navbar__menu"><li><a href="https://www.finecloud.ch/" target="_self">Blog</a></li><li><a href="https://www.finecloud.ch/tags/" target="_self">Tags</a></li></ul></nav><div class="search"><div class="search__overlay js-search-overlay"><div class="search__overlay-inner"><form action="https://www.finecloud.ch/search.html" class="search__form"><input class="search__input js-search-input" type="search" name="q" placeholder="search..." aria-label="search..." autofocus="autofocus"></form><button class="search__close js-search-close" aria-label="Close">Close</button></div></div><button class="search__btn js-search-btn" aria-label="Search"><svg role="presentation" focusable="false"><use xlink:href="https://www.finecloud.ch/assets/svg/svg-map.svg#search"/></svg></button></div></header><main><article class="post"><div class="hero"><figure class="hero__image hero__image--overlay"><img src="https://www.finecloud.ch/media/website/download.jpg" srcset="https://www.finecloud.ch/media/website/responsive/download-xs.jpg 300w, https://www.finecloud.ch/media/website/responsive/download-sm.jpg 480w, https://www.finecloud.ch/media/website/responsive/download-md.jpg 768w, https://www.finecloud.ch/media/website/responsive/download-lg.jpg 1024w, https://www.finecloud.ch/media/website/responsive/download-xl.jpg 1360w, https://www.finecloud.ch/media/website/responsive/download-2xl.jpg 1600w" sizes="100vw" loading="eager" alt=""></figure><header class="hero__content"><div class="wrapper"><div class="post__meta"><time datetime="2023-12-10T13:52">Dezember 10, 2023</time></div><h1>Working efficient within different directories in a Linux Shell</h1></div></header></div><div class="wrapper post__entry"><p>Lets Suppose you need to perform a certain kind of work in all of these directories:&nbsp;</p><ul><li>/var/www/html</li><li>/etc/apache2</li><li>/etc/ssl/certs</li><li>~/Work/Projects/Web/src</li></ul><p>You might know about the "cd" command. But isn't it annoying if you need to use and retype a lot of Commands, like for example:</p><pre class="language-bash"><code>$ cd ~/Work/Projects/Web/src
+$ cd /var/www/html
+$ cd /etc/apache2
+$ cd ~/Work/Projects/Web/src
+$ cd /etc/ssl/certs</code></pre><p>But there is a much better and more efficient way. Take&nbsp;advantage of a shell feature called a directory stack.</p><h3 id="directory-stack">Directory stack</h3><p>You can manipulate the stack by performing two operations called <em>pushing</em> and <em>popping</em>.</p><ul><li>Pushing a&nbsp; directory adds it to the beginning of the list, which is traditionally called the top of the stack.</li><li>Popping removes the topmost directory from the stack.</li><li>Initially, the stack contains only your current directory, but you can add (push) and remove (pop) directories and rapidly cd among them.</li></ul><h3 id="push-a-directory-onto-the-stack">Push a directory onto the stack</h3><p>The command pushd (short for “push directory”) does all of the following:</p><ol><li>Adds a given directory to the top of the stack</li><li>Performs a cd to that directory</li><li>Prints the stack from top to bottom for your reference</li></ol><p>Let's build a directory stack of four directories, pushing them onto the stack one at a time:</p><pre class="language-bash"><code>$ pwd
+/home/john/Work/Projects/Web/src
+$ pushd /var/www/html
+/var/www/html ~/Work/Projects/Web/src
+$ pushd /etc/apache2
+/etc/apache2 /var/www/html ~/Work/Projects/Web/src
+$ pushd /etc/ssl/certs
+/etc/ssl/certs /etc/apache2 /var/www/html
+~/Work/Projects/Web/src
+$ pwd
+/etc/ssl/certs</code></pre><p>The shell prints the stack after each pushd operation. The current directory is the leftmost (top) directory.</p><h3 id="view-a-directory-stack">View a directory stack</h3><p>Print a shell’s directory stack with the dirs command. It does not modify the stack:</p><pre class="language-bash"><code>$ dirs -p
+/etc/ssl/certs
+/etc/apache2
+/var/www/html
+~/Work/Projects/Web/src</code></pre><p>you can leave out the -p if you don't want to have each of them at it's own line. Or you can pass a -v to see them numbered:</p><pre class="language-bash"><code>$ dirs -v
+0 /etc/ssl/certs
+1 /etc/apache2
+2 /var/www/html
+3 ~/Work/Projects/Web/src
+</code></pre><h3 id="pop-a-directory-from-the-stack">Pop a directory from the stack</h3><p>The popd command (“pop directory”) is the reverse of pushd. It does all of the following:</p><ol><li>Removes one directory from the top of the stack</li><li>Performs a cd to the new top directory</li><li>Prints the stack from top to bottom for your reference<br></li></ol><p>For example, if your stack has four directories:</p><pre class="language-bash"><code>$ dirs
+/etc/ssl/certs /etc/apache2 /var/www/html
+~/Work/Projects/Web/src
+</code></pre><p>then repeatedly running popd will traverse these directories from top to bottom:</p><pre class="language-bash"><code>$ popd
+/etc/apache2 /var/www/html ~/Work/Projects/Web/src
+$ popd
+/var/www/html ~/Work/Projects/Web/src
+$ popd
+~/Work/Projects/Web/src
+$ popd
+bash: popd: directory stack empty
+$ pwd
+~/Work/Projects/Web/src</code></pre><h3 id="swap-directories-on-the-stack">Swap directories on the stack</h3><p>Now that you can build and empty the directory stack, let’s focus on practical use cases. <em>pushd</em> with no arguments swaps the top two directories in the stack and navigates to the new top directory. Let’s jump between /etc/apache2 and your work directory several times by simply running <em>pushd</em>. See how the third directory /var/www/html remains in the stack as the first two directories swap positions:</p><pre class="language-bash"><code>$ dirs
+/etc/apache2 ~/Work/Projects/Web/src /var/www/html
+$ pushd
+~/Work/Projects/Web/src /etc/apache2 /var/www/html
+$ pushd
+/etc/apache2 ~/Work/Projects/Web/src /var/www/html
+$ pushd
+~/Work/Projects/Web/src /etc/apache2 /var/www/html</code></pre><p><em>pushd</em> behaves similarly to the <em>cd -</em> command, toggling between two directories, but it does not have the limitation of remembering just one directory.</p></div><footer class="wrapper post__footer"><p class="post__last-updated">This article was updated on Dezember 11, 2023</p><ul class="post__tag"><li><a href="https://www.finecloud.ch/tags/bash/">bash</a></li><li><a href="https://www.finecloud.ch/tags/linux/">linux</a></li><li><a href="https://www.finecloud.ch/tags/shell/">shell</a></li></ul><div class="post__share"></div></footer></article><nav class="post__nav"><div class="post__nav-inner"><div class="post__nav-prev"><svg width="1.041em" height="0.416em" aria-hidden="true"><use xlink:href="https://www.finecloud.ch/assets/svg/svg-map.svg#arrow-prev"/></svg> <a href="https://www.finecloud.ch/microservices.html" class="post__nav-link" rel="prev"><span>Previous</span> Microservices</a></div></div></nav><div class="post__related related"><div class="wrapper"><h2 class="h5 related__title">You should also read:</h2><article class="related__item"><div class="feed__meta"><time datetime="2022-09-06T14:20" class="feed__date">September 6, 2022</time></div><h3 class="h1"><a href="https://www.finecloud.ch/java-working-with-a-database.html">Java working with databases</a></h3></article><article class="related__item"><div class="feed__meta"><time datetime="2022-08-05T12:58" class="feed__date">August 5, 2022</time></div><h3 class="h1"><a href="https://www.finecloud.ch/shellcheck.html">ShellCheck</a></h3></article></div></div></main><footer class="footer"><div class="footer__copyright"><p>Powered by Publii</p></div><button onclick="backToTopFunction()" id="backToTop" class="footer__bttop" aria-label="Back to top" title="Back to top"><svg><use xlink:href="https://www.finecloud.ch/assets/svg/svg-map.svg#toparrow"/></svg></button></footer></div><script>window.publiiThemeMenuConfig = {    
+        mobileMenuMode: 'sidebar',
+        animationSpeed: 300,
+        submenuWidth: 'auto',
+        doubleClickTime: 500,
+        mobileMenuExpandableSubmenus: true, 
+        relatedContainerForOverlayMenuSelector: '.top',
+   };</script><script defer="defer" src="https://www.finecloud.ch/assets/js/scripts.min.js?v=6ca8b60e6534a3888de1205e82df8528"></script><script>var images = document.querySelectorAll('img[loading]');
+
+        for (var i = 0; i < images.length; i++) {
+            if (images[i].complete) {
+                images[i].classList.add('is-loaded');
+            } else {
+                images[i].addEventListener('load', function () {
+                    this.classList.add('is-loaded');
+                }, false);
+            }
+        }</script><script defer="defer" src="https://www.finecloud.ch/media/plugins/syntaxHighlighter/prism.js"></script></body></html>

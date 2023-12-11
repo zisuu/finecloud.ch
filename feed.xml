@@ -3,7 +3,7 @@
     <title>Finecloud</title>
     <link href="https://www.finecloud.ch/feed.xml" rel="self" />
     <link href="https://www.finecloud.ch" />
-    <updated>2023-12-11T07:15:32+01:00</updated>
+    <updated>2023-12-11T07:36:08+01:00</updated>
     <author>
         <name>Finecloud</name>
     </author>
@@ -20,7 +20,7 @@
             <category term="linux"/>
             <category term="bash"/>
 
-        <updated>2023-12-11T07:15:32+01:00</updated>
+        <updated>2023-12-11T07:36:08+01:00</updated>
             <summary>
                 <![CDATA[
                     Lets Suppose you need to perform a certain kind of work in all of these directories:&nbsp; You might know about the "cd" command. But isn't it annoying if you need to use and retype a lot of Commands, like for example: $ cd ~/Work/Projects/Web/src $&hellip;
@@ -29,6 +29,18 @@
         <content type="html">
             <![CDATA[
                 
+  <p>
+    
+  </p>
+
+  <div class="post__toc">
+    <h3>TOC</h3>
+    <ul>
+      <ul><li><a href="#directory-stack">Directory stack</a></li><li><a href="#push-a-directory-onto-the-stack">Push a directory onto the stack</a></li><li><a href="#view-a-directory-stack">View a directory stack</a></li><li><a href="#pop-a-directory-from-the-stack">Pop a directory from the stack</a></li><li><a href="#swap-directories-on-the-stack">Swap directories on the stack</a></li><li><a href="#turn-a-mistaken-cd-into-a-pushd">Turn a mistaken cd into a pushd</a></li><li><a href="#go-deeper-into-the-stack">Go deeper into the stack</a></li></ul>
+    </ul>
+  </div>
+  
+
   <p>
     Lets Suppose you need to perform a certain kind of work in all of these directories:&nbsp;
   </p>
@@ -169,6 +181,94 @@ $ pushd
   <p>
     <em>pushd</em> behaves similarly to the <em>cd -</em> command, toggling between two directories, but it does not have the limitation of remembering just one directory.
   </p>
+
+    <h3 id="turn-a-mistaken-cd-into-a-pushd">
+      Turn a mistaken cd into a pushd
+    </h3>
+
+  <p>
+    Suppose you are jumping among several directories with pushd and you accidentally run cd instead and lose a directory:
+  </p>
+<pre class=" language-bash"><code>$ dirs
+~/Work/Projects/Web/src /var/www/html /etc/apache2
+$ cd /etc/ssl/certs
+$ dirs
+/etc/ssl/certs /var/www/html /etc/apache2</code></pre>
+
+  <p>
+    Oops, the accidental cd command replaced ~/Work/Projects/Web/src in the stack with /etc/ssl/certs. But don’t worry. You can add the missing directory back to the stack without typing its long path. Just run <em>pushd</em> twice, once with a dash argument and once without:
+  </p>
+<pre class=" language-bash"><code>$ pushd -
+~/Work/Projects/Web/src /etc/ssl/certs /var/www/html
+/etc/apache2
+$ pushd
+/etc/ssl/certs ~/Work/Projects/Web/src /var/www/html
+/etc/apache2</code></pre>
+
+  <p>
+    Why this works:
+  </p>
+
+  <ul>
+    <li>The first pushd returns to your shell’s previous directory, ~/Work/Projects/Web/src, and pushes it onto the stack. pushd, like cd, accepts a dash as an argument to mean “go back to my previous directory.”</li><li>The second pushd command swaps the top two directories, bringing you back to /etc/ssl/certs. The end result is that you’ve restored ~/Work/Projects/Web/src to the second position in the stack, exactly where it would have been if you hadn’t made your mistake.</li>
+  </ul>
+
+    <h3 id="go-deeper-into-the-stack">
+      Go deeper into the stack
+    </h3>
+
+  <p>
+    What if you want to cd between directories in the stack other than the top two? <em>pushd</em> and <em>popd</em> accept a positive or negative integer argument to operate further into the stack. The command:
+  </p>
+<pre class=" language-bash"><code>$ pushd +N</code></pre>
+
+  <p>
+    shifts N directories from the top of the stack to the bottom and then&nbsp;performs a cd to the new top directory. A negative argument (-N) shifts directories in the opposite direction, from the bottom to the top, before performing the cd.
+  </p>
+<pre class=" language-bash"><code>$ dirs
+/etc/ssl/certs ~/Work/Projects/Web/src /var/www/html
+/etc/apache2
+$ pushd +1
+~/Work/Projects/Web/src /var/www/html /etc/apache2
+/etc/ssl/certs
+$ pushd +2
+/etc/apache2 /etc/ssl/certs ~/Work/Projects/Web/src
+/var/www/html</code></pre>
+
+  <p>
+    In this manner, you can jump to any other directory in the stack with a simple command. If your stack is long, however, it may be difficult to judge a directory’s numeric position by eye. So, print the numeric position of each directory with dirs -v, as you did in “View a<br>directory stack”:
+  </p>
+<pre class=" language-bash"><code>$ dirs -v
+0 /etc/apache2
+1 /etc/ssl/certs
+2 ~/Work/Projects/Web/src
+3 /var/www/html</code></pre>
+
+  <p>
+    To shift /var/www/html to the top of the stack (and make it your current directory), run pushd +3. To jump to the directory at the bottom of the stack, run pushd -0&nbsp;(dash zero):
+  </p>
+<pre class=" language-bash"><code>$ dirs
+/etc/apache2 /etc/ssl/certs ~/Work/Projects/Web/src
+/var/www/html
+$ pushd -0
+/var/www/html /etc/apache2 /etc/ssl/certs
+~/Work/Projects/Web/src</code></pre>
+
+  <p>
+    You also can remove directories from the stack beyond the top directory, using popd with a numeric argument. The command:
+  </p>
+<pre class=" language-bash"><code>$ popd +N</code></pre>
+
+  <p>
+    removes the directory in position N from the stack, counting down from the top. A negative argument (-N) counts up from the bottom of the stack instead. Counting begins at zero, so popd +1 removes the second directory from the top:
+  </p>
+<pre class=" language-bash"><code>$ dirs
+/var/www/html /etc/apache2 /etc/ssl/certs
+~/Work/Projects/Web/src
+$ popd +1
+/var/www/html /etc/ssl/certs ~/Work/Projects/Web/src
+$ popd +2
+/var/www/html /etc/ssl/certs</code></pre>
             ]]>
         </content>
     </entry>

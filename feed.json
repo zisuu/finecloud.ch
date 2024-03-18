@@ -10,6 +10,22 @@
     },
     "items": [
         {
+            "id": "https://www.finecloud.ch/the-tac-command.html",
+            "url": "https://www.finecloud.ch/the-tac-command.html",
+            "title": "How to do a code review",
+            "summary": "This Blog post is my personal summary of&nbsp;Googles code review process Make sure to review every line of code you’ve been asked to review, look at the context, make sure you’re improving code health, and compliment developers on good things that they do. Look at&hellip;",
+            "content_html": "\n  <p>\n    This Blog post is my personal summary of&nbsp;<a href=\"https://google.github.io/eng-practices/review/\" target=\"_blank\" rel=\"nofollow noopener\">Googles code review process</a>\n  </p>\n\n  <div class=\"post__toc\">\n    <h3>Contents</h3>\n    <ul>\n      <li><a href=\"#summary-of-what-you-should-look-at\">Summary of what you should look at</a></li><li><a href=\"#the-standard-of-code-review\">The Standard of Code Review</a></li><li><a href=\"#navigate-a-pull-request-pr-in-review\">Navigate a Pull-Request (PR) in review</a><ul><li><a href=\"#1-take-a-broad-view-of-the-change\">1. Take a broad view of the change</a></li><li><a href=\"#2-examine-the-main-parts-of-the-pr\">2. Examine the main parts of the PR</a></li><li><a href=\"#3andnbsplook-through-the-rest-of-the-pr-in-an-appropriate-sequence\">3.&nbsp;Look through the rest of the PR in an appropriate sequence</a></li></ul></li><li><a href=\"#speed-of-code-reviews\">Speed of Code Reviews</a><ul><li><a href=\"#approve-with-comments\">Approve with Comments</a></li></ul></li><li><a href=\"#how-to-write-comments\">How to write comments</a></li>\n    </ul>\n  </div>\n  \n\n    <h2 id=\"summary-of-what-you-should-look-at\">\n      Summary of what you should look at\n    </h2>\n\n  <ul>\n    <li><strong>Design</strong>: Is the code well-designed and appropriate for your system?<br></li><li>    <strong>Functionality</strong>: Does the code behave as the author likely intended? Is the way the code behaves good for its users?</li><li><strong>Complexity</strong>: Could the code be made simpler? Would another developer be able to easily understand and use this code when they come across it in the future?</li><li><strong>Tests</strong>: Does the code have correct and well-designed automated tests?<br></li><li>    <strong>Naming</strong>: Did the developer choose clear names for variables, classes, methods, etc.?</li><li><strong>Comments</strong>: Are the comments clear and useful?</li><li><strong>Style</strong>: Does the code follow our style guides?</li><li><strong>Documentation</strong>: Did the developer also update relevant documentation?<br></li>\n  </ul>\n\n  <p>\n    Make sure to review <strong>every line</strong> of code you’ve been asked to review, look at the <strong>context</strong>, make sure you’re <strong>improving code health</strong>, and compliment developers on <strong>g</strong><strong>ood things</strong> that they do.\n  </p>\n\n    <h2 id=\"the-standard-of-code-review\">\n      The Standard of Code Review\n    </h2>\n\n  <ul>\n    <li>You need to balance the tradeoff between making progress, by letting a change go into your code base and not decreasing overall code health and quality.&nbsp;</li><li><span style=\"color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: 1em; font-weight: var(--font-weight-normal);\">does the Pull-Request improve the maintainability, readability, and understandability?</span><br></li><li><strong>In general you should try to approve a Pull-Request (PR) once it is in a state where it definitely improves the overall code health, even if the PR isn’t perfect.</strong></li><li>Reviewers should not require the author to polish every tiny piece of a CL before granting approval. Rather, the reviewer should balance out the need to make forward progress compared to the importance of the changes they are suggesting.&nbsp;</li><li>Instead of seeking perfection, what a reviewer should seek is continuous improvement.</li><li>If you add a comment on a PR to mention something could be better, but it’s optional and not very important,&nbsp;prefix it with something like “Nit: “ to let the author know that it’s just a point of polish that they could choose to ignore.</li>\n  </ul>\n\n    <h2 id=\"navigate-a-pull-request-pr-in-review\">\n      Navigate a Pull-Request (PR) in review\n    </h2>\n\n    <h3 id=\"1-take-a-broad-view-of-the-change\">\n      1. Take a broad view of the change\n    </h3>\n\n  <p>\n    Look at the PR description and what the PR does in general. Does this change even make sense? If this change shouldn’t have happened in the first place, please respond immediately with an explanation of why the change should not be happening. When you reject a change like this, it’s also a good idea to suggest to the developer what they should have done instead.\n  </p>\n\n    <h3 id=\"2-examine-the-main-parts-of-the-pr\">\n      2. Examine the main parts of the PR\n    </h3>\n\n  <p>\n    Find the file or files that are the “main” part of this PR. Often, there is one file that has the largest number of logical changes, and it’s the major piece of the PR. Look at these major parts first. This helps give context to all of the smaller parts of the PR, and generally accelerates doing the code review.&nbsp;\n  </p>\n\n    <h3 id=\"3andnbsplook-through-the-rest-of-the-pr-in-an-appropriate-sequence\">\n      3.&nbsp;Look through the rest of the PR in an appropriate sequence\n    </h3>\n\n  <p>\n    Once you’ve confirmed there are no major design problems with the CL as a whole, try to figure out a logical sequence to look through the files while also making sure you don’t miss reviewing any file.\n  </p>\n\n    <h2 id=\"speed-of-code-reviews\">\n      Speed of Code Reviews\n    </h2>\n\n  <p>\n    Why is it so important that you send comments out immediately, especially if you see major design problems within a PR?\n  </p>\n\n  <ul>\n    <li>Developers often open a PR and then immediately start new work based on that PR (e.g. feature branch) while they wait for review. If there are major design problems in the PR you’re reviewing, they’re also going to have to re-work their later PR. You want to catch them before they’ve done too much extra work on top of the problematic design.</li><li>Major design changes take longer to do than small changes. Developers nearly all have deadlines; in order to make those deadlines and still have quality code in the codebase, the developer needs to start on any major re-work of the PR as soon as possible.<br></li>\n  </ul>\n\n  <p>\n    When code reviews are slow, several things happen:\n  </p>\n\n  <ul>\n    <li>The velocity of the team as a whole is decreased.</li><li>Developers start to protest the code review process.&nbsp;Most complaints about the code review process are actually resolved by making the process faster.</li><li>Code health can be impacted.<br></li>\n  </ul>\n\n  <p>\n    How fast should a code review be?&nbsp;\n  </p>\n\n  <ul>\n    <li>If you are not in the middle of a focused task, <strong>you should do a code review shortly after it comes in</strong>.</li><li><strong>One business day is the maximum time it should take to respond</strong> to a code review request (i.e., first thing the next morning).</li>\n  </ul>\n\n  <p>\n    <strong>If you are in the middle of a focused task, such as writing code, don’t interrupt yourself to do a code review</strong>. Research has shown that it can take a long time for a developer to get back into a smooth flow of development after being interrupted. So interrupting yourself while coding is actually more expensive to the team than making another developer wait a bit for a code review.\n  </p>\n\n    <h3 id=\"approve-with-comments\">\n      Approve with Comments\n    </h3>\n\n  <p>\n    In order to speed up code reviews, there are certain situations in which a reviewer should give the Approval even though they are also leaving unresolved comments on the PR. This is done when either:\n  </p>\n\n  <ul>\n    <li>The reviewer is confident that the developer will appropriately address all the reviewer’s remaining comments.</li><li>    The remaining changes are minor and don’t have to be done by the developer.</li>\n  </ul>\n\n    <h2 id=\"how-to-write-comments\">\n      How to write comments\n    </h2>\n\n  <ul>\n    <li>Be kind.</li><li>Explain your reasoning (why?).</li><li>Balance giving explicit directions with just pointing out problems and letting the developer decide -&gt; In general it is the developer’s responsibility to fix a PR, not the reviewer’s.</li><li>Encourage developers to simplify code or add code comments instead of just explaining the complexity to you.<br></li>\n  </ul>",
+            "author": {
+                "name": "Finecloud"
+            },
+            "tags": [
+                   "software development",
+                   "devops"
+            ],
+            "date_published": "2024-03-18T08:44:04+01:00",
+            "date_modified": "2024-03-18T15:26:28+01:00"
+        },
+        {
             "id": "https://www.finecloud.ch/building-a-graphql-service.html",
             "url": "https://www.finecloud.ch/building-a-graphql-service.html",
             "title": "Building a GraphQL service",
@@ -24,7 +40,6 @@
                    "software development",
                    "java",
                    "graphql",
-                   "dev",
                    "api"
             ],
             "date_published": "2024-01-22T21:19:17+01:00",
@@ -58,8 +73,7 @@
             },
             "tags": [
                    "software development",
-                   "microservices",
-                   "dev"
+                   "microservices"
             ],
             "date_published": "2023-10-28T14:08:02+02:00",
             "date_modified": "2023-10-28T14:08:12+02:00"
@@ -75,7 +89,6 @@
             },
             "tags": [
                    "software development",
-                   "dev",
                    "api"
             ],
             "date_published": "2023-09-23T13:52:33+02:00",
@@ -93,8 +106,7 @@
             "tags": [
                    "terraform",
                    "iac",
-                   "devops",
-                   "dev"
+                   "devops"
             ],
             "date_published": "2023-09-17T14:14:00+02:00",
             "date_modified": "2023-09-18T17:11:41+02:00"
@@ -115,7 +127,6 @@
                    "kubernetes",
                    "java",
                    "docker",
-                   "dev",
                    "container"
             ],
             "date_published": "2023-05-03T20:46:16+02:00",
@@ -136,7 +147,6 @@
                    "software development",
                    "java",
                    "docker",
-                   "dev",
                    "container"
             ],
             "date_published": "2023-05-02T21:45:09+02:00",
@@ -155,8 +165,7 @@
                    "spring-framework",
                    "spring",
                    "software development",
-                   "java",
-                   "dev"
+                   "java"
             ],
             "date_published": "2023-05-02T20:07:36+02:00",
             "date_modified": "2023-05-02T21:45:22+02:00"
@@ -172,31 +181,10 @@
             },
             "tags": [
                    "software development",
-                   "java",
-                   "dev"
+                   "java"
             ],
             "date_published": "2023-04-10T08:46:26+02:00",
             "date_modified": "2023-04-11T19:53:59+02:00"
-        },
-        {
-            "id": "https://www.finecloud.ch/spring-exception-handling.html",
-            "url": "https://www.finecloud.ch/spring-exception-handling.html",
-            "title": "Spring Exception Handling",
-            "summary": "HTTP Status Codes 100 Series - Informational Responses • 200 Series - Successful Responses 300 Series - Redirection Responses 400 Series - Client Error Responses 500 Series - Server Error Responses Use of HTTP Status Codes 200 Series are used when the request completes as&hellip;",
-            "content_html": "<h3>HTTP Status Codes</h3>\n<div class=\"page\" title=\"Page 2\">\n<div class=\"section\">\n<div class=\"layoutArea\">\n<div class=\"column\">\n<ul>\n<li>100 Series - Informational Responses • 200 Series - Successful Responses</li>\n<li>300 Series - Redirection Responses</li>\n<li>400 Series - Client Error Responses</li>\n<li><span style=\"color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: inherit; font-weight: var(--font-weight-normal);\">500 Series - Server Error Responses</span></li>\n</ul>\n<h4>Use of HTTP Status Codes</h4>\n<div class=\"page\" title=\"Page 2\">\n<div class=\"section\">\n<div class=\"layoutArea\">\n<div class=\"column\">\n<div class=\"page\" title=\"Page 3\">\n<div class=\"section\">\n<div class=\"layoutArea\">\n<div class=\"column\">\n<ul>\n<li>200 Series are used when the request completes as expected\n<ul>\n<li>Common codes used: 200 Ok, 201 Created, 202 Accepted, 204 No Content</li>\n</ul>\n</li>\n<li><span style=\"color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: inherit; font-weight: var(--font-weight-normal);\">400 Series are used when the request is understood but fails an expected condition</span>\n<ul>\n<li><span style=\"color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: inherit; font-weight: var(--font-weight-normal);\">400 Bad Request - Invalid data received</span></li>\n<li><span style=\"color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: inherit; font-weight: var(--font-weight-normal);\">401 Unauthorized - User authentication required</span></li>\n<li><span style=\"color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: inherit; font-weight: var(--font-weight-normal);\">403 Forbidden - User authenticated, not authorized</span></li>\n<li><span style=\"color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: inherit; font-weight: var(--font-weight-normal);\">404 Not Found - Requested Resource Not Found</span></li>\n<li><span style=\"color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: inherit; font-weight: var(--font-weight-normal);\">405 Method Not Allowed - Method Not Supported</span></li>\n</ul>\n</li>\n<li><span style=\"color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: inherit; font-weight: var(--font-weight-normal);\">500 Series are used when there is a server side error</span><br>\n<ul>\n<li><span style=\"color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: inherit; font-weight: var(--font-weight-normal);\">Typically from unexpected runtime errors</span></li>\n<li>Null Pointer Errors, parse errors, database connection errors, etc</li>\n<li><span style=\"color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: inherit; font-weight: var(--font-weight-normal);\">Code should log relevant information</span></li>\n<li><span style=\"color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: inherit; font-weight: var(--font-weight-normal);\">Do not return stack trace to client</span></li>\n<li><span style=\"color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: inherit; font-weight: var(--font-weight-normal);\">Be careful to not “leak” information to internet</span></li>\n</ul>\n</li>\n</ul>\n<h3>Standard Spiring MVC Exceptions</h3>\n<ul>\n<li>Spring MVC does support a number of standard exceptions</li>\n<li>Standard Exceptions are handled by the DefaultHandlerExceptionResolver</li>\n<li>The DefaultHandlerExceptionResolver sets the appropriate HTTP status code</li>\n<li>BUT does not write content to the body of the response</li>\n<li>Spring MVC does have robust support for customizing error responses</li>\n<li>BindException - 400 Bad Request</li>\n<li>ConversionNotSupportedException - 500 Internal Server Error</li>\n<li>HttpMediaTypeNotAcceptableException - 406 Not Acceptable</li>\n<li>HttpMediaTypeNotSupportedException - 415 Unsupported Media Type</li>\n<li>HttpMessageNotReadableException - 400 Bad Request</li>\n<li>HttpMessageNotWritableException - 500 Internal Server Error</li>\n<li>HttpRequestMethodNotSupportedException - 405 Method Not Allowed</li>\n<li>MethodArgumentNotValidException - 400 Bad Request</li>\n<li>MissingServletRequestParameterException - 400 Bad Request</li>\n<li>MissingServletRequestPartException - 400 Bad Request</li>\n<li>NoSuchRequestHandlingMethodException - 404 Not Found</li>\n<li><span style=\"color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: inherit; font-weight: var(--font-weight-normal);\">TypeMismatchException - 400 Bad Request</span></li>\n</ul>\n</div>\n<div class=\"column\">\n<h3>Spring Exception Handling</h3>\n<ul>\n<li><span style=\"color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: inherit; font-weight: var(--font-weight-normal);\">@ExceptionHandler on controller method to handle specific Exception types</span></li>\n<li><span style=\"color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: inherit; font-weight: var(--font-weight-normal);\">@ReponseStatus - annotation for custom exception classes to set desired HTTP status</span></li>\n<li><span style=\"color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: inherit; font-weight: var(--font-weight-normal);\">Implement AbstractHandlerException Resolver - full control over response (including body)</span></li>\n<li><span style=\"color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: inherit; font-weight: var(--font-weight-normal);\">@ControllerAdvice - used to implement a global exception handler</span></li>\n<li><span style=\"color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: inherit; font-weight: var(--font-weight-normal);\">ResponseStatusException.class - (Spring 5+) Exception which can be thrown which allows setting the HTTP status and message in the constructor</span></li>\n</ul>\n<h3>Spring Boot ErrorController</h3>\n<ul>\n<li><span style=\"color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: inherit; font-weight: var(--font-weight-normal);\">Provides Whitelabel Error Page for HTML requests, or JSON response for RESTful requests</span></li>\n<li><span style=\"color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: inherit; font-weight: var(--font-weight-normal);\">Properties:</span><br>\n<ul>\n<li><span style=\"color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: inherit; font-weight: var(--font-weight-normal);\">server.error.include-binding-errors - default: never</span></li>\n<li><span style=\"color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: inherit; font-weight: var(--font-weight-normal);\">server.error.include-exception - default: false</span></li>\n<li><span style=\"color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: inherit; font-weight: var(--font-weight-normal);\">server.error.include-message - default: never</span></li>\n<li><span style=\"color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: inherit; font-weight: var(--font-weight-normal);\">server.error.include-stacktrace - default: never</span></li>\n<li><span style=\"color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: inherit; font-weight: var(--font-weight-normal);\">server.error.path - default: /error</span></li>\n<li><span style=\"color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: inherit; font-weight: var(--font-weight-normal);\">server.error.whitelabel.enabled - default: true</span></li>\n</ul>\n</li>\n<li><span style=\"color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: inherit; font-weight: var(--font-weight-normal);\">Spring Boot includes a BasicError Controller</span></li>\n<li><span style=\"color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: inherit; font-weight: var(--font-weight-normal);\">This class can be extended for additional error response customization</span></li>\n<li><span style=\"color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: inherit; font-weight: var(--font-weight-normal);\">Allows for wide support of the needs of various clients and situations</span></li>\n<li><span style=\"color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: inherit; font-weight: var(--font-weight-normal);\">Rarely used, but important to know it is available for use when needed</span></li>\n</ul>\n</div>\n</div>\n</div>\n</div>\n</div>\n</div>\n</div>\n</div>\n</div>\n</div>\n</div>\n</div>",
-            "author": {
-                "name": "Finecloud"
-            },
-            "tags": [
-                   "spring-framework",
-                   "spring",
-                   "software development",
-                   "java",
-                   "exceptions",
-                   "dev"
-            ],
-            "date_published": "2023-04-10T08:36:13+02:00",
-            "date_modified": "2023-04-10T08:45:10+02:00"
         }
     ]
 }

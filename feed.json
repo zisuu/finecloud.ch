@@ -10,20 +10,6 @@
     },
     "items": [
         {
-            "id": "https://www.finecloud.ch/test.html",
-            "url": "https://www.finecloud.ch/test.html",
-            "title": "Test",
-            "summary": "test",
-            "content_html": "\n  <p>\n    test\n  </p>",
-            "author": {
-                "name": "Finecloud"
-            },
-            "tags": [
-            ],
-            "date_published": "2024-03-18T15:47:22+01:00",
-            "date_modified": "2024-03-18T15:47:22+01:00"
-        },
-        {
             "id": "https://www.finecloud.ch/the-tac-command.html",
             "url": "https://www.finecloud.ch/the-tac-command.html",
             "title": "How to do a code review",
@@ -183,6 +169,22 @@
             ],
             "date_published": "2023-05-02T20:07:36+02:00",
             "date_modified": "2023-05-02T21:45:22+02:00"
+        },
+        {
+            "id": "https://www.finecloud.ch/data-transfer-objects.html",
+            "url": "https://www.finecloud.ch/data-transfer-objects.html",
+            "title": "Data Transfer Objects",
+            "summary": "Data Transfer Objects DTOs - Data Transfer Objects DTOs are simple Java POJOs DTOs are data structures, generally should NOT have behavior DTOs are objects used to transfer data between producers and consumers Controller models are typically DTOs Why Not Entities? Database Entities are also&hellip;",
+            "content_html": "<h2>Data Transfer Objects</h2>\n<ul>\n<li>DTOs - Data Transfer Objects</li>\n<li>DTOs are simple Java POJOs</li>\n<li>DTOs are data structures, generally should NOT have behavior</li>\n<li>DTOs are objects used to transfer data between producers and consumers</li>\n<li>Controller models are typically DTOs</li>\n</ul>\n<h2>Why Not Entities?</h2>\n<ul>\n<li>Database Entities are also POJOs, why can’t we use those?</li>\n<li>For simple applications you can</li>\n<li>Spring Data REST exposes database entities directly</li>\n<li>Database entities can “leak” data to client tier</li>\n<li>As applications become more complex, having the separation becomes more  important</li>\n<li>The needs of the consumers are different than the needs of persistence</li>\n<li>DTOs can be optimized for JSON serialization and deserialization</li>\n</ul>\n<h2>Type Conversions</h2>\n<ul>\n<li>Type Conversions are often done within methods</li>\n<li>Best practice is to use dedicated converters</li>\n<li>Single Responsibility Principle</li>\n<li>Spring Framework provides an Interface called “Converter” with generics</li>\n<li>Can be used with conjunction with Conversion service</li>\n<li>MapStruct is a code generator which automates generation of type converters</li>\n</ul>\n<h2>MapStruct</h2>\n<ul>\n<li>MapStruct is a code generator</li>\n<li>You provide the interface, MapStruct generates the implementation</li>\n<li>Works like Lombok via annotation processing during code compile</li>\n<li>Has good Spring integration - can generate Spring Converters or Spring Components</li>\n<li>You can use Mapstruct Components for injection into services<br><br><br></li>\n</ul>",
+            "author": {
+                "name": "Finecloud"
+            },
+            "tags": [
+                   "software development",
+                   "java"
+            ],
+            "date_published": "2023-04-10T08:46:26+02:00",
+            "date_modified": "2023-04-11T19:53:59+02:00"
         }
     ]
 }

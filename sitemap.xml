@@ -153,6 +153,10 @@
 </image:image>
 </url>
 <url>
+<loc>https://www.finecloud.ch/how-to-do-a-code-review.html</loc>
+<lastmod>2024-03-18T17:33:39+01:00</lastmod>
+</url>
+<url>
 <loc>https://www.finecloud.ch/http-methoden-rfc9110.html</loc>
 <lastmod>2023-04-04T16:18:48+02:00</lastmod>
 <image:image>
@@ -585,10 +589,6 @@
 <url>
 <loc>https://www.finecloud.ch/the-concept-of-api-contracts.html</loc>
 <lastmod>2023-09-23T13:54:08+02:00</lastmod>
-</url>
-<url>
-<loc>https://www.finecloud.ch/the-tac-command.html</loc>
-<lastmod>2024-03-18T16:00:57+01:00</lastmod>
 </url>
 <url>
 <loc>https://www.finecloud.ch/threema-backup-to-nextcloud.html</loc>

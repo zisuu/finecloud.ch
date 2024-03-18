@@ -3,7 +3,7 @@
     <title>Finecloud</title>
     <link href="https://www.finecloud.ch/feed.xml" rel="self" />
     <link href="https://www.finecloud.ch" />
-    <updated>2024-03-18T16:00:57+01:00</updated>
+    <updated>2024-03-18T17:33:39+01:00</updated>
     <author>
         <name>Finecloud</name>
     </author>
@@ -14,8 +14,8 @@
         <author>
             <name>Finecloud</name>
         </author>
-        <link href="https://www.finecloud.ch/the-tac-command.html"/>
-        <id>https://www.finecloud.ch/the-tac-command.html</id>
+        <link href="https://www.finecloud.ch/how-to-do-a-code-review.html"/>
+        <id>https://www.finecloud.ch/how-to-do-a-code-review.html</id>
             <category term="software development"/>
             <category term="devops"/>
 

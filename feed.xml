@@ -3,12 +3,35 @@
     <title>Finecloud</title>
     <link href="https://www.finecloud.ch/feed.xml" rel="self" />
     <link href="https://www.finecloud.ch" />
-    <updated>2024-03-18T15:26:28+01:00</updated>
+    <updated>2024-03-18T15:47:22+01:00</updated>
     <author>
         <name>Finecloud</name>
     </author>
     <id>https://www.finecloud.ch</id>
 
+    <entry>
+        <title>Test</title>
+        <author>
+            <name>Finecloud</name>
+        </author>
+        <link href="https://www.finecloud.ch/test.html"/>
+        <id>https://www.finecloud.ch/test.html</id>
+
+        <updated>2024-03-18T15:47:22+01:00</updated>
+            <summary>
+                <![CDATA[
+                    test
+                ]]>
+            </summary>
+        <content type="html">
+            <![CDATA[
+                
+  <p>
+    test
+  </p>
+            ]]>
+        </content>
+    </entry>
     <entry>
         <title>How to do a code review</title>
         <author>
@@ -19,7 +42,7 @@
             <category term="software development"/>
             <category term="devops"/>
 
-        <updated>2024-03-18T15:26:28+01:00</updated>
+        <updated>2024-03-18T08:44:04+01:00</updated>
             <summary>
                 <![CDATA[
                     This Blog post is my personal summary of&nbsp;Googles code review process Make sure to review every line of code you’ve been asked to review, look at the context, make sure you’re improving code health, and compliment developers on good things that they do. Look at&hellip;
@@ -32,8 +55,12 @@
     This Blog post is my personal summary of&nbsp;<a href="https://google.github.io/eng-practices/review/" target="_blank" rel="nofollow noopener">Googles code review process</a>
   </p>
 
+  <p>
+    
+  </p>
+
   <div class="post__toc">
-    <h3>Contents</h3>
+    <h3>Table of contents</h3>
     <ul>
       <li><a href="#summary-of-what-you-should-look-at">Summary of what you should look at</a></li><li><a href="#the-standard-of-code-review">The Standard of Code Review</a></li><li><a href="#navigate-a-pull-request-pr-in-review">Navigate a Pull-Request (PR) in review</a><ul><li><a href="#1-take-a-broad-view-of-the-change">1. Take a broad view of the change</a></li><li><a href="#2-examine-the-main-parts-of-the-pr">2. Examine the main parts of the PR</a></li><li><a href="#3andnbsplook-through-the-rest-of-the-pr-in-an-appropriate-sequence">3.&nbsp;Look through the rest of the PR in an appropriate sequence</a></li></ul></li><li><a href="#speed-of-code-reviews">Speed of Code Reviews</a><ul><li><a href="#approve-with-comments">Approve with Comments</a></li></ul></li><li><a href="#how-to-write-comments">How to write comments</a></li>
     </ul>
@@ -156,7 +183,7 @@
             <category term="graphql"/>
             <category term="api"/>
 
-        <updated>2024-01-24T20:15:11+01:00</updated>
+        <updated>2024-01-22T21:19:17+01:00</updated>
             <summary>
                 <![CDATA[
                     Let's build a GraphQL Spring Application that will accept GraphQL requests at http://localhost:8080/graphql. First let's navigate to https://start.spring.io. This service pulls in all the dependencies you need for an application and does most of the setup for you. GraphQL is a query language to retrieve&hellip;
@@ -548,7 +575,7 @@ public class BookControllerTests {
             <category term="linux"/>
             <category term="bash"/>
 
-        <updated>2023-12-11T07:36:08+01:00</updated>
+        <updated>2023-12-10T13:52:14+01:00</updated>
             <summary>
                 <![CDATA[
                     Lets Suppose you need to perform a certain kind of work in all of these directories:&nbsp; You might know about the "cd" command. But isn't it annoying if you need to use and retype a lot of Commands, like for example: $ cd ~/Work/Projects/Web/src $&hellip;
@@ -810,7 +837,7 @@ $ popd +2
             <category term="software development"/>
             <category term="microservices"/>
 
-        <updated>2023-10-28T14:08:12+02:00</updated>
+        <updated>2023-10-28T14:08:02+02:00</updated>
             <summary>
                 <![CDATA[
                     This Post is a summary of the famous Article about Microservices: https://martinfowler.com/articles/microservices.html The text discusses the concept of "Microservice Architecture," which is an approach to designing software applications as a suite of independently deployable services. It highlights that there is no precise definition but outlines&hellip;
@@ -935,7 +962,7 @@ $ popd +2
             <category term="software development"/>
             <category term="api"/>
 
-        <updated>2023-09-23T13:54:08+02:00</updated>
+        <updated>2023-09-23T13:52:33+02:00</updated>
             <summary>
                 <![CDATA[
                     What is it about? We define an API contract as a formal agreement between a software provider and a consumer that abstractly communicates how to interact with each other. This contract defines how API providers and consumers interact, what data exchanges looks like, and how&hellip;
@@ -989,7 +1016,7 @@ Response:
             <category term="iac"/>
             <category term="devops"/>
 
-        <updated>2023-09-18T17:11:41+02:00</updated>
+        <updated>2023-09-17T14:14:00+02:00</updated>
             <summary>
                 <![CDATA[
                     module "zland" { source = "git::ssh//git@gitlab.com/zland/module.git" version = "1.0.5" servers = 3 } Module Output Values resource "aws_instance" "appserver" { #... instance = module.servers.instance_ids } Since the resources defined in a module are encapsulated, a calling module cannot access their attributes directly. Instead, the child&hellip;
@@ -1418,7 +1445,7 @@ resource "aws_instance" "example" {
             <category term="docker"/>
             <category term="container"/>
 
-        <updated>2023-05-05T19:16:26+02:00</updated>
+        <updated>2023-05-03T20:46:16+02:00</updated>
             <summary>
                 <![CDATA[
                     Enable Kubernetes in Docker Desktop We will use Docker Desktop to provide us a Test Kubernetes Environment. Open Docker Desktop Settings, go to Tab "Kubernetes". Select "Enable Kubernetes", then "Apply &amp; Restart". Now you should be able to see docker-desktop listed, if you run kubectl&hellip;
@@ -1699,7 +1726,7 @@ resource "aws_instance" "example" {
             <category term="docker"/>
             <category term="container"/>
 
-        <updated>2023-05-03T20:34:47+02:00</updated>
+        <updated>2023-05-02T21:45:09+02:00</updated>
             <summary>
                 <![CDATA[
                     Pre-Requirements Developer Environment ready with Docker, JDK, IDE A Java Spring Boot Project with a h2 in-memory DB Docker Hub account Create Docker File Create a Dockerfile with the following content: FROM openjdk:11-jre-slim ENV JAVA_OPTS " -Xms512m -Xmx512m -Djava.security.egd=file:///dev/./urandom" WORKDIR application COPY target/myapp-0.0.1-SNAPSHOT.jar ./ ENTRYPOINT&hellip;
@@ -1832,7 +1859,7 @@ WORKDIR application
             <category term="software development"/>
             <category term="java"/>
 
-        <updated>2023-05-02T21:45:22+02:00</updated>
+        <updated>2023-05-02T20:07:36+02:00</updated>
             <summary>
                 <![CDATA[
                     What is Validation? Validation is a process of making assertions against data to ensure data integrity Is a value required? How long is a phone number? Is it a good date? What is the maximum length of a string? Some refer to data validation as&hellip;
@@ -1953,62 +1980,6 @@ WORKDIR application
 <li>If API is only on classpath (with no implementation) you can use the annotations, BUT validation will NOT occur</li>
 <li>Prior to Spring Boot 2.3, validation was included in starter dependencies</li>
 <li>After Spring Boot 2.3, you must include the Spring Boot validation starter</li>
-</ul>
-            ]]>
-        </content>
-    </entry>
-    <entry>
-        <title>Data Transfer Objects</title>
-        <author>
-            <name>Finecloud</name>
-        </author>
-        <link href="https://www.finecloud.ch/data-transfer-objects.html"/>
-        <id>https://www.finecloud.ch/data-transfer-objects.html</id>
-            <category term="software development"/>
-            <category term="java"/>
-
-        <updated>2023-04-11T19:53:59+02:00</updated>
-            <summary>
-                <![CDATA[
-                    Data Transfer Objects DTOs - Data Transfer Objects DTOs are simple Java POJOs DTOs are data structures, generally should NOT have behavior DTOs are objects used to transfer data between producers and consumers Controller models are typically DTOs Why Not Entities? Database Entities are also&hellip;
-                ]]>
-            </summary>
-        <content type="html">
-            <![CDATA[
-                <h2>Data Transfer Objects</h2>
-<ul>
-<li>DTOs - Data Transfer Objects</li>
-<li>DTOs are simple Java POJOs</li>
-<li>DTOs are data structures, generally should NOT have behavior</li>
-<li>DTOs are objects used to transfer data between producers and consumers</li>
-<li>Controller models are typically DTOs</li>
-</ul>
-<h2>Why Not Entities?</h2>
-<ul>
-<li>Database Entities are also POJOs, why can’t we use those?</li>
-<li>For simple applications you can</li>
-<li>Spring Data REST exposes database entities directly</li>
-<li>Database entities can “leak” data to client tier</li>
-<li>As applications become more complex, having the separation becomes more  important</li>
-<li>The needs of the consumers are different than the needs of persistence</li>
-<li>DTOs can be optimized for JSON serialization and deserialization</li>
-</ul>
-<h2>Type Conversions</h2>
-<ul>
-<li>Type Conversions are often done within methods</li>
-<li>Best practice is to use dedicated converters</li>
-<li>Single Responsibility Principle</li>
-<li>Spring Framework provides an Interface called “Converter” with generics</li>
-<li>Can be used with conjunction with Conversion service</li>
-<li>MapStruct is a code generator which automates generation of type converters</li>
-</ul>
-<h2>MapStruct</h2>
-<ul>
-<li>MapStruct is a code generator</li>
-<li>You provide the interface, MapStruct generates the implementation</li>
-<li>Works like Lombok via annotation processing during code compile</li>
-<li>Has good Spring integration - can generate Spring Converters or Spring Components</li>
-<li>You can use Mapstruct Components for injection into services<br><br><br></li>
 </ul>
             ]]>
         </content>

@@ -3,12 +3,105 @@
     <title>Finecloud</title>
     <link href="https://www.finecloud.ch/feed.xml" rel="self" />
     <link href="https://www.finecloud.ch" />
-    <updated>2024-03-18T17:33:39+01:00</updated>
+    <updated>2024-04-05T20:58:56+02:00</updated>
     <author>
         <name>Finecloud</name>
     </author>
     <id>https://www.finecloud.ch</id>
 
+    <entry>
+        <title>Awk and Sed</title>
+        <author>
+            <name>Finecloud</name>
+        </author>
+        <link href="https://www.finecloud.ch/awk-and-sed.html"/>
+        <id>https://www.finecloud.ch/awk-and-sed.html</id>
+            <category term="shell"/>
+            <category term="sed"/>
+            <category term="linux"/>
+            <category term="bash"/>
+            <category term="awk"/>
+
+        <updated>2024-04-05T20:57:46+02:00</updated>
+            <summary>
+                <![CDATA[
+                    awk and sed are text manipulation programs. You can use them for example to replace strings: echo image.jpg | sed 's/\.jpg/.png/' image.png or change order of strings: echo "hello world" | awk '{print $2, $1}' world hello awk and sed are harder to learn than&hellip;
+                ]]>
+            </summary>
+        <content type="html">
+            <![CDATA[
+                
+  <p>
+    awk and sed are text manipulation programs. You can use them for example to replace strings:
+  </p>
+<pre class=" language-bash"><code>echo image.jpg | sed 's/\.jpg/.png/'
+image.png
+</code></pre>
+
+  <p>
+    or change order of strings:<br>
+  </p>
+<pre class=" language-bash"><code>echo "hello world" | awk '{print $2, $1}'
+world hello
+</code></pre>
+
+  <p>
+    awk and sed are harder to learn than some other basic linux cli tools because they contain their own small programming language.<br>
+  </p>
+
+    <h2 id="awk-basics">
+      awk basics
+    </h2>
+
+  <p>
+    awk transforms lines of text (stdin) into any other text, using a set of instructions (called the awk program):
+  </p>
+<pre class=" language-bash"><code>awk program input-files
+</code></pre>
+
+  <p>
+    a awk program can also contain one or more `actions`, for example calculating values or printing text. These `actions` run only when an input matches a `pattern`:<br>`pattern {action}`
+  </p>
+
+  <p>
+    typical patterns include:
+  </p>
+
+  <ul>
+    <li>`BEGIN` runs once before the awk processes any input</li><li>`END` run once after awk has processed all the input</li><li>A Regex surrounded by forward slashes, example: `/^[A-Z]/`</li><li>other awk specific expressions, example: `FNR&gt;5` tells awk to skip the first five lines of input</li>
+  </ul>
+
+  <p>
+    <br>A `pattern` with no `action` runs the default action `{print}` .<br>awk can also perform calculations such as these:
+  </p>
+<pre class=" language-bash"><code>seq 1 100 | awk '{s+=$1} END {print s}'
+5050</code></pre>
+
+  <p>
+    (sum numbers 1 to 100)
+  </p>
+
+    <h2 id="sed-basics">
+      sed basics
+    </h2>
+
+  <p>
+    sed like awk can be used to transform text from stdin to any other text using instructions called `sed scripts`:
+  </p>
+<pre class=" language-bash"><code>sed script input-files</code></pre>
+
+  <p>
+    the most common use case for sed is text replacement, like in this example:<br>
+  </p>
+<pre class=" language-bash"><code>echo "Windows eats Linux for breakfast" | sed s/Windows/Linux/g | sed s/Linux/Windows/2
+</code></pre>
+
+  <p>
+    
+  </p>
+            ]]>
+        </content>
+    </entry>
     <entry>
         <title>How to do a code review</title>
         <author>
@@ -1957,62 +2050,6 @@ WORKDIR application
 <li>If API is only on classpath (with no implementation) you can use the annotations, BUT validation will NOT occur</li>
 <li>Prior to Spring Boot 2.3, validation was included in starter dependencies</li>
 <li>After Spring Boot 2.3, you must include the Spring Boot validation starter</li>
-</ul>
-            ]]>
-        </content>
-    </entry>
-    <entry>
-        <title>Data Transfer Objects</title>
-        <author>
-            <name>Finecloud</name>
-        </author>
-        <link href="https://www.finecloud.ch/data-transfer-objects.html"/>
-        <id>https://www.finecloud.ch/data-transfer-objects.html</id>
-            <category term="software development"/>
-            <category term="java"/>
-
-        <updated>2023-04-10T08:46:26+02:00</updated>
-            <summary>
-                <![CDATA[
-                    Data Transfer Objects DTOs - Data Transfer Objects DTOs are simple Java POJOs DTOs are data structures, generally should NOT have behavior DTOs are objects used to transfer data between producers and consumers Controller models are typically DTOs Why Not Entities? Database Entities are also&hellip;
-                ]]>
-            </summary>
-        <content type="html">
-            <![CDATA[
-                <h2>Data Transfer Objects</h2>
-<ul>
-<li>DTOs - Data Transfer Objects</li>
-<li>DTOs are simple Java POJOs</li>
-<li>DTOs are data structures, generally should NOT have behavior</li>
-<li>DTOs are objects used to transfer data between producers and consumers</li>
-<li>Controller models are typically DTOs</li>
-</ul>
-<h2>Why Not Entities?</h2>
-<ul>
-<li>Database Entities are also POJOs, why can’t we use those?</li>
-<li>For simple applications you can</li>
-<li>Spring Data REST exposes database entities directly</li>
-<li>Database entities can “leak” data to client tier</li>
-<li>As applications become more complex, having the separation becomes more  important</li>
-<li>The needs of the consumers are different than the needs of persistence</li>
-<li>DTOs can be optimized for JSON serialization and deserialization</li>
-</ul>
-<h2>Type Conversions</h2>
-<ul>
-<li>Type Conversions are often done within methods</li>
-<li>Best practice is to use dedicated converters</li>
-<li>Single Responsibility Principle</li>
-<li>Spring Framework provides an Interface called “Converter” with generics</li>
-<li>Can be used with conjunction with Conversion service</li>
-<li>MapStruct is a code generator which automates generation of type converters</li>
-</ul>
-<h2>MapStruct</h2>
-<ul>
-<li>MapStruct is a code generator</li>
-<li>You provide the interface, MapStruct generates the implementation</li>
-<li>Works like Lombok via annotation processing during code compile</li>
-<li>Has good Spring integration - can generate Spring Converters or Spring Components</li>
-<li>You can use Mapstruct Components for injection into services<br><br><br></li>
 </ul>
             ]]>
         </content>

@@ -3,14 +3,14 @@
     <title>Finecloud</title>
     <link href="https://www.finecloud.ch/feed.xml" rel="self" />
     <link href="https://www.finecloud.ch" />
-    <updated>2024-04-06T14:14:21+02:00</updated>
+    <updated>2024-04-06T14:23:11+02:00</updated>
     <author>
         <name>Finecloud</name>
     </author>
     <id>https://www.finecloud.ch</id>
 
     <entry>
-        <title>Github Codespace</title>
+        <title>GitHub Codespace</title>
         <author>
             <name>Finecloud</name>
         </author>

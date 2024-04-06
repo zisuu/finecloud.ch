@@ -3,7 +3,7 @@
     <title>Finecloud</title>
     <link href="https://www.finecloud.ch/feed.xml" rel="self" />
     <link href="https://www.finecloud.ch" />
-    <updated>2024-04-05T21:53:57+02:00</updated>
+    <updated>2024-04-06T14:14:21+02:00</updated>
     <author>
         <name>Finecloud</name>
     </author>
@@ -142,7 +142,7 @@
     </h2>
 
   <p>
-    One of the biggest benefits of codespaces is that Github ships images with the most recent and common tools you need to develop. Have a look at this Repository:&nbsp;https://github.com/devcontainers/images/tree/main/src/universal&nbsp;
+    One of the biggest benefits of codespaces is that Github ships images with the most recent and common tools you need to develop. Have a look at this Repository:&nbsp;<a href="https://github.com/devcontainers/images/tree/main/src/universal" target="_blank" rel="nofollow noopener">https://github.com/devcontainers/images/tree/main/src/universal</a>
   </p>
             ]]>
         </content>

@@ -3,7 +3,7 @@
     <title>Finecloud</title>
     <link href="https://www.finecloud.ch/feed.xml" rel="self" />
     <link href="https://www.finecloud.ch" />
-    <updated>2024-08-05T19:46:26+02:00</updated>
+    <updated>2024-08-05T20:11:49+02:00</updated>
     <author>
         <name>Finecloud</name>
     </author>
@@ -86,7 +86,7 @@
     </h2>
 
   <ul>
-    <li>PATs could be leaked if they get into the wrong hands and are used externally</li><li>    Org. Admins don't see users PATs with Org. access</li>
+    <li>PATs could be leaked if they get into the wrong hands and are used externally</li><li>    Org. Admins don't see users classic PATs with Org. access</li>
   </ul>
 
     <h2 id="can-a-classic-pat-owned-by-a-regular-gh-user-be-used-to-access-and-manipulate-a-gh-internal-repo-from-externally-without-any-other-auth-requirement">

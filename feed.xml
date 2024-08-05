@@ -3,12 +3,244 @@
     <title>Finecloud</title>
     <link href="https://www.finecloud.ch/feed.xml" rel="self" />
     <link href="https://www.finecloud.ch" />
-    <updated>2024-04-08T20:50:51+02:00</updated>
+    <updated>2024-08-05T19:46:26+02:00</updated>
     <author>
         <name>Finecloud</name>
     </author>
     <id>https://www.finecloud.ch</id>
 
+    <entry>
+        <title>GitHub classic vs. fine-grained Personal Access Tokens</title>
+        <author>
+            <name>Finecloud</name>
+        </author>
+        <link href="https://www.finecloud.ch/github-classic-vs-fine-grained-personal-access-tokens.html"/>
+        <id>https://www.finecloud.ch/github-classic-vs-fine-grained-personal-access-tokens.html</id>
+            <category term="security"/>
+            <category term="github"/>
+            <category term="devops"/>
+
+        <updated>2024-07-31T17:32:59+02:00</updated>
+            <summary>
+                <![CDATA[
+                    What are PATs? Personal access tokens are an alternative to using passwords for authentication to GitHub when using the GitHub API or the command line. Personal access tokens are intended to access GitHub resources on your behalf. To access resources on behalf of an organization,&hellip;
+                ]]>
+            </summary>
+        <content type="html">
+            <![CDATA[
+                
+  <div class="post__toc">
+    <h3>Contents</h3>
+    <ul>
+      <li><a href="#what-are-pats">What are PATs?</a></li><li><a href="#what-are-classic-pats">What are classic PATs?</a></li><li><a href="#what-are-fine-grained-pats">What are fine-grained PATs?</a></li><li><a href="#what-happens-when-the-user-who-generated-them-becomes-inactive-and-loses-access-to-the-resource">What happens when the user who generated them becomes inactive and loses access to the resource?</a></li><li><a href="#what-are-the-risks-to-consider-with-pats">What are the risks to consider with PATs?</a></li><li><a href="#can-a-classic-pat-owned-by-a-regular-gh-user-be-used-to-access-and-manipulate-a-gh-internal-repo-from-externally-without-any-other-auth-requirement">Can a classic PAT (owned by a regular GH user) be used to access and manipulate a GH internal Repo from externally without any other auth requirement?</a></li><li><a href="#can-a-fine-grained-pat-owned-by-a-regular-gh-user-be-used-to-access-and-manipulate-a-gh-internal-repo-from-externally-without-any-other-auth-requirement">Can a fine-grained PAT (owned by a regular GH User) be used to access and manipulate a GH internal Repo from externally without any other auth requirement?</a></li><li><a href="#can-a-fine-grained-pat-owned-by-the-org-be-used-to-access-and-manipulate-a-gh-internal-repo-externally-without-any-other-auth-requirement">Can a fine-grained PAT (owned by the Org) be used to access and manipulate a GH internal Repo externally without any other auth requirement?</a></li><li><a href="#how-can-org-admins-restrict-classic-pats-access-to-the-org">How can Org. Admins restrict classic PATs access to the Org?</a></li><li><a href="#how-can-you-manage-classic-pats-of-the-users-as-an-org-adminlessbrgreater">How can you manage classic PATs of the Users as an Org Admin?<br></a></li><li><a href="#how-can-i-restrict-org-access-of-fine-grained-pats-as-an-org-admin">How can I restrict Org access of fine-grained PATs as an Org Admin?</a></li><li><a href="#how-can-i-manage-fine-grained-pats-of-the-users-as-an-org-admin">How can I manage fine-grained PATs of the Users as an Org Admin?</a></li><li><a href="#overview-of-classic-vs-fine-grained-pats">Overview of Classic vs. Fine-grained PATs</a></li>
+    </ul>
+  </div>
+  
+
+    <h2 id="what-are-pats">
+      What are PATs?
+    </h2>
+
+  <p>
+    Personal access tokens are an alternative to using passwords for authentication to GitHub when using the <a href="https://docs.github.com/en/rest/overview/authenticating-to-the-rest-api" target="_blank">GitHub API</a> or the <a href="https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#using-a-personal-access-token-on-the-command-line" target="_blank">command line</a>.<br><br>Personal access tokens are intended to access GitHub resources on your behalf. <strong>To access resources on behalf of an organization, or for long-lived integrations, you should use a GitHub App. For more information, see "<a href="https://docs.github.com/en/apps/creating-github-apps/setting-up-a-github-app/about-creating-github-apps" target="_blank">About creating GitHub Apps</a>"</strong><br><br><strong>GitHub recommends that you use fine-grained personal access tokens instead of personal access tokens (classic) whenever possible. (<a href="https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#types-of-personal-access-tokens" target="_blank">source</a>)</strong>
+  </p>
+
+    <h2 id="what-are-classic-pats">
+      What are classic PATs?
+    </h2>
+
+  <p>
+    Personal access tokens (classic) are less secure. <strong>However, some features currently will only work with personal access tokens (classic):</strong>
+  </p>
+
+  <ul>
+    <li><span style="color: var(--text-primary-color); font-family: var(--editor-font-family); font-size: 1em; font-weight: var(--font-weight-normal);">Only personal access tokens (classic) have write access for public repositories that are not owned by you or an organization that you are not a member of.</span><br></li><li>Outside collaborators can only use personal access tokens (classic) to access organization repositories that they are a collaborator on.</li><li>A few REST API endpoints are only available with a personal access tokens (classic). To check whether an endpoint also supports fine-grained personal access tokens, see the documentation for that endpoint, or see "<a href="https://docs.github.com/en/rest/overview/endpoints-available-for-fine-grained-personal-access-tokens" target="_blank">Endpoints available for fine-grained personal access tokens</a>".</li>
+  </ul>
+
+  <p>
+    If you choose to use a personal access token (classic), keep in mind that it will grant access to all repositories within the organizations that you have access to, as well as all personal repositories in your personal account.<br><br>As a security precaution, GitHub automatically removes personal access tokens that haven't been used in a year. To provide additional security, we highly recommend adding an expiration to your personal access tokens.
+  </p>
+
+    <h2 id="what-are-fine-grained-pats">
+      What are fine-grained PATs?
+    </h2>
+
+  <p>
+    Fine-grained personal access tokens have several security advantages over personal access tokens (classic):
+  </p>
+
+  <ul>
+    <li>Each token can only access resources owned by a single user or organization.</li><li>Each token can only access specific repositories.</li><li>Each token is granted specific permissions, which offer more control than the scopes granted to personal access tokens (classic).</li><li>Each token must have an expiration date.</li><li>Organization owners can require approval for any fine-grained personal access tokens that can access resources in the organization.</li>
+  </ul>
+
+    <h2 id="what-happens-when-the-user-who-generated-them-becomes-inactive-and-loses-access-to-the-resource">
+      What happens when the user who generated them becomes inactive and loses access to the resource?
+    </h2>
+
+  <p>
+    Both fine-grained personal access tokens and personal access tokens (classic) are tied to the user who generated them and will become inactive if the user loses access to the resource.
+  </p>
+
+    <h2 id="what-are-the-risks-to-consider-with-pats">
+      What are the risks to consider with PATs?
+    </h2>
+
+  <ul>
+    <li>PATs could be leaked if they get into the wrong hands and are used externally</li><li>    Org. Admins don't see users PATs with Org. access</li>
+  </ul>
+
+    <h2 id="can-a-classic-pat-owned-by-a-regular-gh-user-be-used-to-access-and-manipulate-a-gh-internal-repo-from-externally-without-any-other-auth-requirement">
+      Can a classic PAT (owned by a regular GH user) be used to access and manipulate a GH internal Repo from externally without any other auth requirement?
+    </h2>
+
+  <p>
+    Yes. You need to create a classic PAT, select all permissions and then try to access an internal GitHub Test Repo from an external Computer without any VPN/internal access or SSO auth session. You will be able to pull all the Repo content and write everywhere where the owner of the PAT has access, e.g., create Issues, close PRs, etc.
+  </p>
+
+    <h2 id="can-a-fine-grained-pat-owned-by-a-regular-gh-user-be-used-to-access-and-manipulate-a-gh-internal-repo-from-externally-without-any-other-auth-requirement">
+      Can a fine-grained PAT (owned by a regular GH User) be used to access and manipulate a GH internal Repo from externally without any other auth requirement?
+    </h2>
+
+  <p>
+    Per default, user-owned fine-grained PATs have only read access to public github.com repos. To select access to an internal GH Repo, the Organization must own the PAT, which is only possible if the token request gets approved by an Org. Admin.
+  </p>
+
+    <h2 id="can-a-fine-grained-pat-owned-by-the-org-be-used-to-access-and-manipulate-a-gh-internal-repo-externally-without-any-other-auth-requirement">
+      Can a fine-grained PAT (owned by the Org) be used to access and manipulate a GH internal Repo externally without any other auth requirement?
+    </h2>
+
+  <p>
+    Once the requested PAT got approved by an Org Admin, yes, this is possible. But the token has a maximum lifetime of 1 year. If the user of the PAT changes something on the permissions, the review workflow is again triggered, and an Org Admin must approve the permission change before it is applied.
+  </p>
+
+    <h2 id="how-can-org-admins-restrict-classic-pats-access-to-the-org">
+      How can Org. Admins restrict classic PATs access to the Org?
+    </h2>
+
+  <p>
+    Organization owners/admins can prevent personal access tokens (classic) from accessing resources owned by the organization. Personal access tokens (classic) can still read public resources within the organization.
+  </p>
+
+    <figure class="post__image post__image--center">
+      <img loading="lazy" src="https://www.finecloud.ch/media/posts/104/gh-token.png" height="258" width="934" alt=""  sizes="100vw" srcset="https://www.finecloud.ch/media/posts/104/responsive/gh-token-xs.png 300w ,https://www.finecloud.ch/media/posts/104/responsive/gh-token-sm.png 480w ,https://www.finecloud.ch/media/posts/104/responsive/gh-token-md.png 768w ,https://www.finecloud.ch/media/posts/104/responsive/gh-token-lg.png 1024w ,https://www.finecloud.ch/media/posts/104/responsive/gh-token-xl.png 1360w ,https://www.finecloud.ch/media/posts/104/responsive/gh-token-2xl.png 1600w">
+      
+    </figure>
+
+  <p>
+    https://github.com/organizations/&lt;your-gh-org-name&gt;/settings/personal-access-tokens
+  </p>
+
+    <h2 id="how-can-you-manage-classic-pats-of-the-users-as-an-org-adminlessbrgreater">
+      How can you manage classic PATs of the Users as an Org Admin?<br>
+    </h2>
+
+  <p>
+    You can't, because you don't see them. Only the User who created the classic PAT can see and manage it.
+  </p>
+
+    <h2 id="how-can-i-restrict-org-access-of-fine-grained-pats-as-an-org-admin">
+      How can I restrict Org access of fine-grained PATs as an Org Admin?
+    </h2>
+
+    <figure class="post__image post__image--center">
+      <img loading="lazy" src="https://www.finecloud.ch/media/posts/104/gh-token-2.png" height="264" width="928" alt=""  sizes="100vw" srcset="https://www.finecloud.ch/media/posts/104/responsive/gh-token-2-xs.png 300w ,https://www.finecloud.ch/media/posts/104/responsive/gh-token-2-sm.png 480w ,https://www.finecloud.ch/media/posts/104/responsive/gh-token-2-md.png 768w ,https://www.finecloud.ch/media/posts/104/responsive/gh-token-2-lg.png 1024w ,https://www.finecloud.ch/media/posts/104/responsive/gh-token-2-xl.png 1360w ,https://www.finecloud.ch/media/posts/104/responsive/gh-token-2-2xl.png 1600w">
+      
+    </figure>
+
+  <p>
+    https://github.com/organizations/&lt;your-gh-org-name&gt;<your-gh-org-name>/settings/personal-access-tokens</your-gh-org-name><br>
+  </p>
+
+    <h2 id="how-can-i-manage-fine-grained-pats-of-the-users-as-an-org-admin">
+      How can I manage fine-grained PATs of the Users as an Org Admin?
+    </h2>
+
+  <p>
+    You can't manage/see the fine-grained PATs the User Account owns. Once the Org owns the PAT, you can see and manage them.<br><br>If the owner is set to the User, the PAT is invisible/unable to manage, but this also means that token only has access to public repos:
+  </p>
+
+    <figure class="post__image post__image--center">
+      <img loading="lazy" src="https://www.finecloud.ch/media/posts/104/SCR-20240805-qyyf.png" height="429" width="996" alt=""  sizes="100vw" srcset="https://www.finecloud.ch/media/posts/104/responsive/SCR-20240805-qyyf-xs.png 300w ,https://www.finecloud.ch/media/posts/104/responsive/SCR-20240805-qyyf-sm.png 480w ,https://www.finecloud.ch/media/posts/104/responsive/SCR-20240805-qyyf-md.png 768w ,https://www.finecloud.ch/media/posts/104/responsive/SCR-20240805-qyyf-lg.png 1024w ,https://www.finecloud.ch/media/posts/104/responsive/SCR-20240805-qyyf-xl.png 1360w ,https://www.finecloud.ch/media/posts/104/responsive/SCR-20240805-qyyf-2xl.png 1600w">
+      
+    </figure>
+
+  <p>
+    If you select the Organization as the Resource owner of the PAT instead, a fine-grained personal access token request will be made, which needs to be approved by an Org. Admin before it can be used.
+  </p>
+
+  <p>
+    An overview of all Org. owned PATs can be found under this URL; if you are an Org. Admin:&nbsp;https://github.com/organizations/&lt;your-gh-org-name&gt;/settings/personal-access-tokens/active
+  </p>
+
+    <h2 id="overview-of-classic-vs-fine-grained-pats">
+      Overview of Classic vs. Fine-grained PATs
+    </h2>
+<div><style type="text/css">
+.tg  {border-collapse:collapse;border-spacing:0;}
+.tg td{border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+  overflow:hidden;padding:10px 5px;word-break:normal;}
+.tg th{border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+  font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
+.tg .tg-wp8o{text-align:center;vertical-align:top}
+.tg .tg-73oq{text-align:left;vertical-align:top}
+</style>
+<table class="tg"><thead>
+  <tr>
+    <th class="tg-73oq"></th>
+    <th class="tg-wp8o">Classic PAT</th>
+    <th class="tg-wp8o">Fine-grained PAT</th>
+  </tr></thead>
+<tbody>
+  <tr>
+    <td class="tg-73oq">write access for public repositories that are not owned by you or an organization that you are not a member of</td>
+    <td class="tg-wp8o">✅</td>
+    <td class="tg-wp8o">❌</td>
+  </tr>
+  <tr>
+    <td class="tg-73oq">Outside collaborators can access organization repositories that they are a collaborator on.</td>
+    <td class="tg-wp8o">✅</td>
+    <td class="tg-wp8o">❌</td>
+  </tr>
+  <tr>
+    <td class="tg-73oq">Can be used with all REST API endpoints</td>
+    <td class="tg-wp8o">✅</td>
+    <td class="tg-wp8o">❌</td>
+  </tr>
+  <tr>
+    <td class="tg-73oq">Feature release status</td>
+    <td class="tg-wp8o">stable</td>
+    <td class="tg-wp8o">beta<br></td>
+  </tr>
+  <tr>
+    <td class="tg-73oq">Tokens must have an expiration date</td>
+    <td class="tg-wp8o">❌</td>
+    <td class="tg-wp8o">✅</td>
+  </tr>
+  <tr>
+    <td class="tg-73oq">Token can inherit all permissions of the User, incl. all repositories <br>within the organizations that the user has access to without any <br>approval/reivew</td>
+    <td class="tg-wp8o">✅</td>
+    <td class="tg-wp8o">❌</td>
+  </tr>
+  <tr>
+    <td class="tg-73oq">Token permissions can be defined set on repository level (fine-grained)</td>
+    <td class="tg-wp8o">❌</td>
+    <td class="tg-wp8o">✅</td>
+  </tr>
+  <tr>
+    <td class="tg-73oq">Organization owners can prevent token from accessing resources owned by the organization</td>
+    <td class="tg-wp8o">✅</td>
+    <td class="tg-wp8o">✅</td>
+  </tr>
+  <tr>
+    <td class="tg-73oq">Organization owners can require approval for each token that can access <br>the organization (e.g. internal Repo) from externally without any other <br>auth requirement</td>
+    <td class="tg-wp8o">❌</td>
+    <td class="tg-wp8o">✅</td>
+  </tr>
+</tbody></table>
+</div>
+            ]]>
+        </content>
+    </entry>
     <entry>
         <title>Third-party GitHub Actions</title>
         <author>
@@ -1668,288 +1900,6 @@ resource "aws_instance" "example" {
   <ul>
     <li>Terratest:&nbsp;A great, comprehensive tool by Gruntwork. This tool does not do unit testing.</li><li>Kitchen-Terraform:&nbsp;Spins up, tests, and spins down various Terraform resources.</li><li>Terraform-compliance:&nbsp;A simple tool for testing and enforcing Terraform compliance rules.</li>
   </ul>
-            ]]>
-        </content>
-    </entry>
-    <entry>
-        <title>Spring Boot on Kubernetes</title>
-        <author>
-            <name>Finecloud</name>
-        </author>
-        <link href="https://www.finecloud.ch/spring-boot-on-kubernetes.html"/>
-        <id>https://www.finecloud.ch/spring-boot-on-kubernetes.html</id>
-            <category term="spring-framework"/>
-            <category term="spring"/>
-            <category term="software development"/>
-            <category term="kubernetes"/>
-            <category term="java"/>
-            <category term="docker"/>
-            <category term="container"/>
-
-        <updated>2023-05-03T20:46:16+02:00</updated>
-            <summary>
-                <![CDATA[
-                    Enable Kubernetes in Docker Desktop We will use Docker Desktop to provide us a Test Kubernetes Environment. Open Docker Desktop Settings, go to Tab "Kubernetes". Select "Enable Kubernetes", then "Apply &amp; Restart". Now you should be able to see docker-desktop listed, if you run kubectl&hellip;
-                ]]>
-            </summary>
-        <content type="html">
-            <![CDATA[
-                <div class="post__toc">
-<h3>Table of Contents</h3>
-<ul>
-<li><a href="#mcetoc_1gvimt7cd1et">Enable Kubernetes in Docker Desktop</a></li>
-<li><a href="#mcetoc_1gvimt7cd1eu">Create Deployment</a></li>
-<li><a href="#mcetoc_1gvimt7cd1ev">Create Service</a></li>
-<li><a href="#mcetoc_1gvimt7cd1f0">Port Forwarding</a></li>
-</ul>
-</div>
-<h2 id="mcetoc_1gvimt7cd1et">Enable Kubernetes in Docker Desktop</h2>
-<p>We will use Docker Desktop to provide us a Test Kubernetes Environment.</p>
-<p>Open Docker Desktop Settings, go to Tab "Kubernetes". Select "Enable Kubernetes", then "Apply &amp; Restart".</p>
-<p>Now you should be able to see docker-desktop listed, if you run <code>kubectl get nodes</code></p>
-<h2 id="mcetoc_1gvimt7cd1eu">Create Deployment</h2>
-<p>We will use the Docker Image we created in the last Post. Instead of directly deploying the Application we want to create a deployment.yml file:</p>
-<p><code>kubectl create deployment myapp --image name/myapp --dry-run=client -o=yaml &gt; deployment.yml</code></p>
-<p>the content looks like this:</p>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-attr">apiVersion:</span> apps/v1
-<span class="hljs-attr">kind:</span> Deployment
-<span class="hljs-attr">metadata:</span>
-<span class="hljs-attr">  creationTimestamp:</span> <span class="hljs-literal" style="color: #6897bb;">null</span>
-<span class="hljs-attr">  labels:</span>
-<span class="hljs-attr">    app:</span> myapp
-<span class="hljs-attr">  name:</span> myapp
-<span class="hljs-attr">spec:</span>
-<span class="hljs-attr">  replicas:</span> <span class="hljs-number" style="color: #6897bb;">1</span>
-<span class="hljs-attr">  selector:</span>
-<span class="hljs-attr">    matchLabels:</span>
-<span class="hljs-attr">      app:</span> myapp
-<span class="hljs-attr">  strategy:</span> {}
-<span class="hljs-attr">  template:</span>
-<span class="hljs-attr">    metadata:</span>
-<span class="hljs-attr">      creationTimestamp:</span> <span class="hljs-literal" style="color: #6897bb;">null</span>
-<span class="hljs-attr">      labels:</span>
-<span class="hljs-attr">        app:</span> myapp
-<span class="hljs-attr">    spec:</span>
-<span class="hljs-attr">      containers:</span>
-<span class="hljs-attr">      - image:</span> name/myapp
-<span class="hljs-attr">        name:</span> myapp
-<span class="hljs-attr">        resources:</span> {}
-<span class="hljs-attr">status:</span> {}</pre>
-<p>now we can apply this deployment with: <code>kubectl apply -f deployment.yml</code></p>
-<h2 id="mcetoc_1gvimt7cd1ev">Create Service</h2>
-<p>With the command </p>
-<p><code>kubectl create service clusterip myapp --tcp=8080:8080 --dry-run=client -o=yaml &gt; service.yml</code></p>
-<p>we can create the service definition file. And then apply it with: </p>
-<p><code>kubectl apply -f service.yml</code></p>
-<p>the content of the file:</p>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-attr">apiVersion:</span> v1
-<span class="hljs-attr">kind:</span> Service
-<span class="hljs-attr">metadata:</span>
-<span class="hljs-attr">  creationTimestamp:</span> <span class="hljs-literal" style="color: #6897bb;">null</span>
-<span class="hljs-attr">  labels:</span>
-<span class="hljs-attr">    app:</span> myapp
-<span class="hljs-attr">  name:</span> myapp
-<span class="hljs-attr">spec:</span>
-<span class="hljs-attr">  ports:</span>
-<span class="hljs-attr">  - name:</span> <span class="hljs-number" style="color: #6897bb;">8080</span><span class="hljs-bullet" style="color: #6897bb;">-8080</span>
-<span class="hljs-attr">    port:</span> <span class="hljs-number" style="color: #6897bb;">8080</span>
-<span class="hljs-attr">    protocol:</span> TCP
-<span class="hljs-attr">    targetPort:</span> <span class="hljs-number" style="color: #6897bb;">8080</span>
-<span class="hljs-attr">  selector:</span>
-<span class="hljs-attr">    app:</span> myapp
-<span class="hljs-attr">  type:</span> ClusterIP
-<span class="hljs-attr">status:</span>
-<span class="hljs-attr">  loadBalancer:</span> {}</pre>
-<p>with <code>kubectl get all</code> we can now see that the service has been created.</p>
-<h2 id="mcetoc_1gvimt7cd1f0">Port Forwarding</h2>
-<p>To be able to access the App, we need to create a Port Forwarding like so:</p>
-<ol>
-<li>get your local ip address, e.g.: <code>ipconfig getifaddr en0</code></li>
-<li>configure port forwarding with: <code>kubectl port-forward service/myapp 8080:8080</code></li>
-<li>Check if it works with: <code>curl localhost:8080/actuator/health</code></li>
-<li>this should return: <code>{"status":"UP","groups":["liveness","readiness"]}</code></li>
-</ol>
-<h2>Terminate Service and Deployment</h2>
-<p>If you want to stop a Service or a Deployment you can use these cmds:</p>
-<p><code>kubectl delete service myapp</code></p>
-<p><code>kubectl delete deployment myapp</code></p>
-<h2>Exposing Services</h2>
-<p>If you want to expose a Service permanent and not only with Port Forwarding you can go with this: </p>
-<ol>
-<li>Replace <em><span class="hljs-attr">type:</span> ClusterIP </em>in the service.yml file with <em><span class="hljs-attr">type:</span> NodePort</em></li>
-<li>Reapply the deployment and service</li>
-<li>Check what dynamic Port the service has been exposed on: <code>kubectl get all</code></li>
-<li>Check access with curl: <code>curl localhost:31610/actuator/health</code></li>
-</ol>
-<h2>Accessing Logs</h2>
-<p>One option is to check the logs on the docker containers directly with:</p>
-<ol>
-<li>docker ps -a</li>
-<li>docker logs -f &lt;containername&gt;</li>
-</ol>
-<p>but in a Kubernetes context you probably cant access the docker logs directly, or docker is not used at all, thats why you need to go with this:</p>
-<ol>
-<li>kubectl get all</li>
-<li>kubectl logs -f &lt;podname&gt;</li>
-</ol>
-<h2>Setting Environment Variables</h2>
-<p>Example use case: overwrite log levels.</p>
-<ol>
-<li>Change your deployment.yml and add the env part to it:</li>
-<li>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-attr">apiVersion:</span> apps/v1
-<span class="hljs-attr">kind:</span> Deployment
-<span class="hljs-attr">metadata:</span>
-<span class="hljs-attr">  creationTimestamp:</span> <span class="hljs-literal" style="color: #6897bb;">null</span>
-<span class="hljs-attr">  labels:</span>
-<span class="hljs-attr">    app:</span> myapp
-<span class="hljs-attr">  name:</span> myapp
-<span class="hljs-attr">spec:</span>
-<span class="hljs-attr">  replicas:</span> <span class="hljs-number" style="color: #6897bb;">1</span>
-<span class="hljs-attr">  selector:</span>
-<span class="hljs-attr">    matchLabels:</span>
-<span class="hljs-attr">      app:</span> myapp
-<span class="hljs-attr">  strategy:</span> {}
-<span class="hljs-attr">  template:</span>
-<span class="hljs-attr">    metadata:</span>
-<span class="hljs-attr">      creationTimestamp:</span> <span class="hljs-literal" style="color: #6897bb;">null</span>
-<span class="hljs-attr">      labels:</span>
-<span class="hljs-attr">        app:</span> myapp
-<span class="hljs-attr">    spec:</span>
-<span class="hljs-attr">      containers:</span>
-<span class="hljs-attr">      - image:</span> jhyyhpp/kbe-rest-brewery
-<span class="hljs-attr">        name:</span> kbe-rest-brewery
-<span class="hljs-attr">        resources:</span> {}
-<span class="hljs-attr">        env:</span>
-<span class="hljs-attr">        - name:</span> LOGGING_LEVEL_MYAPP
-<span class="hljs-attr">          value:</span> INFO
-<span class="hljs-attr">status:</span> {}
-</pre>
-</li>
-<li>kubectl apply -f deployment.yml</li>
-<li>kubectl get all</li>
-<li>kubectl logs -f &lt;podname&gt;</li>
-</ol>
-<h2>Readiness Probe</h2>
-<div class="flex flex-grow flex-col gap-3">
-<div class="min-h-[20px] flex flex-col items-start gap-4 whitespace-pre-wrap break-words">
-<div class="markdown prose w-full break-words dark:prose-invert light">
-<p>A readiness probe is an essential feature in Kubernetes that ensures the proper functioning of a deployed application. Here are some reasons why you should use a readiness probe:</p>
-<ol>
-<li>
-<p>Prevents traffic to unhealthy pods: Kubernetes uses readiness probes to determine if a pod is ready to receive traffic or not. If a pod is not ready, Kubernetes will not route traffic to that pod. This ensures that traffic is only sent to healthy pods, preventing downtime and improving the overall availability of the application.</p>
-</li>
-<li>
-<p>Allows for graceful scaling: When new pods are added to a deployment or replica set, Kubernetes uses readiness probes to determine when the new pods are ready to receive traffic. This allows for a more graceful scaling experience, as traffic is only routed to new pods once they are ready to handle it.</p>
-</li>
-<li>
-<p>Helps with rolling updates: Kubernetes uses readiness probes to determine when a new version of an application is ready to receive traffic. This allows for rolling updates to be performed without causing downtime or disruption to users.</p>
-</li>
-<li>
-<p>Provides insight into application health: Readiness probes can be used to provide insight into the health of an application. By monitoring the results of readiness probes, you can determine if your application is healthy and identify any issues that need to be addressed.</p>
-</li>
-</ol>
-<p>Overall, readiness probes are a crucial feature in Kubernetes that help ensure the proper functioning of your application and improve its availability.</p>
-</div>
-</div>
-</div>
-<h2>Liveness Probe</h2>
-<div class="flex flex-grow flex-col gap-3">
-<div class="min-h-[20px] flex flex-col items-start gap-4 whitespace-pre-wrap break-words">
-<div class="markdown prose w-full break-words dark:prose-invert light">
-<p>A liveness probe is another important feature in Kubernetes that ensures the health of a deployed application. Here are some reasons why you should use a liveness probe:</p>
-<ol>
-<li>
-<p>Restarts unhealthy pods: Kubernetes uses liveness probes to determine if a pod is healthy or not. If a pod fails the liveness probe, Kubernetes will automatically restart the pod, ensuring that the application remains available.</p>
-</li>
-<li>
-<p>Prevents failed requests: Liveness probes help prevent failed requests by ensuring that only healthy pods are serving traffic. If a pod is not healthy, Kubernetes will not route traffic to that pod, preventing failed requests and improving the overall availability of the application.</p>
-</li>
-<li>
-<p>Identifies application failures: Liveness probes can be used to identify application failures and help diagnose issues. By monitoring the results of liveness probes, you can determine if your application is healthy and identify any issues that need to be addressed.</p>
-</li>
-<li>
-<p>Supports self-healing: By automatically restarting unhealthy pods, liveness probes support self-healing in Kubernetes. This ensures that your application remains available even in the face of failures.</p>
-</li>
-</ol>
-<p>Overall, liveness probes are a crucial feature in Kubernetes that help ensure the health of your application and improve its availability. By using liveness probes, you can ensure that your application remains available, even in the face of failures, and identify and address any issues that may arise.</p>
-<p>To add the readiness and liveness probles we need to add the following content to our deployment.yml file:</p>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-attr">apiVersion:</span> apps/v1
-<span class="hljs-attr">kind:</span> Deployment
-<span class="hljs-attr">metadata:</span>
-<span class="hljs-attr">  creationTimestamp:</span> <span class="hljs-literal" style="color: #6897bb;">null</span>
-<span class="hljs-attr">  labels:</span>
-<span class="hljs-attr">    app:</span> myapp
-<span class="hljs-attr">  name:</span> myapp
-<span class="hljs-attr">spec:</span>
-<span class="hljs-attr">  replicas:</span> <span class="hljs-number" style="color: #6897bb;">1</span>
-<span class="hljs-attr">  selector:</span>
-<span class="hljs-attr">    matchLabels:</span>
-<span class="hljs-attr">      app:</span> myapp
-<span class="hljs-attr">  strategy:</span> {}
-<span class="hljs-attr">  template:</span>
-<span class="hljs-attr">    metadata:</span>
-<span class="hljs-attr">      creationTimestamp:</span> <span class="hljs-literal" style="color: #6897bb;">null</span>
-<span class="hljs-attr">      labels:</span>
-<span class="hljs-attr">        app:</span> myapp
-<span class="hljs-attr">    spec:</span>
-<span class="hljs-attr">      containers:</span>
-<span class="hljs-attr">      - image:</span> jhyyhpp/kbe-rest-brewery
-<span class="hljs-attr">        name:</span> kbe-rest-brewery
-<span class="hljs-attr">        resources:</span> {}
-<span class="hljs-attr">        env:</span>
-<span class="hljs-attr">        - name:</span> LOGGING_LEVEL_CH_FINECLOUD_SFGRESTBREWERY
-<span class="hljs-attr">          value:</span> INFO
-<span class="hljs-attr">        - name:</span> MANAGEMENT_ENDPOINTS_HEALTH_PROBES_ENABLED
-<span class="hljs-attr">          value:</span> <span class="hljs-string" style="color: #6a8759;">"true"</span>
-<span class="hljs-attr">        - name:</span> MANAGEMENT_HEALTH_READINESSSTATE_ENABLED
-<span class="hljs-attr">          value:</span> <span class="hljs-string" style="color: #6a8759;">"true"</span>
-<span class="hljs-attr">        - name:</span> MANAGEMENT_HEALTH_LIVENESSSTATE_ENABLED
-<span class="hljs-attr">          value:</span> <span class="hljs-string" style="color: #6a8759;">"true"</span>
-<span class="hljs-attr">        livenessProbe:</span>
-<span class="hljs-attr">            httpGet:</span>
-<span class="hljs-attr">                path:</span> /actuator/health/liveness
-<span class="hljs-attr">                port:</span> <span class="hljs-number" style="color: #6897bb;">8080</span>
-<span class="hljs-attr">        readinessProbe:</span>
-<span class="hljs-attr">          httpGet:</span>
-<span class="hljs-attr">            path:</span> /actuator/health/readiness
-<span class="hljs-attr">            port:</span> <span class="hljs-number" style="color: #6897bb;">8080</span>
-<span class="hljs-attr">status:</span> {}
-</pre>
-</div>
-</div>
-</div>
-<h2>Graceful Shutdown</h2>
-<div class="flex flex-grow flex-col gap-3">
-<div class="min-h-[20px] flex flex-col items-start gap-4 whitespace-pre-wrap break-words">
-<div class="markdown prose w-full break-words dark:prose-invert light">
-<p>Graceful shutdown is an important feature to consider when deploying an application on Kubernetes. Here are some reasons why you should use a graceful shutdown:</p>
-<ol>
-<li>
-<p>Minimizes downtime: Graceful shutdown allows your application to shut down in a controlled manner, ensuring that any in-flight requests are completed before the application is terminated. This helps to minimize downtime and improve the overall availability of the application.</p>
-</li>
-<li>
-<p>Avoids data loss: During a graceful shutdown, your application has the opportunity to save any data that needs to be persisted before shutting down. This helps to avoid data loss and ensures that your application can be restarted without losing any important data.</p>
-</li>
-<li>
-<p>Prevents disruption to users: A graceful shutdown ensures that your application is shut down in a way that is transparent to users. By completing any in-flight requests and avoiding abrupt terminations, you can prevent disruption to users and provide a better user experience.</p>
-</li>
-<li>
-<p>Supports scaling: When scaling down your application, a graceful shutdown ensures that any remaining requests are completed before the pod is terminated. This allows for more efficient scaling and helps to prevent any lost or interrupted requests.</p>
-</li>
-</ol>
-<p>Overall, a graceful shutdown is an important feature to consider when deploying an application on Kubernetes. It helps to minimize downtime, avoid data loss, prevent disruption to users, and support efficient scaling. By using a graceful shutdown, you can ensure that your application is shut down in a way that is safe, controlled, and reliable.</p>
-</div>
-</div>
-</div>
-<p>To configure graceful shutdown we need to add the following content to our deployment.yml file:</p>
-<pre class="hljs" style="color: #a9b7c6; background: #282b2e; display: block; overflow-x: auto; padding: 0.5em;"><span class="hljs-attr">        - name:</span> SERVER_SHUTDOWN
-<span class="hljs-attr">          value:</span> <span class="hljs-string" style="color: #6a8759;">"graceful"</span>
-<span class="hljs-attr">        lifecycle:</span>
-<span class="hljs-attr">          preStop:</span>
-<span class="hljs-attr">            exec:</span>
-<span class="hljs-attr">              command:</span> [<span class="hljs-string" style="color: #6a8759;">"/bin/sh"</span>, <span class="hljs-string" style="color: #6a8759;">"-c"</span>, <span class="hljs-string" style="color: #6a8759;">"sleep 10"</span>]</pre>
-<p> </p>
             ]]>
         </content>
     </entry>

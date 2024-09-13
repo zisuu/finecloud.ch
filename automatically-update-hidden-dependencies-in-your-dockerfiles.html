@@ -1,0 +1,61 @@
+<!DOCTYPE html><html lang="de-ch"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Automatically update the hidden dependencies in your Dockerfiles - Finecloud</title><meta name="description" content="You have probably already heard about Renovate - the fantastic tool that helps you to keep your dependencies up to date. But today, we want to look at an edge case: how to keep your dependencies in your dependencies up to date (also called hidden&hellip;"><meta name="generator" content="Publii Open-Source CMS for Static Site"><link rel="stylesheet" href="https://www.finecloud.ch/media/plugins/syntaxHighlighter/prism-black.css"><link rel="canonical" href="https://www.finecloud.ch/automatically-update-hidden-dependencies-in-your-dockerfiles.html"><link rel="alternate" type="application/atom+xml" href="https://www.finecloud.ch/feed.xml"><link rel="alternate" type="application/json" href="https://www.finecloud.ch/feed.json"><meta property="og:title" content="Automatically update the hidden dependencies in your Dockerfiles"><meta property="og:site_name" content="Finecloud"><meta property="og:description" content="You have probably already heard about Renovate - the fantastic tool that helps you to keep your dependencies up to date. But today, we want to look at an edge case: how to keep your dependencies in your dependencies up to date (also called hidden&hellip;"><meta property="og:url" content="https://www.finecloud.ch/automatically-update-hidden-dependencies-in-your-dockerfiles.html"><meta property="og:type" content="article"><link rel="shortcut icon" href="https://www.finecloud.ch/media/website/finecloud.png" type="image/png"><link rel="stylesheet" href="https://www.finecloud.ch/assets/css/style.css?v=39da73365516a098a9b73b721fc970e2"><script type="application/ld+json">{"@context":"http://schema.org","@type":"Article","mainEntityOfPage":{"@type":"WebPage","@id":"https://www.finecloud.ch/automatically-update-hidden-dependencies-in-your-dockerfiles.html"},"headline":"Automatically update the hidden dependencies in your Dockerfiles","datePublished":"2024-09-13T17:23","dateModified":"2024-09-13T22:50","description":"You have probably already heard about Renovate - the fantastic tool that helps you to keep your dependencies up to date. But today, we want to look at an edge case: how to keep your dependencies in your dependencies up to date (also called hidden&hellip;","author":{"@type":"Person","name":"Finecloud","url":"https://www.finecloud.ch/authors/finecloud/"},"publisher":{"@type":"Organization","name":"Finecloud"}}</script><meta name="google-site-verification" content="seFY9U12uiEq5U3_MyZiX6XWzk0AVFl9zITr2ZKsytY"></head><body><div class="site-container"><header class="top" id="js-header"><a class="logo" href="https://www.finecloud.ch/">Finecloud</a><nav class="navbar js-navbar"><button class="navbar__toggle js-toggle" aria-label="Menu" aria-haspopup="true" aria-expanded="false"><span class="navbar__toggle-box"><span class="navbar__toggle-inner">Menu</span></span></button><ul class="navbar__menu"><li><a href="https://www.finecloud.ch/" target="_self">Blog</a></li><li><a href="https://www.finecloud.ch/tags/" target="_self">Tags</a></li></ul></nav><div class="search"><div class="search__overlay js-search-overlay"><div class="search__overlay-inner"><form action="https://www.finecloud.ch/search.html" class="search__form"><input class="search__input js-search-input" type="search" name="q" placeholder="search..." aria-label="search..." autofocus="autofocus"></form><button class="search__close js-search-close" aria-label="Close">Close</button></div></div><button class="search__btn js-search-btn" aria-label="Search"><svg role="presentation" focusable="false"><use xlink:href="https://www.finecloud.ch/assets/svg/svg-map.svg#search"/></svg></button></div></header><main><article class="post"><div class="hero"><figure class="hero__image hero__image--overlay"><img src="https://www.finecloud.ch/media/website/download.jpg" srcset="https://www.finecloud.ch/media/website/responsive/download-xs.jpg 300w, https://www.finecloud.ch/media/website/responsive/download-sm.jpg 480w, https://www.finecloud.ch/media/website/responsive/download-md.jpg 768w, https://www.finecloud.ch/media/website/responsive/download-lg.jpg 1024w, https://www.finecloud.ch/media/website/responsive/download-xl.jpg 1360w, https://www.finecloud.ch/media/website/responsive/download-2xl.jpg 1600w" sizes="100vw" loading="eager" alt=""></figure><header class="hero__content"><div class="wrapper"><div class="post__meta"><time datetime="2024-09-13T17:23">September 13, 2024</time></div><h1>Automatically update the hidden dependencies in your Dockerfiles</h1></div></header></div><div class="wrapper post__entry"><p>You have probably already heard about Renovate - the fantastic tool that helps you to keep your dependencies up to date.</p><p>But today, we want to look at an edge case: how to keep your dependencies in your dependencies up to date (also called hidden dependencies)?</p><p>Atlassian provides a Confluence image. If you want to run this with an Oracle database, you have to inject the Oracle JDBC driver yourself. But how can you ensure that you automatically always will have the most recent OJDBC driver in your Confluence image?&nbsp;</p><pre class="language-docker"><code>FROM atlassian/confluence:8.5.15-ubuntu-jdk17
+
+# Download the ojdbc driver
+RUN curl -fSL "https://repo1.maven.org/maven2/com/oracle/database/jdbc/ojdbc10/19.23.0.0/ojdbc10-19.23.0.0.jar" \
+    -o "${CONFLUENCE_INSTALL_DIR}/confluence/WEB-INF/lib/ojdbc10.jar"
+
+</code></pre><p>First of all, let's extract the semantic version tag from the URL into a separate ARG so that Renovate only needs to bump the version there:</p><pre class="language-docker"><code>FROM atlassian/confluence:8.5.15-ubuntu-jdk17
+
+ARG OJDBC_VERSION=19.24.0.0
+
+# Download the ojdbc driver
+RUN curl -fSL "https://repo1.maven.org/maven2/com/oracle/database/jdbc/ojdbc10/${OJDBC_VERSION}/ojdbc10-${OJDBC_VERSION}.jar" \
+    -o "${CONFLUENCE_INSTALL_DIR}/confluence/WEB-INF/lib/ojdbc10.jar"
+</code></pre><p>Next, we will add a comment directly above the ARG OJDBC version, which we will later use to tell Renovate what dependency type and package this version tag is about. It's a maven package with the package name "com.oracle.database.jdbc:ojdbc10":</p><pre class="language-docker"><code>FROM atlassian/confluence:8.5.15-ubuntu-jdk17
+
+# renovate: datasource=maven depName=com.oracle.database.jdbc:ojdbc10 packageName=com.oracle.database.jdbc:ojdbc10
+ARG OJDBC_VERSION=19.24.0.0
+
+# Download the ojdbc driver
+RUN curl -fSL "https://repo1.maven.org/maven2/com/oracle/database/jdbc/ojdbc10/${OJDBC_VERSION}/ojdbc10-${OJDBC_VERSION}.jar" \
+    -o "${CONFLUENCE_INSTALL_DIR}/confluence/WEB-INF/lib/ojdbc10.jar"</code></pre><p>You could write a custom regex manager in the Renovate config that updates this version tag. But what if you have multiple ARG or ENV version tags in multiple Dockerfiles within the same repo? You Probably don't want to write a regex config for each case.</p><p>Let's imagine you have something like this in your Dockerfile:</p><pre class="language-docker"><code># renovate: datasource=github-tags depName=node packageName=nodejs/node versioning=node
+ENV NODE_VERSION=20.10.0
+# renovate: datasource=github-releases depName=composer packageName=composer/composer
+ENV COMPOSER_VERSION=1.9.3
+# renovate: datasource=docker packageName=docker versioning=docker
+ENV DOCKER_VERSION=19.03.1
+# renovate: datasource=npm packageName=yarn
+ENV YARN_VERSION=1.19.1</code></pre><p>All you now need is the following regex configuration in your <em>renovate.json</em> config to detect and bump all of these version tags:</p><pre class="language-json"><code>{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended"
+  ],
+  "separateMinorPatch": true,
+  "customManagers": [
+    {
+      "customType": "regex",
+      "description": "Update _VERSION variables in Dockerfiles",
+      "fileMatch": ["(^|/|\\.)Dockerfile$", "(^|/)Dockerfile\\.[^/]*$"],
+      "matchStrings": [
+        "# renovate: datasource=(?&lt;datasource&gt;[a-z-]+?)(?: depName=(?&lt;depName&gt;.+?))? packageName=(?&lt;packageName&gt;.+?)(?: versioning=(?&lt;versioning&gt;[a-z-]+?))?\\s(?:ENV|ARG) .+?_VERSION=(?&lt;currentValue&gt;.+?)\\s"
+      ]
+    }
+  ]
+}</code></pre><p>Now, you could even set up auto merge for these Renovate updates. Make sure you have some merge checks before you enable this. At least you should ensure that the Docker image can still be built before a new Renovate pull request gets auto-merged.</p><p>✨ Happy renovating!&nbsp;✨</p></div><footer class="wrapper post__footer"><p class="post__last-updated">This article was updated on September 13, 2024</p><ul class="post__tag"><li><a href="https://www.finecloud.ch/tags/bash/">bash</a></li><li><a href="https://www.finecloud.ch/tags/container/">container</a></li><li><a href="https://www.finecloud.ch/tags/devops/">devops</a></li><li><a href="https://www.finecloud.ch/tags/docker/">docker</a></li><li><a href="https://www.finecloud.ch/tags/linux/">linux</a></li><li><a href="https://www.finecloud.ch/tags/maven/">maven</a></li><li><a href="https://www.finecloud.ch/tags/regex/">regex</a></li><li><a href="https://www.finecloud.ch/tags/renovate/">renovate</a></li><li><a href="https://www.finecloud.ch/tags/softwareentwicklung/">software development</a></li></ul><div class="post__share"></div></footer></article><nav class="post__nav"><div class="post__nav-inner"><div class="post__nav-prev"><svg width="1.041em" height="0.416em" aria-hidden="true"><use xlink:href="https://www.finecloud.ch/assets/svg/svg-map.svg#arrow-prev"/></svg> <a href="https://www.finecloud.ch/github-classic-vs-fine-grained-personal-access-tokens.html" class="post__nav-link" rel="prev"><span>Previous</span> GitHub classic vs. fine-grained Personal Access Tokens</a></div></div></nav><div class="post__related related"><div class="wrapper"><h2 class="h5 related__title">You should also read:</h2><article class="related__item"><div class="feed__meta"><time datetime="2022-12-23T05:40" class="feed__date">Dezember 23, 2022</time></div><h3 class="h1"><a href="https://www.finecloud.ch/deploy-your-java-web-app-to-heroku.html">Deploy your Java Web App to Heroku</a></h3></article><article class="related__item"><div class="feed__meta"><time datetime="2022-11-22T13:59" class="feed__date">November 22, 2022</time></div><h3 class="h1"><a href="https://www.finecloud.ch/take-care-of-your-ssh-keys.html">Take care of your SSH identities</a></h3></article></div></div></main><footer class="footer"><div class="footer__copyright"><p>Powered by Publii</p></div><button onclick="backToTopFunction()" id="backToTop" class="footer__bttop" aria-label="Back to top" title="Back to top"><svg><use xlink:href="https://www.finecloud.ch/assets/svg/svg-map.svg#toparrow"/></svg></button></footer></div><script>window.publiiThemeMenuConfig = {    
+        mobileMenuMode: 'sidebar',
+        animationSpeed: 300,
+        submenuWidth: 'auto',
+        doubleClickTime: 500,
+        mobileMenuExpandableSubmenus: true, 
+        relatedContainerForOverlayMenuSelector: '.top',
+   };</script><script defer="defer" src="https://www.finecloud.ch/assets/js/scripts.min.js?v=6ca8b60e6534a3888de1205e82df8528"></script><script>var images = document.querySelectorAll('img[loading]');
+
+        for (var i = 0; i < images.length; i++) {
+            if (images[i].complete) {
+                images[i].classList.add('is-loaded');
+            } else {
+                images[i].addEventListener('load', function () {
+                    this.classList.add('is-loaded');
+                }, false);
+            }
+        }</script><script defer="defer" src="https://www.finecloud.ch/media/plugins/syntaxHighlighter/prism.js"></script></body></html>

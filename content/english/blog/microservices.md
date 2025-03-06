@@ -9,7 +9,10 @@ tags: ["microservices", "architecture", "software development"]
 draft: false
 ---
 
-This Post is a summary of the famous Article about Microservices: [https://martinfowler.com/articles/microservices.html](https://martinfowler.com/articles/microservices.html) The text discusses the concept of "Microservice Architecture," which is an approach to designing software applications as a suite of independently deployable services. It highlights that there is no precise definition but outlines common characteristics such as organization around business capabilities, automated deployment, decentralized control of languages and data, and the use of lightweight communication mechanisms like HTTP. Microservices are contrasted with monolithic architecture, where applications are built as a single unit. The text emphasizes that microservices provide advantages like independent deployment, scalability, and modular structure, making it increasingly appealing for building enterprise applications. The microservice style is not claimed to be innovative but is considered beneficial for software development.
+This Post is a summary of the famous Article about Microservices: [https://martinfowler.com/articles/microservices.html](https://martinfowler.com/articles/microservices.html)
+
+<!--more-->
+The text discusses the concept of "Microservice Architecture," which is an approach to designing software applications as a suite of independently deployable services. It highlights that there is no precise definition but outlines common characteristics such as organization around business capabilities, automated deployment, decentralized control of languages and data, and the use of lightweight communication mechanisms like HTTP. Microservices are contrasted with monolithic architecture, where applications are built as a single unit. The text emphasizes that microservices provide advantages like independent deployment, scalability, and modular structure, making it increasingly appealing for building enterprise applications. The microservice style is not claimed to be innovative but is considered beneficial for software development.
 
 ## Componentization via Services
 

@@ -1,6 +1,6 @@
 ---
-title: "Threema Safe backup to Nextcloud"
-meta_title: "Threema Safe backup to Nextcloud"
+title: "Threema Safe Backup to Nextcloud"
+meta_title: "Threema Safe Backup to Nextcloud"
 description: "Did you know that Threema allows you to backup your Threema app to a custom Threema Safe server? You can, for example, use your Nextcloud to keep your Threema backups safe."
 date: 2022-10-13T07:42:00
 categories: ["Tools"]

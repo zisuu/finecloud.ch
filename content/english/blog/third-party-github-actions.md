@@ -1,6 +1,6 @@
 ---
-title: "Third-party GitHub Actions"
-meta_title: "Third-party GitHub Actions"
+title: "Third-Party GitHub Actions"
+meta_title: "Third-Party GitHub Actions"
 description: "Today I came across these steps to guide our decision-making process, before using a 3rd Part GitHub Action."
 date: 2024-04-08T20:50:00
 categories: ["Tools"]

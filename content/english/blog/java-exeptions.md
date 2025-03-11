@@ -1,7 +1,7 @@
 ---
 title: "Java Basics: Exceptions"
-meta_title: ""
-description: "this is meta description"
+meta_title: "Java Basics: Exceptions"
+description: "Learn about Java exceptions, the different types of exceptions, and how to handle them."
 date: 2023-04-10T12:05:00Z
 categories: ["Software Development", "Java"]
 author: "David"

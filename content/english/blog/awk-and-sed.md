@@ -1,6 +1,6 @@
 ---
-title: "Awk and Sed"
-meta_title: "Awk and Sed"
+title: "Awk And Sed"
+meta_title: "Awk And Sed"
 description: "awk and sed are text manipulation programs. You can use them to replace strings, change order, and perform calculations. Learn the basics of awk and sed in this guide."
 date: 2024-04-05T13:52:00
 categories: ["Linux", "Shell","Scripting"]

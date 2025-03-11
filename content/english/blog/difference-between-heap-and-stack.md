@@ -1,6 +1,6 @@
 ---
-title: "Difference between heap and stack"
-meta_title: "Difference between heap and stack"
+title: "Difference Between Heap And Stack"
+meta_title: "Difference Between Heap And Stack"
 description: "In this Post I try to explain the difference between the heap and the stack. It's just a very high level amateur explanation, there is a lot more to read and learn about this Topics. This Drawing helps me a lot to understand the basic difference between the heap and the stack and as well how they interact together."
 date: 2023-03-29T20:14:00
 categories: ["Software Development"]

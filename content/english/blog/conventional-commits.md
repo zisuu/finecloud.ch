@@ -1,6 +1,6 @@
 ---
-title: "Conventional commits"
-meta_title: "Conventional commits - Finecloud"
+title: "Conventional Commits"
+meta_title: "Conventional Commits"
 description: "Conventional Commits is a convention for writing commit messages that provides structure and consistency to a project's version control history."
 date: 2024-02-14T13:52:00
 categories: ["Git", "Software Development"]

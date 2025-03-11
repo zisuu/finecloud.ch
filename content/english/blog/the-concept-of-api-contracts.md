@@ -1,6 +1,6 @@
 ---
-title: "The Concept of API Contracts - Finecloud"
-meta_title: "The Concept of API Contracts - Finecloud"
+title: "The Concept of API Contracts"
+meta_title: "The Concept of API Contracts"
 description: "We define an API contract as a formal agreement between a software provider and a consumer that abstractly communicates how to interact with each other."
 date: 2023-09-23T13:52:00
 categories: ["Software Development"]

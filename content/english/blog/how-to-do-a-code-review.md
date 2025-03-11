@@ -1,6 +1,6 @@
 ---
-title: "How to do a code review - Finecloud"
-meta_title: "How to do a code review - Finecloud"
+title: "How To Do a Code Review"
+meta_title: "How To Do a Code Review"
 description: "This Blog post is my personal summary of Googles code review process and provides a guide on how to do a code review effectively."
 date: 2024-03-18T08:44:00
 categories: ["DevOps", "Software Development"]

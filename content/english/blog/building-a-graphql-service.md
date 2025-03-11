@@ -1,6 +1,6 @@
 ---
-title: "Building a GraphQL service"
-meta_title: "Building a GraphQL service"
+title: "Building a GraphQL Service"
+meta_title: "Building a GraphQL Service"
 description: "Let's build a GraphQL Spring Application that will accept GraphQL requests at http://localhost:8080/graphql. First, let's navigate to https://start.spring.io. This service pulls in all the dependencies you need for an application and does most of the setup for you. GraphQL is a query language to retrieve data efficiently."
 date: 2024-01-22T13:52:00
 categories: ["Java", "Spring", "GraphQL"]

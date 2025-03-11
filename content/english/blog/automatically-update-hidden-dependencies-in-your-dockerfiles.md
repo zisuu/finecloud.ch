@@ -1,6 +1,6 @@
 ---
-title: "Automatically update the hidden dependencies in your Dockerfiles"
-meta_title: "Automatically update the hidden dependencies in your Dockerfiles"
+title: "Automatically Update the Hidden Dependencies in Your Dockerfiles"
+meta_title: "Automatically Update the Hidden Dependencies in Your Dockerfiles"
 description: "Learn how to keep your dependencies in your dependencies up to date with Renovate."
 date: 2024-09-13T13:52:00
 categories: ["Docker", "Renovate", "Dependency Management"]

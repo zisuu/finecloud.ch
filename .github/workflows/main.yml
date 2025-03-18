@@ -15,6 +15,7 @@ defaults:
 
 env:
   HUGO_ENV: production
+  # renovate: datasource=github-releases depName=gohugoio/hugo packageName=gohugoio/hugo
   HUGO_VERSION: "0.141.0"
   GO_VERSION: "1.23.3"
 

@@ -9,7 +9,7 @@
       "description": "Update _VERSION variables in GitHub Workflow",
       "fileMatch": ["(^|/)main\\.yml"],
       "matchStrings": [
-        "# renovate: datasource=(?<datasource>[a-z-]+?)(?: depName=(?<depName>.+?))?packageName=(?<packageName>.+?)\\s+\"\\w*_VERSION\":\\s*\"(?<currentValue>[^\"]+)\""
+        "# renovate: datasource=(?<datasource>[a-z-]+?)(?: depName=(?<depName>.+?))?packageName=(?<packageName>.+?)\\s+\\w*_VERSION:\\s*\"(?<currentValue>[^\"]+)\""
       ]
     }
   ]

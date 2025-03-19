@@ -17,7 +17,6 @@ env:
   HUGO_ENV: production
   # renovate: datasource=github-releases depName=gohugoio/hugo packageName=gohugoio/hugo
   HUGO_VERSION: "0.145.0"
-  GO_VERSION: "1.23.3"
 
 jobs:
   build:

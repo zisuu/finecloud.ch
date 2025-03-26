@@ -17,6 +17,7 @@ env:
   HUGO_ENV: production
   # renovate: datasource=github-releases depName=gohugoio/hugo packageName=gohugoio/hugo
   HUGO_VERSION: "0.145.0"
+  GO_VERSION: "1.23.3"
 
 jobs:
   build:
@@ -29,9 +30,7 @@ jobs:
 
       - name: Install Go
         run: |
-          echo "Found Go $(cat .go-version)"
-          GO_VERSION=$(cat .go-version)
-          wget -O ${{ runner.temp }}/go.deb https://dl.google.com/go/go${GO_VERSION}.linux-amd64.tar.gz \
+          wget -O ${{ runner.temp }}/go.deb https://dl.google.com/go/go${{ env.GO_VERSION }}.linux-amd64.tar.gz \
           && sudo tar -C /usr/local -xzf ${{ runner.temp }}/go.deb
 
       - name: Checkout

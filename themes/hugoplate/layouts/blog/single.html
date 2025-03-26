@@ -36,9 +36,14 @@
               </li>
             {{ end }}
             <li class="mr-4 inline-block">
-              <i class="fa-regular fa-clock mr-2"></i>
+              <i class="fa-regular fa-calendar mr-2"></i>
               {{ time.Format ":date_long" .PublishDate }}
             </li>
+            <li class="mr-4 inline-block">
+              <i class="fa-regular fa-stopwatch mr-2"></i>
+              {{ printf "Reading time: %d minutes" .ReadingTime }}
+            </li>
+
           </ul>
           <div class="content mb-10">
             {{ partial "toc.html" (dict "Class" "blog" "Collapsed" false "TableOfContents" .TableOfContents ) }}

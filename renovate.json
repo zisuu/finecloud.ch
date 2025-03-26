@@ -3,6 +3,7 @@
   "extends": [
     "config:best-practices"
   ],
+  "lockFileMaintenance": { "enabled": true },
   "customManagers": [
     {
       "customType": "regex",

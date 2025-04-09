@@ -5,6 +5,7 @@ permissions:
 on:
   pull_request:
   merge_group:
+  workflow_dispatch:
 jobs:
   actionlint:
     runs-on: ubuntu-24.04

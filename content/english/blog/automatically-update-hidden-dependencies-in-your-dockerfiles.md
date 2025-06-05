@@ -62,25 +62,16 @@ ENV DOCKER_VERSION=19.03.1
 ENV YARN_VERSION=1.19.1
 ```
 
-All you now need is the following regex configuration in your `renovate.json` config to detect and bump all of these version tags:
+All you now need is to add the following [custom manager preset from Renovate](https://docs.renovatebot.com/presets-customManagers/#custommanagersdockerfileversions) configuration in your `renovate.json` config to detect and bump all of these version tags:
 
 ```json
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "config:recommended"
+    "config:recommended",
+    "customManagers:dockerfileVersions"
   ],
-  "separateMinorPatch": true,
-  "customManagers": [
-    {
-      "customType": "regex",
-      "description": "Update _VERSION variables in Dockerfiles",
-      "fileMatch": ["(^|/|\\.)Dockerfile$", "(^|/)Dockerfile\\.[^/]*$"],
-      "matchStrings": [
-        "# renovate: datasource=(?&lt;datasource&gt;[a-z-]+?)(?: depName=(?&lt;depName&gt;.+?))? packageName=(?&lt;packageName&gt;.+?)(?: versioning=(?&lt;versioning&gt;[a-z-]+?))?\\s(?:ENV|ARG) .+?_VERSION=(?&lt;currentValue&gt;.+?)\\s"
-      ]
-    }
-  ]
+  "separateMinorPatch": true
 }
 ```
 

@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd  # v6.0.2
-      - uses: reviewdog/action-actionlint@50b75b9513baa71e6a1899a1ebaa9ac9851cf16c  # v1.66.0
+      - uses: reviewdog/action-actionlint@e58ee9d111489c31395fbe4857b0be6e7635dbda  # v1.70.0
         with:
           fail_level: any
           filter_mode: nofilter
